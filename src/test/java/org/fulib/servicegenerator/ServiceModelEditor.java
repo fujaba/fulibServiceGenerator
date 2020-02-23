@@ -44,6 +44,7 @@ public class ServiceModelEditor
    public Clazz haveEditor(String modelName)
    {
       editor = this.mm.haveClass(modelName + "Editor");
+      this.haveLoadYaml(this.mm.getClassModel().getPackageName());
       return editor;
    }
 
@@ -86,6 +87,17 @@ public class ServiceModelEditor
       String body = st.render();
       FMethod fMethod = mm.haveMethod(commandClass, declaration, body);
 
+      return fMethod;
+   }
+
+   public FMethod haveLoadYaml(String modelPackageName) {
+      String declaration = "public void loadYaml(String yamlString)";
+      STGroupFile group = new STGroupFile("org.fulib.templates/servicemodel.stg");
+      group.registerRenderer(String.class, new StringRenderer());
+      ST st = group.getInstanceOf("loadYaml");
+      st.add("packageName", modelPackageName);
+      String body = st.render();
+      FMethod fMethod = mm.haveMethod(this.editor, declaration, body);
       return fMethod;
    }
 

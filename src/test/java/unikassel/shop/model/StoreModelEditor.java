@@ -78,15 +78,15 @@ public class StoreModelEditor
       return true;
    }
 
-   public void loadYaml(String yamlString)
-   {
+   public void loadYaml(String yamlString) { 
       YamlIdMap idMap;
-      idMap = new YamlIdMap(Product.class.getPackage().getName());
+      idMap = new YamlIdMap("unikassel.shop.model");
       Object decode = idMap.decode(yamlString);
-      Collection<Object> values = idMap.getObjIdMap().values();
+      Collection values = idMap.getObjIdMap().values();
       for (Object value : values) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);
       }
    }
+
 }
