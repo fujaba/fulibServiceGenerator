@@ -1,0 +1,33 @@
+
+getOrCreateBody(dataClazz) ::= <<
+      Object obj = sme.getModel().get("<dataClazz>-" + this.getId());
+      if (obj != null) {
+         return (<dataClazz>) obj;
+      }
+      <dataClazz> newObj = new <dataClazz>().setId(this.getId());
+      sme.getModel().put("<dataClazz>-" + this.getId(), newObj);
+      return newObj;
+
+>>
+
+
+preCheck(dataClazz) ::= <<
+      ModelCommand oldCommand = editor.getActiveCommands().get("<dataClazz>-" + this.getId());
+      if (oldCommand == null || oldCommand.getTime().compareTo(this.getTime()) \< 0) {
+         editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
+         return true;
+      }
+      return false;
+
+>>
+
+
+run(dataClazz, attributes) ::= <<
+      if ( ! preCheck(sme)) {
+         return null;
+      }
+      <dataClazz> dataObject = this.getOrCreate(sme);
+      <attributes>
+      return dataObject;
+
+>>
