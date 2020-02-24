@@ -110,7 +110,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
 @Override
    public Customer run(StoreModelEditor sme) { 
       if ( ! preCheck(sme)) {
-         return null;
+         return sme.getCustomers().get(this.getId());
       }
       Customer dataObject = this.getOrCreate(sme);
       dataObject.setName(this.getName());
@@ -120,22 +120,27 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
    }
 
    public Customer getOrCreate(StoreModelEditor sme) { 
-      Object obj = sme.getModel().get("Customer-" + this.getId());
+      Object obj = sme.getCustomers().get(this.getId());
       if (obj != null) {
          return (Customer) obj;
       }
       Customer newObj = new Customer().setId(this.getId());
-      sme.getModel().put("Customer-" + this.getId(), newObj);
+      sme.getCustomers().put(this.getId(), newObj);
       return newObj;
    }
 
    public boolean preCheck(StoreModelEditor editor) { 
       ModelCommand oldCommand = editor.getActiveCommands().get("Customer-" + this.getId());
-      if (oldCommand == null || oldCommand.getTime().compareTo(this.getTime()) < 0) {
-         editor.getActiveCommands().put("Customer-" + this.getId(), this);
-         return true;
+      if (oldCommand != null) {
+         if (oldCommand instanceof RemoveCommand) {
+            return false;
+         }
+         if (oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+            return false;
+         }
       }
-      return false;
+      editor.getActiveCommands().put("Customer-" + this.getId(), this);
+      return true;
    }
 
 }

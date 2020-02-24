@@ -20,9 +20,13 @@ public class ServiceModelEditor
    private Clazz editor;
    private LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
    private LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
+   private STGroupFile group;
 
    public ServiceModelEditor()
    {
+      group = new STGroupFile("org.fulib.templates/servicemodel.stg");
+      group.registerRenderer(String.class, new StringRenderer());
+
       modelCommand = mm.haveClass("ModelCommand");
    }
 
@@ -48,26 +52,34 @@ public class ServiceModelEditor
       return editor;
    }
 
-   public Clazz haveDataClass(String className)
+   public Clazz haveDataClass(String dataClassName)
    {
-      Clazz dataClass = mm.haveClass(className);
-      dataClasses.put(className, dataClass);
+      Clazz dataClass = mm.haveClass(dataClassName);
+      dataClasses.put(dataClassName, dataClass);
       mm.haveAttribute(dataClass, "id", STRING);
-      Clazz commandClass = mm.haveClass("Have" + className + "Command");
-      commandClasses.put(className, commandClass);
+      Clazz commandClass = mm.haveClass("Have" + dataClassName + "Command");
+      commandClasses.put(dataClassName, commandClass);
       commandClass.setSuperClass(this.modelCommand);
-      this.haveGetOrCreate(className);
-      this.havePreCheck(className);
+      this.haveGetOrCreate(dataClassName);
+      this.havePreCheck(dataClassName);
+
+      this.editorHaveMapFor(dataClassName);
 
       return dataClass;
+   }
+
+   private void editorHaveMapFor(String dataClassName)
+   {
+      String mapName = StrUtil.downFirstChar(dataClassName) + "s";
+      String mapType = String.format("Map<String, %s>", dataClassName);
+      Attribute attribute = mm.haveAttribute(this.editor, mapName, mapType);
+      attribute.setInitialization("new LinkedHashMap<>()");
    }
 
    private FMethod havePreCheck(String className)
    {
       Clazz commandClass = this.commandClasses.get(className);
       String declaration = "public boolean preCheck(StoreModelEditor editor)";
-      STGroupFile group = new STGroupFile("org.fulib.templates/servicemodel.stg");
-      group.registerRenderer(String.class, new StringRenderer());
       ST st = group.getInstanceOf("preCheck");
       st.add("dataClazz", className);
       String body = st.render();
@@ -80,8 +92,6 @@ public class ServiceModelEditor
    {
       Clazz commandClass = this.commandClasses.get(className);
       String declaration = String.format("public %s getOrCreate(StoreModelEditor sme)", className);
-      STGroupFile group = new STGroupFile("org.fulib.templates/servicemodel.stg");
-      group.registerRenderer(String.class, new StringRenderer());
       ST st = group.getInstanceOf("getOrCreateBody");
       st.add("dataClazz", className);
       String body = st.render();
@@ -92,8 +102,6 @@ public class ServiceModelEditor
 
    public FMethod haveLoadYaml(String modelPackageName) {
       String declaration = "public void loadYaml(String yamlString)";
-      STGroupFile group = new STGroupFile("org.fulib.templates/servicemodel.stg");
-      group.registerRenderer(String.class, new StringRenderer());
       ST st = group.getInstanceOf("loadYaml");
       st.add("packageName", modelPackageName);
       String body = st.render();
@@ -121,8 +129,6 @@ public class ServiceModelEditor
          attributes += oneAttr;
       }
 
-      STGroupFile group = new STGroupFile("org.fulib.templates/servicemodel.stg");
-      group.registerRenderer(String.class, new StringRenderer());
       ST st = group.getInstanceOf("run");
       st.add("dataClazz", dataClassName);
       st.add("attributes", attributes);

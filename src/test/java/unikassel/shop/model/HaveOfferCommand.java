@@ -1,4 +1,5 @@
 package unikassel.shop.model;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
@@ -65,10 +66,10 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, Offer> // n
       return this;
    }
 
-@Override
+   @Override
    public Offer run(StoreModelEditor sme) { 
       if ( ! preCheck(sme)) {
-         return null;
+         return sme.getOffers().get(this.getId());
       }
       Offer dataObject = this.getOrCreate(sme);
       dataObject.setPrice(this.getPrice());
@@ -141,22 +142,27 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, Offer> // n
    }
 
    public Offer getOrCreate(StoreModelEditor sme) { 
-      Object obj = sme.getModel().get("Offer-" + this.getId());
+      Object obj = sme.getOffers().get(this.getId());
       if (obj != null) {
          return (Offer) obj;
       }
       Offer newObj = new Offer().setId(this.getId());
-      sme.getModel().put("Offer-" + this.getId(), newObj);
+      sme.getOffers().put(this.getId(), newObj);
       return newObj;
    }
 
    public boolean preCheck(StoreModelEditor editor) { 
       ModelCommand oldCommand = editor.getActiveCommands().get("Offer-" + this.getId());
-      if (oldCommand == null || oldCommand.getTime().compareTo(this.getTime()) < 0) {
-         editor.getActiveCommands().put("Offer-" + this.getId(), this);
-         return true;
+      if (oldCommand != null) {
+         if (oldCommand instanceof RemoveCommand) {
+            return false;
+         }
+         if (oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+            return false;
+         }
       }
-      return false;
+      editor.getActiveCommands().put("Offer-" + this.getId(), this);
+      return true;
    }
 
 }

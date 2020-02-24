@@ -1,11 +1,11 @@
 
 getOrCreateBody(dataClazz) ::= <<
-      Object obj = sme.getModel().get("<dataClazz>-" + this.getId());
+      Object obj = sme.get<dataClazz>s().get(this.getId());
       if (obj != null) {
          return (<dataClazz>) obj;
       }
       <dataClazz> newObj = new <dataClazz>().setId(this.getId());
-      sme.getModel().put("<dataClazz>-" + this.getId(), newObj);
+      sme.get<dataClazz>s().put(this.getId(), newObj);
       return newObj;
 
 >>
@@ -13,18 +13,23 @@ getOrCreateBody(dataClazz) ::= <<
 
 preCheck(dataClazz) ::= <<
       ModelCommand oldCommand = editor.getActiveCommands().get("<dataClazz>-" + this.getId());
-      if (oldCommand == null || oldCommand.getTime().compareTo(this.getTime()) \< 0) {
-         editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
-         return true;
+      if (oldCommand != null) {
+         if (oldCommand instanceof RemoveCommand) {
+            return false;
+         }
+         if (oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+            return false;
+         }
       }
-      return false;
+      editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
+      return true;
 
 >>
 
 
 run(dataClazz, attributes) ::= <<
       if ( ! preCheck(sme)) {
-         return null;
+         return sme.get<dataClazz>s().get(this.getId());
       }
       <dataClazz> dataObject = this.getOrCreate(sme);
       <attributes>

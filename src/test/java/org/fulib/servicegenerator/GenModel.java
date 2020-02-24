@@ -41,7 +41,8 @@ public class GenModel
       me.haveAttribute(offer, "startTime", STRING);
       me.haveAttribute(offer, "endTime", STRING);
 
-      me.haveCommand("RemoveOffer");
+      Clazz removeCommand = me.haveCommand("RemoveCommand");
+      mm.haveAttribute(removeCommand, "targetClassName", STRING);
 
       me.associate(offer, "product", ONE, "offers", MANY, product);
 
@@ -55,11 +56,18 @@ public class GenModel
       StoreModelEditor se = new StoreModelEditor();
       new HaveOfferCommand().setId("offer#42").setTime("12:01").setPrice(24.99).setStartTime("2020.02.01")
             .setEndTime("2020.02.28").run(se);
-      Assert.assertThat(se.getModel().size(), is(1));
-      new HaveOfferCommand().setId("offer#42").setTime("13:01").setPrice(29.99).setStartTime("2020.02.01")
+      Assert.assertThat(se.getOffers().size(), is(1));
+      new HaveOfferCommand().setId("offer#43").setTime("13:01").setPrice(29.99).setStartTime("2020.02.01")
             .setEndTime("2020.02.28").run(se);
-      Assert.assertThat(se.getModel().size(), is(1));
-      Offer offer42 = (Offer) se.getModel().get("Offer-offer#42");
+      Assert.assertThat(se.getOffers().size(), is(2));
+      Offer offer42 = (Offer) se.getOffers().get("offer#42");
+      new RemoveCommand().setId("offer#42").setTargetClassName("Offer").run(se);
+
+      // should be ignored
+      new HaveOfferCommand().setId("offer#42").setTime("13:01").setPrice(25.00).setStartTime("2020.03.01")
+            .setEndTime("2020.02.28").run(se);
+      Offer noOffer = se.getOffers().get("offer#42");
+      Assert.assertThat(noOffer, equalTo(null));
    }
 
    @Test
@@ -83,9 +91,9 @@ public class GenModel
       Product firstProduct = haveProduct.run(sme);
       Assert.assertThat(firstProduct.getDescription(), is("Cool T-Shirt"));
       Product sameProduct = haveProduct.run(sme);
-      Assert.assertThat(sameProduct, equalTo(null));
-      Assert.assertThat(sme.getModel().size(), is(1));
-      Assert.assertThat(sme.getModel().get("Product-tShirt"), is(firstProduct));
+      Assert.assertThat(sameProduct, is(firstProduct));
+      Assert.assertThat(sme.getProducts().size(), is(1));
+      Assert.assertThat(sme.getProducts().get("tShirt"), is(firstProduct));
 
       HaveProductCommand hoodieCommand = new HaveProductCommand().setId("hoodie").setTime("09:20").setDescription("Blue Uni Hoodie");
       hoodieCommand.run(sme);
@@ -96,7 +104,7 @@ public class GenModel
       Assert.assertThat(firstProduct, is(changedProduct));
       Assert.assertThat(changedProduct.getDescription(), is("Very Cool T-Shirt"));
 
-      Assert.assertThat(sme.getModel().get("product-tShirt"), is(sameProduct));
+      Assert.assertThat(sme.getProducts().get("tShirt"), is(sameProduct));
 
       HaveCustomerCommand haveCustomerCommand = new HaveCustomerCommand().setId("alice").setTime("09:30")
             .setName("Alice").setAddress("Wonderland 1");
@@ -128,8 +136,10 @@ public class GenModel
       // load events from first editor
       otherEditor.loadYaml(yamlString);
 
-      Assert.assertThat(otherEditor.getModel().size(), is(4));
-      for (Map.Entry<String, Object> entry : otherEditor.getModel().entrySet()) {
+      Assert.assertThat(otherEditor.getProducts().size(), is(2));
+      Assert.assertThat(otherEditor.getCustomers().size(), is(2));
+
+      for (Map.Entry<String, Product> entry : otherEditor.getProducts().entrySet()) {
          System.out.println(entry);
       }
    }

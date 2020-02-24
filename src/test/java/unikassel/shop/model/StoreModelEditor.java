@@ -1,28 +1,21 @@
 package unikassel.shop.model;
+
 import org.fulib.yaml.YamlIdMap;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class StoreModelEditor  
 {
-   public static final String HAVE_PRODUCT = "haveProduct";
+   private Map<String, Customer> customers = new LinkedHashMap<>();
 
-   private LinkedHashMap<String, Object> model = new LinkedHashMap<>();
-
-   // what we really want:
-   // private Map<String, Customer> customers = new LinkedHashMap<>();
-   // public Map<String, Customer> getCustomers()
-   //   {
-   //      return Collections.unmodifiableMap(this.customers);
-   //   }
-   // for every data class, and also for every command
-
-   public LinkedHashMap<String, Object> getModel()
+   public Map<String, Customer> getCustomers()
    {
-      return model;
+      return customers;
    }
 
    private LinkedHashMap<String, ModelCommand> activeCommands = new LinkedHashMap<>();
@@ -32,7 +25,8 @@ public class StoreModelEditor
       return activeCommands;
    }
 
-   public StoreModelEditor init() {
+   public StoreModelEditor init()
+   {
       return this;
    }
 
@@ -84,6 +78,59 @@ public class StoreModelEditor
          listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
+   }
+
+   public static final String PROPERTY_products = "products";
+
+   private Map<String, Product> products = new LinkedHashMap<>();
+
+   public Map<String, Product> getProducts()
+   {
+      return products;
+   }
+
+   public StoreModelEditor setProducts(Map<String, Product> value)
+   {
+      if (value != this.products)
+      {
+         Map<String, Product> oldValue = this.products;
+         this.products = value;
+         firePropertyChange("products", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_customers = "customers";
+
+   public StoreModelEditor setCustomers(Map<String, Customer> value)
+   {
+      if (value != this.customers)
+      {
+         Map<String, Customer> oldValue = this.customers;
+         this.customers = value;
+         firePropertyChange("customers", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_offers = "offers";
+
+   private Map<String, Offer> offers = new LinkedHashMap<>();
+
+   public Map<String, Offer> getOffers()
+   {
+      return offers;
+   }
+
+   public StoreModelEditor setOffers(Map<String, Offer> value)
+   {
+      if (value != this.offers)
+      {
+         Map<String, Offer> oldValue = this.offers;
+         this.offers = value;
+         firePropertyChange("offers", oldValue, value);
+      }
+      return this;
    }
 
    public void loadYaml(String yamlString) { 
