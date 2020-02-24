@@ -12,6 +12,14 @@ public class StoreModelEditor
 
    private LinkedHashMap<String, Object> model = new LinkedHashMap<>();
 
+   // what we really want:
+   // private Map<String, Customer> customers = new LinkedHashMap<>();
+   // public Map<String, Customer> getCustomers()
+   //   {
+   //      return Collections.unmodifiableMap(this.customers);
+   //   }
+   // for every data class, and also for every command
+
    public LinkedHashMap<String, Object> getModel()
    {
       return model;
