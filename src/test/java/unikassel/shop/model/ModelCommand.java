@@ -3,7 +3,7 @@ import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class ModelCommand<CMD,PROD> // no fulib
+public class ModelCommand<CMD extends ModelCommand,PROD> // no fulib
 {
    public static final String PROPERTY_id = "id";
 

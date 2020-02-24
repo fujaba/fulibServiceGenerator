@@ -132,4 +132,20 @@ public class ServiceModelEditor
 
       return attribute;
    }
+
+   public void associate(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
+   {
+      this.mm.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+   }
+
+   public Clazz haveCommand(String className)
+   {
+      // create a command class
+
+      Clazz commandClass = mm.haveClass(className);
+      commandClasses.put(className, commandClass);
+      commandClass.setSuperClass(this.modelCommand);
+
+      return commandClass;
+   }
 }

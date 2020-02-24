@@ -107,4 +107,85 @@ public class Product
       return this;
    }
 
+   public static final java.util.ArrayList<Offer> EMPTY_offers = new java.util.ArrayList<Offer>()
+   { @Override public boolean add(Offer value){ throw new UnsupportedOperationException("No direct add! Use xy.withOffers(obj)"); }};
+
+   public static final String PROPERTY_offers = "offers";
+
+   private java.util.ArrayList<Offer> offers = null;
+
+   public java.util.ArrayList<Offer> getOffers()
+   {
+      if (this.offers == null)
+      {
+         return EMPTY_offers;
+      }
+
+      return this.offers;
+   }
+
+   public Product withOffers(Object... value)
+   {
+      if(value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withOffers(i);
+            }
+         }
+         else if (item instanceof Offer)
+         {
+            if (this.offers == null)
+            {
+               this.offers = new java.util.ArrayList<Offer>();
+            }
+            if ( ! this.offers.contains(item))
+            {
+               this.offers.add((Offer)item);
+               ((Offer)item).setProduct(this);
+               firePropertyChange("offers", null, item);
+            }
+         }
+         else throw new IllegalArgumentException();
+      }
+      return this;
+   }
+
+   public Product withoutOffers(Object... value)
+   {
+      if (this.offers == null || value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withoutOffers(i);
+            }
+         }
+         else if (item instanceof Offer)
+         {
+            if (this.offers.contains(item))
+            {
+               this.offers.remove((Offer)item);
+               ((Offer)item).setProduct(null);
+               firePropertyChange("offers", item, null);
+            }
+         }
+      }
+      return this;
+   }
+
+   public void removeYou()
+   {
+      this.withoutOffers(this.getOffers().clone());
+
+
+   }
+
 }

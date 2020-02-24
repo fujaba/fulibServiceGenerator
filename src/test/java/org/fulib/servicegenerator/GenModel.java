@@ -23,25 +23,58 @@ public class GenModel
    @Test
    public void genExample()
    {
-      ServiceModelEditor sme = new ServiceModelEditor();
-      ClassModelManager mm = sme.getClassModelManager();
+      ServiceModelEditor me = new ServiceModelEditor();
+      ClassModelManager mm = me.getClassModelManager();
       mm.haveMainJavaDir("src/test/java");
       mm.havePackageName("unikassel.shop.model");
-      Clazz storeModelEditor = sme.haveEditor("StoreModel");
+      Clazz storeModelEditor = me.haveEditor("StoreModel");
 
-      Clazz product = sme.haveDataClass("Product");
-      sme.haveAttribute(product, "description", STRING);
+      Clazz product = me.haveDataClass("Product");
+      me.haveAttribute(product, "description", STRING);
 
-      Clazz customer = sme.haveDataClass("Customer");
-      sme.haveAttribute(customer, "name", STRING);
-      sme.haveAttribute(customer, "address", STRING);
+      Clazz customer = me.haveDataClass("Customer");
+      me.haveAttribute(customer, "name", STRING);
+      me.haveAttribute(customer, "address", STRING);
+
+      Clazz offer = me.haveDataClass("Offer");
+      me.haveAttribute(offer, "price", DOUBLE);
+      me.haveAttribute(offer, "startTime", STRING);
+      me.haveAttribute(offer, "endTime", STRING);
+
+      me.haveCommand("RemoveOffer");
+
+      me.associate(offer, "product", ONE, "offers", MANY, product);
 
       Fulib.generator().generate(mm.getClassModel());
       FulibTools.classDiagrams().dumpSVG(mm.getClassModel(), "tmp/storeClasses.svg");
    }
 
    @Test
-   public void testStore()
+   public void testRemoveCommand()
+   {
+      StoreModelEditor se = new StoreModelEditor();
+      new HaveOfferCommand().setId("offer#42").setTime("12:01").setPrice(24.99).setStartTime("2020.02.01")
+            .setEndTime("2020.02.28").run(se);
+      Assert.assertThat(se.getModel().size(), is(1));
+      new HaveOfferCommand().setId("offer#42").setTime("13:01").setPrice(29.99).setStartTime("2020.02.01")
+            .setEndTime("2020.02.28").run(se);
+      Assert.assertThat(se.getModel().size(), is(1));
+      Offer offer42 = (Offer) se.getModel().get("Offer-offer#42");
+   }
+
+   @Test
+   public void testAssocs()
+   {
+      StoreModelEditor se = new StoreModelEditor();
+      new HaveProductCommand().setId("tShirt").setTime("09:01").setDescription("Cool T-Shirt").run(se);
+      new HaveProductCommand().setId("hoodie").setTime("09:02").setDescription("Hoodie XL").run(se);
+      new HaveCustomerCommand().setId("alice").setTime("10:01").setName("Alice").setAddress("Wonderland 1").run(se);
+      new HaveCustomerCommand().setId("bob").setTime("10:02").setName("Bob").setAddress("Wonderland 1").run(se);
+
+   }
+
+   @Test
+   public void testCommands()
    {
       StoreModelEditor sme = new StoreModelEditor();
 
