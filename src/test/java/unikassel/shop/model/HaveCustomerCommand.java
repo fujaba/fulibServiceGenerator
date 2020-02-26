@@ -130,14 +130,13 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
    }
 
    public boolean preCheck(StoreModelEditor editor) { 
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("Customer-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
       ModelCommand oldCommand = editor.getActiveCommands().get("Customer-" + this.getId());
-      if (oldCommand != null) {
-         if (oldCommand instanceof RemoveCommand) {
-            return false;
-         }
-         if (oldCommand.getTime().compareTo(this.getTime()) >= 0) {
-            return false;
-         }
+      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+         return false;
       }
       editor.getActiveCommands().put("Customer-" + this.getId(), this);
       return true;

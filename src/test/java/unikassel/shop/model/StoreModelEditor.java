@@ -133,6 +133,26 @@ public class StoreModelEditor
       return this;
    }
 
+   public static final String PROPERTY_removeCommands = "removeCommands";
+
+   private Map<String, RemoveCommand> removeCommands = new LinkedHashMap<>();
+
+   public Map<String, RemoveCommand> getRemoveCommands()
+   {
+      return removeCommands;
+   }
+
+   public StoreModelEditor setRemoveCommands(Map<String, RemoveCommand> value)
+   {
+      if (value != this.removeCommands)
+      {
+         Map<String, RemoveCommand> oldValue = this.removeCommands;
+         this.removeCommands = value;
+         firePropertyChange("removeCommands", oldValue, value);
+      }
+      return this;
+   }
+
    public void loadYaml(String yamlString) { 
       YamlIdMap idMap;
       idMap = new YamlIdMap("unikassel.shop.model");

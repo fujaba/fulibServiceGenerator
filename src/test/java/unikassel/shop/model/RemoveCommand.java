@@ -10,27 +10,6 @@ import java.util.Map;
 public class RemoveCommand extends ModelCommand<RemoveCommand, Object> // no fulib
 {
 
-   @Override
-   public Object run(StoreModelEditor editor)
-   {
-      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
-      Reflector reflector = reflectorMap.getReflector(editor);
-      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
-      Map objects = (Map) value;
-      Object target = objects.get(this.getId());
-      try {
-         Method removeYouMethod = target.getClass().getMethod("removeYou", (Class) null);
-         removeYouMethod.invoke(target, (Object) null);
-      }
-      catch (Exception e) {
-         // ignore
-      }
-      objects.remove(this.getId());
-      editor.getActiveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
-
-      return null;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -110,6 +89,32 @@ public class RemoveCommand extends ModelCommand<RemoveCommand, Object> // no ful
 
 
       return result.substring(1);
+   }
+
+   public ModelCommand run(StoreModelEditor editor) { 
+      // allready removed?
+      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
+      if (oldRemoveCommand != null) {
+         return null;
+      }
+
+      // find the target object
+      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(editor);
+      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
+      Map objects = (Map) value;
+      Object target = objects.get(this.getId());
+      try {
+         Method removeYouMethod = target.getClass().getMethod("removeYou", (Class) null);
+         removeYouMethod.invoke(target, (Object) null);
+      }
+      catch (Exception e) {
+         // ignore
+      }
+      objects.remove(this.getId());
+      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
+
+      return null;
    }
 
 }

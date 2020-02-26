@@ -14,7 +14,7 @@ public class ModelCommand<CMD extends ModelCommand,PROD> // no fulib
       return id;
    }
 
-   public CMD setId(String value)
+   public CMD setId(String value) // no fulib
    {
       if (value == null ? this.id != null : ! value.equals(this.id))
       {
@@ -34,7 +34,7 @@ public class ModelCommand<CMD extends ModelCommand,PROD> // no fulib
       return time;
    }
 
-   public CMD setTime(String value)
+   public CMD setTime(String value) // no fulib
    {
       if (value == null ? this.time != null : ! value.equals(this.time))
       {
@@ -45,7 +45,8 @@ public class ModelCommand<CMD extends ModelCommand,PROD> // no fulib
       return (CMD) this;
    }
 
-   public PROD run(StoreModelEditor sme) {
+   public PROD run(StoreModelEditor sme) // no fulib
+   {
       return null;
    }
 
@@ -97,6 +98,18 @@ public class ModelCommand<CMD extends ModelCommand,PROD> // no fulib
          listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getId());
+      result.append(" ").append(this.getTime());
+
+
+      return result.substring(1);
    }
 
 }

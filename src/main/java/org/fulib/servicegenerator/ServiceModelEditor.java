@@ -16,18 +16,34 @@ import static org.fulib.builder.ClassModelBuilder.STRING;
 public class ServiceModelEditor
 {
    private ClassModelManager mm = new ClassModelManager();
-   private final Clazz modelCommand;
+   private Clazz modelCommand;
    private Clazz editor;
    private LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
    private LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
    private STGroupFile group;
+   private Clazz removeCommand;
 
    public ServiceModelEditor()
    {
       group = new STGroupFile("org.fulib.templates/servicemodel.stg");
       group.registerRenderer(String.class, new StringRenderer());
+  }
 
+   private void haveRemoveCommand()
+   {
+      removeCommand = this.haveCommand("RemoveCommand");
+      mm.haveAttribute(removeCommand, "targetClassName", STRING);
+      ST st = group.getInstanceOf("removeCommandRun");
+      String body = st.render();
+      mm.haveMethod(removeCommand, "public ModelCommand run(StoreModelEditor editor)", body);
+   }
+
+   private void haveModelCommand()
+   {
       modelCommand = mm.haveClass("ModelCommand");
+      mm.haveAttribute(modelCommand, "id", STRING);
+      mm.haveAttribute(modelCommand, "time", STRING);
+      mm.haveMethod(modelCommand, "public ModelCommand run(StoreModelEditor sme)", "      return null;\n");
    }
 
    public ClassModelManager getClassModelManager()
@@ -48,7 +64,15 @@ public class ServiceModelEditor
    public Clazz haveEditor(String modelName)
    {
       editor = this.mm.haveClass(modelName + "Editor");
+
+      this.editorHaveMapFor("RemoveCommand");
+
+      haveModelCommand();
+      haveRemoveCommand();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
+
+
+
       return editor;
    }
 
@@ -117,6 +141,13 @@ public class ServiceModelEditor
       Clazz commandClass = commandClasses.get(dataClassName);
       mm.haveAttribute(commandClass, attrName, attrType);
 
+      haveDataCommandRunMethod(dataClass, dataClassName, commandClass);
+
+      return attribute;
+   }
+
+   private void haveDataCommandRunMethod(Clazz dataClass, String dataClassName, Clazz commandClass)
+   {
       String declaration = String.format("public %s run(StoreModelEditor sme)", dataClassName);
 
       String attributes = "";
@@ -135,8 +166,6 @@ public class ServiceModelEditor
       String body = st.render();
       FMethod runMethod = mm.haveMethod(commandClass, declaration, body);
       runMethod.setAnnotations("@Override");
-
-      return attribute;
    }
 
    public void associate(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
@@ -146,8 +175,6 @@ public class ServiceModelEditor
 
    public Clazz haveCommand(String className)
    {
-      // create a command class
-
       Clazz commandClass = mm.haveClass(className);
       commandClasses.put(className, commandClass);
       commandClass.setSuperClass(this.modelCommand);

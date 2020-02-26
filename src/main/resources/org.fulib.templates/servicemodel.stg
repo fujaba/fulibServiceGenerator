@@ -12,14 +12,13 @@ getOrCreateBody(dataClazz) ::= <<
 
 
 preCheck(dataClazz) ::= <<
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("<dataClazz>-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
       ModelCommand oldCommand = editor.getActiveCommands().get("<dataClazz>-" + this.getId());
-      if (oldCommand != null) {
-         if (oldCommand instanceof RemoveCommand) {
-            return false;
-         }
-         if (oldCommand.getTime().compareTo(this.getTime()) >= 0) {
-            return false;
-         }
+      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+         return false;
       }
       editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
       return true;
@@ -36,6 +35,35 @@ run(dataClazz, attributes) ::= <<
       return dataObject;
 
 >>
+
+
+removeCommandRun() ::= <<
+      // allready removed?
+      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
+      if (oldRemoveCommand != null) {
+         return null;
+      }
+
+      // find the target object
+      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(editor);
+      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
+      Map objects = (Map) value;
+      Object target = objects.get(this.getId());
+      try {
+         Method removeYouMethod = target.getClass().getMethod("removeYou", (Class) null);
+         removeYouMethod.invoke(target, (Object) null);
+      }
+      catch (Exception e) {
+         // ignore
+      }
+      objects.remove(this.getId());
+      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
+
+      return null;
+
+>>
+
 
 loadYaml(packageName) ::= <<
       YamlIdMap idMap;
