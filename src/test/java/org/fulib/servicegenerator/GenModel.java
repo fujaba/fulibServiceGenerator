@@ -2,20 +2,11 @@ package org.fulib.servicegenerator;
 
 import org.fulib.Fulib;
 import org.fulib.FulibTools;
-import org.fulib.builder.ClassModelBuilder;
 import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Clazz;
-import org.fulib.yaml.YamlIdMap;
-import org.junit.Assert;
 import org.junit.Test;
-import unikassel.shop.model.*;
-
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static org.fulib.builder.ClassModelBuilder.*;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 public class GenModel
@@ -27,7 +18,7 @@ public class GenModel
       ClassModelManager mm = me.getClassModelManager();
       mm.haveMainJavaDir("src/test/java");
       mm.havePackageName("unikassel.shop.model");
-      Clazz storeEditor = me.haveEditor("StoreModel");
+      Clazz storeEditor = me.haveEditor("Store");
 
       Clazz product = me.haveDataClass("Product");
       me.haveAttribute(product, "description", STRING);
@@ -44,8 +35,9 @@ public class GenModel
       Clazz removeCommand = me.haveCommand("RemoveCommand");
       mm.haveAttribute(removeCommand, "targetClassName", STRING);
 
-      me.associate(offer, "product", ONE, "offers", MANY, product);
+      me.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
 
+      // me.haveAssociationWithOwnCommand(offer, "product", ONE, "offers", MANY, product);
       Fulib.generator().generate(mm.getClassModel());
       FulibTools.classDiagrams().dumpSVG(mm.getClassModel(), "tmp/storeClasses.svg");
    }

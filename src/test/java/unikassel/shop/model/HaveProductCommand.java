@@ -87,7 +87,7 @@ public class HaveProductCommand extends ModelCommand<HaveProductCommand, Product
    }
 
    @Override
-   public Product run(StoreModelEditor sme) { 
+   public Product run(StoreEditor sme) { 
       if ( ! preCheck(sme)) {
          return sme.getProducts().get(this.getId());
       }
@@ -97,7 +97,7 @@ public class HaveProductCommand extends ModelCommand<HaveProductCommand, Product
       return dataObject;
    }
 
-   public boolean preCheck(StoreModelEditor editor) { // no fulib
+   public boolean preCheck(StoreEditor editor) { // no fulib
       ModelCommand oldCommand = editor.getActiveCommands().get("Product-" + this.getId());
       if (oldCommand == null || oldCommand.getTime().compareTo(this.getTime()) < 0) {
          editor.getActiveCommands().put("Product-" + this.getId(), this);
@@ -106,7 +106,7 @@ public class HaveProductCommand extends ModelCommand<HaveProductCommand, Product
       return false;
    }
 
-   public Product getOrCreate(StoreModelEditor sme) { 
+   public Product getOrCreate(StoreEditor sme) { 
       Object obj = sme.getProducts().get(this.getId());
       if (obj != null) {
          return (Product) obj;

@@ -45,7 +45,7 @@ public class ModelCommand<CMD extends ModelCommand,PROD> // no fulib
       return (CMD) this;
    }
 
-   public PROD run(StoreModelEditor sme) // no fulib
+   public PROD run(StoreEditor sme) // no fulib
    {
       return null;
    }

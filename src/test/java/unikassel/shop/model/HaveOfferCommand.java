@@ -66,19 +66,6 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, Offer> // n
       return this;
    }
 
-   @Override
-   public Offer run(StoreModelEditor sme) { 
-      if ( ! preCheck(sme)) {
-         return sme.getOffers().get(this.getId());
-      }
-      Offer dataObject = this.getOrCreate(sme);
-      dataObject.setPrice(this.getPrice());
-      dataObject.setStartTime(this.getStartTime());
-      dataObject.setEndTime(this.getEndTime());
-
-      return dataObject;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -136,12 +123,48 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, Offer> // n
 
       result.append(" ").append(this.getStartTime());
       result.append(" ").append(this.getEndTime());
+      result.append(" ").append(this.getProduct());
 
 
       return result.substring(1);
    }
 
-   public Offer getOrCreate(StoreModelEditor sme) { 
+   @Override
+   public Offer run(StoreEditor sme) { 
+      if ( ! preCheck(sme)) {
+         return sme.getOffers().get(this.getId());
+      }
+      Offer dataObject = this.getOrCreate(sme);
+      dataObject.setPrice(this.getPrice());
+      dataObject.setStartTime(this.getStartTime());
+      dataObject.setEndTime(this.getEndTime());
+      Product product = new HaveProductCommand().setId(this.getProduct()).getOrCreate(sme);
+      dataObject.setProduct(product);
+
+      return dataObject;
+   }
+
+   public static final String PROPERTY_product = "product";
+
+   private String product;
+
+   public String getProduct()
+   {
+      return product;
+   }
+
+   public HaveOfferCommand setProduct(String value)
+   {
+      if (value == null ? this.product != null : ! value.equals(this.product))
+      {
+         String oldValue = this.product;
+         this.product = value;
+         firePropertyChange("product", oldValue, value);
+      }
+      return this;
+   }
+
+   public Offer getOrCreate(StoreEditor sme) { 
       Object obj = sme.getOffers().get(this.getId());
       if (obj != null) {
          return (Offer) obj;
@@ -151,7 +174,7 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, Offer> // n
       return newObj;
    }
 
-   public boolean preCheck(StoreModelEditor editor) { 
+   public boolean preCheck(StoreEditor editor) { 
       RemoveCommand oldRemove = editor.getRemoveCommands().get("Offer-" + this.getId());
       if (oldRemove != null) {
          return false;

@@ -9,8 +9,13 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
+import static org.fulib.builder.ClassModelBuilder.ONE;
 import static org.fulib.builder.ClassModelBuilder.STRING;
 
 public class ServiceModelEditor
@@ -34,8 +39,9 @@ public class ServiceModelEditor
       removeCommand = this.haveCommand("RemoveCommand");
       mm.haveAttribute(removeCommand, "targetClassName", STRING);
       ST st = group.getInstanceOf("removeCommandRun");
+      String declaration = String.format("public ModelCommand run(%s editor)", this.editor.getName());
       String body = st.render();
-      mm.haveMethod(removeCommand, "public ModelCommand run(StoreModelEditor editor)", body);
+      mm.haveMethod(removeCommand, declaration, body);
    }
 
    private void haveModelCommand()
@@ -43,7 +49,8 @@ public class ServiceModelEditor
       modelCommand = mm.haveClass("ModelCommand");
       mm.haveAttribute(modelCommand, "id", STRING);
       mm.haveAttribute(modelCommand, "time", STRING);
-      mm.haveMethod(modelCommand, "public ModelCommand run(StoreModelEditor sme)", "      return null;\n");
+      String declaration = String.format("public ModelCommand run(%s editor)", this.editor.getName());
+      mm.haveMethod(modelCommand, declaration, "      return null;\n");
    }
 
    public ClassModelManager getClassModelManager()
@@ -65,6 +72,7 @@ public class ServiceModelEditor
    {
       editor = this.mm.haveClass(modelName + "Editor");
 
+      this.editorHaveMapFor("activeCommands", "ModelCommand");
       this.editorHaveMapFor("RemoveCommand");
 
       haveModelCommand();
@@ -92,10 +100,15 @@ public class ServiceModelEditor
       return dataClass;
    }
 
-   private void editorHaveMapFor(String dataClassName)
+   private void editorHaveMapFor(String entryClassName)
    {
-      String mapName = StrUtil.downFirstChar(dataClassName) + "s";
-      String mapType = String.format("Map<String, %s>", dataClassName);
+      String mapName = StrUtil.downFirstChar(entryClassName) + "s";
+      this.editorHaveMapFor(mapName, entryClassName);
+   }
+
+   private void editorHaveMapFor(String mapName, String entryClassName)
+   {
+      String mapType = String.format("Map<String, %s>", entryClassName);
       Attribute attribute = mm.haveAttribute(this.editor, mapName, mapType);
       attribute.setInitialization("new LinkedHashMap<>()");
    }
@@ -103,7 +116,7 @@ public class ServiceModelEditor
    private FMethod havePreCheck(String className)
    {
       Clazz commandClass = this.commandClasses.get(className);
-      String declaration = "public boolean preCheck(StoreModelEditor editor)";
+      String declaration = String.format("public boolean preCheck(%s editor)", this.editor.getName());
       ST st = group.getInstanceOf("preCheck");
       st.add("dataClazz", className);
       String body = st.render();
@@ -115,7 +128,7 @@ public class ServiceModelEditor
    private FMethod haveGetOrCreate(String className)
    {
       Clazz commandClass = this.commandClasses.get(className);
-      String declaration = String.format("public %s getOrCreate(StoreModelEditor sme)", className);
+      String declaration = String.format("public %s getOrCreate(%s sme)", className, this.editor.getName());
       ST st = group.getInstanceOf("getOrCreateBody");
       st.add("dataClazz", className);
       String body = st.render();
@@ -146,9 +159,31 @@ public class ServiceModelEditor
       return attribute;
    }
 
+
+   private Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
+
+   public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
+   {
+      if (sourceCard != ONE) {
+         throw new RuntimeException("haveAssociationOwnedByDataClass requires to-one cardinality for source role");
+      }
+      this.mm.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+      String dataClassName = sourceClass.getName();
+      Collection<String> roleNames = dataclassAttachedRoles.get(sourceClass);
+      if (roleNames == null) {
+         roleNames = new ArrayList<>();
+         dataclassAttachedRoles.put(sourceClass, roleNames);
+      }
+      roleNames.add(sourceRoleName);
+      Clazz commandClass = commandClasses.get(dataClassName);
+      mm.haveAttribute(commandClass, sourceRoleName, STRING);
+      haveDataCommandRunMethod(sourceClass, dataClassName, commandClass);
+   }
+
+
    private void haveDataCommandRunMethod(Clazz dataClass, String dataClassName, Clazz commandClass)
    {
-      String declaration = String.format("public %s run(StoreModelEditor sme)", dataClassName);
+      String declaration = String.format("public %s run(%s sme)", dataClassName, this.editor.getName());
 
       String attributes = "";
 
@@ -160,6 +195,17 @@ public class ServiceModelEditor
          attributes += oneAttr;
       }
 
+      Collection<String> roleNames = dataclassAttachedRoles.get(dataClass);
+      if (roleNames != null) {
+         for (String attr : roleNames) {
+            String getObject = String.format("%2$s %1$s = new Have%2$sCommand().setId(this.get%2$s()).getOrCreate(sme);\n", attr, StrUtil.cap(attr));
+            // Product product ;
+            attributes += getObject;
+            String oneAttr = String.format("dataObject.set%1$s(%2$s);\n", StrUtil.cap(attr), attr);
+            attributes += oneAttr;
+         }
+      }
+
       ST st = group.getInstanceOf("run");
       st.add("dataClazz", dataClassName);
       st.add("attributes", attributes);
@@ -168,10 +214,6 @@ public class ServiceModelEditor
       runMethod.setAnnotations("@Override");
    }
 
-   public void associate(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
-   {
-      this.mm.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
-   }
 
    public Clazz haveCommand(String className)
    {

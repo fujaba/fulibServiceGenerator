@@ -22,7 +22,7 @@ public class TestStore
    @Test
    public void testRemoveCommand()
    {
-      StoreModelEditor se = new StoreModelEditor();
+      StoreEditor se = new StoreEditor();
       new HaveOfferCommand().setId("offer#42").setTime("12:01").setPrice(24.99).setStartTime("2020.02.01")
             .setEndTime("2020.02.28").run(se);
       Assert.assertThat(se.getOffers().size(), is(1));
@@ -42,18 +42,21 @@ public class TestStore
    @Test
    public void testAssocs()
    {
-      StoreModelEditor se = new StoreModelEditor();
-      new HaveProductCommand().setId("tShirt").setTime("09:01").setDescription("Cool T-Shirt").run(se);
+      StoreEditor se = new StoreEditor();
+      Product tShirt = new HaveProductCommand().setId("tShirt").setTime("09:01").setDescription("Cool T-Shirt").run(se);
       new HaveProductCommand().setId("hoodie").setTime("09:02").setDescription("Hoodie XL").run(se);
       new HaveCustomerCommand().setId("alice").setTime("10:01").setName("Alice").setAddress("Wonderland 1").run(se);
       new HaveCustomerCommand().setId("bob").setTime("10:02").setName("Bob").setAddress("Wonderland 1").run(se);
 
+      Offer tShirtSpecial = new HaveOfferCommand().setId("offer#42").setProduct("tShirt").setPrice(23.00).setStartTime("12:00").setEndTime("18:00").run(se);
+
+      Assert.assertThat(tShirtSpecial.getProduct(), is(tShirt));
    }
 
    @Test
    public void testCommands()
    {
-      StoreModelEditor sme = new StoreModelEditor();
+      StoreEditor sme = new StoreEditor();
 
       HaveProductCommand haveProduct = new HaveProductCommand().setId("tShirt").setTime("09:01")
             .setDescription("Cool T-Shirt");
@@ -89,7 +92,7 @@ public class TestStore
       String yamlString = idMap.encode(objects);
 
       // have another shop
-      StoreModelEditor otherEditor = new StoreModelEditor();
+      StoreEditor otherEditor = new StoreEditor();
 
       // edit the same product and customer
       HaveProductCommand tShirtCmd = new HaveProductCommand().setId("tShirt").setTime("10:05")

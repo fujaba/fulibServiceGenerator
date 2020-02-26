@@ -108,7 +108,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
    }
 
 @Override
-   public Customer run(StoreModelEditor sme) { 
+   public Customer run(StoreEditor sme) { 
       if ( ! preCheck(sme)) {
          return sme.getCustomers().get(this.getId());
       }
@@ -119,7 +119,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
       return dataObject;
    }
 
-   public Customer getOrCreate(StoreModelEditor sme) { 
+   public Customer getOrCreate(StoreEditor sme) { 
       Object obj = sme.getCustomers().get(this.getId());
       if (obj != null) {
          return (Customer) obj;
@@ -129,7 +129,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
       return newObj;
    }
 
-   public boolean preCheck(StoreModelEditor editor) { 
+   public boolean preCheck(StoreEditor editor) { 
       RemoveCommand oldRemove = editor.getRemoveCommands().get("Customer-" + this.getId());
       if (oldRemove != null) {
          return false;

@@ -91,7 +91,7 @@ public class RemoveCommand extends ModelCommand<RemoveCommand, Object> // no ful
       return result.substring(1);
    }
 
-   public ModelCommand run(StoreModelEditor editor) { 
+   public ModelCommand run(StoreEditor editor) { 
       // allready removed?
       RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
       if (oldRemoveCommand != null) {
