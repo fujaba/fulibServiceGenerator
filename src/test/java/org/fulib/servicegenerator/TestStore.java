@@ -1,10 +1,6 @@
 package org.fulib.servicegenerator;
 
-import org.fulib.Fulib;
-import org.fulib.FulibTools;
-import org.fulib.builder.ClassModelManager;
-import org.fulib.classmodel.Clazz;
-import org.fulib.yaml.YamlIdMap;
+import org.fulib.yaml.Yaml;
 import org.junit.Assert;
 import org.junit.Test;
 import unikassel.shop.model.*;
@@ -12,12 +8,26 @@ import unikassel.shop.model.*;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.fulib.builder.ClassModelBuilder.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 public class TestStore
 {
+   @Test
+   public void testNewYaml()
+   {
+      StoreEditor se = new StoreEditor();
+      Product tShirt = new HaveProductCommand().setId("tShirt").setTime("09:01")
+            .setDescription("Cool T-Shirt")
+            .run(se);
+      new HaveProductCommand().setId("hoodie").setTime("09:02").setDescription("Hoodie XL").run(se);
+      
+      String yamlString = Yaml.encode(se.getActiveCommands());
+
+      System.out.println(yamlString);
+
+      Assert.assertThat(yamlString.startsWith("- "), is(true));
+   }
 
    @Test
    public void testRemoveCommand()
@@ -124,7 +134,7 @@ public class TestStore
 
       Collection<ModelCommand> activeCommands = sme.getActiveCommands().values();
 
-      YamlIdMap idMap = new YamlIdMap(Product.class.getPackage().getName());
+      Yaml idMap = new Yaml(Product.class.getPackage().getName());
       Object[] objects = activeCommands.toArray();
       Assert.assertThat(objects.length, is(3));
       String yamlString = idMap.encode(objects);

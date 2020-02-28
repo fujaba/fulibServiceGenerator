@@ -2,7 +2,7 @@ package unikassel.shop.model;
 import org.fulib.builder.ClassModelBuilder;
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
-import org.fulib.yaml.YamlIdMap;
+import org.fulib.yaml.Yaml;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
@@ -236,8 +236,8 @@ public class StoreEditor
    }
 
    public void loadYaml(String yamlString) { 
-      YamlIdMap idMap;
-      idMap = new YamlIdMap("unikassel.shop.model");
+      Yaml idMap;
+      idMap = new Yaml("unikassel.shop.model");
       Object decode = idMap.decode(yamlString);
       Collection values = idMap.getObjIdMap().values();
       for (Object value : values) {
