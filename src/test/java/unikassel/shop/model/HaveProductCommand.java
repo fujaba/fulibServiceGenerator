@@ -1,6 +1,7 @@
 package unikassel.shop.model;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 public class HaveProductCommand extends ModelCommand<HaveProductCommand, Product> // no fulib
 {
@@ -107,6 +108,7 @@ public class HaveProductCommand extends ModelCommand<HaveProductCommand, Product
    }
 
    public Product getOrCreate(StoreEditor sme) { 
+      java.util.Objects.requireNonNull(this.getId());
       Object obj = sme.getProducts().get(this.getId());
       if (obj != null) {
          return (Product) obj;

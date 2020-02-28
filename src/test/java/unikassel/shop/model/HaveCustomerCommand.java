@@ -1,6 +1,7 @@
 package unikassel.shop.model;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Customer> // no fulib
 {
@@ -120,6 +121,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
    }
 
    public Customer getOrCreate(StoreEditor sme) { 
+      java.util.Objects.requireNonNull(this.getId());
       Object obj = sme.getCustomers().get(this.getId());
       if (obj != null) {
          return (Customer) obj;

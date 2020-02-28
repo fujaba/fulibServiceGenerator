@@ -1,14 +1,44 @@
 package unikassel.shop.model;
+import org.fulib.builder.ClassModelBuilder;
+import org.fulib.yaml.Reflector;
+import org.fulib.yaml.ReflectorMap;
 import org.fulib.yaml.YamlIdMap;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StoreEditor  
 {
+
+   public <T> T getOrCreate(Class<T> dataClass, String id ) {
+      // does it already exist?
+      ReflectorMap reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(this);
+      Object value = reflector.getValue(this, dataClass.getSimpleName() + "s");
+      Map<String, T> objects = (Map<String, T>) value;
+      T oldObject = objects.get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+
+      // make a new one
+      try {
+         Constructor<T> constructor = dataClass.getConstructor(new Class[0]);
+         T newObject = constructor.newInstance(new Object[0]);
+         objects.put(id, newObject);
+         reflector = reflectorMap.getReflector(newObject);
+         reflector.setValue(newObject, "id", id, ClassModelBuilder.STRING);
+         return newObject;
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
 
    public static final String PROPERTY_removeCommands = "removeCommands";
 
@@ -174,6 +204,39 @@ public class StoreEditor
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);
       }
+   }
+
+   public Product getOrCreateProduct(String id) { 
+      Product oldObject = this.getProducts().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      Product newObject = new Product();
+      newObject.setId(id);
+      this.getProducts().put(id, newObject);
+      return newObject;
+   }
+
+   public Customer getOrCreateCustomer(String id) { 
+      Customer oldObject = this.getCustomers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      Customer newObject = new Customer();
+      newObject.setId(id);
+      this.getCustomers().put(id, newObject);
+      return newObject;
+   }
+
+   public Offer getOrCreateOffer(String id) { 
+      Offer oldObject = this.getOffers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      Offer newObject = new Offer();
+      newObject.setId(id);
+      this.getOffers().put(id, newObject);
+      return newObject;
    }
 
 }

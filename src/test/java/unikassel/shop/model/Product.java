@@ -186,6 +186,83 @@ public class Product
       this.withoutOffers(this.getOffers().clone());
 
 
+      this.withoutCustomers(this.getCustomers().clone());
+
+
+   }
+
+   public static final java.util.ArrayList<Customer> EMPTY_customers = new java.util.ArrayList<Customer>()
+   { @Override public boolean add(Customer value){ throw new UnsupportedOperationException("No direct add! Use xy.withCustomers(obj)"); }};
+
+   public static final String PROPERTY_customers = "customers";
+
+   private java.util.ArrayList<Customer> customers = null;
+
+   public java.util.ArrayList<Customer> getCustomers()
+   {
+      if (this.customers == null)
+      {
+         return EMPTY_customers;
+      }
+
+      return this.customers;
+   }
+
+   public Product withCustomers(Object... value)
+   {
+      if(value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withCustomers(i);
+            }
+         }
+         else if (item instanceof Customer)
+         {
+            if (this.customers == null)
+            {
+               this.customers = new java.util.ArrayList<Customer>();
+            }
+            if ( ! this.customers.contains(item))
+            {
+               this.customers.add((Customer)item);
+               ((Customer)item).withProducts(this);
+               firePropertyChange("customers", null, item);
+            }
+         }
+         else throw new IllegalArgumentException();
+      }
+      return this;
+   }
+
+   public Product withoutCustomers(Object... value)
+   {
+      if (this.customers == null || value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withoutCustomers(i);
+            }
+         }
+         else if (item instanceof Customer)
+         {
+            if (this.customers.contains(item))
+            {
+               this.customers.remove((Customer)item);
+               ((Customer)item).withoutProducts(this);
+               firePropertyChange("customers", item, null);
+            }
+         }
+      }
+      return this;
    }
 
 }

@@ -37,7 +37,8 @@ public class GenModel
 
       me.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
 
-      // me.haveAssociationWithOwnCommand(offer, "product", ONE, "offers", MANY, product);
+      me.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
+
       Fulib.generator().generate(mm.getClassModel());
       FulibTools.classDiagrams().dumpSVG(mm.getClassModel(), "tmp/storeClasses.svg");
    }

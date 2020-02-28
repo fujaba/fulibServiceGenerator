@@ -128,4 +128,85 @@ public class Customer
       return this;
    }
 
+   public static final java.util.ArrayList<Product> EMPTY_products = new java.util.ArrayList<Product>()
+   { @Override public boolean add(Product value){ throw new UnsupportedOperationException("No direct add! Use xy.withProducts(obj)"); }};
+
+   public static final String PROPERTY_products = "products";
+
+   private java.util.ArrayList<Product> products = null;
+
+   public java.util.ArrayList<Product> getProducts()
+   {
+      if (this.products == null)
+      {
+         return EMPTY_products;
+      }
+
+      return this.products;
+   }
+
+   public Customer withProducts(Object... value)
+   {
+      if(value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withProducts(i);
+            }
+         }
+         else if (item instanceof Product)
+         {
+            if (this.products == null)
+            {
+               this.products = new java.util.ArrayList<Product>();
+            }
+            if ( ! this.products.contains(item))
+            {
+               this.products.add((Product)item);
+               ((Product)item).withCustomers(this);
+               firePropertyChange("products", null, item);
+            }
+         }
+         else throw new IllegalArgumentException();
+      }
+      return this;
+   }
+
+   public Customer withoutProducts(Object... value)
+   {
+      if (this.products == null || value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withoutProducts(i);
+            }
+         }
+         else if (item instanceof Product)
+         {
+            if (this.products.contains(item))
+            {
+               this.products.remove((Product)item);
+               ((Product)item).withoutCustomers(this);
+               firePropertyChange("products", item, null);
+            }
+         }
+      }
+      return this;
+   }
+
+   public void removeYou()
+   {
+      this.withoutProducts(this.getProducts().clone());
+
+
+   }
+
 }

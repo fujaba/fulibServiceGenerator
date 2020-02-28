@@ -23,10 +23,13 @@ public class TestStore
    public void testRemoveCommand()
    {
       StoreEditor se = new StoreEditor();
-      new HaveOfferCommand().setId("offer#42").setTime("12:01").setPrice(24.99).setStartTime("2020.02.01")
+
+      new HaveOfferCommand().setId("offer#42").setTime("12:01")
+            .setProduct("tShirt").setPrice(24.99).setStartTime("2020.02.01")
             .setEndTime("2020.02.28").run(se);
       Assert.assertThat(se.getOffers().size(), is(1));
-      new HaveOfferCommand().setId("offer#43").setTime("13:01").setPrice(29.99).setStartTime("2020.02.01")
+      new HaveOfferCommand().setId("offer#43").setTime("13:01")
+            .setProduct("tShirt").setPrice(29.99).setStartTime("2020.02.01")
             .setEndTime("2020.02.28").run(se);
       Assert.assertThat(se.getOffers().size(), is(2));
       Offer offer42 = (Offer) se.getOffers().get("offer#42");
@@ -45,12 +48,47 @@ public class TestStore
       StoreEditor se = new StoreEditor();
       Product tShirt = new HaveProductCommand().setId("tShirt").setTime("09:01").setDescription("Cool T-Shirt").run(se);
       new HaveProductCommand().setId("hoodie").setTime("09:02").setDescription("Hoodie XL").run(se);
-      new HaveCustomerCommand().setId("alice").setTime("10:01").setName("Alice").setAddress("Wonderland 1").run(se);
+      Customer alice = new HaveCustomerCommand().setId("alice").setTime("10:01").setName("Alice").setAddress("Wonderland 1").run(se);
       new HaveCustomerCommand().setId("bob").setTime("10:02").setName("Bob").setAddress("Wonderland 1").run(se);
 
-      Offer tShirtSpecial = new HaveOfferCommand().setId("offer#42").setProduct("tShirt").setPrice(23.00).setStartTime("12:00").setEndTime("18:00").run(se);
+      Offer tShirtSpecial = new HaveOfferCommand().setId("offer#42").setTime("12:00")
+            .setProduct("tShirt").setPrice(23.00).setStartTime("12:00").setEndTime("18:00").run(se);
+
+      new HaveOfferCommand().setId("offer#42").setTime("11:59")
+            .setProduct("tShirt").setPrice(00.99).setStartTime("12:00").setEndTime("18:00")
+            .run(se);
 
       Assert.assertThat(tShirtSpecial.getProduct(), is(tShirt));
+      Assert.assertThat(tShirtSpecial.getPrice(), is(23.00));
+      Assert.assertThat(tShirt.getOffers().contains(tShirtSpecial), is(true));
+      new RemoveCommand().setId("offer#42").setTargetClassName("Offer")
+            .run(se);
+      Assert.assertThat(tShirt.getOffers().contains(tShirtSpecial), is(false));
+
+      new HaveCustomerProductsLink().setTime("14:01").setSource("alice").setTarget("tShirt")
+      .run(se);
+      Assert.assertThat(alice.getProducts().contains(tShirt), is(true));
+
+      new HaveCustomerProductsLink().setTime("14:00").setSource("alice").setTarget("justAnnounced")
+            .run(se);
+      Assert.assertThat(se.getProducts().size(), is(3));
+
+      new RemoveCustomerProductsLink().setTime("13:00").setSource("alice").setTarget("tShirt")
+      .run(se);
+      Assert.assertThat(alice.getProducts().contains(tShirt), is(true));
+
+      new RemoveCustomerProductsLink().setTime("16:00").setSource("alice").setTarget("tShirt")
+            .run(se);
+      Assert.assertThat(alice.getProducts().contains(tShirt), is(false));
+
+      new HaveCustomerProductsLink().setTime("15:00").setSource("alice").setTarget("tShirt")
+            .run(se);
+      Assert.assertThat(alice.getProducts().contains(tShirt), is(false));
+
+      new HaveCustomerProductsLink().setTime("17:00").setSource("alice").setTarget("tShirt")
+            .run(se);
+      Assert.assertThat(alice.getProducts().contains(tShirt), is(true));
+
    }
 
    @Test

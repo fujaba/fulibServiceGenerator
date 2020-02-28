@@ -96,8 +96,18 @@ public class ServiceModelEditor
       this.havePreCheck(dataClassName);
 
       this.editorHaveMapFor(dataClassName);
+      this.editorHaveGetOrCreateFor(dataClassName);
 
       return dataClass;
+   }
+
+   private void editorHaveGetOrCreateFor(String dataClassName)
+   {
+      String declaration = String.format("public %1$s getOrCreate%1$s(String id)", dataClassName);
+      ST st = group.getInstanceOf("editorGetOrCreateBody");
+      st.add("dataClazz", dataClassName);
+      String body = st.render();
+      mm.haveMethod(this.editor, declaration, body);
    }
 
    private void editorHaveMapFor(String entryClassName)
@@ -157,6 +167,44 @@ public class ServiceModelEditor
       haveDataCommandRunMethod(dataClass, dataClassName, commandClass);
 
       return attribute;
+   }
+
+
+   public void haveAssociationWithOwnCommands(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
+   {
+      // have assoc
+      mm.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+
+      // HaveLinkCommand
+      String sourceClassName = sourceClass.getName();
+      String commandName = String.format("Have%s%sLink", sourceClassName, StrUtil.cap(sourceRoleName));
+      Clazz haveLinkCommand = this.haveCommand(commandName);
+      mm.haveAttribute(haveLinkCommand, "source", STRING);
+      mm.haveAttribute(haveLinkCommand, "target", STRING);
+      String declaration = String.format("public Object run(%s editor)", this.editor.getName());
+      // runHaveLink(sourceClassName, linkName, targetClassName)
+      ST st = group.getInstanceOf("runHaveLink");
+      st.add("sourceClassName", sourceClass.getName());
+      st.add("linkName", StrUtil.cap(sourceRoleName));
+      st.add("targetClassName", targetClass.getName());
+      String body = st.render();
+      FMethod fMethod = mm.haveMethod(haveLinkCommand, declaration, body);
+      fMethod.setAnnotations("@Override");
+
+      // RemoveLinkCommand
+      commandName = String.format("Remove%s%sLink", sourceClassName, StrUtil.cap(sourceRoleName));
+      Clazz removeLinkCommand = this.haveCommand(commandName);
+      mm.haveAttribute(removeLinkCommand, "source", STRING);
+      mm.haveAttribute(removeLinkCommand, "target", STRING);
+      declaration = String.format("public Object run(%s editor)", this.editor.getName());
+      // runHaveLink(sourceClassName, linkName, targetClassName)
+      st = group.getInstanceOf("runRemoveLink");
+      st.add("sourceClassName", sourceClass.getName());
+      st.add("linkName", StrUtil.cap(sourceRoleName));
+      st.add("targetClassName", targetClass.getName());
+      body = st.render();
+      fMethod = mm.haveMethod(removeLinkCommand, declaration, body);
+      fMethod.setAnnotations("@Override");
    }
 
 

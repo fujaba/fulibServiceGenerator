@@ -105,8 +105,8 @@ public class RemoveCommand extends ModelCommand<RemoveCommand, Object> // no ful
       Map objects = (Map) value;
       Object target = objects.get(this.getId());
       try {
-         Method removeYouMethod = target.getClass().getMethod("removeYou", (Class) null);
-         removeYouMethod.invoke(target, (Object) null);
+         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
+         removeYouMethod.invoke(target, new Object[0]);
       }
       catch (Exception e) {
          // ignore

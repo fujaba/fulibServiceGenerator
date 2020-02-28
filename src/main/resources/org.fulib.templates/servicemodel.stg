@@ -1,5 +1,6 @@
 
 getOrCreateBody(dataClazz) ::= <<
+      java.util.Objects.requireNonNull(this.getId());
       Object obj = sme.get<dataClazz>s().get(this.getId());
       if (obj != null) {
          return (<dataClazz>) obj;
@@ -10,6 +11,17 @@ getOrCreateBody(dataClazz) ::= <<
 
 >>
 
+editorGetOrCreateBody(dataClazz) ::= <<
+      <dataClazz> oldObject = this.get<dataClazz>s().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      <dataClazz> newObject = new <dataClazz>();
+      newObject.setId(id);
+      this.get<dataClazz>s().put(id, newObject);
+      return newObject;
+
+>>
 
 preCheck(dataClazz) ::= <<
       RemoveCommand oldRemove = editor.getRemoveCommands().get("<dataClazz>-" + this.getId());
@@ -36,6 +48,46 @@ run(dataClazz, attributes) ::= <<
 
 >>
 
+runHaveLink(sourceClassName, linkName, targetClassName) ::= <<
+      Objects.requireNonNull(this.getTime());
+      this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
+      ModelCommand oldCommand = editor.getActiveCommands().get(this.getId());
+      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+         // ignore new command
+         return null;
+      }
+
+      <sourceClassName> sourceObject = editor.getOrCreate<sourceClassName>(this.getSource());
+      <targetClassName> targetObject = editor.getOrCreate<targetClassName>(this.getTarget());
+      sourceObject.with<linkName>(targetObject);
+
+      editor.getActiveCommands().put(this.getId(), this);
+
+      return null;
+
+>>
+
+
+runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
+      Objects.requireNonNull(this.getTime());
+      this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
+      ModelCommand oldCommand = editor.getActiveCommands().get(this.getId());
+      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+         // ignore new command
+         return null;
+      }
+
+      <sourceClassName> sourceObject = editor.getOrCreate<sourceClassName>(this.getSource());
+      <targetClassName> targetObject = editor.getOrCreate<targetClassName>(this.getTarget());
+      sourceObject.without<linkName>(targetObject);
+
+      editor.getActiveCommands().put(this.getId(), this);
+
+      return null;
+
+>>
+
+
 
 removeCommandRun() ::= <<
       // allready removed?
@@ -51,8 +103,8 @@ removeCommandRun() ::= <<
       Map objects = (Map) value;
       Object target = objects.get(this.getId());
       try {
-         Method removeYouMethod = target.getClass().getMethod("removeYou", (Class) null);
-         removeYouMethod.invoke(target, (Object) null);
+         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
+         removeYouMethod.invoke(target, new Object[0]);
       }
       catch (Exception e) {
          // ignore
