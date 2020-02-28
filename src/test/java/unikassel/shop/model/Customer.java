@@ -204,9 +204,86 @@ public class Customer
 
    public void removeYou()
    {
+      this.withoutOrders(this.getOrders().clone());
+
+
       this.withoutProducts(this.getProducts().clone());
 
 
+   }
+
+   public static final java.util.ArrayList<Order> EMPTY_orders = new java.util.ArrayList<Order>()
+   { @Override public boolean add(Order value){ throw new UnsupportedOperationException("No direct add! Use xy.withOrders(obj)"); }};
+
+   public static final String PROPERTY_orders = "orders";
+
+   private java.util.ArrayList<Order> orders = null;
+
+   public java.util.ArrayList<Order> getOrders()
+   {
+      if (this.orders == null)
+      {
+         return EMPTY_orders;
+      }
+
+      return this.orders;
+   }
+
+   public Customer withOrders(Object... value)
+   {
+      if(value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withOrders(i);
+            }
+         }
+         else if (item instanceof Order)
+         {
+            if (this.orders == null)
+            {
+               this.orders = new java.util.ArrayList<Order>();
+            }
+            if ( ! this.orders.contains(item))
+            {
+               this.orders.add((Order)item);
+               ((Order)item).setCustomer(this);
+               firePropertyChange("orders", null, item);
+            }
+         }
+         else throw new IllegalArgumentException();
+      }
+      return this;
+   }
+
+   public Customer withoutOrders(Object... value)
+   {
+      if (this.orders == null || value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withoutOrders(i);
+            }
+         }
+         else if (item instanceof Order)
+         {
+            if (this.orders.contains(item))
+            {
+               this.orders.remove((Order)item);
+               ((Order)item).setCustomer(null);
+               firePropertyChange("orders", item, null);
+            }
+         }
+      }
+      return this;
    }
 
 }

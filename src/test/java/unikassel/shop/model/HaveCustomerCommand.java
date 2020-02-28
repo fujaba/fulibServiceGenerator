@@ -109,11 +109,11 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, Custo
    }
 
 @Override
-   public Customer run(StoreEditor sme) { 
-      if ( ! preCheck(sme)) {
-         return sme.getCustomers().get(this.getId());
+   public Customer run(StoreEditor editor) { 
+      if ( ! preCheck(editor)) {
+         return editor.getCustomers().get(this.getId());
       }
-      Customer dataObject = this.getOrCreate(sme);
+      Customer dataObject = this.getOrCreate(editor);
       dataObject.setName(this.getName());
       dataObject.setAddress(this.getAddress());
 

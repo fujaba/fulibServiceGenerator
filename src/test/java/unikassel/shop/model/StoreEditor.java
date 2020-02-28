@@ -195,6 +195,46 @@ public class StoreEditor
       return this;
    }
 
+   public static final String PROPERTY_orders = "orders";
+
+   private Map<String, Order> orders = new LinkedHashMap<>();
+
+   public Map<String, Order> getOrders()
+   {
+      return orders;
+   }
+
+   public StoreEditor setOrders(Map<String, Order> value)
+   {
+      if (value != this.orders)
+      {
+         Map<String, Order> oldValue = this.orders;
+         this.orders = value;
+         firePropertyChange("orders", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_orderPositions = "orderPositions";
+
+   private Map<String, OrderPosition> orderPositions = new LinkedHashMap<>();
+
+   public Map<String, OrderPosition> getOrderPositions()
+   {
+      return orderPositions;
+   }
+
+   public StoreEditor setOrderPositions(Map<String, OrderPosition> value)
+   {
+      if (value != this.orderPositions)
+      {
+         Map<String, OrderPosition> oldValue = this.orderPositions;
+         this.orderPositions = value;
+         firePropertyChange("orderPositions", oldValue, value);
+      }
+      return this;
+   }
+
    public void loadYaml(String yamlString) { 
       YamlIdMap idMap;
       idMap = new YamlIdMap("unikassel.shop.model");
@@ -236,6 +276,28 @@ public class StoreEditor
       Offer newObject = new Offer();
       newObject.setId(id);
       this.getOffers().put(id, newObject);
+      return newObject;
+   }
+
+   public Order getOrCreateOrder(String id) { 
+      Order oldObject = this.getOrders().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      Order newObject = new Order();
+      newObject.setId(id);
+      this.getOrders().put(id, newObject);
+      return newObject;
+   }
+
+   public OrderPosition getOrCreateOrderPosition(String id) { 
+      OrderPosition oldObject = this.getOrderPositions().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      OrderPosition newObject = new OrderPosition();
+      newObject.setId(id);
+      this.getOrderPositions().put(id, newObject);
       return newObject;
    }
 

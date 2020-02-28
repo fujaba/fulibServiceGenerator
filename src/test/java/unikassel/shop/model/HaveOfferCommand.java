@@ -122,24 +122,24 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, Offer> // n
    {
       StringBuilder result = new StringBuilder();
 
+      result.append(" ").append(this.getProduct());
       result.append(" ").append(this.getStartTime());
       result.append(" ").append(this.getEndTime());
-      result.append(" ").append(this.getProduct());
 
 
       return result.substring(1);
    }
 
    @Override
-   public Offer run(StoreEditor sme) { 
-      if ( ! preCheck(sme)) {
-         return sme.getOffers().get(this.getId());
+   public Offer run(StoreEditor editor) { 
+      if ( ! preCheck(editor)) {
+         return editor.getOffers().get(this.getId());
       }
-      Offer dataObject = this.getOrCreate(sme);
+      Offer dataObject = this.getOrCreate(editor);
       dataObject.setPrice(this.getPrice());
       dataObject.setStartTime(this.getStartTime());
       dataObject.setEndTime(this.getEndTime());
-      Product product = new HaveProductCommand().setId(this.getProduct()).getOrCreate(sme);
+      Product product = editor.getOrCreateProduct(this.getProduct());
       dataObject.setProduct(product);
 
       return dataObject;

@@ -39,10 +39,10 @@ preCheck(dataClazz) ::= <<
 
 
 run(dataClazz, attributes) ::= <<
-      if ( ! preCheck(sme)) {
-         return sme.get<dataClazz>s().get(this.getId());
+      if ( ! preCheck(editor)) {
+         return editor.get<dataClazz>s().get(this.getId());
       }
-      <dataClazz> dataObject = this.getOrCreate(sme);
+      <dataClazz> dataObject = this.getOrCreate(editor);
       <attributes>
       return dataObject;
 

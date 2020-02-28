@@ -29,13 +29,20 @@ public class GenModel
 
       Clazz offer = me.haveDataClass("Offer");
       me.haveAttribute(offer, "price", DOUBLE);
+      me.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
       me.haveAttribute(offer, "startTime", STRING);
       me.haveAttribute(offer, "endTime", STRING);
 
-      Clazz removeCommand = me.haveCommand("RemoveCommand");
-      mm.haveAttribute(removeCommand, "targetClassName", STRING);
+      Clazz order = me.haveDataClass("Order");
+      me.haveAssociationOwnedByDataClass(order, "customer", ONE, "orders", MANY, customer);
+      me.haveAttribute(order, "date", STRING);
+      me.haveAttribute(order, "state", STRING);
 
-      me.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
+      Clazz orderPosition = me.haveDataClass("OrderPosition");
+      me.haveAssociationOwnedByDataClass(orderPosition, "order", ONE, "positions", MANY, order);
+      me.haveAssociationOwnedByDataClass(orderPosition, "offer", ONE, "orders", MANY, offer);
+      me.haveAttribute(orderPosition, "amount", DOUBLE);
+      me.haveAttribute(orderPosition, "state", STRING);
 
       me.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
 

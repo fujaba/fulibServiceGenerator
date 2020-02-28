@@ -231,7 +231,7 @@ public class ServiceModelEditor
 
    private void haveDataCommandRunMethod(Clazz dataClass, String dataClassName, Clazz commandClass)
    {
-      String declaration = String.format("public %s run(%s sme)", dataClassName, this.editor.getName());
+      String declaration = String.format("public %s run(%s editor)", dataClassName, this.editor.getName());
 
       String attributes = "";
 
@@ -246,7 +246,7 @@ public class ServiceModelEditor
       Collection<String> roleNames = dataclassAttachedRoles.get(dataClass);
       if (roleNames != null) {
          for (String attr : roleNames) {
-            String getObject = String.format("%2$s %1$s = new Have%2$sCommand().setId(this.get%2$s()).getOrCreate(sme);\n", attr, StrUtil.cap(attr));
+            String getObject = String.format("%2$s %1$s = editor.getOrCreate%2$s(this.get%2$s());\n", attr, StrUtil.cap(attr));
             // Product product ;
             attributes += getObject;
             String oneAttr = String.format("dataObject.set%1$s(%2$s);\n", StrUtil.cap(attr), attr);

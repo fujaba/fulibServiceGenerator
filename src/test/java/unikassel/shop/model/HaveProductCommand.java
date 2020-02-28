@@ -88,11 +88,11 @@ public class HaveProductCommand extends ModelCommand<HaveProductCommand, Product
    }
 
    @Override
-   public Product run(StoreEditor sme) { 
-      if ( ! preCheck(sme)) {
-         return sme.getProducts().get(this.getId());
+   public Product run(StoreEditor editor) { 
+      if ( ! preCheck(editor)) {
+         return editor.getProducts().get(this.getId());
       }
-      Product dataObject = this.getOrCreate(sme);
+      Product dataObject = this.getOrCreate(editor);
       dataObject.setDescription(this.getDescription());
 
       return dataObject;

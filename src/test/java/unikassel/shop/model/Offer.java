@@ -181,6 +181,83 @@ public class Offer
    {
       this.setProduct(null);
 
+      this.withoutOrders(this.getOrders().clone());
+
+
+   }
+
+   public static final java.util.ArrayList<OrderPosition> EMPTY_orders = new java.util.ArrayList<OrderPosition>()
+   { @Override public boolean add(OrderPosition value){ throw new UnsupportedOperationException("No direct add! Use xy.withOrders(obj)"); }};
+
+   public static final String PROPERTY_orders = "orders";
+
+   private java.util.ArrayList<OrderPosition> orders = null;
+
+   public java.util.ArrayList<OrderPosition> getOrders()
+   {
+      if (this.orders == null)
+      {
+         return EMPTY_orders;
+      }
+
+      return this.orders;
+   }
+
+   public Offer withOrders(Object... value)
+   {
+      if(value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withOrders(i);
+            }
+         }
+         else if (item instanceof OrderPosition)
+         {
+            if (this.orders == null)
+            {
+               this.orders = new java.util.ArrayList<OrderPosition>();
+            }
+            if ( ! this.orders.contains(item))
+            {
+               this.orders.add((OrderPosition)item);
+               ((OrderPosition)item).setOffer(this);
+               firePropertyChange("orders", null, item);
+            }
+         }
+         else throw new IllegalArgumentException();
+      }
+      return this;
+   }
+
+   public Offer withoutOrders(Object... value)
+   {
+      if (this.orders == null || value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withoutOrders(i);
+            }
+         }
+         else if (item instanceof OrderPosition)
+         {
+            if (this.orders.contains(item))
+            {
+               this.orders.remove((OrderPosition)item);
+               ((OrderPosition)item).setOffer(null);
+               firePropertyChange("orders", item, null);
+            }
+         }
+      }
+      return this;
    }
 
 }
