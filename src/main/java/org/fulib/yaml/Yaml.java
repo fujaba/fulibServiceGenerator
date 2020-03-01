@@ -1,17 +1,10 @@
 package org.fulib.yaml;
 
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Simple yaml encoding
@@ -33,20 +26,20 @@ public class Yaml
    private String yaml;
    private String userId = null;
    private boolean decodingPropertyChange;
-   private LinkedHashMap<String, Object> objIdMap = new LinkedHashMap<>();
-   private LinkedHashMap<Object, String> idObjMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, Object> idToObjectMap = new LinkedHashMap<>();
+   private LinkedHashMap<Object, String> objectToIdMap = new LinkedHashMap<>();
    private int maxUsedIdNum = 1;
    private Yamler yamler = new Yamler();
    private HashMap<String, String> attrTimeStamps = new HashMap<>();
 
-   public LinkedHashMap<String, Object> getObjIdMap()
+   public LinkedHashMap<String, Object> getIdToObjectMap()
    {
-      return objIdMap;
+      return idToObjectMap;
    }
 
-   public LinkedHashMap<Object, String> getIdObjMap()
+   public LinkedHashMap<Object, String> getObjectToIdMap()
    {
-      return idObjMap;
+      return objectToIdMap;
    }
 
    public HashMap<String, String> getAttrTimeStamps()
@@ -76,362 +69,59 @@ public class Yaml
    }
 
 
-   public Collection<Object> decode(String yaml)
+   public LinkedHashMap<String, Object> decode(String yaml)
    {
-      decodingPropertyChange = false;
-      yamlChangeText = null;
-
       this.yaml = yaml;
       Object root = null;
-      ArrayList<Object> resultList = new ArrayList<>();
+      yamler = new Yamler();
+      ArrayList<LinkedHashMap<String, String>> hashMaps = yamler.decodeList(this.yaml);
+      createObjects(hashMaps);
+      fillAttributes(hashMaps);
 
-      yamler = new Yamler(yaml);
-
-      if (!yamler.getCurrentToken().equals("-")) {
-         throw new RuntimeException("yaml string does not start with '-");
-      }
-
-      parseObjectIds(resultList);
-
-      yamler = new Yamler(yaml);
-
-      parseObjectAttrs();
-
-      // reset property change decoding
-      this.setDecodingPropertyChange(false);
-
-      yamlChangeText = null;
-
-      return resultList;
+      return idToObjectMap;
    }
 
-
-   private void parseObjectAttrs()
+   private void fillAttributes(ArrayList<LinkedHashMap<String, String>> hashMaps)
    {
-      while (yamler.getCurrentToken() != null) {
-         if (!"-".equals(yamler.getCurrentToken())) {
-            yamler.printError("'-' expected");
-            yamler.nextToken();
+      for (LinkedHashMap<String, String> map : hashMaps) {
+         fillAttributes(map);
+      }
+   }
+
+   private void fillAttributes(LinkedHashMap<String, String> map)
+   {
+      String id = map.get("id");
+      Object currentObject = idToObjectMap.get(id);
+      Reflector reflector = reflectorMap.getReflector(currentObject);
+      for (Entry<String, String> entry : map.entrySet()) {
+         String key = entry.getKey();
+         String value = entry.getValue();
+
+         if (key.equals("id") || key.equals("class")) {
             continue;
          }
 
-         String key = yamler.nextToken();
-
-         if (key.endsWith(":")) {
-            // usual
-            parseUsualObjectAttrs();
-         }
-         else {
-            parseObjectTableAttrs();
-         }
-      }
-
-   }
-
-   private void parseObjectTableAttrs()
-   {
-      // skip column names
-      String className = yamler.getCurrentToken();
-
-      Reflector creator = reflectorMap.getReflector(className);
-      yamler.nextToken();
-
-      ArrayList<String> colNameList = new ArrayList<String>();
-
-      while (yamler.getCurrentToken() != null && yamler.getLookAheadToken() != null && yamler.getLookAheadToken().endsWith(":")) {
-         String colName = yamler.stripColon(yamler.getCurrentToken());
-         colNameList.add(colName);
-         yamler.nextToken();
-      }
-
-      while (yamler.getCurrentToken() != null && !"-".equals(yamler.getCurrentToken())) {
-         String objectId = yamler.stripColon(yamler.getCurrentToken());
-         yamler.nextToken();
-
-         Object obj = objIdMap.get(objectId);
-
-         // column values
-         int colNum = 0;
-         while (yamler.getCurrentToken() != null && !yamler.getCurrentToken().endsWith(":") && !"-".equals(yamler.getCurrentToken())) {
-            String attrName = colNameList.get(colNum);
-
-            if (yamler.getCurrentToken().startsWith("[")) {
-               String value = yamler.getCurrentToken().substring(1);
-               if (value.trim().equals("")) {
-                  value = yamler.nextToken();
-               }
-               setValue(creator, obj, attrName, value);
-
-               while (yamler.getCurrentToken() != null && !yamler.getCurrentToken().endsWith("]")) {
-                  yamler.nextToken();
-                  value = yamler.getCurrentToken();
-                  if (yamler.getCurrentToken().endsWith("]")) {
-                     value = yamler.getCurrentToken().substring(0, yamler.getCurrentToken().length() - 1);
-                  }
-                  if (!value.trim().equals("")) {
-                     setValue(creator, obj, attrName, value);
-                  }
-               }
-            }
-            else {
-               setValue(creator, obj, attrName, yamler.getCurrentToken());
-            }
-            colNum++;
-            yamler.nextToken();
-         }
+         reflector.setValue(currentObject, key, value, null);
       }
    }
 
-   private void parseUsualObjectAttrs()
+   private void createObjects(ArrayList<LinkedHashMap<String, String>> hashMaps)
    {
-      String objectId = yamler.stripColon(yamler.getCurrentToken());
-      String className = yamler.nextToken();
-      yamler.nextToken();
-
-      if (className.endsWith(".remove")) {
-         objIdMap.remove(objectId);
-
-         // skip time stamp, if necessary
-         while (yamler.getCurrentToken() != null
-               && !yamler.getCurrentToken().equals("-")) {
-            yamler.nextToken();
-         }
-         return;
-      }
-
-      if (className.equals(".Map")) {
-         YamlObject yamlObj = (YamlObject) objIdMap.get(objectId);
-         LinkedHashMap<String, Object> map = yamlObj.getMap();
-
-         while (yamler.getCurrentToken() != null && !yamler.getCurrentToken().equals("-")) {
-            String attrName = yamler.stripColon(yamler.getCurrentToken());
-            yamler.nextToken();
-
-            if (map == null) {
-               // no object created by parseObjectIds. Object has been removed.
-               // ignore attr changes
-               while (yamler.getCurrentToken() != null
-                     && !yamler.getCurrentToken().endsWith(":")
-                     && !yamler.getCurrentToken().equals("-")) {
-                  yamler.nextToken();
-               }
-               continue;
-            }
-
-            // many values
-            ArrayList<Object> previousValue = null;
-            while (yamler.getCurrentToken() != null
-                  && !yamler.getCurrentToken().endsWith(":")
-                  && !yamler.getCurrentToken().equals("-")) {
-               String attrValue = yamler.getCurrentToken();
-
-               Object target = this.objIdMap.get(attrValue);
-
-               if (target != null) {
-                  if (previousValue != null) {
-                     previousValue.add(target);
-                     map.put(attrName, previousValue);
-                  }
-                  else {
-                     map.put(attrName, target);
-                     previousValue = new ArrayList<>();
-                     previousValue.add(target);
-                  }
-               }
-               else {
-                  if (previousValue != null) {
-                     previousValue.add(attrValue);
-                     map.put(attrName, previousValue);
-                  }
-                  else {
-                     map.put(attrName, attrValue);
-                     previousValue = new ArrayList<>();
-                     previousValue.add(attrValue);
-                  }
-               }
-
-               yamler.nextToken();
-            }
-         }
-      }
-      else {
-         Reflector reflector = reflectorMap.getReflector(className);
-
-         Object obj = objIdMap.get(objectId);
-
-         // read attributes
-         while (yamler.getCurrentToken() != null && !yamler.getCurrentToken().equals("-")) {
-            String attrName = yamler.stripColon(yamler.getCurrentToken());
-            yamler.nextToken();
-
-            if (obj == null) {
-               // no object created by parseObjectIds. Object has been removed.
-               // ignore attr changes
-               while (yamler.getCurrentToken() != null
-                     && !yamler.getCurrentToken().endsWith(":")
-                     && !yamler.getCurrentToken().equals("-")) {
-                  yamler.nextToken();
-               }
-               continue;
-            }
-
-            // many values
-            while (yamler.getCurrentToken() != null
-                  && !yamler.getCurrentToken().endsWith(":")
-                  && !yamler.getCurrentToken().equals("-")) {
-               String attrValue = yamler.getCurrentToken();
-
-               if (yamler.getLookAheadToken() != null && yamler.getLookAheadToken().endsWith(".time:")) {
-                  String propWithTime = yamler.nextToken();
-                  String newTimeStamp = yamler.nextToken();
-                  String oldTimeStamp = attrTimeStamps.get(objectId + "." + attrName);
-
-                  if (oldTimeStamp == null || oldTimeStamp.compareTo(newTimeStamp) <= 0) {
-                     this.setDecodingPropertyChange(true);
-
-                     if (yamlChangeText == null) {
-                        yamlChangeText = yaml;
-                     }
-
-                     setValue(reflector, obj, attrName, attrValue);
-                     attrTimeStamps.put(objectId + "." + attrName, newTimeStamp);
-                  }
-               }
-               else {
-                  setValue(reflector, obj, attrName, attrValue);
-               }
-
-               yamler.nextToken();
-            }
-         }
+      for (LinkedHashMap<String, String> map : hashMaps) {
+         createOneObject(map);
       }
    }
 
-   private void setValue(Reflector reflector, Object obj, String attrName, String attrValue)
+   private void createOneObject(LinkedHashMap<String, String> map)
    {
-      String type = "new";
+      String id = map.get("id");
+      String clazz = map.get("class");
 
-      if (attrName.endsWith(".remove")) {
-         attrName = attrName.substring(0, attrName.length() - ".remove".length());
+      Reflector reflector = reflectorMap.getReflector(clazz);
+      Object newObject = reflector.newInstance();
+      reflector.setValue(newObject, "id", id, "String");
 
-         if (reflector.getValue(obj, attrName) instanceof Collection) {
-            type = REMOVE;
-         }
-         else {
-            attrValue = null;
-         }
-      }
-
-      try {
-         Object setResult = reflector.setValue(obj, attrName, attrValue, type);
-
-         if (setResult == null) {
-            Object targetObj = objIdMap.get(attrValue);
-            if (targetObj != null) {
-               reflector.setValue(obj, attrName, targetObj, type);
-            }
-         }
-      }
-      catch (Exception e) {
-         // maybe a node
-         Object targetObj = objIdMap.get(attrValue);
-         if (targetObj != null) {
-            reflector.setValue(obj, attrName, targetObj, type);
-         }
-      }
-   }
-
-   private void parseObjectIds(Collection resultList)
-   {
-      while (yamler.getCurrentToken() != null) {
-         if (!"-".equals(yamler.getCurrentToken())) {
-            yamler.printError("'-' expected");
-            yamler.nextToken();
-            continue;
-         }
-
-         String key = yamler.nextToken();
-
-         if (key.endsWith(":")) {
-            // usual
-            Object now = parseUsualObjectId();
-            resultList.add(now);
-            continue;
-         }
-         else {
-            yamler.printError("':' expected");
-            yamler.nextToken();
-            continue;
-         }
-      }
-   }
-
-
-   private Object parseUsualObjectId()
-   {
-      String objectId = yamler.stripColon(yamler.getCurrentToken());
-      int pos = objectId.lastIndexOf('.');
-      String numPart = objectId.substring(pos + 2);
-      int objectNum = 0;
-
-      try {
-         objectNum = Integer.parseInt(numPart);
-      }
-      catch (NumberFormatException e) {
-         objectNum = objIdMap.size() + 1;
-      }
-
-      if (objectNum > maxUsedIdNum) {
-         maxUsedIdNum = objectNum;
-      }
-
-      String className = yamler.nextToken();
-
-      Object obj = objIdMap.get(objectId);
-
-      String userId = null;
-
-      // skip attributes
-      while (yamler.getCurrentToken() != null && !yamler.getCurrentToken().equals("-")) {
-         String token = yamler.nextToken();
-         if (token != null && token.endsWith(".time:")) {
-            token = yamler.nextToken();
-
-            userId = token.substring(token.lastIndexOf('.') + 1);
-         }
-      }
-
-      boolean foreignChange = false;
-
-      if (userId != null) {
-         int dotIndex = objectId.indexOf('.');
-
-         if (dotIndex > 0) {
-            String ownerId = objectId.substring(0, dotIndex);
-            foreignChange = !userId.equals(ownerId);
-         }
-      }
-
-      if (obj == null && !className.endsWith(".remove") && !foreignChange) {
-         if (className.equals(".Map")) {
-            obj = new YamlObject();
-            ((YamlObject) obj).getMap().put(".id", objectId);
-         }
-         else {
-            Reflector reflector = reflectorMap.getReflector(className);
-            obj = reflector.newInstance();
-         }
-
-         objIdMap.put(objectId, obj);
-         idObjMap.put(obj, objectId);
-      }
-
-      return obj;
-   }
-
-   private Object parseObjList(String key, String second)
-   {
-      return null;
+      idToObjectMap.put(id, newObject);
    }
 
 
@@ -448,7 +138,7 @@ public class Yaml
 
    public Object getObject(String objId)
    {
-      return objIdMap.get(objId);
+      return idToObjectMap.get(objId);
    }
 
    private String doEncode(Object... rootObjList)
@@ -459,14 +149,14 @@ public class Yaml
 
       collectObjects(rootObjList);
 
-      for (Entry<String, Object> entry : objIdMap.entrySet()) {
+      for (Entry<String, Object> entry : idToObjectMap.entrySet()) {
          String key = entry.getKey();
          Object obj = entry.getValue();
          String className = obj.getClass().getSimpleName();
 
 
-         buf.append("- id:   \t").append(key).append("\n");
-         buf.append("  type: \t").append(className).append("\n");
+         buf.append("- id:    \t").append(key).append("\n");
+         buf.append("  class: \t").append(className).append("\n");
 
          // attrs
          Reflector creator = getReflector(obj);
@@ -489,7 +179,7 @@ public class Yaml
 
                buf.append("  ").append(prop).append(": \t");
                for (Object valueObj : (Collection) value) {
-                  String valueKey = idObjMap.get(valueObj);
+                  String valueKey = objectToIdMap.get(valueObj);
                   buf.append(valueKey).append(" \t");
                }
                buf.append("\n");
@@ -498,7 +188,7 @@ public class Yaml
                continue;
             }
             else {
-               String valueKey = idObjMap.get(value);
+               String valueKey = objectToIdMap.get(value);
 
                if (valueKey != null) {
                   buf.append("  ").append(prop).append(": \t").append(valueKey).append("\n");
@@ -527,22 +217,6 @@ public class Yaml
       return buf.toString();
    }
 
-   public Yaml putNameObject(String name, Object object)
-   {
-
-      String oldKey = idObjMap.get(object);
-      if (oldKey != null) {
-         objIdMap.remove(oldKey);
-         idObjMap.remove(object);
-      }
-
-      collectObjects(object);
-
-      objIdMap.put(name, object);
-      idObjMap.put(object, name);
-
-      return this;
-   }
 
    public LinkedHashSet<Object> collectObjects(Object... rootObjList)
    {
@@ -575,7 +249,7 @@ public class Yaml
          collectedObjects.add(obj);
 
          // already known?
-         String key = idObjMap.get(obj);
+         String key = objectToIdMap.get(obj);
 
          if (key == null) {
             // add to map
@@ -619,104 +293,7 @@ public class Yaml
       return collectedObjects;
    }
 
-   private void encodePropertyChange(StringBuilder buf, Object obj)
-   {
-      PropertyChangeEvent event = (PropertyChangeEvent) obj;
-      obj = event.getSource();
-      String propertyName = event.getPropertyName();
-      Object value = event.getNewValue();
-      String className = obj.getClass().getSimpleName();
 
-      if (propertyName.equals(REMOVE_YOU)) {
-         // send - o42: C1.remove
-         //        remove.time: 2018-03-11T22:11:02.123+01:00
-         value = event.getOldValue();
-         String valueKey = getOrCreateKey(value);
-         buf.append("- ").append(valueKey).append(": \t").append(className).append(".remove\n");
-
-         if (userId != null) {
-            String now = "" + LocalDateTime.now() + "." + userId;
-            buf.append("  ").append(className).append(".remove.time: \t").append(now).append("\n");
-         }
-
-         // remove it from our id map
-         this.objIdMap.remove(valueKey);
-
-         return;
-      }
-
-      if (value == null) {
-         value = event.getOldValue();
-         propertyName = propertyName + ".remove";
-
-         if (value == null) {
-            // no old nor new value, do nothing
-            return;
-         }
-      }
-
-      encodeAttrValue(buf, obj, propertyName, value);
-   }
-
-   public void encodeAttrValue(StringBuilder buf, Object obj, String propertyName, Object value)
-   {
-      // already known?
-      String key = getOrCreateKey(obj);
-      String className = obj.getClass().getSimpleName();
-      buf.append("- ").append(key).append(": \t").append(className).append("\n");
-      Class valueClass = value.getClass();
-
-      if (valueClass.getName().startsWith("java.lang.") || valueClass == String.class) {
-         buf.append("  ").append(propertyName).append(": \t").append(yamler.encapsulate(value.toString())).append("\n");
-         if (userId != null) {
-            String now = "" + LocalDateTime.now() + "." + userId;
-            buf.append("  ").append(propertyName).append(".time: \t").append(now).append("\n");
-            attrTimeStamps.put(key + "." + propertyName, now);
-         }
-      }
-      else {
-         // value is an object
-         String valueKey = getOrCreateKey(value);
-
-         buf.append("  ").append(propertyName).append(": \t").append(valueKey).append("\n");
-         if (userId != null) {
-            // add timestamp only for to-one assocs
-            Reflector reflector = reflectorMap.getReflector(obj);
-            String fieldName = propertyName;
-
-            if (propertyName.endsWith(".remove")) {
-               fieldName = propertyName.substring(0, propertyName.lastIndexOf('.'));
-            }
-
-            Object fieldValue = reflector.getValue(obj, fieldName);
-
-            if (fieldValue == null || !(fieldValue instanceof Collection)) {
-               String now = "" + LocalDateTime.now() + "." + userId;
-               buf.append("  ").append(propertyName).append(".time: \t").append(now).append("\n");
-               attrTimeStamps.put(key + "." + propertyName, now);
-            }
-            else if (fieldValue != null && fieldValue instanceof Collection) {
-               String now = "" + LocalDateTime.now() + "." + userId;
-               buf.append("  ").append(propertyName).append('.').append(valueKey).append(".time: \t").append(now).append("\n");
-               attrTimeStamps.put(key + "." + propertyName + "." + valueKey, now);
-            }
-         }
-
-         if (value != null && !propertyName.endsWith(".remove")) {
-            buf.append("- ").append(valueKey).append(": \t").append(valueClass.getSimpleName()).append("\n");
-         }
-      }
-   }
-
-   public String getOrCreateKey(Object obj)
-   {
-      String key = idObjMap.get(obj);
-
-      if (key == null) {
-         key = addToObjIdMap(obj);
-      }
-      return key;
-   }
 
    private String addToObjIdMap(Object obj)
    {
@@ -760,7 +337,7 @@ public class Yaml
             key = key.substring(0, 1).toLowerCase() + key.substring(1);
          }
 
-         if (objIdMap.get(key) != null) {
+         if (idToObjectMap.get(key) != null) {
             // key is already in use
             maxUsedIdNum++;
             key += maxUsedIdNum;
@@ -772,79 +349,12 @@ public class Yaml
          }
 
       }
-      objIdMap.put(key, obj);
-      idObjMap.put(obj, key);
+      idToObjectMap.put(key, obj);
+      objectToIdMap.put(obj, key);
 
       return key;
    }
 
-   public Yaml withUserId(String userId)
-   {
-      this.userId = userId;
-      return this;
-   }
 
-   public boolean isDecodingPropertyChange()
-   {
-      return decodingPropertyChange;
-   }
-
-   public void setDecodingPropertyChange(boolean decodingPropertyChange)
-   {
-      this.decodingPropertyChange = decodingPropertyChange;
-   }
-
-   private String yamlChangeText = null;
-
-   public String getYamlChange()
-   {
-      String result = yamlChangeText;
-      yamlChangeText = "";
-      return result;
-   }
-
-   public String getLastTimeStamps()
-   {
-      LinkedHashMap<String, String> user2TimeStampMap = getLastTimeStampMap();
-
-      StringBuilder buf = new StringBuilder();
-      for (Entry<String, String> e : user2TimeStampMap.entrySet()) {
-         buf.append(e.getValue()).append(" ");
-      }
-
-      return buf.toString();
-   }
-
-   public LinkedHashMap<String, String> getLastTimeStampMap(String lastTimeStamps)
-   {
-      LinkedHashMap<String, String> user2TimeStampMap = new LinkedHashMap<String, String>();
-
-      String[] split = lastTimeStamps.split("\\s+");
-
-      for (String s : split) {
-         int pos = s.lastIndexOf('.');
-         String user = s.substring(pos + 1);
-         user2TimeStampMap.put(user, s);
-      }
-
-      return user2TimeStampMap;
-   }
-
-   public LinkedHashMap<String, String> getLastTimeStampMap()
-   {
-      LinkedHashMap<String, String> user2TimeStampMap = new LinkedHashMap<String, String>();
-
-      for (Entry<String, String> e : attrTimeStamps.entrySet()) {
-         String timeStamp = e.getValue();
-         int pos = timeStamp.lastIndexOf('.');
-         String userName = timeStamp.substring(pos + 1);
-         String oldTimeStamp = user2TimeStampMap.get(userName);
-
-         if (oldTimeStamp == null || oldTimeStamp.compareTo(timeStamp) < 0) {
-            user2TimeStampMap.put(userName, timeStamp);
-         }
-      }
-      return user2TimeStampMap;
-   }
 
 }

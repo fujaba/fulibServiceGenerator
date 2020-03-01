@@ -239,7 +239,7 @@ public class StoreEditor
       Yaml idMap;
       idMap = new Yaml("unikassel.shop.model");
       Object decode = idMap.decode(yamlString);
-      Collection values = idMap.getObjIdMap().values();
+      Collection values = idMap.getIdToObjectMap().values();
       for (Object value : values) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);

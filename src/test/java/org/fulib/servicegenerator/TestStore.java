@@ -6,6 +6,7 @@ import org.junit.Test;
 import unikassel.shop.model.*;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -21,12 +22,21 @@ public class TestStore
             .setDescription("Cool T-Shirt")
             .run(se);
       new HaveProductCommand().setId("hoodie").setTime("09:02").setDescription("Hoodie XL").run(se);
-      
+
       String yamlString = Yaml.encode(se.getActiveCommands());
 
       System.out.println(yamlString);
 
       Assert.assertThat(yamlString.startsWith("- "), is(true));
+      Assert.assertThat(yamlString.contains("hoodie"), is(true));
+
+      LinkedHashMap<String, Object> newObjects = Yaml.forPackage(se.getClass().getPackage().getName())
+            .decode(yamlString);
+      Assert.assertThat(newObjects.size(), is(2));
+
+      HaveProductCommand tShirtCmd = (HaveProductCommand) newObjects.get("tShirt");
+      Assert.assertThat(tShirtCmd.getTime(), is("09:01"));
+
    }
 
    @Test
