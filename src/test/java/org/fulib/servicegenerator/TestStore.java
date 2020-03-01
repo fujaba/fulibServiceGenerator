@@ -1,5 +1,6 @@
 package org.fulib.servicegenerator;
 
+import org.fulib.FulibTools;
 import org.fulib.yaml.Yaml;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,13 +10,48 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 
 public class TestStore
 {
    @Test
-   public void testNewYaml()
+   public void testNewYamlForDataWithAssocs()
+   {
+      Product tShirt = new Product().setId("tShirt").setDescription("Shirt 42");
+      Product hoodie = new Product().setId("hoodie").setDescription("Uni Kassel Hoodie");
+      Customer alice = new Customer().setId("alice").setName("Alice A.").setAddress("Wonderland 1");
+      Customer bob = new Customer().setId("bob").setName("Bob A.").setAddress("Wonderland 1");
+
+      Offer marchSpecial = new Offer().setId("marchSpecial").setProduct(tShirt).setPrice(19.99)
+            .setStartTime("2020.03.01").setEndTime("2020.03.31");
+      Order aliceShirt = new Order().setId("aliceShirtOrder").setCustomer(alice).setDate("2020.03.02")
+            .setState("just ordered");
+
+      alice.withProducts(tShirt, hoodie);
+      bob.withProducts(tShirt);
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/yamlObjectsOriginals.svg", alice);
+
+      String yamlString = Yaml.encode(tShirt);
+
+      Assert.assertThat(yamlString.contains("just ordered"), is(true));
+      Assert.assertThat(yamlString, containsString("Uni Kassel Hoodie"));
+
+      LinkedHashMap<String, Object> resultMap = Yaml.forPackage(tShirt.getClass().getPackage().getName())
+            .decode(yamlString);
+      Customer alice2 = (Customer) resultMap.get("alice");
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/yamlObjectsPastYaml.svg", alice2);
+
+      Assert.assertThat(alice2, is(not(alice)));
+      Assert.assertThat(alice2.getProducts().size(), is(2));
+      // seems to work.
+   }
+
+
+
+   @Test
+   public void testNewYaml4Commands()
    {
       StoreEditor se = new StoreEditor();
       Product tShirt = new HaveProductCommand().setId("tShirt").setTime("09:01")

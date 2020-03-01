@@ -11,21 +11,19 @@ import java.util.Map.Entry;
  */
 public class Yaml
 {
-   public static String encode(Object... objects) {
+   public static String encode(Object... objects)
+   {
       return new Yaml().doEncode(objects);
    }
 
-   public static Yaml forPackage(String... packageNames) {
+   public static Yaml forPackage(String... packageNames)
+   {
       return new Yaml(packageNames);
    }
 
 
-   private static final String REMOVE = "remove";
-   private static final String REMOVE_YOU = "removeYou";
    private ArrayList<String> packageNames;
    private String yaml;
-   private String userId = null;
-   private boolean decodingPropertyChange;
    private LinkedHashMap<String, Object> idToObjectMap = new LinkedHashMap<>();
    private LinkedHashMap<Object, String> objectToIdMap = new LinkedHashMap<>();
    private int maxUsedIdNum = 1;
@@ -42,14 +40,11 @@ public class Yaml
       return objectToIdMap;
    }
 
-   public HashMap<String, String> getAttrTimeStamps()
-   {
-      return attrTimeStamps;
-   }
+
 
 
    /**
-
+    *
     */
    private Yaml()
    {
@@ -73,12 +68,39 @@ public class Yaml
    {
       this.yaml = yaml;
       Object root = null;
-      yamler = new Yamler();
-      ArrayList<LinkedHashMap<String, String>> hashMaps = yamler.decodeList(this.yaml);
+      yamler = new Yamler(yaml);
+      ArrayList<LinkedHashMap<String, String>> hashMaps = decodeList();
       createObjects(hashMaps);
       fillAttributes(hashMaps);
 
       return idToObjectMap;
+   }
+
+   public ArrayList<LinkedHashMap<String, String>> decodeList()
+   {
+      ArrayList<LinkedHashMap<String, String>> result = new ArrayList<>();
+
+      while (yamler.getCurrentToken() != null && yamler.getCurrentToken().equals("-")) {
+         LinkedHashMap<String, String> map = new LinkedHashMap<>();
+         result.add(map);
+         yamler.nextToken();
+         while (yamler.getCurrentToken() != null && yamler.getCurrentToken().endsWith(":")) {
+            String key = yamler.stripColon(yamler.getCurrentToken());
+            yamler.nextToken();
+            String value = yamler.getCurrentToken();
+            yamler.nextToken();
+            while (yamler.getCurrentToken() != null
+                  && !yamler.getCurrentToken().endsWith(":")
+                  && !yamler.getCurrentToken().equals("-")
+            ) {
+               value += " " + yamler.getCurrentToken();
+               yamler.nextToken();
+            }
+            map.put(key, value);
+         }
+      }
+
+      return result;
    }
 
    private void fillAttributes(ArrayList<LinkedHashMap<String, String>> hashMaps)
@@ -101,7 +123,22 @@ public class Yaml
             continue;
          }
 
-         reflector.setValue(currentObject, key, value, null);
+         setValue(reflector, currentObject, key, value);
+      }
+   }
+
+   private void setValue(Reflector reflector, Object currentObject, String key, String value)
+   {
+      Object returnValue = reflector.setValue(currentObject, key, value, null);
+      if (returnValue == null) {
+         // maybe a list of ids
+         String[] split = value.split(" ");
+         for (String s : split) {
+            Object objectValue = idToObjectMap.get(s);
+            if (objectValue != null) {
+               reflector.setValue(currentObject, key, objectValue, null);
+            }
+         }
       }
    }
 
@@ -199,16 +236,6 @@ public class Yaml
                   }
                   buf.append("  ").append(prop).append(": \t").append(value).append("\n");
                }
-
-               // add time stamp?
-               if (userId != null) {
-                  String timeKey = key + "." + prop;
-                  String timeStamp = attrTimeStamps.get(timeKey);
-
-                  if (timeStamp != null) {
-                     buf.append("  ").append(prop).append(".time: \t").append(timeStamp).append("\n");
-                  }
-               }
             }
          }
          buf.append("\n");
@@ -294,7 +321,6 @@ public class Yaml
    }
 
 
-
    private String addToObjIdMap(Object obj)
    {
       String className = obj.getClass().getSimpleName();
@@ -342,19 +368,13 @@ public class Yaml
             maxUsedIdNum++;
             key += maxUsedIdNum;
          }
-
-         if (maxUsedIdNum > 1 && userId != null) {
-            // all but the first get a userId prefix
-            key = userId + "." + key;
-         }
-
       }
+
       idToObjectMap.put(key, obj);
       objectToIdMap.put(obj, key);
 
       return key;
    }
-
 
 
 }
