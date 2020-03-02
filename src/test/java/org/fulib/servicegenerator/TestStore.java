@@ -34,17 +34,22 @@ public class TestStore
 
       String yamlString = Yaml.encode(tShirt);
 
+      System.out.println(yamlString);
+
       Assert.assertThat(yamlString.contains("just ordered"), is(true));
       Assert.assertThat(yamlString, containsString("Uni Kassel Hoodie"));
 
       LinkedHashMap<String, Object> resultMap = Yaml.forPackage(tShirt.getClass().getPackage().getName())
             .decode(yamlString);
       Customer alice2 = (Customer) resultMap.get("alice");
+      Product tShirt2 = (Product) resultMap.get("tShirt");
 
       FulibTools.objectDiagrams().dumpSVG("tmp/yamlObjectsPastYaml.svg", alice2);
 
       Assert.assertThat(alice2, is(not(alice)));
       Assert.assertThat(alice2.getProducts().size(), is(2));
+      Assert.assertThat(tShirt2, is(not(tShirt)));
+      Assert.assertThat(tShirt2.getCustomers().size(), is(2));
       // seems to work.
    }
 
