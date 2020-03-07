@@ -22,6 +22,8 @@ dependencies {
 	compile 'org.fulib:fulibTools:1.1.0'
 	compile 'org.fulib:fulibMockups:+'
 	compile 'org.fulib:fulibTables:1.1.0'
+	compile "com.sparkjava:spark-core:2.8.0"
+	compile group: 'org.json', name: 'json', version: '20190722'
 	implementation group: 'org.antlr', name: 'ST4', version: '4.3'
 
 

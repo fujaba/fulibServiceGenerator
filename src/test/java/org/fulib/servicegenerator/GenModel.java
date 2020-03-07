@@ -46,6 +46,22 @@ public class GenModel
 
       me.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
 
+      Clazz storeApp = mm.haveClass("StoreApp");
+      mm.haveAttribute(storeApp, "id", STRING);
+      mm.haveAttribute(storeApp, "description", STRING);
+
+      Clazz page = mm.haveClass("Page");
+      mm.haveAttribute(page, "id", STRING);
+      mm.haveAttribute(page, "description", STRING);
+
+      Clazz line = mm.haveClass("Line");
+      mm.haveAttribute(line, "id", STRING);
+      mm.haveAttribute(line, "description", STRING);
+      mm.haveAttribute(line, "action", STRING);
+
+      mm.haveRole(storeApp, "content", page, ONE,"app", ONE);
+      mm.haveRole(page, "content", line, MANY,"page", ONE);
+
       Fulib.generator().generate(mm.getClassModel());
       FulibTools.classDiagrams().dumpSVG(mm.getClassModel(), "tmp/storeClasses.svg");
    }

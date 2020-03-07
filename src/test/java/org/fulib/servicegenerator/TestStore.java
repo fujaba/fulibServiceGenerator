@@ -185,10 +185,9 @@ public class TestStore
 
       Collection<ModelCommand> activeCommands = sme.getActiveCommands().values();
 
-      Yaml idMap = new Yaml(Product.class.getPackage().getName());
       Object[] objects = activeCommands.toArray();
       Assert.assertThat(objects.length, is(3));
-      String yamlString = idMap.encode(objects);
+      String yamlString = Yaml.encode(objects);
 
       // have another shop
       StoreEditor otherEditor = new StoreEditor();
