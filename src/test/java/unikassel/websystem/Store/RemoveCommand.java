@@ -1,14 +1,32 @@
-package unikassel.shop.model;
-import org.fulib.yaml.Reflector;
-import org.fulib.yaml.ReflectorMap;
-
+package unikassel.websystem.Store;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import org.fulib.yaml.Reflector;
+import org.fulib.yaml.ReflectorMap;
 import java.lang.reflect.Method;
-import java.util.Map;
 
-public class RemoveCommand extends ModelCommand<RemoveCommand, Object> // no fulib
+public class RemoveCommand extends ModelCommand  
 {
+
+   public static final String PROPERTY_targetClassName = "targetClassName";
+
+   private String targetClassName;
+
+   public String getTargetClassName()
+   {
+      return targetClassName;
+   }
+
+   public RemoveCommand setTargetClassName(String value)
+   {
+      if (value == null ? this.targetClassName != null : ! value.equals(this.targetClassName))
+      {
+         String oldValue = this.targetClassName;
+         this.targetClassName = value;
+         firePropertyChange("targetClassName", oldValue, value);
+      }
+      return this;
+   }
 
    protected PropertyChangeSupport listeners = null;
 
@@ -58,26 +76,6 @@ public class RemoveCommand extends ModelCommand<RemoveCommand, Object> // no ful
          listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
-   }
-
-   public static final String PROPERTY_targetClassName = "targetClassName";
-
-   private String targetClassName;
-
-   public String getTargetClassName()
-   {
-      return targetClassName;
-   }
-
-   public RemoveCommand setTargetClassName(String value)
-   {
-      if (value == null ? this.targetClassName != null : ! value.equals(this.targetClassName))
-      {
-         String oldValue = this.targetClassName;
-         this.targetClassName = value;
-         firePropertyChange("targetClassName", oldValue, value);
-      }
-      return this;
    }
 
    @Override

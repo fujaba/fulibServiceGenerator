@@ -1,24 +1,22 @@
 package org.fulib.servicegenerator;
 
 import org.fulib.StrUtil;
+import org.fulib.builder.ClassModelBuilder;
 import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Attribute;
 import org.fulib.classmodel.Clazz;
 import org.fulib.classmodel.FMethod;
+import org.fulib.yaml.Yaml;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.*;
 
 import static org.fulib.builder.ClassModelBuilder.ONE;
 import static org.fulib.builder.ClassModelBuilder.STRING;
 
-public class ServiceModelEditor
+public class ServiceEditor
 {
    private ClassModelManager mm = new ClassModelManager();
    private Clazz modelCommand;
@@ -27,8 +25,9 @@ public class ServiceModelEditor
    private LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
    private STGroupFile group;
    private Clazz removeCommand;
+   private String serviceName;
 
-   public ServiceModelEditor()
+   public ServiceEditor()
    {
       group = new STGroupFile("org.fulib.templates/servicemodel.stg");
       group.registerRenderer(String.class, new StringRenderer());
@@ -42,6 +41,11 @@ public class ServiceModelEditor
       String declaration = String.format("public ModelCommand run(%s editor)", this.editor.getName());
       String body = st.render();
       mm.haveMethod(removeCommand, declaration, body);
+
+      LinkedHashSet<String> importList = removeCommand.getImportList();
+      importList.add("import org.fulib.yaml.Reflector;");
+      importList.add("import org.fulib.yaml.ReflectorMap;");
+      importList.add("import java.lang.reflect.Method;");
    }
 
    private void haveModelCommand()
@@ -70,6 +74,7 @@ public class ServiceModelEditor
 
    public Clazz haveEditor(String modelName)
    {
+      this.serviceName = modelName;
       editor = this.mm.haveClass(modelName + "Editor");
 
       this.editorHaveMapFor("activeCommands", "ModelCommand");
@@ -79,24 +84,44 @@ public class ServiceModelEditor
       haveRemoveCommand();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
 
-
-
       return editor;
    }
 
+
+   public void haveMockupGUI()
+   {
+      Clazz appClass = mm.haveClass(this.serviceName + "App");
+      mm.haveAttribute(appClass, "id", STRING);
+      mm.haveAttribute(appClass, "description", STRING);
+
+      Clazz page = mm.haveClass("Page");
+      mm.haveAttribute(page, "id", STRING);
+      mm.haveAttribute(page, "description", STRING);
+
+      Clazz line = mm.haveClass("Line");
+      mm.haveAttribute(line, "id", STRING);
+      mm.haveAttribute(line, "description", STRING);
+      mm.haveAttribute(line, "action", STRING);
+
+      mm.haveRole(appClass, "content", page, ONE,"app", ONE);
+      mm.haveRole(page, "content", line, ClassModelBuilder.MANY,"page", ONE);
+
+
+   }
+
+
    public Clazz haveDataClass(String dataClassName)
    {
-      Clazz dataClass = mm.haveClass(dataClassName);
+      Clazz dataClass = mm.haveClass(serviceName + dataClassName);
       dataClasses.put(dataClassName, dataClass);
       mm.haveAttribute(dataClass, "id", STRING);
       Clazz commandClass = mm.haveClass("Have" + dataClassName + "Command");
       commandClasses.put(dataClassName, commandClass);
       commandClass.setSuperClass(this.modelCommand);
-      this.haveGetOrCreate(dataClassName);
       this.havePreCheck(dataClassName);
 
-      this.editorHaveMapFor(dataClassName);
-      this.editorHaveGetOrCreateFor(dataClassName);
+      this.editorHaveMapFor(serviceName + dataClassName);
+      this.editorHaveGetOrCreateFor(serviceName + dataClassName);
 
       return dataClass;
    }
@@ -118,9 +143,9 @@ public class ServiceModelEditor
 
    private void editorHaveMapFor(String mapName, String entryClassName)
    {
-      String mapType = String.format("Map<String, %s>", entryClassName);
+      String mapType = String.format("java.util.Map<String, %s>", entryClassName);
       Attribute attribute = mm.haveAttribute(this.editor, mapName, mapType);
-      attribute.setInitialization("new LinkedHashMap<>()");
+      attribute.setInitialization("new java.util.LinkedHashMap<>()");
    }
 
    private FMethod havePreCheck(String className)
@@ -128,7 +153,7 @@ public class ServiceModelEditor
       Clazz commandClass = this.commandClasses.get(className);
       String declaration = String.format("public boolean preCheck(%s editor)", this.editor.getName());
       ST st = group.getInstanceOf("preCheck");
-      st.add("dataClazz", className);
+      st.add("dataClazz", this.serviceName + className);
       String body = st.render();
       FMethod fMethod = mm.haveMethod(commandClass, declaration, body);
 
@@ -153,6 +178,8 @@ public class ServiceModelEditor
       st.add("packageName", modelPackageName);
       String body = st.render();
       FMethod fMethod = mm.haveMethod(this.editor, declaration, body);
+      LinkedHashSet<String> importList = this.editor.getImportList();
+      importList.add("import " + Yaml.class.getName() + ";");
       return fMethod;
    }
 
@@ -161,7 +188,8 @@ public class ServiceModelEditor
       Attribute attribute = mm.haveAttribute(dataClass, attrName, attrType);
 
       String dataClassName = dataClass.getName();
-      Clazz commandClass = commandClasses.get(dataClassName);
+      String commandClassKey = dataClassName.substring(this.serviceName.length());
+      Clazz commandClass = commandClasses.get(commandClassKey);
       mm.haveAttribute(commandClass, attrName, attrType);
 
       haveDataCommandRunMethod(dataClass, dataClassName, commandClass);
@@ -177,7 +205,8 @@ public class ServiceModelEditor
 
       // HaveLinkCommand
       String sourceClassName = sourceClass.getName();
-      String commandName = String.format("Have%s%sLink", sourceClassName, StrUtil.cap(sourceRoleName));
+      String commandKey = sourceClassName.substring(this.serviceName.length());
+      String commandName = String.format("Have%s%sLink", commandKey, StrUtil.cap(sourceRoleName));
       Clazz haveLinkCommand = this.haveCommand(commandName);
       mm.haveAttribute(haveLinkCommand, "source", STRING);
       mm.haveAttribute(haveLinkCommand, "target", STRING);
@@ -192,7 +221,7 @@ public class ServiceModelEditor
       fMethod.setAnnotations("@Override");
 
       // RemoveLinkCommand
-      commandName = String.format("Remove%s%sLink", sourceClassName, StrUtil.cap(sourceRoleName));
+      commandName = String.format("Remove%s%sLink", commandKey, StrUtil.cap(sourceRoleName));
       Clazz removeLinkCommand = this.haveCommand(commandName);
       mm.haveAttribute(removeLinkCommand, "source", STRING);
       mm.haveAttribute(removeLinkCommand, "target", STRING);
@@ -223,7 +252,8 @@ public class ServiceModelEditor
          dataclassAttachedRoles.put(sourceClass, roleNames);
       }
       roleNames.add(sourceRoleName);
-      Clazz commandClass = commandClasses.get(dataClassName);
+      String commandClassName = dataClassName.substring(this.serviceName.length());
+      Clazz commandClass = commandClasses.get(commandClassName);
       mm.haveAttribute(commandClass, sourceRoleName, STRING);
       haveDataCommandRunMethod(sourceClass, dataClassName, commandClass);
    }
@@ -246,7 +276,7 @@ public class ServiceModelEditor
       Collection<String> roleNames = dataclassAttachedRoles.get(dataClass);
       if (roleNames != null) {
          for (String attr : roleNames) {
-            String getObject = String.format("%2$s %1$s = editor.getOrCreate%2$s(this.get%2$s());\n", attr, StrUtil.cap(attr));
+            String getObject = String.format("%2$s %1$s = editor.getOrCreate%2$s(this.get%3$s());\n", attr, this.serviceName + StrUtil.cap(attr), StrUtil.cap(attr));
             // Product product ;
             attributes += getObject;
             String oneAttr = String.format("dataObject.set%1$s(%2$s);\n", StrUtil.cap(attr), attr);
@@ -271,4 +301,6 @@ public class ServiceModelEditor
 
       return commandClass;
    }
+
+
 }

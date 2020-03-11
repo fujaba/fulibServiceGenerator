@@ -14,56 +14,46 @@ public class GenModel
    @Test
    public void genExample()
    {
-      ServiceModelEditor me = new ServiceModelEditor();
-      ClassModelManager mm = me.getClassModelManager();
-      mm.haveMainJavaDir("src/test/java");
-      mm.havePackageName("unikassel.shop.model");
-      Clazz storeEditor = me.haveEditor("Store");
+      SystemEditor sysEdit = new SystemEditor();
+      sysEdit.haveMainJavaDir("src/test/java");
+      sysEdit.havePackageName("unikassel.websystem");
+      ServiceEditor shop = sysEdit.haveService("Shop");
+      ServiceEditor store = sysEdit.haveService("Store");
 
-      Clazz product = me.haveDataClass("Product");
-      me.haveAttribute(product, "description", STRING);
+      Clazz product = sysEdit.haveSharedClass("Product");
+      sysEdit.haveAttribute(product, "description", STRING);
+      sysEdit.haveAttribute(product, "items", DOUBLE);
 
-      Clazz customer = me.haveDataClass("Customer");
-      me.haveAttribute(customer, "name", STRING);
-      me.haveAttribute(customer, "address", STRING);
+      Clazz customer = sysEdit.haveSharedClass("Customer");
+      sysEdit.haveAttribute(customer, "name", STRING);
+      sysEdit.haveAttribute(customer, "address", STRING);
 
-      Clazz offer = me.haveDataClass("Offer");
-      me.haveAttribute(offer, "price", DOUBLE);
-      me.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
-      me.haveAttribute(offer, "startTime", STRING);
-      me.haveAttribute(offer, "endTime", STRING);
+      Clazz offer = sysEdit.haveSharedClass("Offer");
+      sysEdit.haveAttribute(offer, "price", DOUBLE);
+      sysEdit.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
+      sysEdit.haveAttribute(offer, "startTime", STRING);
+      sysEdit.haveAttribute(offer, "endTime", STRING);
 
-      Clazz order = me.haveDataClass("Order");
-      me.haveAssociationOwnedByDataClass(order, "customer", ONE, "orders", MANY, customer);
-      me.haveAttribute(order, "date", STRING);
-      me.haveAttribute(order, "state", STRING);
+      Clazz order = sysEdit.haveSharedClass("Order");
+      sysEdit.haveAssociationOwnedByDataClass(order, "customer", ONE, "orders", MANY, customer);
+      sysEdit.haveAttribute(order, "date", STRING);
+      sysEdit.haveAttribute(order, "state", STRING);
 
-      Clazz orderPosition = me.haveDataClass("OrderPosition");
-      me.haveAssociationOwnedByDataClass(orderPosition, "order", ONE, "positions", MANY, order);
-      me.haveAssociationOwnedByDataClass(orderPosition, "offer", ONE, "orders", MANY, offer);
-      me.haveAttribute(orderPosition, "amount", DOUBLE);
-      me.haveAttribute(orderPosition, "state", STRING);
+      Clazz orderPosition = sysEdit.haveSharedClass("OrderPosition");
+      sysEdit.haveAssociationOwnedByDataClass(orderPosition, "order", ONE, "positions", MANY, order);
+      sysEdit.haveAssociationOwnedByDataClass(orderPosition, "offer", ONE, "orders", MANY, offer);
+      sysEdit.haveAttribute(orderPosition, "amount", DOUBLE);
+      sysEdit.haveAttribute(orderPosition, "state", STRING);
 
-      me.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
+      sysEdit.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
 
-      Clazz storeApp = mm.haveClass("StoreApp");
-      mm.haveAttribute(storeApp, "id", STRING);
-      mm.haveAttribute(storeApp, "description", STRING);
+//      sysEdit.haveStream(store, product, shop);
+//      sysEdit.haveStream(shop, order, store);
+//      sysEdit.haveStream(store, picked, shop);
 
-      Clazz page = mm.haveClass("Page");
-      mm.haveAttribute(page, "id", STRING);
-      mm.haveAttribute(page, "description", STRING);
 
-      Clazz line = mm.haveClass("Line");
-      mm.haveAttribute(line, "id", STRING);
-      mm.haveAttribute(line, "description", STRING);
-      mm.haveAttribute(line, "action", STRING);
 
-      mm.haveRole(storeApp, "content", page, ONE,"app", ONE);
-      mm.haveRole(page, "content", line, MANY,"page", ONE);
-
-      Fulib.generator().generate(mm.getClassModel());
-      FulibTools.classDiagrams().dumpSVG(mm.getClassModel(), "tmp/storeClasses.svg");
+      sysEdit.generate();
    }
 
 }

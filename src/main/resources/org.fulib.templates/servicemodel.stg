@@ -42,14 +42,14 @@ run(dataClazz, attributes) ::= <<
       if ( ! preCheck(editor)) {
          return editor.get<dataClazz>s().get(this.getId());
       }
-      <dataClazz> dataObject = this.getOrCreate(editor);
+      <dataClazz> dataObject = editor.getOrCreate<dataClazz>(this.getId());
       <attributes>
       return dataObject;
 
 >>
 
 runHaveLink(sourceClassName, linkName, targetClassName) ::= <<
-      Objects.requireNonNull(this.getTime());
+      java.util.Objects.requireNonNull(this.getTime());
       this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
       ModelCommand oldCommand = editor.getActiveCommands().get(this.getId());
       if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
@@ -69,7 +69,7 @@ runHaveLink(sourceClassName, linkName, targetClassName) ::= <<
 
 
 runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
-      Objects.requireNonNull(this.getTime());
+      java.util.Objects.requireNonNull(this.getTime());
       this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
       ModelCommand oldCommand = editor.getActiveCommands().get(this.getId());
       if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
@@ -100,7 +100,7 @@ removeCommandRun() ::= <<
       ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
       Reflector reflector = reflectorMap.getReflector(editor);
       Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
-      Map objects = (Map) value;
+      java.util.Map objects = (java.util.Map) value;
       Object target = objects.get(this.getId());
       try {
          Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);

@@ -161,59 +161,59 @@
 
 - activeCommands20: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	POJO
-  type: 	"Map<String, ModelCommand>"
+  type: 	"java.util.Map<String, ModelCommand>"
 
 - removeCommands21: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	removeCommands
   propertyStyle: 	POJO
-  type: 	"Map<String, RemoveCommand>"
+  type: 	"java.util.Map<String, RemoveCommand>"
 
 - products22: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	products
   propertyStyle: 	POJO
-  type: 	"Map<String, Product>"
+  type: 	"java.util.Map<String, Product>"
 
 - customers23: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	customers
   propertyStyle: 	POJO
-  type: 	"Map<String, Customer>"
+  type: 	"java.util.Map<String, Customer>"
 
 - offers24: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	offers
   propertyStyle: 	POJO
-  type: 	"Map<String, Offer>"
+  type: 	"java.util.Map<String, Offer>"
 
 - orders25: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	orders
   propertyStyle: 	POJO
-  type: 	"Map<String, Order>"
+  type: 	"java.util.Map<String, Order>"
 
 - orderPositions26: 	Attribute
   clazz: 	storeEditor2
-  initialization: 	"new LinkedHashMap<>()"
+  initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	orderPositions
   propertyStyle: 	POJO
-  type: 	"Map<String, OrderPosition>"
+  type: 	"java.util.Map<String, OrderPosition>"
 
 - f27: 	FMethod
   clazz: 	storeEditor2
@@ -337,7 +337,7 @@
       ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
       Reflector reflector = reflectorMap.getReflector(editor);
       Object value = reflector.getValue(editor, this.getTargetClassName() + \"s\");
-      Map objects = (Map) value;
+      java.util.Map objects = (java.util.Map) value;
       Object target = objects.get(this.getId());
       try {
          Method removeYouMethod = target.getClass().getMethod(\"removeYou\", new Class[0]);
