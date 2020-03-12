@@ -13,8 +13,7 @@ import org.stringtemplate.v4.StringRenderer;
 
 import java.util.*;
 
-import static org.fulib.builder.ClassModelBuilder.ONE;
-import static org.fulib.builder.ClassModelBuilder.STRING;
+import static org.fulib.builder.ClassModelBuilder.*;
 
 public class ServiceEditor
 {
@@ -26,6 +25,7 @@ public class ServiceEditor
    private STGroupFile group;
    private Clazz removeCommand;
    private String serviceName;
+   private Clazz service;
 
    public ServiceEditor()
    {
@@ -85,6 +85,19 @@ public class ServiceEditor
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
 
       return editor;
+   }
+
+   public void haveService(String serviceName)
+   {
+      this.serviceName = serviceName;
+      service = this.mm.haveClass(serviceName + "Service");
+      mm.haveAttribute(service, "myPort", INT);
+      mm.haveAttribute(service, "modelEditor", serviceName + "Editor");
+
+      ST st = group.getInstanceOf("serviceInit");
+      st.add("serviceName", serviceName);
+      String body = st.render();
+      mm.haveMethod(service, "public void start()", body);
    }
 
 
@@ -301,6 +314,7 @@ public class ServiceEditor
 
       return commandClass;
    }
+
 
 
 }

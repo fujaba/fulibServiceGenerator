@@ -52,7 +52,9 @@ public class SystemEditor
       ClassModelManager classModel = serviceEditor.getClassModelManager();
       classModel.haveMainJavaDir(this.mainJavaDir);
       classModel.havePackageName(this.packageName + "." + serviceName);
+
       serviceEditor.haveEditor(serviceName);
+      serviceEditor.haveService(serviceName);
       serviceEditor.haveMockupGUI();
 
       serviceMap.put(serviceName, serviceEditor);

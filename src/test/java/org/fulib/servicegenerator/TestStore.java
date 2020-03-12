@@ -6,6 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import unikassel.shop.model.*;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.http.HttpClient;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,6 +19,25 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class TestStore
 {
+   @Test
+   public void testService() throws IOException
+   {
+      int port = 4599;
+      StoreService service = new StoreService();
+      service.setMyPort(port);
+      service.init(null);
+
+      System.out.println("Store Serice is listening on port " + port);
+
+      URL url = new URL("http://localhost:" + port);
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("GET");
+      int responseCode = connection.getResponseCode();
+      System.out.println(responseCode);
+   }
+
+
+
    @Test
    public void testNewYamlForDataWithAssocs()
    {

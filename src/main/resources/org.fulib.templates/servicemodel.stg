@@ -125,3 +125,16 @@ loadYaml(packageName) ::= <<
       }
 
 >>
+
+
+serviceInit(serviceName) ::= <<
+      myPort = 4571;
+      String envPort = System.getenv("PORT");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      modelEditor = new <serviceName>Editor();
+
+>>
+
