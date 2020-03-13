@@ -27,8 +27,6 @@ public class StoreService
    {
       StoreService service = new StoreService();
       service.init(args);
-
-
    }
 
    public void setMyPort(int myPort)
@@ -46,11 +44,11 @@ public class StoreService
 
       java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       storeEditor = new StoreEditor();
-      reflectorMap = new ReflectorMap(StoreApp.class.getPackage().getName());
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
 
       port(myPort);
-       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
@@ -59,7 +57,7 @@ public class StoreService
       Logger.getGlobal().info("Store Serice is listening on port " + myPort);
    }
 
-   private String cmd(Request req, Response res)
+   public String cmd(Request req, Response res)
    {
       String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
@@ -117,14 +115,13 @@ public class StoreService
 
    private String currentSession = "1";
 
-   private String getFirstRoot(Request req, Response res)
+   public String getFirstRoot(Request req, Response res)
    {
       currentSession = "" + (sessionToAppMap.size() + 1);
-
       return root(req, res);
    }
 
-   private String root(Request req, Response res)
+   public String root(Request req, Response res)
    {
       try
       {

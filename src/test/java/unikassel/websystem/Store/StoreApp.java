@@ -142,4 +142,50 @@ public class StoreApp
 
    }
 
+   public StoreApp init(StoreEditor editor) // no fulib
+   {
+      this.modelEditor = editor;
+      this.setId("root");
+      this.setDescription("Store App");
+      supplyPage();
+
+      return this;
+   }
+
+   public void supplyPage()
+   {
+      Page supplyPage = new Page().setId("supplyPage")
+            .setDescription("New Supply")
+            .setApp(this);
+
+      new Line().setId("onStock")
+            .setDescription(String.format("We have %d products on stock", this.modelEditor.getStoreProducts().size()))
+            .setPage(supplyPage);
+      new Line().setId("idIn").setDescription("input product id?").setPage(supplyPage);
+      new Line().setId("descriptionIn").setDescription("input product description?").setPage(supplyPage);
+      new Line().setId("itemsIn").setDescription("input number of items?").setPage(supplyPage);
+      new Line().setId("addButton").setDescription("button add").setPage(supplyPage)
+      .setAction("HaveProductCommand idIn descriptionIn itemsIn supplyPage");
+   }
+
+   public static final String PROPERTY_modelEditor = "modelEditor";
+
+   private StoreEditor modelEditor;
+
+   public StoreEditor getModelEditor()
+   {
+      return modelEditor;
+   }
+
+   public StoreApp setModelEditor(StoreEditor value)
+   {
+      if (value != this.modelEditor)
+      {
+         StoreEditor oldValue = this.modelEditor;
+         this.modelEditor = value;
+         firePropertyChange("modelEditor", oldValue, value);
+      }
+      return this;
+   }
+
 }

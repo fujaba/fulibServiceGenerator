@@ -93,19 +93,57 @@ public class ServiceEditor
       service = this.mm.haveClass(serviceName + "Service");
       mm.haveAttribute(service, "myPort", INT);
       mm.haveAttribute(service, "modelEditor", serviceName + "Editor");
+      mm.haveAttribute(service, "reflectorMap", "org.fulib.yaml.ReflectorMap");
+      mm.haveAttribute(service, "currentSession", STRING);
+      Attribute sessionToAppMap = mm.haveAttribute(service, "sessionToAppMap",
+            String.format("LinkedHashMap<String, %sApp>", serviceName));
+      sessionToAppMap.setInitialization("new LinkedHashMap()");
+
+      LinkedHashSet<String> importList = service.getImportList();
+      importList.add("import java.util.LinkedHashMap;");
+      importList.add("import static spark.Spark.*;");
+      importList.add("import org.fulib.yaml.ReflectorMap;");
 
       ST st = group.getInstanceOf("serviceInit");
       st.add("serviceName", serviceName);
       String body = st.render();
       mm.haveMethod(service, "public void start()", body);
+
+      body = "      currentSession = \"\" + (sessionToAppMap.size() + 1);\n" +
+            "      return root(req, res);\n";
+      mm.haveMethod(service, "public String getFirstRoot(Request req, Response res)", body);
+      importList.add("import spark.Request;");
+      importList.add("import spark.Response;");
+
+      st = group.getInstanceOf("rootBody");
+      st.add("serviceName", serviceName);
+      body = st.render();
+      mm.haveMethod(service, "public String root(Request req, Response res)", body);
+      importList.add("import org.fulib.scenarios.MockupTools;");
+
+      st = group.getInstanceOf("cmdBody");
+      st.add("serviceName", serviceName);
+      body = st.render();
+      mm.haveMethod(service, "public String cmd(Request req, Response res)", body);
+      importList.add("import org.json.JSONObject;");
+      importList.add("import org.fulib.yaml.Reflector;");
+      importList.add("import java.lang.reflect.Method;");
    }
 
 
    public void haveMockupGUI()
    {
       Clazz appClass = mm.haveClass(this.serviceName + "App");
+      mm.haveAttribute(appClass, "modelEditor", this.serviceName + "Editor");
       mm.haveAttribute(appClass, "id", STRING);
       mm.haveAttribute(appClass, "description", STRING);
+      mm.haveMethod(appClass, String.format("public %1$sApp init(%1$sEditor editor)", this.serviceName),
+            String.format("" +
+                  "      this.modelEditor = editor;\n" +
+                  "      this.setId(\"root\");\n" +
+                  "      this.setDescription(\"%s App\");\n" +
+                  "      return this;\n",
+                  this.serviceName));
 
       Clazz page = mm.haveClass("Page");
       mm.haveAttribute(page, "id", STRING);

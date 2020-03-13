@@ -142,4 +142,31 @@ public class ShopApp
 
    }
 
+   public static final String PROPERTY_modelEditor = "modelEditor";
+
+   private ShopEditor modelEditor;
+
+   public ShopEditor getModelEditor()
+   {
+      return modelEditor;
+   }
+
+   public ShopApp setModelEditor(ShopEditor value)
+   {
+      if (value != this.modelEditor)
+      {
+         ShopEditor oldValue = this.modelEditor;
+         this.modelEditor = value;
+         firePropertyChange("modelEditor", oldValue, value);
+      }
+      return this;
+   }
+
+   public ShopApp init(ShopEditor editor) { 
+      this.modelEditor = editor;
+      this.setId("root");
+      this.setDescription("Shop App");
+      return this;
+   }
+
 }

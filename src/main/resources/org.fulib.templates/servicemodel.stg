@@ -128,13 +128,108 @@ loadYaml(packageName) ::= <<
 
 
 serviceInit(serviceName) ::= <<
-      myPort = 4571;
+      if (myPort \<= 0) {
+         myPort = 4571;
+      }
       String envPort = System.getenv("PORT");
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
       java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new <serviceName>Editor();
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      port(myPort);
+      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+
+      notFound((req, resp) -> {
+         return "404 not found: " + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
 
 >>
 
+
+rootBody(serviceName) ::= <<
+      try
+      {
+         <serviceName>App myApp = this.sessionToAppMap.get(currentSession);
+         if (myApp == null) {
+            myApp = new <serviceName>App().init(this.modelEditor);
+            sessionToAppMap.put(currentSession, myApp);
+         }
+
+         java.util.Map\<String, String> params = req.params();
+         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         StringBuilder page = new StringBuilder(stringWriter.toString());
+         int paramPos = page.indexOf("_cmd: words[0],");
+         String sessionParam = String.format("_session: '%s', ", currentSession);
+         page.insert(paramPos, sessionParam);
+         String sessionPage = page.toString();
+         return sessionPage;
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return "404 " + e.getMessage();
+      }
+
+>>
+
+cmdBody(serviceName) ::= <<
+      String cmd = req.body();
+      JSONObject jsonObject = new JSONObject(cmd);
+
+      this.currentSession = jsonObject.getString("_session");
+
+      <serviceName>App app = sessionToAppMap.get(currentSession);
+
+      if (app == null) {
+         return "404 could not find session " + currentSession;
+      }
+
+      if (jsonObject.keySet().size() > 3) {
+         String cmdClassName = jsonObject.getString("_cmd");
+         Reflector reflector = reflectorMap.getReflector(cmdClassName);
+         Object cmdObject = reflector.newInstance();
+         for (String key : jsonObject.keySet()) {
+            if (key.startsWith("_")) {
+               continue;
+            }
+            else {
+               // assign to command attribute
+               String attrName = key;
+               if (key.endsWith("In")) {
+                  attrName = key.substring(0, key.length() - 2);
+               }
+               String value = jsonObject.getString(key);
+               reflector.setValue(cmdObject, attrName, value, null);
+            }
+         }
+         // call command
+         try {
+            Method runMethod = cmdObject.getClass().getMethod("run", <serviceName>Editor.class);
+            runMethod.invoke(cmdObject, modelEditor);
+
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+            return "404 " + e.getMessage();
+         }
+      }
+
+      // next page
+      String newPage = jsonObject.getString("_newPage");
+      try {
+         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         method.invoke(app);
+      }
+      catch (Exception e) {
+         return "404 app has no method to compute page " + newPage;
+      }
+
+      return root(req, res);
+
+>>
