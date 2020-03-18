@@ -1,10 +1,30 @@
 package unikassel.websystem.Store;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import org.fulib.yaml.Yaml;
 
 public class StoreEditor  
 {
+   private LinkedHashMap<String, ArrayList<CommandStream>> commandListeners = new LinkedHashMap<>();
+
+   public StoreEditor addCommandListener(String commandName, CommandStream stream) {
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+   }
+
+   public void fireCommandExecuted(ModelCommand command)
+   {
+      String commandName = command.getClass().getSimpleName();
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      for (CommandStream stream : listeners) {
+         stream.publish(command);
+      }
+   }
+
 
    public static final String PROPERTY_activeCommands = "activeCommands";
 

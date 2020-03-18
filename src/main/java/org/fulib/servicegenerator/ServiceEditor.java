@@ -93,8 +93,10 @@ public class ServiceEditor
       service = this.mm.haveClass(serviceName + "Service");
       mm.haveAttribute(service, "myPort", INT);
       mm.haveAttribute(service, "modelEditor", serviceName + "Editor");
-      mm.haveAttribute(service, "reflectorMap", "org.fulib.yaml.ReflectorMap");
+      mm.haveAttribute(service, "reflectorMap", "ReflectorMap");
       mm.haveAttribute(service, "currentSession", STRING);
+      mm.haveAttribute(service, "executor", "ExecutorService ");
+
       Attribute sessionToAppMap = mm.haveAttribute(service, "sessionToAppMap",
             String.format("LinkedHashMap<String, %sApp>", serviceName));
       sessionToAppMap.setInitialization("new LinkedHashMap()");
@@ -103,6 +105,7 @@ public class ServiceEditor
       importList.add("import java.util.LinkedHashMap;");
       importList.add("import static spark.Spark.*;");
       importList.add("import org.fulib.yaml.ReflectorMap;");
+      importList.add("import java.util.concurrent.ExecutorService;");
 
       ST st = group.getInstanceOf("serviceInit");
       st.add("serviceName", serviceName);

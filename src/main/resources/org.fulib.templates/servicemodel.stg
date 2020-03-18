@@ -135,7 +135,7 @@ serviceInit(serviceName) ::= <<
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
-      java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new <serviceName>Editor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       port(myPort);

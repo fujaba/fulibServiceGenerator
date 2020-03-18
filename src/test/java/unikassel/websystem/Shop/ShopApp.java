@@ -162,11 +162,27 @@ public class ShopApp
       return this;
    }
 
-   public ShopApp init(ShopEditor editor) { 
+   public ShopApp init(ShopEditor editor) // no fulib
+   {
       this.modelEditor = editor;
       this.setId("root");
       this.setDescription("Shop App");
+
+      shop();
+
       return this;
+   }
+
+   public void shop()
+   {
+      Page shopPage = new Page().setId("shopPage").setDescription("Today in our shop:").setApp(this);
+      // show all available products
+      for (ShopProduct product : modelEditor.getShopProducts().values()) {
+         new Line().setId("buy_" + product.getId())
+               .setDescription(String.format("button %s %s", product.getId(), product.getDescription()))
+               .setPage(shopPage);
+      }
+      new Line().setId("xxx");
    }
 
 }

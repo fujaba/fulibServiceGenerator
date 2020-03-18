@@ -14,6 +14,7 @@ import org.fulib.yaml.Reflector;
 import unikassel.websystem.Shop.ShopService;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
 
 public class StoreService  
 {
@@ -21,6 +22,25 @@ public class StoreService
    {
       new StoreService().setMyPort(15016).start();
    }
+
+   public StoreService() {
+      String streams = System.getenv("streams");
+      if (streams != null) {
+         String[] split = streams.split("\n");
+         for (String oneStream : split) {
+            String[] words = oneStream.split(" ");
+            streamUrls.put(words[0], words[1]);
+         }
+      }
+   }
+
+   private LinkedHashMap<String, String> streamUrls = new LinkedHashMap<>();
+
+   public StoreService addStreamUrl(String streamName, String targetUrl) {
+      streamUrls.put(streamName, targetUrl);
+      return this;
+   }
+
 
    public static final String PROPERTY_myPort = "myPort";
 
@@ -112,26 +132,6 @@ public class StoreService
       return this;
    }
 
-   public static final String PROPERTY_reflectorMap = "reflectorMap";
-
-   private org.fulib.yaml.ReflectorMap reflectorMap;
-
-   public org.fulib.yaml.ReflectorMap getReflectorMap()
-   {
-      return reflectorMap;
-   }
-
-   public StoreService setReflectorMap(org.fulib.yaml.ReflectorMap value)
-   {
-      if (value != this.reflectorMap)
-      {
-         org.fulib.yaml.ReflectorMap oldValue = this.reflectorMap;
-         this.reflectorMap = value;
-         firePropertyChange("reflectorMap", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_currentSession = "currentSession";
 
    private String currentSession;
@@ -172,17 +172,6 @@ public class StoreService
       return this;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
-   }
-
    public void start() // no fulib
    {
       if (myPort <= 0) {
@@ -192,18 +181,78 @@ public class StoreService
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
-      java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new StoreEditor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      port(myPort);
+      try { port(myPort);} catch (Exception e) {};
       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post("/storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+
+      String streamName = "ShopToStore";
+      String targetUrl = streamUrls.computeIfAbsent(streamName, s -> "http://localhost:5050/StoreToShop");
+
+      CommandStream stream = new CommandStream();
+      modelEditor.addCommandListener(HaveProductCommand.class.getSimpleName(), stream);
+      stream.start(streamName, targetUrl, this);
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
       java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
+   }
+
+   public static final String PROPERTY_reflectorMap = "reflectorMap";
+
+   private ReflectorMap reflectorMap;
+
+   public ReflectorMap getReflectorMap()
+   {
+      return reflectorMap;
+   }
+
+   public StoreService setReflectorMap(ReflectorMap value)
+   {
+      if (value != this.reflectorMap)
+      {
+         ReflectorMap oldValue = this.reflectorMap;
+         this.reflectorMap = value;
+         firePropertyChange("reflectorMap", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_executor = "executor";
+
+   private ExecutorService  executor;
+
+   public ExecutorService  getExecutor()
+   {
+      return executor;
+   }
+
+   public StoreService setExecutor(ExecutorService  value)
+   {
+      if (value != this.executor)
+      {
+         ExecutorService  oldValue = this.executor;
+         this.executor = value;
+         firePropertyChange("executor", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
    }
 
    public String getFirstRoot(Request req, Response res) { 

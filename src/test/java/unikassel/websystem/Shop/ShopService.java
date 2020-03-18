@@ -11,14 +11,36 @@ import spark.Response;
 import java.util.LinkedHashMap;
 import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
+
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
 
 public class ShopService  
 {
 
+   private boolean noNewPort;
+
    public static void main(String[] args)
    {
       new ShopService().setMyPort(5050).start();
+   }
+
+   public ShopService() {
+      String streams = System.getenv("streams");
+      if (streams != null) {
+         String[] split = streams.split("\n");
+         for (String oneStream : split) {
+            String[] words = oneStream.split(" ");
+            streamUrls.put(words[0], words[1]);
+         }
+      }
+   }
+
+   private LinkedHashMap<String, String> streamUrls = new LinkedHashMap<>();
+
+   public ShopService addStreamUrl(String streamName, String targetUrl) {
+      streamUrls.put(streamName, targetUrl);
+      return this;
    }
 
    public static final String PROPERTY_myPort = "myPort";
@@ -111,26 +133,6 @@ public class ShopService
       return this;
    }
 
-   public static final String PROPERTY_reflectorMap = "reflectorMap";
-
-   private org.fulib.yaml.ReflectorMap reflectorMap;
-
-   public org.fulib.yaml.ReflectorMap getReflectorMap()
-   {
-      return reflectorMap;
-   }
-
-   public ShopService setReflectorMap(org.fulib.yaml.ReflectorMap value)
-   {
-      if (value != this.reflectorMap)
-      {
-         org.fulib.yaml.ReflectorMap oldValue = this.reflectorMap;
-         this.reflectorMap = value;
-         firePropertyChange("reflectorMap", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_currentSession = "currentSession";
 
    private String currentSession;
@@ -171,6 +173,46 @@ public class ShopService
       return this;
    }
 
+   public static final String PROPERTY_reflectorMap = "reflectorMap";
+
+   private ReflectorMap reflectorMap;
+
+   public ReflectorMap getReflectorMap()
+   {
+      return reflectorMap;
+   }
+
+   public ShopService setReflectorMap(ReflectorMap value)
+   {
+      if (value != this.reflectorMap)
+      {
+         ReflectorMap oldValue = this.reflectorMap;
+         this.reflectorMap = value;
+         firePropertyChange("reflectorMap", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_executor = "executor";
+
+   private ExecutorService  executor;
+
+   public ExecutorService  getExecutor()
+   {
+      return executor;
+   }
+
+   public ShopService setExecutor(ExecutorService  value)
+   {
+      if (value != this.executor)
+      {
+         ExecutorService  oldValue = this.executor;
+         this.executor = value;
+         firePropertyChange("executor", oldValue, value);
+      }
+      return this;
+   }
+
    @Override
    public String toString()
    {
@@ -182,7 +224,8 @@ public class ShopService
       return result.substring(1);
    }
 
-   public void start() { 
+   public void start() // no fulib
+   {
       if (myPort <= 0) {
          myPort = 4571;
       }
@@ -190,18 +233,25 @@ public class ShopService
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
-      java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new ShopEditor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      port(myPort);
+
+      try { port(myPort);} catch (Exception e) {};
       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post("/shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+
+      CommandStream stream = new CommandStream();
+      modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
+      stream.start("http://localhost:5050/StoreToShop", this);
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
+      java.util.logging.Logger.getGlobal().info("Shop Service is listening on port " + myPort);
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -225,6 +275,8 @@ public class ShopService
          int paramPos = page.indexOf("_cmd: words[0],");
          String sessionParam = String.format("_session: '%s', ", currentSession);
          page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf("'/cmd'");
+         page.insert(cmdUrlPos + 2, "shop");
          String sessionPage = page.toString();
          return sessionPage;
       }
@@ -290,4 +342,8 @@ public class ShopService
       return root(req, res);
    }
 
+   public void noNewPort()
+   {
+      this.noNewPort = true;
+   }
 }
