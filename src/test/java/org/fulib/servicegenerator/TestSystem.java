@@ -35,7 +35,6 @@ public class TestSystem
 
       shopService = new ShopService();
       shopService.addStreamUrl("StoreToShop", "http://localhost:22010/ShopToStore");
-      // shopService.noNewPort();
       shopService.setMyPort(22010).start();
 
       URL url = new URL("http://localhost:" + 22010);
@@ -50,7 +49,7 @@ public class TestSystem
 
       // book a product at the store
       String cmd = "{\"_session\":\"1\",\"_cmd\":\"HaveProductCommand\",\"_newPage\":\"supplyPage\",\"idIn\":\"p1\",\"descriptionIn\":\"pumps\",\"itemsIn\":\"42\"}\n";
-      url = new URL("http://localhost:" + 22010 + "/cmd");
+      url = new URL("http://localhost:" + 22010 + "/storecmd");
       connection = (HttpURLConnection) url.openConnection();
       connection.setRequestMethod("POST");
       connection.setDoOutput(true);

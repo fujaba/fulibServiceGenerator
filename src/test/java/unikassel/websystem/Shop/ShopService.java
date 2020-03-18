@@ -17,9 +17,6 @@ import java.util.concurrent.ExecutorService;
 
 public class ShopService  
 {
-
-   private boolean noNewPort;
-
    public static void main(String[] args)
    {
       new ShopService().setMyPort(5050).start();
@@ -342,8 +339,4 @@ public class ShopService
       return root(req, res);
    }
 
-   public void noNewPort()
-   {
-      this.noNewPort = true;
-   }
 }
