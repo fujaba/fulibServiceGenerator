@@ -1,7 +1,9 @@
 package org.fulib.servicegenerator;
 
+import com.codeborne.selenide.SelenideElement;
 import org.hamcrest.core.Is;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import unikassel.websystem.Shop.ShopEditor;
 import unikassel.websystem.Shop.ShopProduct;
 import unikassel.websystem.Shop.ShopService;
@@ -13,11 +15,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
+
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
 
 public class TestSystem
 {
@@ -46,6 +49,11 @@ public class TestSystem
       StringBuilder stringBuilder = new StringBuilder();
       assertThat(responseCode, is(200) );
 
+      open("http://localhost:22010/store");
+      SelenideElement idDiv = $("#idIn").$("input").setValue("sel1");
+      $("#descriptionIn").$("input").setValue("Stilettos");
+      $("#itemsIn").$("input").setValue("23");
+      $("#addButton").$("button").click();
 
       // book a product at the store
       String cmd = "{\"_session\":\"1\",\"_cmd\":\"HaveProductCommand\",\"_newPage\":\"supplyPage\",\"idIn\":\"p1\",\"descriptionIn\":\"pumps\",\"itemsIn\":\"42\"}\n";
@@ -64,9 +72,9 @@ public class TestSystem
 
       // find product in the shop
       ShopEditor shopEditor = shopService.getModelEditor();
-      assertThat(shopEditor.getShopProducts().size(), is(1));
+      assertThat(shopEditor.getShopProducts().size(), is(2));
       ShopProduct next = shopEditor.getShopProducts().values().iterator().next();
-      assertThat(next.getItems(), is(42.0));
+      assertThat(next.getItems(), is(23.0));
 
       System.out.println("the end");
    }

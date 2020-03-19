@@ -1,4 +1,5 @@
 package unikassel.websystem.Shop;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
@@ -175,14 +176,38 @@ public class ShopApp
 
    public void shop()
    {
-      Page shopPage = new Page().setId("shopPage").setDescription("Today in our shop:").setApp(this);
+      Page shopPage = new Page().setId("shopPage").setDescription("button shop | button card | button orders").setApp(this);
       // show all available products
       for (ShopProduct product : modelEditor.getShopProducts().values()) {
-         new Line().setId("buy_" + product.getId())
-               .setDescription(String.format("button %s %s", product.getId(), product.getDescription()))
+         if (product.getOffers().size() == 0) {
+            new HaveOfferCommand().setId(String.format("offer_%s_1", product.getId()))
+            .setProduct(product.getId())
+            .setProduct("9.99 €")
+            .run(modelEditor);
+         }
+
+         ShopOffer offer = product.getOffers().get(0);
+
+         new Line().setId("buy_" + offer.getId())
+               .setDescription(String.format("button %s %s %s", product.getId(), product.getDescription(), offer.getPrice()))
+               .setAction(String.format("addToCard %s shop", product.getId()))
                .setPage(shopPage);
       }
-      new Line().setId("xxx");
+   }
+
+   private ShopOrder card = null;
+
+   public void addToCard(String productId) {
+      // have an order
+      if (this.card == null) {
+         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
+         card = new HaveOrderCommand().setId(orderId).run(modelEditor);
+      }
+
+      // add position
+      new HaveOrderPositionCommand().setId(String.format("%s_pos_%d", card.getId(), card.getPositions().size() + 1))
+            .setOrder(card.getId())
+            .setAmount(1.0);
    }
 
 }

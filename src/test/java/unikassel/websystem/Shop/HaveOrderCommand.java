@@ -1,8 +1,9 @@
 package unikassel.websystem.Shop;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveOrderCommand extends ModelCommand  
+public class HaveOrderCommand extends ModelCommand<HaveOrderCommand, ShopOrder> // no fulib
 {
 
    public static final String PROPERTY_customer = "customer";

@@ -3,7 +3,7 @@ package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveProductCommand extends ModelCommand  
+public class HaveProductCommand extends ModelCommand<HaveProductCommand, ShopProduct>
 {
 
    public static final String PROPERTY_description = "description";
@@ -47,13 +47,16 @@ public class HaveProductCommand extends ModelCommand
    }
 
    @Override
-   public ShopProduct run(ShopEditor editor) { 
+   public ShopProduct run(ShopEditor editor) // no fulib
+   {
       if ( ! preCheck(editor)) {
          return editor.getShopProducts().get(this.getId());
       }
       ShopProduct dataObject = editor.getOrCreateShopProduct(this.getId());
       dataObject.setDescription(this.getDescription());
       dataObject.setItems(this.getItems());
+
+      editor.fireCommandExecuted(this);
 
       return dataObject;
    }

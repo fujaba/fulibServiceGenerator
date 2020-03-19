@@ -2,7 +2,7 @@ package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveOfferCommand extends ModelCommand  
+public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer>
 {
 
    public static final String PROPERTY_price = "price";

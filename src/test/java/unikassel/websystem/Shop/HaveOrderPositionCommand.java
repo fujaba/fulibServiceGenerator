@@ -2,7 +2,7 @@ package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveOrderPositionCommand extends ModelCommand  
+public class HaveOrderPositionCommand extends ModelCommand<HaveOrderPositionCommand, ShopOrderPosition> // no fulib
 {
 
    public static final String PROPERTY_order = "order";
