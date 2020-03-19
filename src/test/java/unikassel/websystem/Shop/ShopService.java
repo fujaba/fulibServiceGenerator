@@ -285,7 +285,8 @@ public class ShopService
       }
    }
 
-   public String cmd(Request req, Response res) { 
+   public String cmd(Request req, Response res) // no fulib
+   {
       String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
 
