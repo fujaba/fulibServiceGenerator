@@ -1,6 +1,7 @@
 package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer>
 {
@@ -163,13 +164,14 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer>
       return result.substring(1);
    }
 
-   public boolean preCheck(ShopEditor editor) { 
+   public boolean preCheck(ShopEditor editor)
+   {
       RemoveCommand oldRemove = editor.getRemoveCommands().get("ShopOffer-" + this.getId());
       if (oldRemove != null) {
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get("ShopOffer-" + this.getId());
-      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put("ShopOffer-" + this.getId(), this);

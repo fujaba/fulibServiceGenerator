@@ -182,15 +182,15 @@ public class ShopApp
          if (product.getOffers().size() == 0) {
             new HaveOfferCommand().setId(String.format("offer_%s_1", product.getId()))
             .setProduct(product.getId())
-            .setProduct("9.99 €")
+            .setPrice(9.99)
             .run(modelEditor);
          }
 
          ShopOffer offer = product.getOffers().get(0);
 
          new Line().setId("buy_" + offer.getId())
-               .setDescription(String.format("button %s %s %s", product.getId(), product.getDescription(), offer.getPrice()))
-               .setAction(String.format("addToCard %s shop", product.getId()))
+               .setDescription(String.format("button buy %s %s %s", product.getId(), product.getDescription(), offer.getPrice()))
+               .setAction(String.format("addToCard?id=%s shop", product.getId()))
                .setPage(shopPage);
       }
    }

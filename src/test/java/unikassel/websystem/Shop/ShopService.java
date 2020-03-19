@@ -8,6 +8,7 @@ import org.fulib.yaml.ReflectorMap;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
@@ -298,8 +299,14 @@ public class ShopService
 
       if (jsonObject.keySet().size() > 3) {
          String cmdClassName = jsonObject.getString("_cmd");
+         String[] split = new String[0];
+         if (cmdClassName.indexOf('?') > 0) {
+            split = cmdClassName.split("\\:");
+            cmdClassName = split[0];
+         }
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
+
          for (String key : jsonObject.keySet()) {
             if (key.startsWith("_")) {
                continue;
