@@ -25,7 +25,6 @@ public class StoreEditor
       }
    }
 
-
    public static final String PROPERTY_activeCommands = "activeCommands";
 
    private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();

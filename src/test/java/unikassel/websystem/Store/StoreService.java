@@ -41,7 +41,6 @@ public class StoreService
       return this;
    }
 
-
    public static final String PROPERTY_myPort = "myPort";
 
    private int myPort;

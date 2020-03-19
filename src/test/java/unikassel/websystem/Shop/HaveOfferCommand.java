@@ -3,7 +3,7 @@ import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
-public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer>
+public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer> // no fulib
 {
 
    public static final String PROPERTY_price = "price";
@@ -164,8 +164,7 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer>
       return result.substring(1);
    }
 
-   public boolean preCheck(ShopEditor editor)
-   {
+   public boolean preCheck(ShopEditor editor) { 
       RemoveCommand oldRemove = editor.getRemoveCommands().get("ShopOffer-" + this.getId());
       if (oldRemove != null) {
          return false;

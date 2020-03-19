@@ -697,7 +697,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreProduct-\" + this.getId());
-      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreProduct-\" + this.getId(), this);
@@ -799,7 +799,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreCustomer-\" + this.getId());
-      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreCustomer-\" + this.getId(), this);
@@ -922,7 +922,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreOffer-\" + this.getId());
-      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreOffer-\" + this.getId(), this);
@@ -1069,7 +1069,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreOrder-\" + this.getId());
-      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreOrder-\" + this.getId(), this);
@@ -1205,7 +1205,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreOrderPosition-\" + this.getId());
-      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreOrderPosition-\" + this.getId(), this);
