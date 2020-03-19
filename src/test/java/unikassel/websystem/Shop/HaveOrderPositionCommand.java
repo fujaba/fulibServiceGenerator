@@ -170,7 +170,7 @@ public class HaveOrderPositionCommand extends ModelCommand<HaveOrderPositionComm
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get("ShopOrderPosition-" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put("ShopOrderPosition-" + this.getId(), this);

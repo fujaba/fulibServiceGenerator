@@ -170,7 +170,7 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer> 
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get("ShopOffer-" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put("ShopOffer-" + this.getId(), this);

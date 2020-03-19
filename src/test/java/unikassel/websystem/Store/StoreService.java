@@ -275,6 +275,8 @@ public class StoreService
          int paramPos = page.indexOf("_cmd: words[0],");
          String sessionParam = String.format("_session: '%s', ", currentSession);
          page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf("'/cmd'");
+         page.insert(cmdUrlPos + 2, "Store");
          String sessionPage = page.toString();
          return sessionPage;
       }

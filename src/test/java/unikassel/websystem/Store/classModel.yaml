@@ -459,6 +459,8 @@
          int paramPos = page.indexOf(\"_cmd: words[0],\");
          String sessionParam = String.format(\"_session: '%s', \", currentSession);
          page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf(\"'/cmd'\");
+         page.insert(cmdUrlPos + 2, \"Store\");
          String sessionPage = page.toString();
          return sessionPage;
       }
@@ -697,7 +699,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreProduct-\" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreProduct-\" + this.getId(), this);
@@ -799,7 +801,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreCustomer-\" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreCustomer-\" + this.getId(), this);
@@ -922,7 +924,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreOffer-\" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreOffer-\" + this.getId(), this);
@@ -1069,7 +1071,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreOrder-\" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreOrder-\" + this.getId(), this);
@@ -1205,7 +1207,7 @@
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get(\"StoreOrderPosition-\" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put(\"StoreOrderPosition-\" + this.getId(), this);

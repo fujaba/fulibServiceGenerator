@@ -125,7 +125,7 @@ public class HaveCustomerCommand extends ModelCommand
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get("ShopCustomer-" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put("ShopCustomer-" + this.getId(), this);

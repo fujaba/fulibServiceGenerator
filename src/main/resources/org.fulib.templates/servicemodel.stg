@@ -29,7 +29,7 @@ preCheck(dataClazz) ::= <<
          return false;
       }
       ModelCommand oldCommand = editor.getActiveCommands().get("<dataClazz>-" + this.getId());
-      if (oldCommand != null && Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
       editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
@@ -167,6 +167,8 @@ rootBody(serviceName) ::= <<
          int paramPos = page.indexOf("_cmd: words[0],");
          String sessionParam = String.format("_session: '%s', ", currentSession);
          page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf("'/cmd'");
+         page.insert(cmdUrlPos + 2, "<serviceName>");
          String sessionPage = page.toString();
          return sessionPage;
       }
