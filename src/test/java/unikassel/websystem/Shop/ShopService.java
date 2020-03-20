@@ -252,39 +252,6 @@ public class ShopService
       java.util.logging.Logger.getGlobal().info("Shop Service is listening on port " + myPort);
    }
 
-   public String getFirstRoot(Request req, Response res) { 
-      currentSession = "" + (sessionToAppMap.size() + 1);
-      return root(req, res);
-   }
-
-   public String root(Request req, Response res) { 
-      try
-      {
-         ShopApp myApp = this.sessionToAppMap.get(currentSession);
-         if (myApp == null) {
-            myApp = new ShopApp().init(this.modelEditor);
-            sessionToAppMap.put(currentSession, myApp);
-         }
-
-         java.util.Map<String, String> params = req.params();
-         java.io.StringWriter stringWriter = new java.io.StringWriter();
-         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
-         StringBuilder page = new StringBuilder(stringWriter.toString());
-         int paramPos = page.indexOf("_cmd: words[0],");
-         String sessionParam = String.format("_session: '%s', ", currentSession);
-         page.insert(paramPos, sessionParam);
-         int cmdUrlPos = page.indexOf("'/cmd'");
-         page.insert(cmdUrlPos + 2, "Shop");
-         String sessionPage = page.toString();
-         return sessionPage;
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-         return "404 " + e.getMessage();
-      }
-   }
-
    public String cmd(Request req, Response res) // no fulib
    {
       String cmd = req.body();
@@ -345,6 +312,39 @@ public class ShopService
       }
 
       return root(req, res);
+   }
+
+   public String getFirstRoot(Request req, Response res) { 
+      currentSession = "" + (sessionToAppMap.size() + 1);
+      return root(req, res);
+   }
+
+   public String root(Request req, Response res) { 
+      try
+      {
+         ShopApp myApp = this.sessionToAppMap.get(currentSession);
+         if (myApp == null) {
+            myApp = new ShopApp().init(this.modelEditor);
+            sessionToAppMap.put(currentSession, myApp);
+         }
+
+         java.util.Map<String, String> params = req.params();
+         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         StringBuilder page = new StringBuilder(stringWriter.toString());
+         int paramPos = page.indexOf("_cmd: words[0],");
+         String sessionParam = String.format("_session: '%s', ", currentSession);
+         page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf("'/cmd'");
+         page.insert(cmdUrlPos + 2, "Shop");
+         String sessionPage = page.toString();
+         return sessionPage;
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return "404 " + e.getMessage();
+      }
    }
 
 }

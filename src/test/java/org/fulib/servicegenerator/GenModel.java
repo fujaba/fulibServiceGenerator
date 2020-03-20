@@ -47,6 +47,9 @@ public class GenModel
 
       sysEdit.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
 
+      Clazz addToCard = shop.haveCommand("AddToCard");
+      shop.getClassModelManager().haveAttribute(addToCard, )
+
 //      sysEdit.haveStream(store, product, shop);
 //      sysEdit.haveStream(shop, order, store);
 //      sysEdit.haveStream(store, picked, shop);
