@@ -98,6 +98,7 @@ public class HaveOrderPositionCommand extends ModelCommand<HaveOrderPositionComm
       ShopOffer offer = editor.getOrCreateShopOffer(this.getOffer());
       dataObject.setOffer(offer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
    }
 

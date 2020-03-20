@@ -60,6 +60,7 @@ public class HaveCustomerProductsLink extends ModelCommand
       sourceObject.withProducts(targetObject);
 
       editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
    }

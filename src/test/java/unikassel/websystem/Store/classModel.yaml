@@ -360,6 +360,7 @@
       }
       objects.remove(this.getId());
       editor.getRemoveCommands().put(this.getTargetClassName() + \"-\" + this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
 "
@@ -718,6 +719,7 @@
       StoreProduct dataObject = editor.getOrCreateStoreProduct(this.getId());
       dataObject.setDescription(this.getDescription());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -734,6 +736,7 @@
       dataObject.setDescription(this.getDescription());
       dataObject.setItems(this.getItems());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -820,6 +823,7 @@
       StoreCustomer dataObject = editor.getOrCreateStoreCustomer(this.getId());
       dataObject.setName(this.getName());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -836,6 +840,7 @@
       dataObject.setName(this.getName());
       dataObject.setAddress(this.getAddress());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -943,6 +948,7 @@
       StoreOffer dataObject = editor.getOrCreateStoreOffer(this.getId());
       dataObject.setPrice(this.getPrice());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -960,6 +966,7 @@
       StoreProduct product = editor.getOrCreateStoreProduct(this.getProduct());
       dataObject.setProduct(product);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -978,6 +985,7 @@
       StoreProduct product = editor.getOrCreateStoreProduct(this.getProduct());
       dataObject.setProduct(product);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -997,6 +1005,7 @@
       StoreProduct product = editor.getOrCreateStoreProduct(this.getProduct());
       dataObject.setProduct(product);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1091,6 +1100,7 @@
       StoreCustomer customer = editor.getOrCreateStoreCustomer(this.getCustomer());
       dataObject.setCustomer(customer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1108,6 +1118,7 @@
       StoreCustomer customer = editor.getOrCreateStoreCustomer(this.getCustomer());
       dataObject.setCustomer(customer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1126,6 +1137,7 @@
       StoreCustomer customer = editor.getOrCreateStoreCustomer(this.getCustomer());
       dataObject.setCustomer(customer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1227,6 +1239,7 @@
       StoreOrder order = editor.getOrCreateStoreOrder(this.getOrder());
       dataObject.setOrder(order);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1245,6 +1258,7 @@
       StoreOffer offer = editor.getOrCreateStoreOffer(this.getOffer());
       dataObject.setOffer(offer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1264,6 +1278,7 @@
       StoreOffer offer = editor.getOrCreateStoreOffer(this.getOffer());
       dataObject.setOffer(offer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1284,6 +1299,7 @@
       StoreOffer offer = editor.getOrCreateStoreOffer(this.getOffer());
       dataObject.setOffer(offer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
 "
   modified: 	false
@@ -1320,6 +1336,7 @@
       sourceObject.withProducts(targetObject);
 
       editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
 "
@@ -1357,6 +1374,7 @@
       sourceObject.withoutProducts(targetObject);
 
       editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
 "

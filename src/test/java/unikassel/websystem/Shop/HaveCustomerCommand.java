@@ -54,6 +54,7 @@ public class HaveCustomerCommand extends ModelCommand
       dataObject.setName(this.getName());
       dataObject.setAddress(this.getAddress());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
    }
 

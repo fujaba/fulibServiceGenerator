@@ -54,6 +54,7 @@ public class HaveProductCommand extends ModelCommand
       dataObject.setDescription(this.getDescription());
       dataObject.setItems(this.getItems());
 
+      editor.fireCommandExecuted(this);
       return dataObject;
    }
 

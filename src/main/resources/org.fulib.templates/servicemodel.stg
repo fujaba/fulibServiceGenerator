@@ -44,6 +44,7 @@ run(dataClazz, attributes) ::= <<
       }
       <dataClazz> dataObject = editor.getOrCreate<dataClazz>(this.getId());
       <attributes>
+      editor.fireCommandExecuted(this);
       return dataObject;
 
 >>
@@ -62,6 +63,7 @@ runHaveLink(sourceClassName, linkName, targetClassName) ::= <<
       sourceObject.with<linkName>(targetObject);
 
       editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
 
@@ -82,6 +84,7 @@ runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
       sourceObject.without<linkName>(targetObject);
 
       editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
 
@@ -111,6 +114,7 @@ removeCommandRun() ::= <<
       }
       objects.remove(this.getId());
       editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
 

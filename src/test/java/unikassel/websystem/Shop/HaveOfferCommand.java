@@ -98,6 +98,7 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer> 
       ShopProduct product = editor.getOrCreateShopProduct(this.getProduct());
       dataObject.setProduct(product);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
    }
 

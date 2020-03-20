@@ -111,6 +111,7 @@ public class RemoveCommand extends ModelCommand
       }
       objects.remove(this.getId());
       editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
    }

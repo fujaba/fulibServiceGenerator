@@ -98,6 +98,7 @@ public class HaveOrderPositionCommand extends ModelCommand
       StoreOffer offer = editor.getOrCreateStoreOffer(this.getOffer());
       dataObject.setOffer(offer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
    }
 

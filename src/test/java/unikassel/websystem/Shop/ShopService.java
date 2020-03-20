@@ -239,7 +239,7 @@ public class ShopService
       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       get("/shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post("/shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 
       CommandStream stream = new CommandStream();
       modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);

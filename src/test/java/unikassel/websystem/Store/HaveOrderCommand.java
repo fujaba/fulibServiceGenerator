@@ -76,6 +76,7 @@ public class HaveOrderCommand extends ModelCommand
       StoreCustomer customer = editor.getOrCreateStoreCustomer(this.getCustomer());
       dataObject.setCustomer(customer);
 
+      editor.fireCommandExecuted(this);
       return dataObject;
    }
 

@@ -60,6 +60,7 @@ public class RemoveCustomerProductsLink extends ModelCommand
       sourceObject.withoutProducts(targetObject);
 
       editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
 
       return null;
    }

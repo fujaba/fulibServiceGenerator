@@ -57,7 +57,7 @@ public class TestSystem
 
       // book a product at the store
       String cmd = "{\"_session\":\"1\",\"_cmd\":\"HaveProductCommand\",\"_newPage\":\"supplyPage\",\"idIn\":\"p1\",\"descriptionIn\":\"pumps\",\"itemsIn\":\"42\"}\n";
-      url = new URL("http://localhost:" + 22010 + "/storecmd");
+      url = new URL("http://localhost:" + 22010 + "/Storecmd");
       connection = (HttpURLConnection) url.openConnection();
       connection.setRequestMethod("POST");
       connection.setDoOutput(true);
