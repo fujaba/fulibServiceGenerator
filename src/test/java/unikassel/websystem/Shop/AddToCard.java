@@ -19,6 +19,7 @@ public class AddToCard extends ModelCommand
       ShopOrderPosition pos = new HaveOrderPositionCommand().setId(String.format("%s_pos_%d", shoppingCard.getId(), shoppingCard.getPositions().size() + 1))
             .setOrder(shoppingCard.getId())
             .setAmount(1.0)
+            .setOffer(this.getOffer())
             .run(modelEditor);
       return pos;
    }

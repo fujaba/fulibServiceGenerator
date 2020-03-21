@@ -243,7 +243,7 @@ public class ShopService
 
       CommandStream stream = new CommandStream();
       modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
-      stream.start("http://localhost:5050/StoreToShop", this);
+      stream.start("http://localhost:22010/StoreToShop", this);
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();

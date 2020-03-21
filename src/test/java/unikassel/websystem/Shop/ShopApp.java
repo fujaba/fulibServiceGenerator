@@ -205,7 +205,7 @@ public class ShopApp
          ShopOffer offer = position.getOffer();
          new Line().setId(position.getId()).setPage(cardPage)
                .setDescription(String.format("%s %.2f",
-                     "???", // offer.getProduct().getDescription(),
+                     offer.getProduct().getDescription(),
                      offer.getPrice()));
       }
    }

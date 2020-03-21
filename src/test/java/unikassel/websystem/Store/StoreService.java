@@ -190,7 +190,7 @@ public class StoreService
       post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 
       String streamName = "ShopToStore";
-      String targetUrl = streamUrls.computeIfAbsent(streamName, s -> "http://localhost:5050/StoreToShop");
+      String targetUrl = streamUrls.computeIfAbsent(streamName, s -> "http://localhost:22010/StoreToShop");
 
       CommandStream stream = new CommandStream();
       modelEditor.addCommandListener(HaveProductCommand.class.getSimpleName(), stream);
