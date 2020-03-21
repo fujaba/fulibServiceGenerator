@@ -208,6 +208,27 @@ public class ShopApp
                      offer.getProduct().getDescription(),
                      offer.getPrice()));
       }
+
+      new Line().setId("nameIn").setDescription("input your name?").setPage(cardPage);
+      new Line().setId("addressIn").setDescription("input delivery address?").setPage(cardPage);
+      new Line().setId("buyButton").setDescription("button Buy")
+            .setAction("OrderAction nameIn addressIn orders")
+            .setPage(cardPage);
+   }
+
+   public void orders() {
+      Page ordersPage = new Page().setId("ordersPage").setDescription("button shop | button card | button orders").setApp(this);
+
+      if (this.getShoppingCard() != null) {
+         String orderDescription = "order " + this.getShoppingCard().getId();
+         for (ShopOrderPosition position : this.getShoppingCard().getPositions()) {
+            orderDescription += " " + position.getOffer().getProduct().getDescription();
+         }
+         new Line().setId("noOrders").setDescription(orderDescription).setPage(ordersPage);
+      }
+      else {
+         new Line().setId("noOrders").setDescription("You have not yet ordered anything").setPage(ordersPage);
+      }
    }
 
    private ShopOrder card = null;
@@ -241,5 +262,24 @@ public class ShopApp
       return this;
    }
 
+   public static final String PROPERTY_customer = "customer";
+
+   private ShopCustomer customer;
+
+   public ShopCustomer getCustomer()
+   {
+      return customer;
+   }
+
+   public ShopApp setCustomer(ShopCustomer value)
+   {
+      if (value != this.customer)
+      {
+         ShopCustomer oldValue = this.customer;
+         this.customer = value;
+         firePropertyChange("customer", oldValue, value);
+      }
+      return this;
+   }
 
 }

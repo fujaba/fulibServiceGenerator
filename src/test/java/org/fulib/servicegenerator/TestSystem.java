@@ -83,6 +83,10 @@ public class TestSystem
       SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
       card.click();
 
+      $("#nameIn").$("input").setValue("Alice");
+      $("#addressIn").$("input").setValue("Wonderland 1");
+      $(By.xpath("//button[text()='Buy']")).click();
+
       System.out.println("the end");
    }
 }

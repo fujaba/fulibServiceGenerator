@@ -224,6 +224,9 @@ public class StoreEditor
    }
 
    public StoreProduct getOrCreateStoreProduct(String id) { 
+      if (id == null) {
+         return null;
+      }
       StoreProduct oldObject = this.getStoreProducts().get(id);
       if (oldObject != null) {
          return oldObject;
@@ -235,6 +238,9 @@ public class StoreEditor
    }
 
    public StoreCustomer getOrCreateStoreCustomer(String id) { 
+      if (id == null) {
+         return null;
+      }
       StoreCustomer oldObject = this.getStoreCustomers().get(id);
       if (oldObject != null) {
          return oldObject;
@@ -246,6 +252,9 @@ public class StoreEditor
    }
 
    public StoreOffer getOrCreateStoreOffer(String id) { 
+      if (id == null) {
+         return null;
+      }
       StoreOffer oldObject = this.getStoreOffers().get(id);
       if (oldObject != null) {
          return oldObject;
@@ -257,6 +266,9 @@ public class StoreEditor
    }
 
    public StoreOrder getOrCreateStoreOrder(String id) { 
+      if (id == null) {
+         return null;
+      }
       StoreOrder oldObject = this.getStoreOrders().get(id);
       if (oldObject != null) {
          return oldObject;
@@ -268,6 +280,9 @@ public class StoreEditor
    }
 
    public StoreOrderPosition getOrCreateStoreOrderPosition(String id) { 
+      if (id == null) {
+         return null;
+      }
       StoreOrderPosition oldObject = this.getStoreOrderPositions().get(id);
       if (oldObject != null) {
          return oldObject;

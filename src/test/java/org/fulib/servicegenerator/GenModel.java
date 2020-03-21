@@ -50,9 +50,17 @@ public class GenModel
       Clazz shopApp = shop.getClassModelManager().haveClass("ShopApp");
       Clazz shopOrder = shop.getClassModelManager().haveClass("ShopOrder");
       shop.getClassModelManager().haveRole(shopApp, "shoppingCard", shopOrder, ONE);
+      shop.getClassModelManager().haveAttribute(shopApp, "customer", "ShopCustomer");
+
       Clazz addToCard = shop.haveCommand("AddToCard");
       shop.getClassModelManager().haveAttribute(addToCard, "offer", STRING);
       shop.getClassModelManager().haveAttribute(addToCard, "_app", "ShopApp");
+
+      Clazz orderAction = shop.haveCommand("OrderAction");
+      shop.getClassModelManager().haveAttribute(orderAction, "order", STRING);
+      shop.getClassModelManager().haveAttribute(orderAction, "name", STRING);
+      shop.getClassModelManager().haveAttribute(orderAction, "address", STRING);
+      shop.getClassModelManager().haveAttribute(orderAction, "_app", "ShopApp");
 
 //      sysEdit.haveStream(store, product, shop);
 //      sysEdit.haveStream(shop, order, store);

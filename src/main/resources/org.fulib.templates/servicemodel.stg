@@ -12,6 +12,9 @@ getOrCreateBody(dataClazz) ::= <<
 >>
 
 editorGetOrCreateBody(dataClazz) ::= <<
+      if (id == null) {
+         return null;
+      }
       <dataClazz> oldObject = this.get<dataClazz>s().get(id);
       if (oldObject != null) {
          return oldObject;

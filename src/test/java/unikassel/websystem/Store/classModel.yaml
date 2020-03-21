@@ -241,7 +241,10 @@
 - f29: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreProduct getOrCreateStoreProduct(String id)"
-  methodBody: 	"      StoreProduct oldObject = this.getStoreProducts().get(id);
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StoreProduct oldObject = this.getStoreProducts().get(id);
       if (oldObject != null) {
          return oldObject;
       }
@@ -255,7 +258,10 @@
 - f30: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreCustomer getOrCreateStoreCustomer(String id)"
-  methodBody: 	"      StoreCustomer oldObject = this.getStoreCustomers().get(id);
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StoreCustomer oldObject = this.getStoreCustomers().get(id);
       if (oldObject != null) {
          return oldObject;
       }
@@ -269,7 +275,10 @@
 - f31: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreOffer getOrCreateStoreOffer(String id)"
-  methodBody: 	"      StoreOffer oldObject = this.getStoreOffers().get(id);
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StoreOffer oldObject = this.getStoreOffers().get(id);
       if (oldObject != null) {
          return oldObject;
       }
@@ -283,7 +292,10 @@
 - f32: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreOrder getOrCreateStoreOrder(String id)"
-  methodBody: 	"      StoreOrder oldObject = this.getStoreOrders().get(id);
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StoreOrder oldObject = this.getStoreOrders().get(id);
       if (oldObject != null) {
          return oldObject;
       }
@@ -297,7 +309,10 @@
 - f33: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreOrderPosition getOrCreateStoreOrderPosition(String id)"
-  methodBody: 	"      StoreOrderPosition oldObject = this.getStoreOrderPositions().get(id);
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StoreOrderPosition oldObject = this.getStoreOrderPositions().get(id);
       if (oldObject != null) {
          return oldObject;
       }

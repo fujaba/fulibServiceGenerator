@@ -270,5 +270,4 @@ public class ShopOrder
       return this;
    }
 
-
 }

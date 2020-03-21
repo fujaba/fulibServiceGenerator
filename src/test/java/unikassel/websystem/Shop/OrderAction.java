@@ -1,9 +1,64 @@
 package unikassel.websystem.Shop;
+import org.fulib.FulibTools;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, ShopCustomer> // no fulib
+public class OrderAction extends ModelCommand  
 {
+   @Override
+   public Object run(ShopEditor modelEditor)
+   {
+      // have a customer
+      ShopCustomer customer = new HaveCustomerCommand()
+            .setId(this.name)
+            .setName(this.name)
+            .setAddress(this.address)
+            .run(modelEditor);
+      _app.setCustomer(customer);
+
+      // have an order
+      ShopOrder shoppingCard = _app.getShoppingCard();
+      if (shoppingCard == null) {
+         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
+         shoppingCard = new HaveOrderCommand()
+               .setId(orderId)
+               .setCustomer(customer.getId())
+               .run(modelEditor);
+         _app.setShoppingCard(shoppingCard);
+      }
+      else {
+         shoppingCard = new HaveOrderCommand()
+               .setId(shoppingCard.getId())
+               .setCustomer(customer.getId())
+               .run(modelEditor);
+         _app.setShoppingCard(shoppingCard);
+      }
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/shopApp.svg", _app);
+
+      return null;
+   }
+
+   public static final String PROPERTY_order = "order";
+
+   private String order;
+
+   public String getOrder()
+   {
+      return order;
+   }
+
+   public OrderAction setOrder(String value)
+   {
+      if (value == null ? this.order != null : ! value.equals(this.order))
+      {
+         String oldValue = this.order;
+         this.order = value;
+         firePropertyChange("order", oldValue, value);
+      }
+      return this;
+   }
 
    public static final String PROPERTY_name = "name";
 
@@ -14,7 +69,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, ShopC
       return name;
    }
 
-   public HaveCustomerCommand setName(String value)
+   public OrderAction setName(String value)
    {
       if (value == null ? this.name != null : ! value.equals(this.name))
       {
@@ -34,7 +89,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, ShopC
       return address;
    }
 
-   public HaveCustomerCommand setAddress(String value)
+   public OrderAction setAddress(String value)
    {
       if (value == null ? this.address != null : ! value.equals(this.address))
       {
@@ -43,19 +98,6 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, ShopC
          firePropertyChange("address", oldValue, value);
       }
       return this;
-   }
-
-@Override
-   public ShopCustomer run(ShopEditor editor) { 
-      if ( ! preCheck(editor)) {
-         return editor.getShopCustomers().get(this.getId());
-      }
-      ShopCustomer dataObject = editor.getOrCreateShopCustomer(this.getId());
-      dataObject.setName(this.getName());
-      dataObject.setAddress(this.getAddress());
-
-      editor.fireCommandExecuted(this);
-      return dataObject;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -113,6 +155,7 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, ShopC
    {
       StringBuilder result = new StringBuilder();
 
+      result.append(" ").append(this.getOrder());
       result.append(" ").append(this.getName());
       result.append(" ").append(this.getAddress());
 
@@ -120,17 +163,24 @@ public class HaveCustomerCommand extends ModelCommand<HaveCustomerCommand, ShopC
       return result.substring(1);
    }
 
-   public boolean preCheck(ShopEditor editor) { 
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("ShopCustomer-" + this.getId());
-      if (oldRemove != null) {
-         return false;
+   public static final String PROPERTY__app = "_app";
+
+   private ShopApp _app;
+
+   public ShopApp get_app()
+   {
+      return _app;
+   }
+
+   public OrderAction set_app(ShopApp value)
+   {
+      if (value != this._app)
+      {
+         ShopApp oldValue = this._app;
+         this._app = value;
+         firePropertyChange("_app", oldValue, value);
       }
-      ModelCommand oldCommand = editor.getActiveCommands().get("ShopCustomer-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("ShopCustomer-" + this.getId(), this);
-      return true;
+      return this;
    }
 
 }
