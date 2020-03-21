@@ -49,8 +49,8 @@ public class TestSystem
       StringBuilder stringBuilder = new StringBuilder();
       assertThat(responseCode, is(200) );
 
-      open("http://localhost:22010/store");
-      SelenideElement idDiv = $("#idIn").$("input").setValue("sel1");
+      open("http://localhost:22010/Store");
+      $("#idIn").$("input").setValue("sel1");
       $("#descriptionIn").$("input").setValue("Stilettos");
       $("#itemsIn").$("input").setValue("23");
       $("#addButton").$("button").click();
@@ -75,6 +75,13 @@ public class TestSystem
       assertThat(shopEditor.getShopProducts().size(), is(2));
       ShopProduct next = shopEditor.getShopProducts().values().iterator().next();
       assertThat(next.getItems(), is(23.0));
+
+      // order pumps
+      open("http://localhost:22010/Shop");
+      $("#buy_offer_p1_1").$("button").click();
+      $("#buy_offer_sel1_1").$("button").click();
+      SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
+      card.click();
 
       System.out.println("the end");
    }

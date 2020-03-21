@@ -185,7 +185,7 @@ public class StoreService
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       try { port(myPort);} catch (Exception e) {};
       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/Store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 

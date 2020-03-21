@@ -237,7 +237,7 @@ public class ShopService
 
       try { port(myPort);} catch (Exception e) {};
       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 
@@ -265,15 +265,26 @@ public class ShopService
          return "404 could not find session " + currentSession;
       }
 
-      if (jsonObject.keySet().size() > 3) {
-         String cmdClassName = jsonObject.getString("_cmd");
-         String[] split = new String[0];
-         if (cmdClassName.indexOf('?') > 0) {
-            split = cmdClassName.split("\\:");
-            cmdClassName = split[0];
+      String cmdClassName = jsonObject.getString("_cmd");
+      String[] split = new String[0];
+      if (cmdClassName.indexOf('?') > 0) {
+         split = cmdClassName.split("\\?");
+         cmdClassName = split[0];
+         jsonObject.put("_cmd", cmdClassName);
+         String params = split[1];
+         String[] paramArray = params.split("\\&");
+         for (String oneParam : paramArray) {
+            String[] keyValue = oneParam.split("\\=");
+            jsonObject.put(keyValue[0], keyValue[1]);
          }
+      }
+
+      if (jsonObject.keySet().size() > 3) {
+         cmdClassName = jsonObject.getString("_cmd");
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
+
+         reflector.setValue(cmdObject, "_app", app, null);
 
          for (String key : jsonObject.keySet()) {
             if (key.startsWith("_")) {
@@ -308,7 +319,7 @@ public class ShopService
          method.invoke(app);
       }
       catch (Exception e) {
-         return "404 app has no method to compute page " + newPage;
+         return "404 app has problem with method to compute page " + newPage + "\n" + e.getMessage();
       }
 
       return root(req, res);

@@ -234,10 +234,41 @@ public class ShopOrder
    public void removeYou()
    {
       this.setCustomer(null);
+      this.setShopApp(null);
 
       this.withoutPositions(this.getPositions().clone());
 
 
    }
+
+   public static final String PROPERTY_shopApp = "shopApp";
+
+   private ShopApp shopApp = null;
+
+   public ShopApp getShopApp()
+   {
+      return this.shopApp;
+   }
+
+   public ShopOrder setShopApp(ShopApp value)
+   {
+      if (this.shopApp != value)
+      {
+         ShopApp oldValue = this.shopApp;
+         if (this.shopApp != null)
+         {
+            this.shopApp = null;
+            oldValue.setShoppingCard(null);
+         }
+         this.shopApp = value;
+         if (value != null)
+         {
+            value.setShoppingCard(this);
+         }
+         firePropertyChange("shopApp", oldValue, value);
+      }
+      return this;
+   }
+
 
 }

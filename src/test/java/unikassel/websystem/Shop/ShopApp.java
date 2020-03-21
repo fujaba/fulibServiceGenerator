@@ -140,6 +140,7 @@ public class ShopApp
    public void removeYou()
    {
       this.setContent(null);
+      this.setShoppingCard(null);
 
    }
 
@@ -190,24 +191,55 @@ public class ShopApp
 
          new Line().setId("buy_" + offer.getId())
                .setDescription(String.format("button buy %s %s %s", product.getId(), product.getDescription(), offer.getPrice()))
-               .setAction(String.format("addToCard?id=%s shop", product.getId()))
+               .setAction(String.format("AddToCard?offer=%s shop", offer.getId()))
                .setPage(shopPage);
+      }
+   }
+
+   public void card()
+   {
+      Page cardPage = new Page().setId("cardPage").setDescription("button shop | button card | button orders").setApp(this);
+      // show the order positions
+      ShopOrder card = this.getShoppingCard();
+      for (ShopOrderPosition position : card.getPositions()) {
+         ShopOffer offer = position.getOffer();
+         new Line().setId(position.getId()).setPage(cardPage)
+               .setDescription(String.format("%s %.2f",
+                     "???", // offer.getProduct().getDescription(),
+                     offer.getPrice()));
       }
    }
 
    private ShopOrder card = null;
 
-   public void addToCard(String productId) {
-      // have an order
-      if (this.card == null) {
-         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
-         card = new HaveOrderCommand().setId(orderId).run(modelEditor);
-      }
+   public static final String PROPERTY_shoppingCard = "shoppingCard";
 
-      // add position
-      new HaveOrderPositionCommand().setId(String.format("%s_pos_%d", card.getId(), card.getPositions().size() + 1))
-            .setOrder(card.getId())
-            .setAmount(1.0);
+   private ShopOrder shoppingCard = null;
+
+   public ShopOrder getShoppingCard()
+   {
+      return this.shoppingCard;
    }
+
+   public ShopApp setShoppingCard(ShopOrder value)
+   {
+      if (this.shoppingCard != value)
+      {
+         ShopOrder oldValue = this.shoppingCard;
+         if (this.shoppingCard != null)
+         {
+            this.shoppingCard = null;
+            oldValue.setShopApp(null);
+         }
+         this.shoppingCard = value;
+         if (value != null)
+         {
+            value.setShopApp(this);
+         }
+         firePropertyChange("shoppingCard", oldValue, value);
+      }
+      return this;
+   }
+
 
 }
