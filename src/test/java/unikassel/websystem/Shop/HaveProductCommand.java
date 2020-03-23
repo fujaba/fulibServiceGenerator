@@ -123,6 +123,9 @@ public class HaveProductCommand extends ModelCommand
    }
 
    public boolean preCheck(ShopEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
       RemoveCommand oldRemove = editor.getRemoveCommands().get("ShopProduct-" + this.getId());
       if (oldRemove != null) {
          return false;

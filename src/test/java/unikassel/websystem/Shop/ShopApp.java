@@ -7,6 +7,7 @@ public class ShopApp
 {
 
    public static final String PROPERTY_id = "id";
+   private final String toolBarDescription = "button shop | button card | button orders | button account";
 
    private String id;
 
@@ -177,7 +178,7 @@ public class ShopApp
 
    public void shop()
    {
-      Page shopPage = new Page().setId("shopPage").setDescription("button shop | button card | button orders").setApp(this);
+      Page shopPage = new Page().setId("shopPage").setDescription(toolBarDescription).setApp(this);
       // show all available products
       for (ShopProduct product : modelEditor.getShopProducts().values()) {
          if (product.getOffers().size() == 0) {
@@ -198,7 +199,22 @@ public class ShopApp
 
    public void card()
    {
-      Page cardPage = new Page().setId("cardPage").setDescription("button shop | button card | button orders").setApp(this);
+      Page cardPage = new Page().setId("cardPage").setDescription(toolBarDescription).setApp(this);
+
+      if (shoppingCard == null) {
+         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
+         String customerId = null;
+         if (customer != null) {
+            customerId = customer.getId();
+         }
+         shoppingCard = new HaveOrderCommand()
+               .setId(orderId)
+               .setState("collecting-items")
+               .setCustomer(customerId)
+               .run(modelEditor);
+         this.setShoppingCard(shoppingCard);
+      }
+
       // show the order positions
       ShopOrder card = this.getShoppingCard();
       for (ShopOrderPosition position : card.getPositions()) {
@@ -209,26 +225,59 @@ public class ShopApp
                      offer.getPrice()));
       }
 
-      new Line().setId("nameIn").setDescription("input your name?").setPage(cardPage);
-      new Line().setId("addressIn").setDescription("input delivery address?").setPage(cardPage);
+      Line nameIn = new Line().setId("nameIn").setDescription("input your name?").setPage(cardPage);
+      Line addressIn = new Line().setId("addressIn").setDescription("input delivery address?").setPage(cardPage);
+      if (this.getCustomer() != null) {
+         nameIn.setValue(customer.getName());
+         addressIn.setValue(customer.getAddress());
+      }
       new Line().setId("buyButton").setDescription("button Buy")
             .setAction("OrderAction nameIn addressIn orders")
             .setPage(cardPage);
    }
 
    public void orders() {
-      Page ordersPage = new Page().setId("ordersPage").setDescription("button shop | button card | button orders").setApp(this);
+      Page ordersPage = new Page().setId("ordersPage").setDescription(toolBarDescription).setApp(this);
 
-      if (this.getShoppingCard() != null) {
-         String orderDescription = "order " + this.getShoppingCard().getId();
-         for (ShopOrderPosition position : this.getShoppingCard().getPositions()) {
-            orderDescription += " " + position.getOffer().getProduct().getDescription();
+      if (customer != null) {
+         if (customer.getOrders().size() == 0) {
+            new Line().setId("noOrders").setDescription(customer.getName() + ", you have not yet ordered anything").setPage(ordersPage);
          }
-         new Line().setId("noOrders").setDescription(orderDescription).setPage(ordersPage);
+         else {
+            for (ShopOrder order : customer.getOrders()) {
+               displayOneOrder(order, ordersPage);
+            }
+         }
+      }
+      else if (this.getShoppingCard() != null) {
+         displayOneOrder(this.getShoppingCard(), ordersPage);
       }
       else {
          new Line().setId("noOrders").setDescription("You have not yet ordered anything").setPage(ordersPage);
       }
+   }
+
+   private void displayOneOrder(ShopOrder order, Page ordersPage)
+   {
+      String orderDescription = order.getId();
+      for (ShopOrderPosition position : order.getPositions()) {
+         orderDescription += " " + position.getOffer().getProduct().getDescription();
+      }
+      orderDescription += " " + order.getState();
+      new Line().setId("positionsOf" + order.getId()).setDescription(orderDescription).setPage(ordersPage);
+   }
+
+   public void account() {
+      Page accountPage = new Page().setId("accountPage").setDescription(toolBarDescription).setApp(this);
+      Line nameIn = new Line().setId("nameIn").setDescription("input your name?").setPage(accountPage);
+      Line addressIn = new Line().setId("addressIn").setDescription("input delivery address?").setPage(accountPage);
+      if (this.getCustomer() != null) {
+         nameIn.setValue(customer.getName());
+         addressIn.setValue(customer.getAddress());
+      }
+      new Line().setId("submitButton").setDescription("button Submit")
+            .setAction("CustomerAccount nameIn addressIn shop")
+            .setPage(accountPage);
    }
 
    private ShopOrder card = null;

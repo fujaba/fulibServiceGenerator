@@ -27,6 +27,9 @@ editorGetOrCreateBody(dataClazz) ::= <<
 >>
 
 preCheck(dataClazz) ::= <<
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
       RemoveCommand oldRemove = editor.getRemoveCommands().get("<dataClazz>-" + this.getId());
       if (oldRemove != null) {
          return false;
@@ -240,5 +243,24 @@ cmdBody(serviceName) ::= <<
       }
 
       return root(req, res);
+
+>>
+
+getTime() ::= <<
+      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) \<= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
 
 >>

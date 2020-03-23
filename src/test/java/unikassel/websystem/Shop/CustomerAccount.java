@@ -1,10 +1,18 @@
-package unikassel.websystem.Store;
+package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-import java.util.Objects;
 
-public class HaveCustomerCommand extends ModelCommand  
+public class CustomerAccount extends ModelCommand  
 {
+   @Override
+   public Object run(ShopEditor modelEditor)
+   {
+      ShopCustomer customer = new HaveCustomerCommand()
+            .setId(name).setName(name).setAddress(address)
+            .run(modelEditor);
+      _app.setCustomer(customer);
+      return null;
+   }
 
    public static final String PROPERTY_name = "name";
 
@@ -15,7 +23,7 @@ public class HaveCustomerCommand extends ModelCommand
       return name;
    }
 
-   public HaveCustomerCommand setName(String value)
+   public CustomerAccount setName(String value)
    {
       if (value == null ? this.name != null : ! value.equals(this.name))
       {
@@ -35,7 +43,7 @@ public class HaveCustomerCommand extends ModelCommand
       return address;
    }
 
-   public HaveCustomerCommand setAddress(String value)
+   public CustomerAccount setAddress(String value)
    {
       if (value == null ? this.address != null : ! value.equals(this.address))
       {
@@ -46,17 +54,24 @@ public class HaveCustomerCommand extends ModelCommand
       return this;
    }
 
-@Override
-   public StoreCustomer run(StoreEditor editor) { 
-      if ( ! preCheck(editor)) {
-         return editor.getStoreCustomers().get(this.getId());
-      }
-      StoreCustomer dataObject = editor.getOrCreateStoreCustomer(this.getId());
-      dataObject.setName(this.getName());
-      dataObject.setAddress(this.getAddress());
+   public static final String PROPERTY__app = "_app";
 
-      editor.fireCommandExecuted(this);
-      return dataObject;
+   private ShopApp _app;
+
+   public ShopApp get_app()
+   {
+      return _app;
+   }
+
+   public CustomerAccount set_app(ShopApp value)
+   {
+      if (value != this._app)
+      {
+         ShopApp oldValue = this._app;
+         this._app = value;
+         firePropertyChange("_app", oldValue, value);
+      }
+      return this;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -119,22 +134,6 @@ public class HaveCustomerCommand extends ModelCommand
 
 
       return result.substring(1);
-   }
-
-   public boolean preCheck(StoreEditor editor) { 
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("StoreCustomer-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("StoreCustomer-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("StoreCustomer-" + this.getId(), this);
-      return true;
    }
 
 }

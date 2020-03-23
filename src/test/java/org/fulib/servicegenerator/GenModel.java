@@ -62,6 +62,12 @@ public class GenModel
       shop.getClassModelManager().haveAttribute(orderAction, "address", STRING);
       shop.getClassModelManager().haveAttribute(orderAction, "_app", "ShopApp");
 
+      Clazz customerAccount = shop.haveCommand("CustomerAccount");
+      shop.getClassModelManager().haveAttribute(customerAccount, "name", STRING);
+      shop.getClassModelManager().haveAttribute(customerAccount, "address", STRING);
+      shop.getClassModelManager().haveAttribute(customerAccount, "_app", "ShopApp");
+
+
 //      sysEdit.haveStream(store, product, shop);
 //      sysEdit.haveStream(shop, order, store);
 //      sysEdit.haveStream(store, picked, shop);

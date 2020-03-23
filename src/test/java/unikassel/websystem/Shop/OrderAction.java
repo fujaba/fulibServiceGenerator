@@ -20,22 +20,15 @@ public class OrderAction extends ModelCommand
       // have an order
       ShopOrder shoppingCard = _app.getShoppingCard();
       if (shoppingCard == null) {
-         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
-         shoppingCard = new HaveOrderCommand()
-               .setId(orderId)
-               .setCustomer(customer.getId())
-               .run(modelEditor);
-         _app.setShoppingCard(shoppingCard);
-      }
-      else {
-         shoppingCard = new HaveOrderCommand()
-               .setId(shoppingCard.getId())
-               .setCustomer(customer.getId())
-               .run(modelEditor);
-         _app.setShoppingCard(shoppingCard);
+         return null;
       }
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/shopApp.svg", _app);
+      shoppingCard = new HaveOrderCommand()
+            .setId(shoppingCard.getId())
+            .setCustomer(customer.getId())
+            .setState("order-submitted")
+            .run(modelEditor);
+      _app.setShoppingCard(null);
 
       return null;
    }

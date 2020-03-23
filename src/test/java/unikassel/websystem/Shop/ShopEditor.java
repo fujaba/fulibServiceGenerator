@@ -1,13 +1,37 @@
 package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.fulib.yaml.Yaml;
 
 public class ShopEditor  
 {
+   private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+   private String lastTime = isoDateFormat.format(new Date());
+   private long timeDelta = 1;
+
+   public ShopEditor setTimeDelta(long value)
+   {
+      if (value != this.timeDelta)
+      {
+         long oldValue = this.timeDelta;
+         this.timeDelta = value;
+         firePropertyChange("timeDelta", oldValue, value);
+      }
+      return this;
+   }
+
+   public ShopEditor() {
+      isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      lastTime =  isoDateFormat.format(new Date());
+   }
+
    private LinkedHashMap<String, ArrayList<CommandStream>> commandListeners = new LinkedHashMap<>();
 
    public ShopEditor addCommandListener(String commandName, CommandStream stream) {
@@ -23,6 +47,17 @@ public class ShopEditor
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
+   }
+
+   public ShopEditor setLastTime(String value)
+   {
+      if (value == null ? this.lastTime != null : ! value.equals(this.lastTime))
+      {
+         String oldValue = this.lastTime;
+         this.lastTime = value;
+         firePropertyChange("lastTime", oldValue, value);
+      }
+      return this;
    }
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -213,6 +248,67 @@ public class ShopEditor
          firePropertyChange("shopOrderPositions", oldValue, value);
       }
       return this;
+   }
+
+   public static final String PROPERTY_isoDateFormat = "isoDateFormat";
+
+   public DateFormat getIsoDateFormat()
+   {
+      return isoDateFormat;
+   }
+
+   public ShopEditor setIsoDateFormat(DateFormat value)
+   {
+      if (value != this.isoDateFormat)
+      {
+         DateFormat oldValue = this.isoDateFormat;
+         this.isoDateFormat = value;
+         firePropertyChange("isoDateFormat", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_lastTime = "lastTime";
+
+   public String getLastTime()
+   {
+      return lastTime;
+   }
+
+   public static final String PROPERTY_timeDelta = "timeDelta";
+
+   public long getTimeDelta()
+   {
+      return timeDelta;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
+   public String getTime() { 
+      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) <= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
    }
 
    public void loadYaml(String yamlString) { 

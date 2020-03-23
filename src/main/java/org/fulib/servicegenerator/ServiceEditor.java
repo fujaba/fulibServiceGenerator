@@ -80,6 +80,21 @@ public class ServiceEditor
       this.editorHaveMapFor("activeCommands", "ModelCommand");
       this.editorHaveMapFor("RemoveCommand");
 
+      Attribute dateFormat = this.getClassModelManager().haveAttribute(editor, "isoDateFormat", "DateFormat");
+      dateFormat.setInitialization("new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
+      Attribute lastTime = this.getClassModelManager().haveAttribute(editor, "lastTime", STRING);
+      lastTime.setInitialization("isoDateFormat.format(new Date())");
+      Attribute timeDelta = this.getClassModelManager().haveAttribute(editor, "timeDelta", LONG);
+      timeDelta.setInitialization("1");
+
+      String declaration = "public String getTime()";
+      ST st = group.getInstanceOf("getTime");
+      String body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
+      editor.getImportList().add("import java.text.DateFormat;");
+      editor.getImportList().add("import java.util.Date;");
+
       haveModelCommand();
       haveRemoveCommand();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
@@ -156,6 +171,7 @@ public class ServiceEditor
       mm.haveAttribute(line, "id", STRING);
       mm.haveAttribute(line, "description", STRING);
       mm.haveAttribute(line, "action", STRING);
+      mm.haveAttribute(line, "value", STRING);
 
       mm.haveRole(appClass, "content", page, ONE,"app", ONE);
       mm.haveRole(page, "content", line, ClassModelBuilder.MANY,"page", ONE);

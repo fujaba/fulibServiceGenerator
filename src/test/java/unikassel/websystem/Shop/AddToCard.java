@@ -11,7 +11,15 @@ public class AddToCard extends ModelCommand
       ShopOrder shoppingCard = _app.getShoppingCard();
       if (shoppingCard == null) {
          String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
-         shoppingCard = new HaveOrderCommand().setId(orderId).run(modelEditor);
+         String customerId = null;
+         if (_app.getCustomer() != null) {
+            customerId = _app.getCustomer().getId();
+         }
+         shoppingCard = new HaveOrderCommand()
+               .setId(orderId)
+               .setState("collecting-items")
+               .setCustomer(customerId)
+               .run(modelEditor);
          _app.setShoppingCard(shoppingCard);
       }
 

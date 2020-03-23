@@ -145,6 +145,9 @@ public class HaveOrderCommand extends ModelCommand<HaveOrderCommand, ShopOrder> 
    }
 
    public boolean preCheck(ShopEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
       RemoveCommand oldRemove = editor.getRemoveCommands().get("ShopOrder-" + this.getId());
       if (oldRemove != null) {
          return false;

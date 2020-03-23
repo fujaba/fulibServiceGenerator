@@ -166,6 +166,9 @@ public class HaveOfferCommand extends ModelCommand<HaveOfferCommand, ShopOffer> 
    }
 
    public boolean preCheck(ShopEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
       RemoveCommand oldRemove = editor.getRemoveCommands().get("ShopOffer-" + this.getId());
       if (oldRemove != null) {
          return false;

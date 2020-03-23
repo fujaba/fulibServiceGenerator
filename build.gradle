@@ -19,7 +19,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.fulib/fulibScenarios
 	fulibScenarios group: 'org.fulib', name: 'fulibScenarios', version: '1.0.0'
 
-	compile 'org.fulib:fulibTools:1.1.0'
+	compile 'org.fulib:fulibTools:1.+'
 	compile 'org.fulib:fulibMockups:+'
 	compile 'org.fulib:fulibTables:1.1.0'
 	compile "com.sparkjava:spark-core:2.8.0"

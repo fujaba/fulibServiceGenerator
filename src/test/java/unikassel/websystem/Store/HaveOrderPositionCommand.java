@@ -166,6 +166,9 @@ public class HaveOrderPositionCommand extends ModelCommand
    }
 
    public boolean preCheck(StoreEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
       RemoveCommand oldRemove = editor.getRemoveCommands().get("StoreOrderPosition-" + this.getId());
       if (oldRemove != null) {
          return false;

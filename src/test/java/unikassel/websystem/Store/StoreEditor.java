@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import org.fulib.yaml.Yaml;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class StoreEditor  
 {
@@ -213,6 +215,95 @@ public class StoreEditor
          firePropertyChange("storeOrderPositions", oldValue, value);
       }
       return this;
+   }
+
+   public static final String PROPERTY_isoDateFormat = "isoDateFormat";
+
+   private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+   public DateFormat getIsoDateFormat()
+   {
+      return isoDateFormat;
+   }
+
+   public StoreEditor setIsoDateFormat(DateFormat value)
+   {
+      if (value != this.isoDateFormat)
+      {
+         DateFormat oldValue = this.isoDateFormat;
+         this.isoDateFormat = value;
+         firePropertyChange("isoDateFormat", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_lastTime = "lastTime";
+
+   private String lastTime = isoDateFormat.format(new Date());
+
+   public String getLastTime()
+   {
+      return lastTime;
+   }
+
+   public StoreEditor setLastTime(String value)
+   {
+      if (value == null ? this.lastTime != null : ! value.equals(this.lastTime))
+      {
+         String oldValue = this.lastTime;
+         this.lastTime = value;
+         firePropertyChange("lastTime", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_timeDelta = "timeDelta";
+
+   private long timeDelta = 1;
+
+   public long getTimeDelta()
+   {
+      return timeDelta;
+   }
+
+   public StoreEditor setTimeDelta(long value)
+   {
+      if (value != this.timeDelta)
+      {
+         long oldValue = this.timeDelta;
+         this.timeDelta = value;
+         firePropertyChange("timeDelta", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
+   public String getTime() { 
+      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) <= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
    }
 
    public void loadYaml(String yamlString) { 
