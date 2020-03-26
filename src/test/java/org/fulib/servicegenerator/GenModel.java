@@ -52,7 +52,7 @@ public class GenModel
       shop.getClassModelManager().haveRole(shopApp, "shoppingCard", shopOrder, ONE);
       shop.getClassModelManager().haveAttribute(shopApp, "customer", "ShopCustomer");
 
-      Clazz addToCard = shop.haveCommand("AddToCard");
+      Clazz addToCard = shop.haveCommand("AddTobCard");
       shop.getClassModelManager().haveAttribute(addToCard, "offer", STRING);
       shop.getClassModelManager().haveAttribute(addToCard, "_app", "ShopApp");
 

@@ -1,18 +1,16 @@
 package org.fulib.servicegenerator;
 
 import com.codeborne.selenide.SelenideElement;
-import org.hamcrest.core.Is;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import unikassel.websystem.Shop.ShopEditor;
 import unikassel.websystem.Shop.ShopProduct;
 import unikassel.websystem.Shop.ShopService;
+import unikassel.websystem.Store.StoreApp;
 import unikassel.websystem.Store.StoreService;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -20,7 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Condition.*;
 
 public class TestSystem
 {
@@ -40,53 +37,48 @@ public class TestSystem
       shopService.addStreamUrl("StoreToShop", "http://localhost:22010/ShopToStore");
       shopService.setMyPort(22010).start();
 
-      URL url = new URL("http://localhost:" + 22010);
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setRequestMethod("GET");
-      int responseCode = connection.getResponseCode();
+      FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
+      scene1.setHtmlFileName("tmp/scene1.html");
+      scene1.addServices(storeService, shopService);
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      StringBuilder stringBuilder = new StringBuilder();
-      assertThat(responseCode, is(200) );
 
       open("http://localhost:22010/Store");
-      $("#idIn").$("input").setValue("sel1");
-      $("#descriptionIn").$("input").setValue("Stilettos");
-      $("#itemsIn").$("input").setValue("23");
+      $("#idIn").$("input").setValue("pumps");
+      $("#descriptionIn").$("input").setValue("Pumps");
+      $("#itemsIn").$("input").setValue("40");
+      StoreApp storeApp = storeService.getSessionToAppMap().values().iterator().next();
+      scene1.addScreen("9:00", storeApp);
       $("#addButton").$("button").click();
 
-      // book a product at the store
-      String cmd = "{\"_session\":\"1\",\"_cmd\":\"HaveProductCommand\",\"_newPage\":\"supplyPage\",\"idIn\":\"p1\",\"descriptionIn\":\"pumps\",\"itemsIn\":\"42\"}\n";
-      url = new URL("http://localhost:" + 22010 + "/Storecmd");
-      connection = (HttpURLConnection) url.openConnection();
-      connection.setRequestMethod("POST");
-      connection.setDoOutput(true);
-      DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-      out.writeBytes(cmd);
-      out.flush();
-      out.close();
+      $("#idIn").$("input").setValue("boots");
+      $("#descriptionIn").$("input").setValue("Boots");
+      $("#itemsIn").$("input").setValue("30");
+      scene1.addScreen("9:01", storeApp);
+      $("#addButton").$("button").click();
 
-      responseCode = connection.getResponseCode();
 
-      assertThat(responseCode, is(200) );
 
       // find product in the shop
+      Thread.sleep(200);
       ShopEditor shopEditor = shopService.getModelEditor();
       assertThat(shopEditor.getShopProducts().size(), is(2));
       ShopProduct next = shopEditor.getShopProducts().values().iterator().next();
-      assertThat(next.getItems(), is(23.0));
+      assertThat(next.getItems(), is(40.0));
 
       // order pumps
       open("http://localhost:22010/Shop");
-      $("#buy_offer_p1_1").$("button").click();
-      $("#buy_offer_sel1_1").$("button").click();
+      scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next());
+      $("#buy_offer_pumps_1").$("button").click();
+      $("#buy_offer_boots_1").$("button").click();
       SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
       card.click();
 
       $("#nameIn").$("input").setValue("Alice");
       $("#addressIn").$("input").setValue("Wonderland 1");
+      scene1.addScreen("9:25", shopService.getSessionToAppMap().values().iterator().next());
       $(By.xpath("//button[text()='Buy']")).click();
 
+      scene1.dump();
       System.out.println("the end");
    }
 }
