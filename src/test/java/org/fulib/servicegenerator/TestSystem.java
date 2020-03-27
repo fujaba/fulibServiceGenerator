@@ -56,10 +56,12 @@ public class TestSystem
       scene1.addScreen("9:01", storeApp);
       $("#addButton").$("button").click();
 
+      Thread.sleep(200);
 
+      scene1.addData("9:02", "Store", storeService.getModelEditor().getStoreProducts().values());
+      scene1.addData("9:03", "Shop", shopService.getModelEditor().getShopProducts().values());
 
       // find product in the shop
-      Thread.sleep(200);
       ShopEditor shopEditor = shopService.getModelEditor();
       assertThat(shopEditor.getShopProducts().size(), is(2));
       ShopProduct next = shopEditor.getShopProducts().values().iterator().next();

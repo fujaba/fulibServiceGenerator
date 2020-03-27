@@ -1,0 +1,266 @@
+
+getOrCreateBody(dataClazz) ::= <<
+      java.util.Objects.requireNonNull(this.getId());
+      Object obj = sme.get<dataClazz>s().get(this.getId());
+      if (obj != null) {
+         return (<dataClazz>) obj;
+      }
+      <dataClazz> newObj = new <dataClazz>().setId(this.getId());
+      sme.get<dataClazz>s().put(this.getId(), newObj);
+      return newObj;
+
+>>
+
+editorGetOrCreateBody(dataClazz) ::= <<
+      if (id == null) {
+         return null;
+      }
+      <dataClazz> oldObject = this.get<dataClazz>s().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      <dataClazz> newObject = new <dataClazz>();
+      newObject.setId(id);
+      this.get<dataClazz>s().put(id, newObject);
+      return newObject;
+
+>>
+
+preCheck(dataClazz) ::= <<
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("<dataClazz>-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("<dataClazz>-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
+      return true;
+
+>>
+
+
+run(dataClazz, attributes) ::= <<
+      if ( ! preCheck(editor)) {
+         return editor.get<dataClazz>s().get(this.getId());
+      }
+      <dataClazz> dataObject = editor.getOrCreate<dataClazz>(this.getId());
+      <attributes>
+      editor.fireCommandExecuted(this);
+      return dataObject;
+
+>>
+
+runHaveLink(sourceClassName, linkName, targetClassName) ::= <<
+      java.util.Objects.requireNonNull(this.getTime());
+      this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
+      ModelCommand oldCommand = editor.getActiveCommands().get(this.getId());
+      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+         // ignore new command
+         return null;
+      }
+
+      <sourceClassName> sourceObject = editor.getOrCreate<sourceClassName>(this.getSource());
+      <targetClassName> targetObject = editor.getOrCreate<targetClassName>(this.getTarget());
+      sourceObject.with<linkName>(targetObject);
+
+      editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
+
+      return null;
+
+>>
+
+
+runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
+      java.util.Objects.requireNonNull(this.getTime());
+      this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
+      ModelCommand oldCommand = editor.getActiveCommands().get(this.getId());
+      if (oldCommand != null && oldCommand.getTime().compareTo(this.getTime()) >= 0) {
+         // ignore new command
+         return null;
+      }
+
+      <sourceClassName> sourceObject = editor.getOrCreate<sourceClassName>(this.getSource());
+      <targetClassName> targetObject = editor.getOrCreate<targetClassName>(this.getTarget());
+      sourceObject.without<linkName>(targetObject);
+
+      editor.getActiveCommands().put(this.getId(), this);
+      editor.fireCommandExecuted(this);
+
+      return null;
+
+>>
+
+
+
+removeCommandRun() ::= <<
+      // allready removed?
+      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
+      if (oldRemoveCommand != null) {
+         return null;
+      }
+
+      // find the target object
+      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(editor);
+      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
+      java.util.Map objects = (java.util.Map) value;
+      Object target = objects.get(this.getId());
+      try {
+         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
+         removeYouMethod.invoke(target, new Object[0]);
+      }
+      catch (Exception e) {
+         // ignore
+      }
+      objects.remove(this.getId());
+      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
+      editor.fireCommandExecuted(this);
+
+      return null;
+
+>>
+
+
+loadYaml(packageName) ::= <<
+      java.util.Map map = Yaml.forPackage("<packageName>").decode(yamlString);
+      for (Object value : map.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(this);
+      }
+
+>>
+
+
+serviceInit(serviceName) ::= <<
+      if (myPort \<= 0) {
+         myPort = 4571;
+      }
+      String envPort = System.getenv("PORT");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      modelEditor = new <serviceName>Editor();
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      port(myPort);
+      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+
+      notFound((req, resp) -> {
+         return "404 not found: " + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
+
+>>
+
+
+rootBody(serviceName) ::= <<
+      try
+      {
+         <serviceName>App myApp = this.sessionToAppMap.get(currentSession);
+         if (myApp == null) {
+            myApp = new <serviceName>App().init(this.modelEditor);
+            sessionToAppMap.put(currentSession, myApp);
+         }
+
+         java.util.Map\<String, String> params = req.params();
+         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         StringBuilder page = new StringBuilder(stringWriter.toString());
+         int paramPos = page.indexOf("_cmd: words[0],");
+         String sessionParam = String.format("_session: '%s', ", currentSession);
+         page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf("'/cmd'");
+         page.insert(cmdUrlPos + 2, "<serviceName>");
+         String sessionPage = page.toString();
+         return sessionPage;
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return "404 " + e.getMessage();
+      }
+
+>>
+
+cmdBody(serviceName) ::= <<
+      String cmd = req.body();
+      JSONObject jsonObject = new JSONObject(cmd);
+
+      this.currentSession = jsonObject.getString("_session");
+
+      <serviceName>App app = sessionToAppMap.get(currentSession);
+
+      if (app == null) {
+         return "404 could not find session " + currentSession;
+      }
+
+      if (jsonObject.keySet().size() > 3) {
+         String cmdClassName = jsonObject.getString("_cmd");
+         Reflector reflector = reflectorMap.getReflector(cmdClassName);
+         Object cmdObject = reflector.newInstance();
+         for (String key : jsonObject.keySet()) {
+            if (key.startsWith("_")) {
+               continue;
+            }
+            else {
+               // assign to command attribute
+               String attrName = key;
+               if (key.endsWith("In")) {
+                  attrName = key.substring(0, key.length() - 2);
+               }
+               String value = jsonObject.getString(key);
+               reflector.setValue(cmdObject, attrName, value, null);
+            }
+         }
+         // call command
+         try {
+            Method runMethod = cmdObject.getClass().getMethod("run", <serviceName>Editor.class);
+            runMethod.invoke(cmdObject, modelEditor);
+
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+            return "404 " + e.getMessage();
+         }
+      }
+
+      // next page
+      String newPage = jsonObject.getString("_newPage");
+      try {
+         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         method.invoke(app);
+      }
+      catch (Exception e) {
+         return "404 app has no method to compute page " + newPage;
+      }
+
+      return root(req, res);
+
+>>
+
+getTime() ::= <<
+      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) \<= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
+
+>>

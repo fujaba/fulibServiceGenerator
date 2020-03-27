@@ -9,9 +9,9 @@ oneData(time, data) ::= <<
 >>
 
 
-oneScreen(time, title, lines) ::= <<
+oneScreen(time, lines) ::= <<
 <div id="Screen$time$" class="box" >
-    <p align="left"><i class="fa fa-bars"></i> $time$ $title$</p>
+    <p align="left"><i class="fa fa-bars"></i> $time$</p>
     $lines$
 </div>
 

@@ -8,9 +8,7 @@ import unikassel.shop.model.*;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.http.HttpClient;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;

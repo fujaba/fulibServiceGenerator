@@ -29,7 +29,7 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/junit/junit
 	testCompile group: 'junit', name: 'junit', version: '4.12'
-	testCompile 'com.codeborne:selenide:5.9.0'
+	implementation 'com.codeborne:selenide:5.9.0'
 }
 
 generateScenarioSource {
