@@ -325,6 +325,81 @@ public class ShopService
       return root(req, res);
    }
 
+   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
+   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
+
+   public static final String PROPERTY_streams = "streams";
+
+   private java.util.ArrayList<CommandStream> streams = null;
+
+   public java.util.ArrayList<CommandStream> getStreams()
+   {
+      if (this.streams == null)
+      {
+         return EMPTY_streams;
+      }
+
+      return this.streams;
+   }
+
+   public ShopService withStreams(Object... value)
+   {
+      if(value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withStreams(i);
+            }
+         }
+         else if (item instanceof CommandStream)
+         {
+            if (this.streams == null)
+            {
+               this.streams = new java.util.ArrayList<CommandStream>();
+            }
+            if ( ! this.streams.contains(item))
+            {
+               this.streams.add((CommandStream)item);
+               ((CommandStream)item).setService(this);
+               firePropertyChange("streams", null, item);
+            }
+         }
+         else throw new IllegalArgumentException();
+      }
+      return this;
+   }
+
+
+   public ShopService withoutStreams(Object... value)
+   {
+      if (this.streams == null || value==null) return this;
+      for (Object item : value)
+      {
+         if (item == null) continue;
+         if (item instanceof java.util.Collection)
+         {
+            for (Object i : (java.util.Collection) item)
+            {
+               this.withoutStreams(i);
+            }
+         }
+         else if (item instanceof CommandStream)
+         {
+            if (this.streams.contains(item))
+            {
+               this.streams.remove((CommandStream)item);
+               ((CommandStream)item).setService(null);
+               firePropertyChange("streams", item, null);
+            }
+         }
+      }
+      return this;
+   }
+
    public String getFirstRoot(Request req, Response res) { 
       currentSession = "" + (sessionToAppMap.size() + 1);
       return root(req, res);
@@ -356,6 +431,13 @@ public class ShopService
          e.printStackTrace();
          return "404 " + e.getMessage();
       }
+   }
+
+   public void removeYou()
+   {
+      this.withoutStreams(this.getStreams().clone());
+
+
    }
 
 }

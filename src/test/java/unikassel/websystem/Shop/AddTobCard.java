@@ -1,37 +1,9 @@
 package unikassel.websystem.Shop;
-
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
-public class AddToCard extends ModelCommand
+public class AddTobCard extends ModelCommand
 {
-   @Override
-   public Object run(ShopEditor modelEditor)
-   {
-      // have an order
-      ShopOrder shoppingCard = _app.getShoppingCard();
-      if (shoppingCard == null) {
-         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
-         String customerId = null;
-         if (_app.getCustomer() != null) {
-            customerId = _app.getCustomer().getId();
-         }
-         shoppingCard = new HaveOrderCommand()
-               .setId(orderId)
-               .setState("collecting-items")
-               .setCustomer(customerId)
-               .run(modelEditor);
-         _app.setShoppingCard(shoppingCard);
-      }
-
-      // add position
-      ShopOrderPosition pos = new HaveOrderPositionCommand().setId(String.format("%s_pos_%d", shoppingCard.getId(), shoppingCard.getPositions().size() + 1))
-            .setOrder(shoppingCard.getId())
-            .setAmount(1.0)
-            .setOffer(this.getOffer())
-            .run(modelEditor);
-      return pos;
-   }
 
    public static final String PROPERTY_offer = "offer";
 
@@ -42,13 +14,33 @@ public class AddToCard extends ModelCommand
       return offer;
    }
 
-   public AddToCard setOffer(String value)
+   public AddTobCard setOffer(String value)
    {
       if (value == null ? this.offer != null : ! value.equals(this.offer))
       {
          String oldValue = this.offer;
          this.offer = value;
          firePropertyChange("offer", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY__app = "_app";
+
+   private ShopApp _app;
+
+   public ShopApp get_app()
+   {
+      return _app;
+   }
+
+   public AddTobCard set_app(ShopApp value)
+   {
+      if (value != this._app)
+      {
+         ShopApp oldValue = this._app;
+         this._app = value;
+         firePropertyChange("_app", oldValue, value);
       }
       return this;
    }
@@ -112,26 +104,6 @@ public class AddToCard extends ModelCommand
 
 
       return result.substring(1);
-   }
-
-   public static final String PROPERTY__app = "_app";
-
-   private ShopApp _app;
-
-   public ShopApp get_app()
-   {
-      return _app;
-   }
-
-   public AddToCard set_app(ShopApp value)
-   {
-      if (value != this._app)
-      {
-         ShopApp oldValue = this._app;
-         this._app = value;
-         firePropertyChange("_app", oldValue, value);
-      }
-      return this;
    }
 
 }
