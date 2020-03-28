@@ -116,6 +116,10 @@ public class ServiceEditor
             String.format("LinkedHashMap<String, %sApp>", serviceName));
       sessionToAppMap.setInitialization("new LinkedHashMap()");
 
+      Clazz commandStream = mm.haveClass("CommandStream");
+
+      mm.haveRole(service, "streams", commandStream, MANY, "service", ONE);
+
       LinkedHashSet<String> importList = service.getImportList();
       importList.add("import java.util.LinkedHashMap;");
       importList.add("import static spark.Spark.*;");

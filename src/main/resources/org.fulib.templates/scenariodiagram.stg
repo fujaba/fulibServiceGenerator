@@ -17,9 +17,16 @@ oneScreen(time, title, lines) ::= <<
 
 >>
 
-oneLane(name, entries) ::= <<
+oneMsgLane(name, entries) ::= <<
+<p id="msglane$name$">
+    $entries$
+</p>
+
+>>
+
+oneLane(name, height, entries) ::= <<
 <p>
-    <div id="lane0" class="lane">
+    <div id="lane$name$" class="lane" style="height: $height$px">
         <p><i class="fa fa-cube"></i> $name$<br></p>
 
         $entries$

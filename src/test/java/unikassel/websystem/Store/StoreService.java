@@ -7,6 +7,7 @@ import org.fulib.yaml.ReflectorMap;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import org.fulib.scenarios.MockupTools;
 import org.json.JSONObject;
@@ -32,6 +33,13 @@ public class StoreService
             streamUrls.put(words[0], words[1]);
          }
       }
+   }
+
+   private ArrayList<CommandStream> streams = new ArrayList<>();
+
+   public ArrayList<CommandStream> getStreams()
+   {
+      return streams;
    }
 
    private LinkedHashMap<String, String> streamUrls = new LinkedHashMap<>();
@@ -193,6 +201,7 @@ public class StoreService
       String targetUrl = streamUrls.computeIfAbsent(streamName, s -> "http://localhost:22010/StoreToShop");
 
       CommandStream stream = new CommandStream();
+      streams.add(stream);
       modelEditor.addCommandListener(HaveProductCommand.class.getSimpleName(), stream);
       stream.start(streamName, targetUrl, this);
 

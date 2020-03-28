@@ -47,13 +47,14 @@ public class TestSystem
       $("#descriptionIn").$("input").setValue("Pumps");
       $("#itemsIn").$("input").setValue("40");
       StoreApp storeApp = storeService.getSessionToAppMap().values().iterator().next();
-      scene1.addScreen("9:00", storeApp);
+      scene1.addScreen("9:00", storeApp, "[add]");
       $("#addButton").$("button").click();
+      scene1.addMessages("9:01", storeService);
 
       $("#idIn").$("input").setValue("boots");
       $("#descriptionIn").$("input").setValue("Boots");
       $("#itemsIn").$("input").setValue("30");
-      scene1.addScreen("9:01", storeApp);
+      scene1.addScreen("9:01", storeApp, "[add]");
       $("#addButton").$("button").click();
 
       Thread.sleep(200);
@@ -69,7 +70,8 @@ public class TestSystem
 
       // order pumps
       open("http://localhost:22010/Shop");
-      scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next());
+      scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next(),
+            "[buy pumps Pumps 9.99]", "[buy boots Boots 9.99]", "[card]");
       $("#buy_offer_pumps_1").$("button").click();
       $("#buy_offer_boots_1").$("button").click();
       SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
@@ -77,7 +79,7 @@ public class TestSystem
 
       $("#nameIn").$("input").setValue("Alice");
       $("#addressIn").$("input").setValue("Wonderland 1");
-      scene1.addScreen("9:25", shopService.getSessionToAppMap().values().iterator().next());
+      scene1.addScreen("9:25", shopService.getSessionToAppMap().values().iterator().next(), "[Buy]");
       $(By.xpath("//button[text()='Buy']")).click();
 
       scene1.dump();
