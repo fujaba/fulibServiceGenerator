@@ -20,6 +20,11 @@ public class FulibScenarioDiagram
    private String lanes;
 
    private LinkedHashMap<String, ArrayList<String>> laneMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, Integer> laneToIndentMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
+
+   private LinkedHashMap<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
    private ArrayList<Object> services = new ArrayList<>();
    private Object currentService;
    private Object modelEditor;
@@ -72,28 +77,7 @@ public class FulibScenarioDiagram
          String serviceName = getServiceName(service);
 
          ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
-         int maxNoOfLines = 1;
-         int i = 900;
-         int maxLength = "<p align=\"center\">We have 10 products on stock</p>".length();
-         for (String entry : entryList) {
-            int lines = 0;
-            String[] split = entry.split("\\n");
-            for (String s : split) {
-               s = s.trim();
-               int length = s.length();
-               int newLines = 1;
-               if (s.startsWith("<p align=\"center\">") && length >= maxLength) {
-                  newLines += length / maxLength;
-               }
-               lines += newLines;
-            }
-            System.out.println("" + i++ + " " + lines);
-            maxNoOfLines = Math.max(maxNoOfLines, lines);
-
-         }
-
-         maxNoOfLines -= 3; // do not count <div>, \n, </div>
-         System.out.println(maxNoOfLines);
+         int maxNoOfLines = getMaxNoOfLines(entryList);
 
          int laneHeaderLines = 1;
          int lineHeight = 20;
@@ -111,9 +95,15 @@ public class FulibScenarioDiagram
          buf.append(body);
 
          // plus messagelane
+         ArrayList<String> messageList = msgLaneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
+         maxNoOfLines = getMaxNoOfLines(messageList);
+         laneHeight = maxNoOfLines * lineHeight + paddingAndBorder * 2;
+
+         String messageEntries =  String.join("\n", messageList);
          st = group.getInstanceOf("oneMsgLane");
          st.add("name", serviceName);
-         st.add("entries", "msglaneEntries");
+         st.add("height", "" + laneHeight);
+         st.add("entries", messageEntries);
          body = st.render();
 
          buf.append(body);
@@ -123,6 +113,30 @@ public class FulibScenarioDiagram
       lanes = buf.toString();
    }
 
+   private int getMaxNoOfLines(ArrayList<String> entryList)
+   {
+      int maxNoOfLines = 1;
+      int maxLength = "<p align=\"center\">We have 10 products on stock</p>".length();
+      for (String entry : entryList) {
+         int lines = 0;
+         String[] split = entry.split("\\n");
+         for (String s : split) {
+            s = s.trim();
+            int length = s.length();
+            int newLines = 1;
+            if (s.startsWith("<p align=\"center\">") && length >= maxLength) {
+               newLines += length / maxLength;
+            }
+            lines += newLines;
+         }
+         maxNoOfLines = Math.max(maxNoOfLines, lines);
+
+      }
+
+      maxNoOfLines -= 3; // do not count <div>, \n, </div>
+      System.out.println(maxNoOfLines);
+      return maxNoOfLines;
+   }
 
 
    private String getServiceName(Object element)
@@ -141,6 +155,11 @@ public class FulibScenarioDiagram
 
    public FulibScenarioDiagram addScreen(String time, Object app, String... buttonWithMousePointer)
    {
+      return addScreen(time, 0, app, buttonWithMousePointer);
+   }
+
+   public FulibScenarioDiagram addScreen(String time, int indent, Object app, String... buttonWithMousePointer)
+   {
       String serviceName = getServiceName(app);
       ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
 
@@ -158,8 +177,14 @@ public class FulibScenarioDiagram
 
       computeLines(lines, app, reflectorMap, buttonWithMousePointer);
 
+      int oldIndent = laneToIndentMap.computeIfAbsent(serviceName, s -> 0);
+      indent += oldIndent;
+      laneToIndentMap.put(serviceName, indent);
+
+
       ST st = group.getInstanceOf("oneScreen");
       st.add("time", time);
+      st.add("indent", indent);
       st.add("title", title);
       st.add("lines", lines.toString());
       String body = st.render();
@@ -235,6 +260,11 @@ public class FulibScenarioDiagram
 
    public FulibScenarioDiagram addData(String time, String lane, Collection objects)
    {
+      return addData(time, 0, lane, objects);
+   }
+
+   public FulibScenarioDiagram addData(String time, int indent, String lane, Collection objects)
+   {
       StringBuilder lines = new StringBuilder();
 
       if (objects.size() == 0) {
@@ -255,8 +285,13 @@ public class FulibScenarioDiagram
          }
       }
 
+      int oldIndent = laneToIndentMap.computeIfAbsent(lane, s -> 0);
+      indent += oldIndent;
+      laneToIndentMap.put(lane, indent);
+
       ST st = group.getInstanceOf("oneData");
       st.add("time", time);
+      st.add("indent", indent);
       st.add("data", lines.toString());
       String body = st.render();
 
@@ -268,9 +303,85 @@ public class FulibScenarioDiagram
 
    public FulibScenarioDiagram addMessages(String time, Object source)
    {
-      // find streams and messages from source
-
-      // add to msg lanes
+      addMessages(time, source, 0);
       return this;
+   }
+   public FulibScenarioDiagram addMessages(String time, Object source, int indent)
+   {
+      try {
+         Thread.sleep(200);
+      }
+      catch (InterruptedException e) {
+         // no problem
+      }
+      String serviceName = getServiceName(source);
+
+      // find streams and messages from source
+      ReflectorMap reflectorMap = new ReflectorMap(source.getClass().getPackage().getName());
+      Reflector sourceReflector = reflectorMap.getReflector(source);
+      Collection streams = (Collection) sourceReflector.getValue(source, "streams");
+      Reflector streamReflector = null;
+      for (Object stream : streams) {
+         if (streamReflector == null) {
+            streamReflector = new Reflector().setClazz(stream.getClass());
+         }
+         String targetUrl = (String) streamReflector.getValue(stream, "targetUrl");
+         int pos = targetUrl.lastIndexOf('/');
+         String streamName = targetUrl.substring(pos + 1);
+
+         // find message lane
+         StringBuilder lines = new StringBuilder();
+         Collection commands = (Collection) streamReflector.getValue(stream, "oldCommands");
+         String lastCmdTime = streamToLastCommandTimeMap.computeIfAbsent(streamName, t -> "0000");
+         for (Object command : commands) {
+            Reflector reflector = reflectorMap.getReflector(command);
+            String newCmdTime = (String) reflector.getValue(command, "time");
+            if (lastCmdTime.compareTo(newCmdTime) >= 0) {
+               // command is already part of some other message
+               continue;
+            }
+            lines.append("<p>-");
+            for (String property : reflector.getProperties()) {
+               Object value = reflector.getValue(command, property);
+               if (property.equals("time")) {
+                  streamToLastCommandTimeMap.put(streamName, value.toString());
+                  continue;
+               }
+               if (value != null && (value.getClass().isPrimitive() || value.getClass().getName().startsWith("java.lang"))) {
+                  lines.append(" ").append(value);
+               }
+            }
+            lines.append("</p>\n");
+         }
+
+         int oldIndent = msgLaneToIndentMap.computeIfAbsent(streamName, s -> 0);
+         indent += oldIndent;
+         msgLaneToIndentMap.put(streamName, indent);
+
+         // add to msg lanes
+         ST st = group.getInstanceOf("oneMessage");
+         st.add("time", time + " " + streamName);
+         st.add("indent", "" + indent);
+         st.add("data", lines.toString());
+         String body = st.render();
+
+         ArrayList<String> msgEntryList = findMessageLaneName(streamName);
+         msgEntryList.add(body);
+      }
+      return this;
+   }
+
+   private ArrayList<String> findMessageLaneName(String streamName)
+   {
+      String messageLaneName = null;
+      for (String laneName : laneMap.keySet()) {
+         if (streamName.contains(laneName)) {
+            messageLaneName = laneName;
+            break;
+         }
+      }
+
+      ArrayList<String> msgLaneEntries = msgLaneMap.computeIfAbsent(messageLaneName, n -> new ArrayList<>());
+      return msgLaneEntries;
    }
 }

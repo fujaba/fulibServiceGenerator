@@ -206,7 +206,7 @@ public class StoreService
       String targetUrl = streamUrls.computeIfAbsent(streamName, s -> "http://localhost:22010/StoreToShop");
 
       CommandStream stream = new CommandStream();
-      streams.add(stream);
+      this.withStreams(stream);
       modelEditor.addCommandListener(HaveProductCommand.class.getSimpleName(), stream);
       stream.start(streamName, targetUrl, this);
 

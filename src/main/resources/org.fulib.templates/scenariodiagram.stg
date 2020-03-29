@@ -1,7 +1,15 @@
 
 
-oneData(time, data) ::= <<
-<div id="Data$time$" class="box" >
+oneMessage(time, indent, data) ::= <<
+<div id="Message$time$" class="box" style="position: relative; left: $indent$px">
+    <p align="left"><i class="fa fa-envelope-o"></i> $time$</p>
+    $data$
+</div>
+
+>>
+
+oneData(time, indent, data) ::= <<
+<div id="Data$time$" class="box" style="position: relative; left: $indent$px">
     <p align="left"><i class="fa fa-bar-chart"></i> $time$</p>
     $data$
 </div>
@@ -9,30 +17,31 @@ oneData(time, data) ::= <<
 >>
 
 
-oneScreen(time, title, lines) ::= <<
-<div id="Screen$time$" class="box" >
+oneScreen(time, indent, title, lines) ::= <<
+<div id="Screen$time$" class="box" style="position: relative; left: $indent$px">
     <p align="left"><i class="fa fa-bars"></i> $time$ $title$</p>
     $lines$
 </div>
 
 >>
 
-oneMsgLane(name, entries) ::= <<
-<p id="msglane$name$">
+oneMsgLane(name, height, entries) ::= <<
+<div id="msglane$name$" style="height: $height$px">
+
     $entries$
-</p>
+</div>
+
 
 >>
 
 oneLane(name, height, entries) ::= <<
-<p>
-    <div id="lane$name$" class="lane" style="height: $height$px">
-        <p><i class="fa fa-cube"></i> $name$<br></p>
 
-        $entries$
+<div id="lane$name$" class="lane" style="height: $height$px">
+    <p><i class="fa fa-cube"></i> $name$<br></p>
 
-    </div>
-</p>
+    $entries$
+</div>
+
 
 >>
 
@@ -93,12 +102,6 @@ overallFile(lanes) ::= <<
 
 $lanes$
 
-<p id="msglane1">
-    <div class="box" style="position: relative; left: 200px;">
-        <p align="left"><i class="fa fa-envelope-o"></i> 9:01</p>
-        <p align="center">[add]</p>
-    </div>
-</p>
 
 <script>
     function scenarioLayout() {

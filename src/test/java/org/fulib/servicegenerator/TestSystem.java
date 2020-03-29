@@ -43,24 +43,26 @@ public class TestSystem
 
 
       open("http://localhost:22010/Store");
-      $("#idIn").$("input").setValue("pumps");
+      $("#idIn").$("input").setValue("p1");
       $("#descriptionIn").$("input").setValue("Pumps");
       $("#itemsIn").$("input").setValue("40");
       StoreApp storeApp = storeService.getSessionToAppMap().values().iterator().next();
       scene1.addScreen("9:00", storeApp, "[add]");
       $("#addButton").$("button").click();
-      scene1.addMessages("9:01", storeService);
 
-      $("#idIn").$("input").setValue("boots");
+      scene1.addMessages("9:01", storeService, 100);
+
+      $("#idIn").$("input").setValue("b2");
       $("#descriptionIn").$("input").setValue("Boots");
       $("#itemsIn").$("input").setValue("30");
-      scene1.addScreen("9:01", storeApp, "[add]");
+      scene1.addScreen("9:02", storeApp, "[add]");
       $("#addButton").$("button").click();
 
       Thread.sleep(200);
+      scene1.addMessages("9:03", storeService);
 
-      scene1.addData("9:02", "Store", storeService.getModelEditor().getStoreProducts().values());
-      scene1.addData("9:03", "Shop", shopService.getModelEditor().getShopProducts().values());
+      scene1.addData("9:04", "Store", storeService.getModelEditor().getStoreProducts().values());
+      scene1.addData("9:06", 300, "Shop", shopService.getModelEditor().getShopProducts().values());
 
       // find product in the shop
       ShopEditor shopEditor = shopService.getModelEditor();
@@ -71,9 +73,9 @@ public class TestSystem
       // order pumps
       open("http://localhost:22010/Shop");
       scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next(),
-            "[buy pumps Pumps 9.99]", "[buy boots Boots 9.99]", "[card]");
-      $("#buy_offer_pumps_1").$("button").click();
-      $("#buy_offer_boots_1").$("button").click();
+            "[buy p1 Pumps 9.99]", "[buy b2 Boots 9.99]", "[card]");
+      $("#buy_offer_p1_1").$("button").click();
+      $("#buy_offer_b2_1").$("button").click();
       SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
       card.click();
 

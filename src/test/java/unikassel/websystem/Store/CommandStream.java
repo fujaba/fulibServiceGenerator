@@ -7,6 +7,7 @@ import spark.Response;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -18,6 +19,18 @@ public class CommandStream
 {
    private String targetUrl;
    private StoreService service = null;
+
+   public String getTargetUrl()
+   {
+      return targetUrl;
+   }
+
+   private ArrayList<ModelCommand> oldCommands = new ArrayList<>();
+
+   public ArrayList<ModelCommand> getOldCommands()
+   {
+      return oldCommands;
+   }
 
    private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
 
@@ -57,6 +70,7 @@ public class CommandStream
       String yaml = Yaml.encode(cmd);
       System.out.println("Publishing: \n" + yaml);
       activeCommands.put(cmd.getId(), cmd);
+      oldCommands.add(cmd);
 
       send();
    }
