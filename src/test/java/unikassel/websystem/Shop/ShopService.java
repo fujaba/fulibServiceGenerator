@@ -376,40 +376,7 @@ public class ShopService
 
    }
 
-   public void manualStart() // no fulib
-   {
-      if (myPort <= 0) {
-         myPort = 4571;
-      }
-      String envPort = System.getenv("PORT");
-      if (envPort != null) {
-         myPort = Integer.parseInt(envPort);
-      }
-      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new ShopEditor();
-      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-
-      try { port(myPort);} catch (Exception e) {};
-      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-
-      CommandStream stream = new CommandStream().setService(this);
-      stream.start("StoreToShop", "http://localhost:22010/ShopToStore", this);
-      modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
-      modelEditor.addCommandListener(HaveOrderPositionCommand.class.getSimpleName(), stream);
-      modelEditor.addCommandListener(HaveCustomerCommand.class.getSimpleName(), stream);
-      modelEditor.addCommandListener(HaveOfferCommand.class.getSimpleName(), stream);
-
-      notFound((req, resp) -> {
-         return "404 not found: " + req.requestMethod() + req.url() + req.body();
-      });
-
-      java.util.logging.Logger.getGlobal().info("Shop Service is listening on port " + myPort);
-   }
-
-   public void start() { 
+   public void start() {
       if (myPort <= 0) {
          myPort = 4571;
       }
