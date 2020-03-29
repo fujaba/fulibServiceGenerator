@@ -117,6 +117,7 @@ public class FulibScenarioDiagram
    {
       int maxNoOfLines = 1;
       int maxLength = "<p align=\"center\">We have 10 products on stock</p>".length();
+      int maxDataLength = "<p>order_1 Pumps Boots order-</p>".length();
       for (String entry : entryList) {
          int lines = 0;
          String[] split = entry.split("\\n");
@@ -124,7 +125,10 @@ public class FulibScenarioDiagram
             s = s.trim();
             int length = s.length();
             int newLines = 1;
-            if (s.startsWith("<p align=\"center\">") && length >= maxLength) {
+            if (s.startsWith("<p>-") && length >= maxDataLength) {
+               newLines += length / maxDataLength;
+            }
+            else if (s.startsWith("<p align=\"center\">") && length >= maxLength) {
                newLines += length / maxLength;
             }
             lines += newLines;
@@ -160,6 +164,12 @@ public class FulibScenarioDiagram
 
    public FulibScenarioDiagram addScreen(String time, int indent, Object app, String... buttonWithMousePointer)
    {
+      try {
+         Thread.sleep(200);
+      }
+      catch (InterruptedException e) {
+         // no problem
+      }
       String serviceName = getServiceName(app);
       ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
 
@@ -190,6 +200,8 @@ public class FulibScenarioDiagram
       String body = st.render();
 
       entryList.add(body);
+
+      dump();
 
       return this;
    }
@@ -272,10 +284,19 @@ public class FulibScenarioDiagram
       }
       else {
          for (Object object : objects) {
-            lines.append("<p>-");
             Class<?> clazz = object.getClass();
             Reflector reflector = new Reflector().setClassName(object.getClass().getName()).setClazz(clazz);
+            String id = (String) reflector.getValue(object, "id");
+            if (id != null) {
+               lines.append("<p>- ").append(id);
+            }
+            else {
+               lines.append("<p>-");
+            }
             for (String property : reflector.getProperties()) {
+               if ("id".equals(property)) {
+                  continue;
+               }
                Object value = reflector.getValue(object, property);
                if (value != null && (value.getClass().isPrimitive() || value.getClass().getName().startsWith("java.lang"))) {
                   lines.append(" ").append(value);
@@ -297,7 +318,7 @@ public class FulibScenarioDiagram
 
       ArrayList<String> entries = laneMap.computeIfAbsent(lane, l -> new ArrayList<>());
       entries.add(body);
-
+      dump();
       return this;
    }
 
@@ -340,8 +361,17 @@ public class FulibScenarioDiagram
                // command is already part of some other message
                continue;
             }
-            lines.append("<p>-");
+            String id = (String) reflector.getValue(command, "id");
+            if (id != null) {
+               lines.append("<p>- ").append(id);
+            }
+            else {
+               lines.append("<p>-");
+            }
             for (String property : reflector.getProperties()) {
+               if ("id".equals(property)) {
+                  continue;
+               }
                Object value = reflector.getValue(command, property);
                if (property.equals("time")) {
                   streamToLastCommandTimeMap.put(streamName, value.toString());
@@ -368,6 +398,7 @@ public class FulibScenarioDiagram
          ArrayList<String> msgEntryList = findMessageLaneName(streamName);
          msgEntryList.add(body);
       }
+      dump();
       return this;
    }
 

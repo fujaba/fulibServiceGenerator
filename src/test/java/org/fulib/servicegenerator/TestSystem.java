@@ -75,14 +75,21 @@ public class TestSystem
       scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next(),
             "[buy p1 Pumps 9.99]", "[buy b2 Boots 9.99]", "[card]");
       $("#buy_offer_p1_1").$("button").click();
+      scene1.addMessages("9:21", shopService, 200);
+
       $("#buy_offer_b2_1").$("button").click();
+      scene1.addMessages("9:23", shopService);
+
       SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
       card.click();
 
       $("#nameIn").$("input").setValue("Alice");
       $("#addressIn").$("input").setValue("Wonderland 1");
-      scene1.addScreen("9:25", shopService.getSessionToAppMap().values().iterator().next(), "[Buy]");
+      scene1.addScreen("9:24", shopService.getSessionToAppMap().values().iterator().next(), "[Buy]");
       $(By.xpath("//button[text()='Buy']")).click();
+      scene1.addScreen("9:26", shopService.getSessionToAppMap().values().iterator().next());
+      scene1.addMessages("9:27", shopService);
+
 
       scene1.dump();
       System.out.println("the end");

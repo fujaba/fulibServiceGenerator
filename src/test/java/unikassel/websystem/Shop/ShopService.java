@@ -241,9 +241,16 @@ public class ShopService
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 
+      String streamName = "ShopToStore";
+      String targetUrl = streamUrls.computeIfAbsent(streamName, s -> String.format("http://localhost:22010/%s", streamName));
+
       CommandStream stream = new CommandStream();
+      this.withStreams(stream);
       modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
-      stream.start("http://localhost:22010/StoreToShop", this);
+      modelEditor.addCommandListener(HaveOrderPositionCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveCustomerCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOfferCommand.class.getSimpleName(), stream);
+      stream.start("StoreToShop", targetUrl, this);
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();

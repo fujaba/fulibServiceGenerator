@@ -34,10 +34,10 @@ public class CommandStream
 
    private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
 
-   public CommandStream start(String streamName, String targetUrl, StoreService service) {
+   public CommandStream start(String answerRouteName, String targetUrl, StoreService service) {
       this.targetUrl = targetUrl;
       this.service = service;
-      post("/" + streamName, (req, res) -> handlePostRequest(req, res));
+      post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
       return this;
    }
 

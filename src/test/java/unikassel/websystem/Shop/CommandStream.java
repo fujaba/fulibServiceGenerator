@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -21,13 +22,24 @@ public class CommandStream
 {
    private String targetUrl;
    private ShopService service = null;
-
    private java.util.Map<String, ModelCommand> activeCommands = new LinkedHashMap<>();
+   private ArrayList<ModelCommand> oldCommands = new ArrayList<>();
 
-   public CommandStream start(String targetUrl, ShopService service) {
+   public ArrayList<ModelCommand> getOldCommands()
+   {
+      return oldCommands;
+   }
+
+
+   public String getTargetUrl()
+   {
+      return targetUrl;
+   }
+
+   public CommandStream start(String answerRouteName, String targetUrl, ShopService service) {
       this.targetUrl = targetUrl;
       this.service = service;
-      post("/StoreToShop", (req, res) -> handlePostRequest(req, res));
+      post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
       return this;
    }
 
@@ -60,7 +72,7 @@ public class CommandStream
       String yaml = Yaml.encode(cmd);
       System.out.println("Publishing: \n" + yaml);
       activeCommands.put(cmd.getId(), cmd);
-
+      oldCommands.add(cmd);
       send();
    }
 
