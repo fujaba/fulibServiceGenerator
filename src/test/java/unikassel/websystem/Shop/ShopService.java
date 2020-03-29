@@ -222,43 +222,6 @@ public class ShopService
       return result.substring(1);
    }
 
-   public void start() // no fulib
-   {
-      if (myPort <= 0) {
-         myPort = 4571;
-      }
-      String envPort = System.getenv("PORT");
-      if (envPort != null) {
-         myPort = Integer.parseInt(envPort);
-      }
-      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new ShopEditor();
-      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-
-      try { port(myPort);} catch (Exception e) {};
-      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-
-      String streamName = "ShopToStore";
-      String targetUrl = streamUrls.computeIfAbsent(streamName, s -> String.format("http://localhost:22010/%s", streamName));
-
-      CommandStream stream = new CommandStream();
-      this.withStreams(stream);
-      modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
-      modelEditor.addCommandListener(HaveOrderPositionCommand.class.getSimpleName(), stream);
-      modelEditor.addCommandListener(HaveCustomerCommand.class.getSimpleName(), stream);
-      modelEditor.addCommandListener(HaveOfferCommand.class.getSimpleName(), stream);
-      stream.start("StoreToShop", targetUrl, this);
-
-      notFound((req, resp) -> {
-         return "404 not found: " + req.requestMethod() + req.url() + req.body();
-      });
-
-      java.util.logging.Logger.getGlobal().info("Shop Service is listening on port " + myPort);
-   }
-
    public String cmd(Request req, Response res) // no fulib
    {
       String cmd = req.body();
@@ -380,7 +343,6 @@ public class ShopService
       return this;
    }
 
-
    public ShopService withoutStreams(Object... value)
    {
       if (this.streams == null || value==null) return this;
@@ -405,6 +367,77 @@ public class ShopService
          }
       }
       return this;
+   }
+
+   public void removeYou()
+   {
+      this.withoutStreams(this.getStreams().clone());
+
+
+   }
+
+   public void manualStart() // no fulib
+   {
+      if (myPort <= 0) {
+         myPort = 4571;
+      }
+      String envPort = System.getenv("PORT");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      modelEditor = new ShopEditor();
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+
+      try { port(myPort);} catch (Exception e) {};
+      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start("StoreToShop", "http://localhost:22010/ShopToStore", this);
+      modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOrderPositionCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveCustomerCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOfferCommand.class.getSimpleName(), stream);
+
+      notFound((req, resp) -> {
+         return "404 not found: " + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info("Shop Service is listening on port " + myPort);
+   }
+
+   public void start() { 
+      if (myPort <= 0) {
+         myPort = 4571;
+      }
+      String envPort = System.getenv("PORT");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      modelEditor = new ShopEditor();
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      try { port(myPort);} catch (Exception e) {};
+      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      // stream from Shop to Store
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start("StoreToShop", "http://localhost:22010/ShopToStore", this);
+      modelEditor.addCommandListener(HaveCustomerCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOfferCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOrderPositionCommand.class.getSimpleName(), stream);
+
+      notFound((req, resp) -> {
+         return "404 not found: " + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -438,13 +471,6 @@ public class ShopService
          e.printStackTrace();
          return "404 " + e.getMessage();
       }
-   }
-
-   public void removeYou()
-   {
-      this.withoutStreams(this.getStreams().clone());
-
-
    }
 
 }

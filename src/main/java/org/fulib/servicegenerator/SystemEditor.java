@@ -12,10 +12,7 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.fulib.builder.ClassModelBuilder.ONE;
 import static org.fulib.builder.ClassModelBuilder.STRING;
@@ -24,6 +21,7 @@ public class SystemEditor
 {
    private String mainJavaDir;
    private Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
+   private Map<ServiceEditor, Map<ServiceEditor, LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
    private String packageName;
    private final ClassModelManager sharedModelManager;
 
@@ -113,5 +111,41 @@ public class SystemEditor
          Clazz localTargetClass = serviceEditor.haveDataClass(targetClass.getName());
          serviceEditor.haveAssociationWithOwnCommands(localSourceClass, sourceRoleName, sourceCard, targetRoleName, targetCard, localTargetClass);
       }
+   }
+
+   public void haveMessages(ServiceEditor source, ServiceEditor target, Clazz data)
+   {
+      // sender
+      Map<ServiceEditor, LinkedHashSet<Clazz>> targetMessages = messagesMap.computeIfAbsent(source, s -> new LinkedHashMap<>());
+      LinkedHashSet<Clazz> clazzes = targetMessages.computeIfAbsent(target, t -> new LinkedHashSet<>());
+      clazzes.add(data);
+
+      String sourceName = source.getServiceName();
+      String targetName = target.getServiceName();
+
+      StringBuilder streamCode = new StringBuilder();
+
+      for (Map.Entry<ServiceEditor, LinkedHashSet<Clazz>> entry : targetMessages.entrySet()) {
+         ServiceEditor streamTarget = entry.getKey();
+         String streamTargetName = streamTarget.getServiceName();
+         LinkedHashSet<Clazz> streamClazzes = entry.getValue();
+         streamCode.append("// stream from ").append(sourceName).append(" to ").append(streamTargetName).append("\n");
+         streamCode.append("CommandStream stream = new CommandStream().setService(this);\n");
+         String sourceToTarget = sourceName + "To" + streamTargetName;
+         String targetToSource = streamTargetName + "To" + sourceName;
+         streamCode.append(String.format("stream.start(\"%s\", \"http://localhost:22010/%s\", this);\n",
+               targetToSource, sourceToTarget));
+         for (Clazz streamClazz : streamClazzes) {
+            streamCode.append(String.format("modelEditor.addCommandListener(Have%sCommand.class.getSimpleName(), stream);\n",
+                  streamClazz.getName()));
+         }
+      }
+
+      source.haveStartMethod(sourceName, streamCode.toString());
+
+      // receiver
+      Map<ServiceEditor, LinkedHashSet<Clazz>> sourceMessages = messagesMap.computeIfAbsent(target, t -> new LinkedHashMap<>());
+      sourceMessages.computeIfAbsent(source, s -> new LinkedHashSet<>());
+      target.haveStartMethod(targetName, String.format("// stream from %s to %s\n", sourceName, targetName));
    }
 }

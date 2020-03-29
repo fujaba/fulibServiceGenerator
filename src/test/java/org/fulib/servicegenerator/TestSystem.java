@@ -90,6 +90,7 @@ public class TestSystem
       scene1.addScreen("9:26", shopService.getSessionToAppMap().values().iterator().next());
       scene1.addMessages("9:27", shopService);
 
+      scene1.addData("9:28", 500, "Store", storeService.getModelEditor().getActiveCommands().values());
 
       scene1.dump();
       System.out.println("the end");

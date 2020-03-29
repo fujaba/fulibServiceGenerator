@@ -490,15 +490,18 @@
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new StoreEditor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      port(myPort);
+      try { port(myPort);} catch (Exception e) {};
       get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get(\"/Store\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post(\"/Storecmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      // stream from Shop to Store
 
       notFound((req, resp) -> {
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"Store Serice is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"Store Service is listening on port \" + myPort);
 "
   modified: 	false
 

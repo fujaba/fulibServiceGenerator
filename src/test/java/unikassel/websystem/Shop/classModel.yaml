@@ -514,15 +514,24 @@
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new ShopEditor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      port(myPort);
+      try { port(myPort);} catch (Exception e) {};
       get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get(\"/Shop\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post(\"/Shopcmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      // stream from Shop to Store
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start(\"StoreToShop\", \"http://localhost:22010/ShopToStore\", this);
+      modelEditor.addCommandListener(HaveCustomerCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOfferCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOrderCommand.class.getSimpleName(), stream);
+      modelEditor.addCommandListener(HaveOrderPositionCommand.class.getSimpleName(), stream);
 
       notFound((req, resp) -> {
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"Store Serice is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"Store Service is listening on port \" + myPort);
 "
   modified: 	false
 

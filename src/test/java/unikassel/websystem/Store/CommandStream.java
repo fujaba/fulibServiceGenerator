@@ -141,7 +141,6 @@ public class CommandStream
       return this;
    }
 
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)

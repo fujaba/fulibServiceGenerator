@@ -294,7 +294,7 @@ public class FulibScenarioDiagram
                lines.append("<p>-");
             }
             for (String property : reflector.getProperties()) {
-               if ("id".equals(property)) {
+               if ("id".equals(property) || "time".equals(property)) {
                   continue;
                }
                Object value = reflector.getValue(object, property);

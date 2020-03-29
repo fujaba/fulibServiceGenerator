@@ -33,6 +33,11 @@ public class ServiceEditor
       group.registerRenderer(String.class, new StringRenderer());
   }
 
+   public String getServiceName()
+   {
+      return serviceName;
+   }
+
    private void haveRemoveCommand()
    {
       removeCommand = this.haveCommand("RemoveCommand");
@@ -126,10 +131,10 @@ public class ServiceEditor
       importList.add("import org.fulib.yaml.ReflectorMap;");
       importList.add("import java.util.concurrent.ExecutorService;");
 
-      ST st = group.getInstanceOf("serviceInit");
-      st.add("serviceName", serviceName);
-      String body = st.render();
-      mm.haveMethod(service, "public void start()", body);
+      haveStartMethod(serviceName, "// no streams\n");
+
+      String body;
+      ST st;
 
       body = "      currentSession = \"\" + (sessionToAppMap.size() + 1);\n" +
             "      return root(req, res);\n";
@@ -150,6 +155,15 @@ public class ServiceEditor
       importList.add("import org.json.JSONObject;");
       importList.add("import org.fulib.yaml.Reflector;");
       importList.add("import java.lang.reflect.Method;");
+   }
+
+   public void haveStartMethod(String serviceName, String streamInit)
+   {
+      ST st = group.getInstanceOf("serviceInit");
+      st.add("serviceName", serviceName);
+      st.add("streamInit", streamInit);
+      String body = st.render();
+      mm.haveMethod(service, "public void start()", body);
    }
 
 

@@ -137,7 +137,7 @@ loadYaml(packageName) ::= <<
 >>
 
 
-serviceInit(serviceName) ::= <<
+serviceInit(serviceName, streamInit) ::= <<
       if (myPort \<= 0) {
          myPort = 4571;
       }
@@ -148,15 +148,17 @@ serviceInit(serviceName) ::= <<
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new <serviceName>Editor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      port(myPort);
+      try { port(myPort);} catch (Exception e) {};
       get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get("/<serviceName>", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-
+      post("/<serviceName>cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      <streamInit>
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
+      java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
 
 >>
 

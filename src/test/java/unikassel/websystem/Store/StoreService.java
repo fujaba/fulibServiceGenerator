@@ -202,13 +202,9 @@ public class StoreService
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
 
-      String streamName = "StoreToShop";
-      String targetUrl = streamUrls.computeIfAbsent(streamName, s -> String.format("http://localhost:22010/%s", streamName));
-
-      CommandStream stream = new CommandStream();
-      this.withStreams(stream);
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start("ShopToStore", "http://localhost:22010/StoreToShop", this);
       modelEditor.addCommandListener(HaveProductCommand.class.getSimpleName(), stream);
-      stream.start("ShopToStore", targetUrl, this);
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
@@ -304,7 +300,6 @@ public class StoreService
       return this;
    }
 
-
    public StoreService withoutStreams(Object... value)
    {
       if (this.streams == null || value==null) return this;
@@ -329,6 +324,13 @@ public class StoreService
          }
       }
       return this;
+   }
+
+   public void removeYou()
+   {
+      this.withoutStreams(this.getStreams().clone());
+
+
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -417,13 +419,6 @@ public class StoreService
       }
 
       return root(req, res);
-   }
-
-   public void removeYou()
-   {
-      this.withoutStreams(this.getStreams().clone());
-
-
    }
 
 }

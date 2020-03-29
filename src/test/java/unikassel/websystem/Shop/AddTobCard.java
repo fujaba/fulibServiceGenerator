@@ -2,7 +2,7 @@ package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class AddTobCard extends ModelCommand
+public class AddTobCard extends ModelCommand  
 {
 
    public static final String PROPERTY_offer = "offer";

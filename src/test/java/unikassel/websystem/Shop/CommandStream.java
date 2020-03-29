@@ -30,7 +30,6 @@ public class CommandStream
       return oldCommands;
    }
 
-
    public String getTargetUrl()
    {
       return targetUrl;
@@ -141,7 +140,6 @@ public class CommandStream
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 
