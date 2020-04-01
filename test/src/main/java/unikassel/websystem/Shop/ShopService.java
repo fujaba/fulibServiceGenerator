@@ -377,7 +377,7 @@ public class ShopService
 
    }
 
-   public void start() {
+   public void start() { 
       if (myPort <= 0) {
          myPort = 4571;
       }
