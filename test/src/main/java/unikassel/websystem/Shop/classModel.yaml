@@ -2,9 +2,9 @@
   classes: 	shopEditor2 	modelCommand3 	removeCommand4 	shopService5 	commandStream6 	shopApp7 	page8 	line9 	shopProduct10 	haveProductCommand11 	shopCustomer12 	haveCustomerCommand13 	shopOffer14 	haveOfferCommand15 	shopOrder16 	haveOrderCommand17 	shopOrderPosition18 	haveOrderPositionCommand19 	haveCustomerProductsLink20 	removeCustomerProductsLink21 	addTobCard22 	orderAction23 	customerAccount24 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
-  mainJavaDir: 	"src/test/java"
+  mainJavaDir: 	"src/main/java"
   packageName: 	unikassel.websystem.Shop
-  packageSrcFolder: 	"src/test/java/unikassel/websystem/Shop"
+  packageSrcFolder: 	"src/main/java/unikassel/websystem/Shop"
 
 - shopEditor2: 	Clazz
   attributes: 	activeCommands25 	removeCommands26 	isoDateFormat27 	lastTime28 	timeDelta29 	shopProducts30 	shopCustomers31 	shopOffers32 	shopOrders33 	shopOrderPositions34 	
