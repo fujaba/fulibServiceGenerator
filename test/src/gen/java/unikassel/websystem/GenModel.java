@@ -19,32 +19,27 @@ public class GenModel
       Clazz product = sysEdit.haveSharedClass("Product");
       sysEdit.haveAttribute(product, "description", STRING);
       sysEdit.haveAttribute(product, "items", DOUBLE);
-      sysEdit.haveMessages(store, shop, product);
 
       Clazz customer = sysEdit.haveSharedClass("Customer");
       sysEdit.haveAttribute(customer, "name", STRING);
       sysEdit.haveAttribute(customer, "address", STRING);
-      sysEdit.haveMessages(shop, store, customer);
 
       Clazz offer = sysEdit.haveSharedClass("Offer");
       sysEdit.haveAttribute(offer, "price", DOUBLE);
       sysEdit.haveAssociationOwnedByDataClass(offer, "product", ONE, "offers", MANY, product);
       sysEdit.haveAttribute(offer, "startTime", STRING);
       sysEdit.haveAttribute(offer, "endTime", STRING);
-      sysEdit.haveMessages(shop, store, offer);
 
       Clazz order = sysEdit.haveSharedClass("Order");
       sysEdit.haveAssociationOwnedByDataClass(order, "customer", ONE, "orders", MANY, customer);
       sysEdit.haveAttribute(order, "date", STRING);
       sysEdit.haveAttribute(order, "state", STRING);
-      sysEdit.haveMessages(shop, store, order);
 
       Clazz orderPosition = sysEdit.haveSharedClass("OrderPosition");
       sysEdit.haveAssociationOwnedByDataClass(orderPosition, "order", ONE, "positions", MANY, order);
       sysEdit.haveAssociationOwnedByDataClass(orderPosition, "offer", ONE, "orders", MANY, offer);
       sysEdit.haveAttribute(orderPosition, "amount", DOUBLE);
       sysEdit.haveAttribute(orderPosition, "state", STRING);
-      sysEdit.haveMessages(shop, store, orderPosition);
 
       sysEdit.haveAssociationWithOwnCommands(customer, "products", MANY, "customers", MANY, product);
 

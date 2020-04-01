@@ -34,7 +34,6 @@ public class ShopService
       }
    }
 
-
    private LinkedHashMap<String, String> streamUrls = new LinkedHashMap<>();
 
    public ShopService addStreamUrl(String streamName, String targetUrl) {
@@ -377,6 +376,15 @@ public class ShopService
 
    }
 
+   public void addStream(String incommingRoute, String outgoingURL, String... commandList)
+   {
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
+   }
+
    public void start() { 
       if (myPort <= 0) {
          myPort = 4571;
@@ -393,6 +401,7 @@ public class ShopService
       get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      // no streams
 
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
@@ -400,16 +409,6 @@ public class ShopService
 
       java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
    }
-
-   public void addStream(String incommingRoute, String outgoingURL, String... commandList)
-   {
-      CommandStream stream = new CommandStream().setService(this);
-      stream.start(incommingRoute, outgoingURL, this);
-      for (String command : commandList) {
-         modelEditor.addCommandListener(command, stream);
-      }
-   }
-
 
    public String getFirstRoot(Request req, Response res) { 
       currentSession = "" + (sessionToAppMap.size() + 1);

@@ -495,7 +495,7 @@
       get(\"/Store\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post(\"/Storecmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      // stream from Shop to Store
+      // no streams
 
       notFound((req, resp) -> {
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
