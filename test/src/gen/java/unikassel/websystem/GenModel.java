@@ -1,21 +1,17 @@
-package org.fulib.servicegenerator;
+package unikassel.websystem;
 
-import org.fulib.Fulib;
-import org.fulib.FulibTools;
-import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Clazz;
-import org.junit.Test;
+import org.fulib.servicegenerator.ServiceEditor;
+import org.fulib.servicegenerator.SystemEditor;
 
 import static org.fulib.builder.ClassModelBuilder.*;
-import static org.hamcrest.CoreMatchers.is;
 
 public class GenModel
 {
-   @Test
-   public void genExample()
+   public static void main(String[] args)
    {
       SystemEditor sysEdit = new SystemEditor();
-      sysEdit.haveMainJavaDir("src/test/java");
+      sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("unikassel.websystem");
       ServiceEditor shop = sysEdit.haveService("Shop");
       ServiceEditor store = sysEdit.haveService("Store");
