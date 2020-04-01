@@ -34,7 +34,7 @@ dependencies {
 tasks.register('genModel', JavaExec) {
 	it.classpath = sourceSets.gen.runtimeClasspath
 	it.main = 'unikassel.websystem.GenModel'
-	it.workingDir = project.rootDir
+	it.workingDir = project.projectDir
 
 	it.inputs.dir('src/main/java')
 	it.outputs.dir('src/main/java')
