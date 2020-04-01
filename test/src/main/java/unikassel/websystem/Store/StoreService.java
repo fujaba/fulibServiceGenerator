@@ -191,7 +191,7 @@ public class StoreService
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
+      java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
    }
 
    public void addStream(String incommingRoute, String outgoingURL, String... commandList)
