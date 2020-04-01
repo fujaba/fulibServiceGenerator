@@ -30,3 +30,12 @@ dependencies {
 
 	testImplementation 'com.codeborne:selenide:5.9.0'
 }
+
+tasks.register('genModel', JavaExec) {
+	it.classpath = sourceSets.gen.runtimeClasspath
+	it.main = 'unikassel.websystem.GenModel'
+	it.workingDir = project.rootDir
+
+	it.inputs.dir('src/main/java')
+	it.outputs.dir('src/main/java')
+}
