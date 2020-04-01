@@ -3,9 +3,8 @@ package org.fulib.servicegenerator;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import unikassel.websystem.Shop.ShopEditor;
-import unikassel.websystem.Shop.ShopProduct;
-import unikassel.websystem.Shop.ShopService;
+import unikassel.websystem.Shop.*;
+import unikassel.websystem.Store.HaveProductCommand;
 import unikassel.websystem.Store.StoreApp;
 import unikassel.websystem.Store.StoreService;
 
@@ -30,16 +29,21 @@ public class TestSystem
    {
       // start shop and store
       storeService = new StoreService();
-      storeService.addStreamUrl("ShopToStore", "http://localhost:22010/StoreToShop");
       storeService.setMyPort(22010).start();
+      storeService.addStream("ShopToStore", "http://localhost:22010/StoreToShop", HaveProductCommand.class.getSimpleName());
 
       shopService = new ShopService();
-      shopService.addStreamUrl("StoreToShop", "http://localhost:22010/ShopToStore");
       shopService.setMyPort(22010).start();
+      shopService.addStream("StoreToShop", "http://localhost:22010/ShopToStore",
+            HaveCustomerCommand.class.getSimpleName(),
+            HaveOfferCommand.class.getSimpleName(),
+            HaveOrderCommand.class.getSimpleName(),
+            HaveOrderPositionCommand.class.getSimpleName());
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/scene1.html");
       scene1.addServices(storeService, shopService);
+
 
 
       open("http://localhost:22010/Store");

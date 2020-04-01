@@ -26,13 +26,6 @@ public class StoreService
 
    public StoreService() {
       String streams = System.getenv("streams");
-      if (streams != null) {
-         String[] split = streams.split("\n");
-         for (String oneStream : split) {
-            String[] words = oneStream.split(" ");
-            streamUrls.put(words[0], words[1]);
-         }
-      }
    }
 
    private java.util.ArrayList<CommandStream> streams = null;
@@ -45,13 +38,6 @@ public class StoreService
       }
 
       return this.streams;
-   }
-
-   private LinkedHashMap<String, String> streamUrls = new LinkedHashMap<>();
-
-   public StoreService addStreamUrl(String streamName, String targetUrl) {
-      streamUrls.put(streamName, targetUrl);
-      return this;
    }
 
    public static final String PROPERTY_myPort = "myPort";
@@ -201,16 +187,20 @@ public class StoreService
       get("/Store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-
-      CommandStream stream = new CommandStream().setService(this);
-      stream.start("ShopToStore", "http://localhost:22010/StoreToShop", this);
-      modelEditor.addCommandListener(HaveProductCommand.class.getSimpleName(), stream);
-
       notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
       java.util.logging.Logger.getGlobal().info("Store Serice is listening on port " + myPort);
+   }
+
+   public void addStream(String incommingRoute, String outgoingURL, String... commandList)
+   {
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
    }
 
    public static final String PROPERTY_reflectorMap = "reflectorMap";
