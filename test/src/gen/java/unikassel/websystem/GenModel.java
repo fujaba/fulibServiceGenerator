@@ -10,6 +10,25 @@ public class GenModel
 {
    public static void main(String[] args)
    {
+      genQSExample();
+      genStoreShop();
+   }
+
+   private static void genQSExample()
+   {
+      SystemEditor sysEdit = new SystemEditor();
+      sysEdit.haveMainJavaDir("src/main/java");
+      sysEdit.havePackageName("unikassel.qsexample");
+      ServiceEditor ramp = sysEdit.haveService("Ramp");
+      ServiceEditor laboratory = sysEdit.haveService("Laboratory");
+      ServiceEditor accounting = sysEdit.haveService("Accounting");
+      ServiceEditor Racking = sysEdit.haveService("Storage");
+
+      sysEdit.generate();
+   }
+
+   private static void genStoreShop()
+   {
       SystemEditor sysEdit = new SystemEditor();
       sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("unikassel.websystem");

@@ -26,6 +26,15 @@ editorGetOrCreateBody(dataClazz) ::= <<
 
 >>
 
+editorFireCommandExecuted() ::= <<
+      String commandName = command.getClass().getSimpleName();
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      for (CommandStream stream : listeners) {
+         stream.publish(command);
+      }
+
+>>
+
 preCheck(dataClazz) ::= <<
       if (this.getTime() == null) {
          this.setTime(editor.getTime());

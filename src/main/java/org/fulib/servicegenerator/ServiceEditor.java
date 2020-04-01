@@ -100,6 +100,12 @@ public class ServiceEditor
       editor.getImportList().add("import java.text.DateFormat;");
       editor.getImportList().add("import java.util.Date;");
 
+
+      declaration = "public void fireCommandExecuted(ModelCommand command)";
+      st = group.getInstanceOf("editorFireCommandExecuted");
+      body = "// st.render();\n";
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
       haveModelCommand();
       haveRemoveCommand();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());

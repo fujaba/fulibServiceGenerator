@@ -18,13 +18,8 @@ public class StoreEditor
       return this;
    }
 
-   public void fireCommandExecuted(ModelCommand command)
-   {
-      String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
-      for (CommandStream stream : listeners) {
-         stream.publish(command);
-      }
+   public void fireCommandExecuted(ModelCommand command) { 
+// st.render();
    }
 
    public static final String PROPERTY_activeCommands = "activeCommands";

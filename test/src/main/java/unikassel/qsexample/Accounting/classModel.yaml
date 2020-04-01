@@ -1,0 +1,516 @@
+- c1: 	ClassModel
+  classes: 	accountingEditor2 	modelCommand3 	removeCommand4 	accountingService5 	commandStream6 	accountingApp7 	page8 	line9 	
+  defaultPropertyStyle: 	POJO
+  defaultRoleType: 	"java.util.ArrayList<%s>"
+  mainJavaDir: 	"src/main/java"
+  packageName: 	unikassel.qsexample.Accounting
+  packageSrcFolder: 	"src/main/java/unikassel/qsexample/Accounting"
+
+- accountingEditor2: 	Clazz
+  attributes: 	activeCommands10 	removeCommands11 	isoDateFormat12 	lastTime13 	timeDelta14 	
+  importList: 	null 	null 	null 	
+  methods: 	f15 	f16 	f17 	
+  model: 	c1
+  modified: 	false
+  name: 	AccountingEditor
+  propertyStyle: 	POJO
+
+- modelCommand3: 	Clazz
+  attributes: 	id18 	time19 	
+  methods: 	f20 	
+  model: 	c1
+  modified: 	false
+  name: 	ModelCommand
+  propertyStyle: 	POJO
+  subClasses: 	removeCommand4 	
+
+- removeCommand4: 	Clazz
+  attributes: 	targetClassName21 	
+  importList: 	null 	null 	null 	
+  methods: 	f22 	
+  model: 	c1
+  modified: 	false
+  name: 	RemoveCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- accountingService5: 	Clazz
+  attributes: 	myPort23 	modelEditor24 	reflectorMap25 	currentSession26 	executor27 	sessionToAppMap28 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f29 	f30 	f31 	f32 	
+  model: 	c1
+  modified: 	false
+  name: 	AccountingService
+  propertyStyle: 	POJO
+  roles: 	streams33 	
+
+- commandStream6: 	Clazz
+  model: 	c1
+  modified: 	false
+  name: 	CommandStream
+  propertyStyle: 	POJO
+  roles: 	service34 	
+
+- accountingApp7: 	Clazz
+  attributes: 	modelEditor35 	id36 	description37 	
+  methods: 	f38 	
+  model: 	c1
+  modified: 	false
+  name: 	AccountingApp
+  propertyStyle: 	POJO
+  roles: 	content39 	
+
+- page8: 	Clazz
+  attributes: 	id40 	description41 	
+  model: 	c1
+  modified: 	false
+  name: 	Page
+  propertyStyle: 	POJO
+  roles: 	app42 	content43 	
+
+- line9: 	Clazz
+  attributes: 	id44 	description45 	action46 	value47 	
+  model: 	c1
+  modified: 	false
+  name: 	Line
+  propertyStyle: 	POJO
+  roles: 	page48 	
+
+- activeCommands10: 	Attribute
+  clazz: 	accountingEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	activeCommands
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, ModelCommand>"
+
+- removeCommands11: 	Attribute
+  clazz: 	accountingEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	removeCommands
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, RemoveCommand>"
+
+- isoDateFormat12: 	Attribute
+  clazz: 	accountingEditor2
+  initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
+  modified: 	false
+  name: 	isoDateFormat
+  propertyStyle: 	POJO
+  type: 	DateFormat
+
+- lastTime13: 	Attribute
+  clazz: 	accountingEditor2
+  initialization: 	"isoDateFormat.format(new Date())"
+  modified: 	false
+  name: 	lastTime
+  propertyStyle: 	POJO
+  type: 	String
+
+- timeDelta14: 	Attribute
+  clazz: 	accountingEditor2
+  initialization: 	1
+  modified: 	false
+  name: 	timeDelta
+  propertyStyle: 	POJO
+  type: 	long
+
+- f15: 	FMethod
+  clazz: 	accountingEditor2
+  declaration: 	"public String getTime()"
+  methodBody: 	"      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) <= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
+"
+  modified: 	false
+
+- f16: 	FMethod
+  clazz: 	accountingEditor2
+  declaration: 	"public void fireCommandExecuted(ModelCommand command)"
+  methodBody: 	"// st.render();
+"
+  modified: 	false
+
+- f17: 	FMethod
+  clazz: 	accountingEditor2
+  declaration: 	"public void loadYaml(String yamlString)"
+  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.qsexample.Accounting\").decode(yamlString);
+      for (Object value : map.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(this);
+      }
+"
+  modified: 	false
+
+- id18: 	Attribute
+  clazz: 	modelCommand3
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- time19: 	Attribute
+  clazz: 	modelCommand3
+  modified: 	false
+  name: 	time
+  propertyStyle: 	POJO
+  type: 	String
+
+- f20: 	FMethod
+  clazz: 	modelCommand3
+  declaration: 	"public ModelCommand run(AccountingEditor editor)"
+  methodBody: 	"      return null;
+"
+  modified: 	false
+
+- targetClassName21: 	Attribute
+  clazz: 	removeCommand4
+  modified: 	false
+  name: 	targetClassName
+  propertyStyle: 	POJO
+  type: 	String
+
+- f22: 	FMethod
+  clazz: 	removeCommand4
+  declaration: 	"public ModelCommand run(AccountingEditor editor)"
+  methodBody: 	"      // allready removed?
+      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + \"-\" + this.getId());
+      if (oldRemoveCommand != null) {
+         return null;
+      }
+
+      // find the target object
+      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(editor);
+      Object value = reflector.getValue(editor, this.getTargetClassName() + \"s\");
+      java.util.Map objects = (java.util.Map) value;
+      Object target = objects.get(this.getId());
+      try {
+         Method removeYouMethod = target.getClass().getMethod(\"removeYou\", new Class[0]);
+         removeYouMethod.invoke(target, new Object[0]);
+      }
+      catch (Exception e) {
+         // ignore
+      }
+      objects.remove(this.getId());
+      editor.getRemoveCommands().put(this.getTargetClassName() + \"-\" + this.getId(), this);
+      editor.fireCommandExecuted(this);
+
+      return null;
+"
+  modified: 	false
+
+- myPort23: 	Attribute
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	myPort
+  propertyStyle: 	POJO
+  type: 	int
+
+- modelEditor24: 	Attribute
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	modelEditor
+  propertyStyle: 	POJO
+  type: 	AccountingEditor
+
+- reflectorMap25: 	Attribute
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	reflectorMap
+  propertyStyle: 	POJO
+  type: 	ReflectorMap
+
+- currentSession26: 	Attribute
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	currentSession
+  propertyStyle: 	POJO
+  type: 	String
+
+- executor27: 	Attribute
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	executor
+  propertyStyle: 	POJO
+  type: 	"ExecutorService "
+
+- sessionToAppMap28: 	Attribute
+  clazz: 	accountingService5
+  initialization: 	"new LinkedHashMap()"
+  modified: 	false
+  name: 	sessionToAppMap
+  propertyStyle: 	POJO
+  type: 	"LinkedHashMap<String, AccountingApp>"
+
+- f29: 	FMethod
+  clazz: 	accountingService5
+  declaration: 	"public void start()"
+  methodBody: 	"      if (myPort <= 0) {
+         myPort = 4571;
+      }
+      String envPort = System.getenv(\"PORT\");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      modelEditor = new AccountingEditor();
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      try { port(myPort);} catch (Exception e) {};
+      get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      get(\"/Accounting\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      post(\"/Accountingcmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      // no streams
+
+      notFound((req, resp) -> {
+         return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info(\"Store Service is listening on port \" + myPort);
+"
+  modified: 	false
+
+- f30: 	FMethod
+  clazz: 	accountingService5
+  declaration: 	"public String getFirstRoot(Request req, Response res)"
+  methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
+      return root(req, res);
+"
+  modified: 	false
+
+- f31: 	FMethod
+  clazz: 	accountingService5
+  declaration: 	"public String root(Request req, Response res)"
+  methodBody: 	"      try
+      {
+         AccountingApp myApp = this.sessionToAppMap.get(currentSession);
+         if (myApp == null) {
+            myApp = new AccountingApp().init(this.modelEditor);
+            sessionToAppMap.put(currentSession, myApp);
+         }
+
+         java.util.Map<String, String> params = req.params();
+         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         StringBuilder page = new StringBuilder(stringWriter.toString());
+         int paramPos = page.indexOf(\"_cmd: words[0],\");
+         String sessionParam = String.format(\"_session: '%s', \", currentSession);
+         page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf(\"'/cmd'\");
+         page.insert(cmdUrlPos + 2, \"Accounting\");
+         String sessionPage = page.toString();
+         return sessionPage;
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return \"404 \" + e.getMessage();
+      }
+"
+  modified: 	false
+
+- f32: 	FMethod
+  clazz: 	accountingService5
+  declaration: 	"public String cmd(Request req, Response res)"
+  methodBody: 	"      String cmd = req.body();
+      JSONObject jsonObject = new JSONObject(cmd);
+
+      this.currentSession = jsonObject.getString(\"_session\");
+
+      AccountingApp app = sessionToAppMap.get(currentSession);
+
+      if (app == null) {
+         return \"404 could not find session \" + currentSession;
+      }
+
+      if (jsonObject.keySet().size() > 3) {
+         String cmdClassName = jsonObject.getString(\"_cmd\");
+         Reflector reflector = reflectorMap.getReflector(cmdClassName);
+         Object cmdObject = reflector.newInstance();
+         for (String key : jsonObject.keySet()) {
+            if (key.startsWith(\"_\")) {
+               continue;
+            }
+            else {
+               // assign to command attribute
+               String attrName = key;
+               if (key.endsWith(\"In\")) {
+                  attrName = key.substring(0, key.length() - 2);
+               }
+               String value = jsonObject.getString(key);
+               reflector.setValue(cmdObject, attrName, value, null);
+            }
+         }
+         // call command
+         try {
+            Method runMethod = cmdObject.getClass().getMethod(\"run\", AccountingEditor.class);
+            runMethod.invoke(cmdObject, modelEditor);
+
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+            return \"404 \" + e.getMessage();
+         }
+      }
+
+      // next page
+      String newPage = jsonObject.getString(\"_newPage\");
+      try {
+         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         method.invoke(app);
+      }
+      catch (Exception e) {
+         return \"404 app has no method to compute page \" + newPage;
+      }
+
+      return root(req, res);
+"
+  modified: 	false
+
+- streams33: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	streams
+  other: 	service34
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- service34: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	commandStream6
+  modified: 	false
+  name: 	service
+  other: 	streams33
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- modelEditor35: 	Attribute
+  clazz: 	accountingApp7
+  modified: 	false
+  name: 	modelEditor
+  propertyStyle: 	POJO
+  type: 	AccountingEditor
+
+- id36: 	Attribute
+  clazz: 	accountingApp7
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description37: 	Attribute
+  clazz: 	accountingApp7
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- f38: 	FMethod
+  clazz: 	accountingApp7
+  declaration: 	"public AccountingApp init(AccountingEditor editor)"
+  methodBody: 	"      this.modelEditor = editor;
+      this.setId(\"root\");
+      this.setDescription(\"Accounting App\");
+      return this;
+"
+  modified: 	false
+
+- content39: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	accountingApp7
+  modified: 	false
+  name: 	content
+  other: 	app42
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id40: 	Attribute
+  clazz: 	page8
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description41: 	Attribute
+  clazz: 	page8
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- app42: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	page8
+  modified: 	false
+  name: 	app
+  other: 	content39
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- content43: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	page8
+  modified: 	false
+  name: 	content
+  other: 	page48
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id44: 	Attribute
+  clazz: 	line9
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description45: 	Attribute
+  clazz: 	line9
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- action46: 	Attribute
+  clazz: 	line9
+  modified: 	false
+  name: 	action
+  propertyStyle: 	POJO
+  type: 	String
+
+- value47: 	Attribute
+  clazz: 	line9
+  modified: 	false
+  name: 	value
+  propertyStyle: 	POJO
+  type: 	String
+
+- page48: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	line9
+  modified: 	false
+  name: 	page
+  other: 	content43
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
