@@ -1,4 +1,4 @@
-
+delimiters "$", "$"
 
 oneMessage(time, indent, data) ::= <<
 <div id="Message$time$" class="box" style="position: relative; left: $indent$px">
