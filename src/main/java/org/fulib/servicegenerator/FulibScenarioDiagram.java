@@ -30,7 +30,7 @@ public class FulibScenarioDiagram
    private Object modelEditor;
 
    public FulibScenarioDiagram() {
-      group = new STGroupFile("org.fulib.templates/scenariodiagram.stg", "UTF-8", '$', '$');
+      group = new STGroupFile(this.getClass().getResource("templates/scenariodiagram.stg"), "UTF-8", '$', '$');
    }
 
    public FulibScenarioDiagram setHtmlFileName(String htmlFileName)

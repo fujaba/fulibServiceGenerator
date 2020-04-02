@@ -29,7 +29,7 @@ public class ServiceEditor
 
    public ServiceEditor()
    {
-      group = new STGroupFile("org.fulib.templates/servicemodel.stg");
+      group = new STGroupFile(this.getClass().getResource("templates/servicemodel.stg"));
       group.registerRenderer(String.class, new StringRenderer());
   }
 
