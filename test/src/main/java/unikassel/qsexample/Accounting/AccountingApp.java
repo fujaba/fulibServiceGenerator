@@ -166,7 +166,16 @@ public class AccountingApp
       this.modelEditor = editor;
       this.setId("root");
       this.setDescription("Accounting App");
+      supply();
       return this;
+   }
+
+   private String toolBar = "button supply";
+
+   public void supply()
+   {
+      new Page().setId("supplyPage").setDescription(toolBar).setApp(this);
+
    }
 
 }

@@ -10,16 +10,12 @@ import java.util.Date;
 
 public class StoreEditor  
 {
-   private LinkedHashMap<String, ArrayList<CommandStream>> commandListeners = new LinkedHashMap<>();
+   private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
 
    public StoreEditor addCommandListener(String commandName, CommandStream stream) {
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
-   }
-
-   public void fireCommandExecuted(ModelCommand command) { 
-// st.render();
    }
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -283,6 +279,24 @@ public class StoreEditor
       return result.substring(1);
    }
 
+   public static final String PROPERTY_commandListeners = "commandListeners";
+
+   public java.util.Map<String, ArrayList<CommandStream>> getCommandListeners()
+   {
+      return commandListeners;
+   }
+
+   public StoreEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
+   {
+      if (value != this.commandListeners)
+      {
+         java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
+         this.commandListeners = value;
+         firePropertyChange("commandListeners", oldValue, value);
+      }
+      return this;
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -299,6 +313,14 @@ public class StoreEditor
       }
       lastTime = newTime;
       return newTime;
+   }
+
+   public void fireCommandExecuted(ModelCommand command) { 
+      String commandName = command.getClass().getSimpleName();
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      for (CommandStream stream : listeners) {
+         stream.publish(command);
+      }
    }
 
    public void loadYaml(String yamlString) { 

@@ -43,6 +43,7 @@ public class FulibScenarioDiagram
    public FulibScenarioDiagram addServices(Object... services)
    {
       this.services.addAll(Arrays.asList(services));
+      dump();
       return this;
    }
 
@@ -178,7 +179,10 @@ public class FulibScenarioDiagram
       Object description = reflector.getValue(app, "description");
       if (description != null) {
          title = " " + description;
-         app = reflector.getValue(app, "content");
+         Object page = reflector.getValue(app, "content");
+         if (page != null) {
+            app = page;
+         }
       }
 
       StringBuilder lines = new StringBuilder();

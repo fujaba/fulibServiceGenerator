@@ -1,6 +1,13 @@
 package unikassel.qsexample.Ramp;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import org.fulib.yaml.Yaml;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.*;
+import java.util.*;
 
 public class CommandStream  
 {
@@ -88,6 +95,110 @@ public class CommandStream
    {
       this.setService(null);
 
+   }
+
+   public static final String PROPERTY_activeCommands = "activeCommands";
+
+   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, ModelCommand> getActiveCommands()
+   {
+      return activeCommands;
+   }
+
+   public CommandStream setActiveCommands(java.util.Map<String, ModelCommand> value)
+   {
+      if (value != this.activeCommands)
+      {
+         java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
+         this.activeCommands = value;
+         firePropertyChange("activeCommands", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_targetUrl = "targetUrl";
+
+   private String targetUrl;
+
+   public String getTargetUrl()
+   {
+      return targetUrl;
+   }
+
+   public CommandStream setTargetUrl(String value)
+   {
+      if (value == null ? this.targetUrl != null : ! value.equals(this.targetUrl))
+      {
+         String oldValue = this.targetUrl;
+         this.targetUrl = value;
+         firePropertyChange("targetUrl", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getTargetUrl());
+
+
+      return result.substring(1);
+   }
+
+   public void publish(ModelCommand cmd) { 
+      String yaml = Yaml.encode(cmd);
+      activeCommands.put(cmd.getId(), cmd);
+
+      send();
+   }
+
+   public void send() { 
+      try {
+         String yaml = Yaml.encode(activeCommands.values());
+         URL url = new URL(targetUrl);
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod("POST");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+
+         // got an answer, clear active commands
+         activeCommands.clear();
+         LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+               .decode(yaml);
+         executeCommands(map.values());
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+   }
+
+   public void executeCommands(Collection values) { 
+      for (Object value : values) {
+         try {
+            ModelCommand cmd = (ModelCommand) value;
+            this.service.getExecutor().submit(() -> cmd.run(this.service.getModelEditor()));
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
    }
 
 }

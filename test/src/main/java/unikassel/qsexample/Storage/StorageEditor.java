@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.util.Date;
 import org.fulib.yaml.Yaml;
+import java.util.ArrayList;
 
 public class StorageEditor  
 {
@@ -169,6 +170,26 @@ public class StorageEditor
       return result.substring(1);
    }
 
+   public static final String PROPERTY_commandListeners = "commandListeners";
+
+   private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, ArrayList<CommandStream>> getCommandListeners()
+   {
+      return commandListeners;
+   }
+
+   public StorageEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
+   {
+      if (value != this.commandListeners)
+      {
+         java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
+         this.commandListeners = value;
+         firePropertyChange("commandListeners", oldValue, value);
+      }
+      return this;
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -188,7 +209,11 @@ public class StorageEditor
    }
 
    public void fireCommandExecuted(ModelCommand command) { 
-// st.render();
+      String commandName = command.getClass().getSimpleName();
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      for (CommandStream stream : listeners) {
+         stream.publish(command);
+      }
    }
 
    public void loadYaml(String yamlString) { 

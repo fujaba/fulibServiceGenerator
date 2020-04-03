@@ -84,6 +84,8 @@ public class ServiceEditor
 
       this.editorHaveMapFor("activeCommands", "ModelCommand");
       this.editorHaveMapFor("RemoveCommand");
+      this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
+
 
       Attribute dateFormat = this.getClassModelManager().haveAttribute(editor, "isoDateFormat", "DateFormat");
       dateFormat.setInitialization("new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
@@ -103,8 +105,9 @@ public class ServiceEditor
 
       declaration = "public void fireCommandExecuted(ModelCommand command)";
       st = group.getInstanceOf("editorFireCommandExecuted");
-      body = "// st.render();\n";
+      body = st.render();
       this.getClassModelManager().haveMethod(editor, declaration, body);
+      editor.getImportList().add("import java.util.ArrayList;");
 
       haveModelCommand();
       haveRemoveCommand();
@@ -127,9 +130,7 @@ public class ServiceEditor
             String.format("LinkedHashMap<String, %sApp>", serviceName));
       sessionToAppMap.setInitialization("new LinkedHashMap()");
 
-      Clazz commandStream = mm.haveClass("CommandStream");
-
-      mm.haveRole(service, "streams", commandStream, MANY, "service", ONE);
+      haveCommandStream();
 
       LinkedHashSet<String> importList = service.getImportList();
       importList.add("import java.util.LinkedHashMap;");
@@ -161,6 +162,40 @@ public class ServiceEditor
       importList.add("import org.json.JSONObject;");
       importList.add("import org.fulib.yaml.Reflector;");
       importList.add("import java.lang.reflect.Method;");
+   }
+
+   public void haveCommandStream()
+   {
+      Clazz commandStream = mm.haveClass("CommandStream");
+
+      mm.haveAttribute(commandStream, "targetUrl", STRING);
+      mm.haveRole(service, "streams", commandStream, MANY, "service", ONE);
+
+      String declaration = "public void publish(ModelCommand cmd)";
+      ST st = group.getInstanceOf("CommandStreamPublish");
+      String body = st.render();
+      mm.haveMethod(commandStream, declaration, body);
+
+      declaration = "public void send()";
+      st = group.getInstanceOf("CommandStreamSend");
+      body = st.render();
+      mm.haveMethod(commandStream, declaration, body);
+
+      declaration = "public void executeCommands(Collection values)";
+      st = group.getInstanceOf("CommandStreamExecuteCommands");
+      body = st.render();
+      mm.haveMethod(commandStream, declaration, body);
+
+
+      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
+      attribute.setInitialization("new java.util.LinkedHashMap<>()");
+
+      LinkedHashSet<String> importList = commandStream.getImportList();
+      importList.add("import org.fulib.yaml.Yaml;");
+      importList.add("import java.net.URL;");
+      importList.add("import java.net.HttpURLConnection;");
+      importList.add("import java.io.*;");
+      importList.add("import java.util.*;");
    }
 
    public void haveStartMethod(String serviceName, String streamInit)
