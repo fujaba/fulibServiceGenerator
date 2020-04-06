@@ -24,6 +24,29 @@ public class GenModel
       ServiceEditor accounting = sysEdit.haveService("Accounting");
       ServiceEditor Racking = sysEdit.haveService("Storage");
 
+      Clazz product = sysEdit.haveSharedClass("Product");
+      sysEdit.haveAttribute(product, "description", STRING);
+
+      Clazz supplier = sysEdit.haveSharedClass("Supplier");
+      sysEdit.haveAttribute(supplier, "name", STRING);
+      sysEdit.haveAttribute(supplier, "address", STRING);
+
+      Clazz supply = sysEdit.haveSharedClass("Supply");
+      sysEdit.haveAssociationOwnedByDataClass(supply, "supplier", ONE, "deliveries", MANY, supplier);
+      sysEdit.haveAssociationOwnedByDataClass(supply, "product", ONE, "supplies", MANY, product);
+      sysEdit.haveAttribute(supply, "items", DOUBLE);
+      sysEdit.haveAttribute(supply, "state", STRING);
+
+      Clazz customer = sysEdit.haveSharedClass("Customer");
+      sysEdit.haveAttribute(customer, "name", STRING);
+      sysEdit.haveAttribute(customer, "address", STRING);
+
+      Clazz addSupply = accounting.haveCommand("AddSupply");
+      accounting.getClassModelManager().haveAttribute(addSupply, "supplier", STRING);
+      accounting.getClassModelManager().haveAttribute(addSupply, "product", STRING);
+      accounting.getClassModelManager().haveAttribute(addSupply, "items", STRING);
+      accounting.getClassModelManager().haveAttribute(addSupply, "_app", "AccountingApp");
+
       sysEdit.generate();
    }
 

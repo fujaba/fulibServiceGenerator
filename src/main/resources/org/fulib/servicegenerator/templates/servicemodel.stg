@@ -35,6 +35,13 @@ editorFireCommandExecuted() ::= <<
 
 >>
 
+editorAddCommandListener() ::= <<
+      ArrayList\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
+      listeners.add(stream);
+      return this;
+
+>>
+
 preCheck(dataClazz) ::= <<
       if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -157,17 +164,27 @@ serviceInit(serviceName, streamInit) ::= <<
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new <serviceName>Editor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      try { port(myPort);} catch (Exception e) {};
-      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/<serviceName>", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post("/<serviceName>cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark = Service.ignite();
+      try { spark.port(myPort);} catch (Exception e) {};
+      spark.get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get("/<serviceName>", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post("/<serviceName>cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       <streamInit>
-      notFound((req, resp) -> {
+      spark.notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
+      java.util.logging.Logger.getGlobal().info("<serviceName> Service is listening on port " + myPort);
+
+>>
+
+serviceAddStream() ::= <<
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
 
 >>
 
@@ -280,7 +297,7 @@ getTime() ::= <<
 CommandStreamPublish() ::= <<
       String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
-
+      oldCommands.add(cmd);
       send();
 
 >>
@@ -330,5 +347,25 @@ CommandStreamExecuteCommands() ::= <<
             e.printStackTrace();
          }
       }
+
+>>
+
+CommandStreamStart() ::= <<
+      this.targetUrl = targetUrl;
+      this.service = service;
+      service.getSpark().post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+      return this;
+
+>>
+
+CommandStreamHandlePostRequest() ::= <<
+      String body = req.body();
+      LinkedHashMap\<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+            .decode(body);
+
+      Collection values = commandMap.values();
+      executeCommands(values);
+
+      return "OK";
 
 >>

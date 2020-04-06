@@ -11,6 +11,7 @@ import org.fulib.scenarios.MockupTools;
 import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
 import java.lang.reflect.Method;
+import spark.Service;
 
 public class AccountingService  
 {
@@ -209,31 +210,6 @@ public class AccountingService
       return this;
    }
 
-   public void start() { 
-      if (myPort <= 0) {
-         myPort = 4571;
-      }
-      String envPort = System.getenv("PORT");
-      if (envPort != null) {
-         myPort = Integer.parseInt(envPort);
-      }
-      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new AccountingEditor();
-      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      try { port(myPort);} catch (Exception e) {};
-      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/Accounting", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post("/Accountingcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      // no streams
-
-      notFound((req, resp) -> {
-         return "404 not found: " + req.requestMethod() + req.url() + req.body();
-      });
-
-      java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -300,6 +276,52 @@ public class AccountingService
       this.withoutStreams(this.getStreams().clone());
 
 
+   }
+
+   public static final String PROPERTY_spark = "spark";
+
+   private Service spark;
+
+   public Service getSpark()
+   {
+      return spark;
+   }
+
+   public AccountingService setSpark(Service value)
+   {
+      if (value != this.spark)
+      {
+         Service oldValue = this.spark;
+         this.spark = value;
+         firePropertyChange("spark", oldValue, value);
+      }
+      return this;
+   }
+
+   public void start() { 
+      if (myPort <= 0) {
+         myPort = 4571;
+      }
+      String envPort = System.getenv("PORT");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      modelEditor = new AccountingEditor();
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      spark = Service.ignite();
+      try { spark.port(myPort);} catch (Exception e) {};
+      spark.get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get("/Accounting", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post("/Accountingcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      // no streams
+
+      spark.notFound((req, resp) -> {
+         return "404 not found: " + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info("Accounting Service is listening on port " + myPort);
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -388,6 +410,14 @@ public class AccountingService
       }
 
       return root(req, res);
+   }
+
+   public void addStream(String incommingRoute, String outgoingURL, String... commandList) { 
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
    }
 
 }

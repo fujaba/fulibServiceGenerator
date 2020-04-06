@@ -107,7 +107,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand run(StorageEditor editor) { 
+   public Object run(StorageEditor editor) { 
       return null;
    }
 

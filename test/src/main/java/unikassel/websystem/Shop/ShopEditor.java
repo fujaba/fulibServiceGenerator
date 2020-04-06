@@ -34,12 +34,6 @@ public class ShopEditor
 
    private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
 
-   public ShopEditor addCommandListener(String commandName, CommandStream stream) {
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
-      listeners.add(stream);
-      return this;
-   }
-
    public ShopEditor setLastTime(String value)
    {
       if (value == null ? this.lastTime != null : ! value.equals(this.lastTime))
@@ -326,6 +320,12 @@ public class ShopEditor
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
+   }
+
+   public ShopEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
    }
 
    public void loadYaml(String yamlString) { 

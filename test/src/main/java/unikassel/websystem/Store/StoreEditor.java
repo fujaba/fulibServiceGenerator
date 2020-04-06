@@ -12,12 +12,6 @@ public class StoreEditor
 {
    private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
 
-   public StoreEditor addCommandListener(String commandName, CommandStream stream) {
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
-      listeners.add(stream);
-      return this;
-   }
-
    public static final String PROPERTY_activeCommands = "activeCommands";
 
    private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
@@ -321,6 +315,12 @@ public class StoreEditor
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
+   }
+
+   public StoreEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
    }
 
    public void loadYaml(String yamlString) { 

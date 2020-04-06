@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	storageEditor2 	modelCommand3 	removeCommand4 	storageService5 	commandStream6 	storageApp7 	page8 	line9 	
+  classes: 	storageEditor2 	modelCommand3 	removeCommand4 	storageService5 	commandStream6 	storageApp7 	page8 	line9 	storageProduct10 	haveProductCommand11 	storageSupplier12 	haveSupplierCommand13 	storageSupply14 	haveSupplyCommand15 	storageCustomer16 	haveCustomerCommand17 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,27 +7,27 @@
   packageSrcFolder: 	"src/main/java/unikassel/qsexample/Storage"
 
 - storageEditor2: 	Clazz
-  attributes: 	activeCommands10 	removeCommands11 	commandListeners12 	isoDateFormat13 	lastTime14 	timeDelta15 	
+  attributes: 	activeCommands18 	removeCommands19 	commandListeners20 	isoDateFormat21 	lastTime22 	timeDelta23 	storageProducts24 	storageSuppliers25 	storageSupplys26 	storageCustomers27 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f16 	f17 	f18 	
+  methods: 	f28 	f29 	f30 	f31 	f32 	f33 	f34 	f35 	
   model: 	c1
   modified: 	false
   name: 	StorageEditor
   propertyStyle: 	POJO
 
 - modelCommand3: 	Clazz
-  attributes: 	id19 	time20 	
-  methods: 	f21 	
+  attributes: 	id36 	time37 	
+  methods: 	f38 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	
+  subClasses: 	removeCommand4 	haveProductCommand11 	haveSupplierCommand13 	haveSupplyCommand15 	haveCustomerCommand17 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName22 	
+  attributes: 	targetClassName39 	
   importList: 	null 	null 	null 	
-  methods: 	f23 	
+  methods: 	f40 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -35,51 +35,118 @@
   superClass: 	modelCommand3
 
 - storageService5: 	Clazz
-  attributes: 	myPort24 	modelEditor25 	reflectorMap26 	currentSession27 	executor28 	sessionToAppMap29 	
+  attributes: 	myPort41 	modelEditor42 	reflectorMap43 	currentSession44 	executor45 	spark46 	sessionToAppMap47 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f30 	f31 	f32 	f33 	
+  methods: 	f48 	f49 	f50 	f51 	f52 	
   model: 	c1
   modified: 	false
   name: 	StorageService
   propertyStyle: 	POJO
-  roles: 	streams34 	
+  roles: 	streams53 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl35 	activeCommands36 	
-  importList: 	null 	null 	null 	null 	null 	
-  methods: 	f37 	f38 	f39 	
+  attributes: 	targetUrl54 	oldCommands55 	activeCommands56 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f57 	f58 	f59 	f60 	f61 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service40 	
+  roles: 	service62 	
 
 - storageApp7: 	Clazz
-  attributes: 	modelEditor41 	id42 	description43 	
-  methods: 	f44 	
+  attributes: 	modelEditor63 	id64 	description65 	
+  methods: 	f66 	
   model: 	c1
   modified: 	false
   name: 	StorageApp
   propertyStyle: 	POJO
-  roles: 	content45 	
+  roles: 	content67 	
 
 - page8: 	Clazz
-  attributes: 	id46 	description47 	
+  attributes: 	id68 	description69 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app48 	content49 	
+  roles: 	app70 	content71 	
 
 - line9: 	Clazz
-  attributes: 	id50 	description51 	action52 	value53 	
+  attributes: 	id72 	description73 	action74 	value75 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page54 	
+  roles: 	page76 	
 
-- activeCommands10: 	Attribute
+- storageProduct10: 	Clazz
+  attributes: 	id77 	description78 	
+  model: 	c1
+  modified: 	false
+  name: 	StorageProduct
+  propertyStyle: 	POJO
+  roles: 	supplies79 	
+
+- haveProductCommand11: 	Clazz
+  attributes: 	description80 	
+  methods: 	f81 	f82 	
+  model: 	c1
+  modified: 	false
+  name: 	HaveProductCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- storageSupplier12: 	Clazz
+  attributes: 	id83 	name84 	address85 	
+  model: 	c1
+  modified: 	false
+  name: 	StorageSupplier
+  propertyStyle: 	POJO
+  roles: 	deliveries86 	
+
+- haveSupplierCommand13: 	Clazz
+  attributes: 	name87 	address88 	
+  methods: 	f89 	f90 	f91 	
+  model: 	c1
+  modified: 	false
+  name: 	HaveSupplierCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- storageSupply14: 	Clazz
+  attributes: 	id92 	items93 	state94 	
+  model: 	c1
+  modified: 	false
+  name: 	StorageSupply
+  propertyStyle: 	POJO
+  roles: 	supplier95 	product96 	
+
+- haveSupplyCommand15: 	Clazz
+  attributes: 	supplier97 	product98 	items99 	state100 	
+  methods: 	f101 	f102 	f103 	f104 	f105 	
+  model: 	c1
+  modified: 	false
+  name: 	HaveSupplyCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- storageCustomer16: 	Clazz
+  attributes: 	id106 	name107 	address108 	
+  model: 	c1
+  modified: 	false
+  name: 	StorageCustomer
+  propertyStyle: 	POJO
+
+- haveCustomerCommand17: 	Clazz
+  attributes: 	name109 	address110 	
+  methods: 	f111 	f112 	f113 	
+  model: 	c1
+  modified: 	false
+  name: 	HaveCustomerCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- activeCommands18: 	Attribute
   clazz: 	storageEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -87,7 +154,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands11: 	Attribute
+- removeCommands19: 	Attribute
   clazz: 	storageEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -95,7 +162,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners12: 	Attribute
+- commandListeners20: 	Attribute
   clazz: 	storageEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -103,7 +170,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat13: 	Attribute
+- isoDateFormat21: 	Attribute
   clazz: 	storageEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -111,7 +178,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime14: 	Attribute
+- lastTime22: 	Attribute
   clazz: 	storageEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -119,7 +186,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta15: 	Attribute
+- timeDelta23: 	Attribute
   clazz: 	storageEditor2
   initialization: 	1
   modified: 	false
@@ -127,7 +194,39 @@
   propertyStyle: 	POJO
   type: 	long
 
-- f16: 	FMethod
+- storageProducts24: 	Attribute
+  clazz: 	storageEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	storageProducts
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, StorageProduct>"
+
+- storageSuppliers25: 	Attribute
+  clazz: 	storageEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	storageSuppliers
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, StorageSupplier>"
+
+- storageSupplys26: 	Attribute
+  clazz: 	storageEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	storageSupplys
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, StorageSupply>"
+
+- storageCustomers27: 	Attribute
+  clazz: 	storageEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	storageCustomers
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, StorageCustomer>"
+
+- f28: 	FMethod
   clazz: 	storageEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -148,7 +247,7 @@
 "
   modified: 	false
 
-- f17: 	FMethod
+- f29: 	FMethod
   clazz: 	storageEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -159,7 +258,16 @@
 "
   modified: 	false
 
-- f18: 	FMethod
+- f30: 	FMethod
+  clazz: 	storageEditor2
+  declaration: 	"public StorageEditor addCommandListener(String commandName, CommandStream stream)"
+  methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+"
+  modified: 	false
+
+- f31: 	FMethod
   clazz: 	storageEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.qsexample.Storage\").decode(yamlString);
@@ -170,37 +278,105 @@
 "
   modified: 	false
 
-- id19: 	Attribute
+- f32: 	FMethod
+  clazz: 	storageEditor2
+  declaration: 	"public StorageProduct getOrCreateStorageProduct(String id)"
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StorageProduct oldObject = this.getStorageProducts().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageProduct newObject = new StorageProduct();
+      newObject.setId(id);
+      this.getStorageProducts().put(id, newObject);
+      return newObject;
+"
+  modified: 	false
+
+- f33: 	FMethod
+  clazz: 	storageEditor2
+  declaration: 	"public StorageSupplier getOrCreateStorageSupplier(String id)"
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StorageSupplier oldObject = this.getStorageSuppliers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageSupplier newObject = new StorageSupplier();
+      newObject.setId(id);
+      this.getStorageSuppliers().put(id, newObject);
+      return newObject;
+"
+  modified: 	false
+
+- f34: 	FMethod
+  clazz: 	storageEditor2
+  declaration: 	"public StorageSupply getOrCreateStorageSupply(String id)"
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StorageSupply oldObject = this.getStorageSupplys().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageSupply newObject = new StorageSupply();
+      newObject.setId(id);
+      this.getStorageSupplys().put(id, newObject);
+      return newObject;
+"
+  modified: 	false
+
+- f35: 	FMethod
+  clazz: 	storageEditor2
+  declaration: 	"public StorageCustomer getOrCreateStorageCustomer(String id)"
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      StorageCustomer oldObject = this.getStorageCustomers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageCustomer newObject = new StorageCustomer();
+      newObject.setId(id);
+      this.getStorageCustomers().put(id, newObject);
+      return newObject;
+"
+  modified: 	false
+
+- id36: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time20: 	Attribute
+- time37: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f21: 	FMethod
+- f38: 	FMethod
   clazz: 	modelCommand3
-  declaration: 	"public ModelCommand run(StorageEditor editor)"
+  declaration: 	"public Object run(StorageEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName22: 	Attribute
+- targetClassName39: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f23: 	FMethod
+- f40: 	FMethod
   clazz: 	removeCommand4
-  declaration: 	"public ModelCommand run(StorageEditor editor)"
+  declaration: 	"public Object run(StorageEditor editor)"
   methodBody: 	"      // allready removed?
       RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + \"-\" + this.getId());
       if (oldRemoveCommand != null) {
@@ -228,42 +404,49 @@
 "
   modified: 	false
 
-- myPort24: 	Attribute
+- myPort41: 	Attribute
   clazz: 	storageService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- modelEditor25: 	Attribute
+- modelEditor42: 	Attribute
   clazz: 	storageService5
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	StorageEditor
 
-- reflectorMap26: 	Attribute
+- reflectorMap43: 	Attribute
   clazz: 	storageService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession27: 	Attribute
+- currentSession44: 	Attribute
   clazz: 	storageService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor28: 	Attribute
+- executor45: 	Attribute
   clazz: 	storageService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- sessionToAppMap29: 	Attribute
+- spark46: 	Attribute
+  clazz: 	storageService5
+  modified: 	false
+  name: 	spark
+  propertyStyle: 	POJO
+  type: 	Service
+
+- sessionToAppMap47: 	Attribute
   clazz: 	storageService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -271,7 +454,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, StorageApp>"
 
-- f30: 	FMethod
+- f48: 	FMethod
   clazz: 	storageService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -284,22 +467,23 @@
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new StorageEditor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      try { port(myPort);} catch (Exception e) {};
-      get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get(\"/Storage\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post(\"/Storagecmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark = Service.ignite();
+      try { spark.port(myPort);} catch (Exception e) {};
+      spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get(\"/Storage\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/Storagecmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       // no streams
 
-      notFound((req, resp) -> {
+      spark.notFound((req, resp) -> {
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"Store Service is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"Storage Service is listening on port \" + myPort);
 "
   modified: 	false
 
-- f31: 	FMethod
+- f49: 	FMethod
   clazz: 	storageService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -307,7 +491,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f50: 	FMethod
   clazz: 	storageService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -338,7 +522,7 @@
 "
   modified: 	false
 
-- f33: 	FMethod
+- f51: 	FMethod
   clazz: 	storageService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -396,24 +580,43 @@
 "
   modified: 	false
 
-- streams34: 	AssocRole
+- f52: 	FMethod
+  clazz: 	storageService5
+  declaration: 	"public void addStream(String incommingRoute, String outgoingURL, String... commandList)"
+  methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
+"
+  modified: 	false
+
+- streams53: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	storageService5
   modified: 	false
   name: 	streams
-  other: 	service40
+  other: 	service62
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl35: 	Attribute
+- targetUrl54: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	targetUrl
   propertyStyle: 	POJO
   type: 	String
 
-- activeCommands36: 	Attribute
+- oldCommands55: 	Attribute
+  clazz: 	commandStream6
+  initialization: 	"new ArrayList<>()"
+  modified: 	false
+  name: 	oldCommands
+  propertyStyle: 	POJO
+  type: 	"ArrayList<ModelCommand>"
+
+- activeCommands56: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -421,17 +624,17 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f37: 	FMethod
+- f57: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
-
+      oldCommands.add(cmd);
       send();
 "
   modified: 	false
 
-- f38: 	FMethod
+- f58: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      try {
@@ -468,7 +671,7 @@
 "
   modified: 	false
 
-- f39: 	FMethod
+- f59: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -483,38 +686,62 @@
 "
   modified: 	false
 
-- service40: 	AssocRole
+- f60: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, StorageService service)"
+  methodBody: 	"      this.targetUrl = targetUrl;
+      this.service = service;
+      service.getSpark().post(\"/\" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+      return this;
+"
+  modified: 	false
+
+- f61: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public String handlePostRequest(Request req, Response res)"
+  methodBody: 	"      String body = req.body();
+      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+            .decode(body);
+
+      Collection values = commandMap.values();
+      executeCommands(values);
+
+      return \"OK\";
+"
+  modified: 	false
+
+- service62: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams34
+  other: 	streams53
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- modelEditor41: 	Attribute
+- modelEditor63: 	Attribute
   clazz: 	storageApp7
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	StorageEditor
 
-- id42: 	Attribute
+- id64: 	Attribute
   clazz: 	storageApp7
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description43: 	Attribute
+- description65: 	Attribute
   clazz: 	storageApp7
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f44: 	FMethod
+- f66: 	FMethod
   clazz: 	storageApp7
   declaration: 	"public StorageApp init(StorageEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -524,85 +751,500 @@
 "
   modified: 	false
 
-- content45: 	AssocRole
+- content67: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	storageApp7
   modified: 	false
   name: 	content
-  other: 	app48
+  other: 	app70
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id46: 	Attribute
+- id68: 	Attribute
   clazz: 	page8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description47: 	Attribute
+- description69: 	Attribute
   clazz: 	page8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app48: 	AssocRole
+- app70: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	page8
   modified: 	false
   name: 	app
-  other: 	content45
+  other: 	content67
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content49: 	AssocRole
+- content71: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page8
   modified: 	false
   name: 	content
-  other: 	page54
+  other: 	page76
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id50: 	Attribute
+- id72: 	Attribute
   clazz: 	line9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description51: 	Attribute
+- description73: 	Attribute
   clazz: 	line9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action52: 	Attribute
+- action74: 	Attribute
   clazz: 	line9
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value53: 	Attribute
+- value75: 	Attribute
   clazz: 	line9
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page54: 	AssocRole
+- page76: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line9
   modified: 	false
   name: 	page
-  other: 	content49
+  other: 	content71
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
+
+- id77: 	Attribute
+  clazz: 	storageProduct10
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description78: 	Attribute
+  clazz: 	storageProduct10
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- supplies79: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	storageProduct10
+  modified: 	false
+  name: 	supplies
+  other: 	product96
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- description80: 	Attribute
+  clazz: 	haveProductCommand11
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- f81: 	FMethod
+  clazz: 	haveProductCommand11
+  declaration: 	"public boolean preCheck(StorageEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"StorageProduct-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"StorageProduct-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"StorageProduct-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
+
+- f82: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveProductCommand11
+  declaration: 	"@Override
+   public StorageProduct run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageProducts().get(this.getId());
+      }
+      StorageProduct dataObject = editor.getOrCreateStorageProduct(this.getId());
+      dataObject.setDescription(this.getDescription());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- id83: 	Attribute
+  clazz: 	storageSupplier12
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- name84: 	Attribute
+  clazz: 	storageSupplier12
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- address85: 	Attribute
+  clazz: 	storageSupplier12
+  modified: 	false
+  name: 	address
+  propertyStyle: 	POJO
+  type: 	String
+
+- deliveries86: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	storageSupplier12
+  modified: 	false
+  name: 	deliveries
+  other: 	supplier95
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- name87: 	Attribute
+  clazz: 	haveSupplierCommand13
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- address88: 	Attribute
+  clazz: 	haveSupplierCommand13
+  modified: 	false
+  name: 	address
+  propertyStyle: 	POJO
+  type: 	String
+
+- f89: 	FMethod
+  clazz: 	haveSupplierCommand13
+  declaration: 	"public boolean preCheck(StorageEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"StorageSupplier-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"StorageSupplier-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"StorageSupplier-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
+
+- f90: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveSupplierCommand13
+  declaration: 	"@Override
+   public StorageSupplier run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageSuppliers().get(this.getId());
+      }
+      StorageSupplier dataObject = editor.getOrCreateStorageSupplier(this.getId());
+      dataObject.setName(this.getName());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- f91: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveSupplierCommand13
+  declaration: 	"@Override
+   public StorageSupplier run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageSuppliers().get(this.getId());
+      }
+      StorageSupplier dataObject = editor.getOrCreateStorageSupplier(this.getId());
+      dataObject.setName(this.getName());
+      dataObject.setAddress(this.getAddress());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- id92: 	Attribute
+  clazz: 	storageSupply14
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- items93: 	Attribute
+  clazz: 	storageSupply14
+  modified: 	false
+  name: 	items
+  propertyStyle: 	POJO
+  type: 	double
+
+- state94: 	Attribute
+  clazz: 	storageSupply14
+  modified: 	false
+  name: 	state
+  propertyStyle: 	POJO
+  type: 	String
+
+- supplier95: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	storageSupply14
+  modified: 	false
+  name: 	supplier
+  other: 	deliveries86
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- product96: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	storageSupply14
+  modified: 	false
+  name: 	product
+  other: 	supplies79
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- supplier97: 	Attribute
+  clazz: 	haveSupplyCommand15
+  modified: 	false
+  name: 	supplier
+  propertyStyle: 	POJO
+  type: 	String
+
+- product98: 	Attribute
+  clazz: 	haveSupplyCommand15
+  modified: 	false
+  name: 	product
+  propertyStyle: 	POJO
+  type: 	String
+
+- items99: 	Attribute
+  clazz: 	haveSupplyCommand15
+  modified: 	false
+  name: 	items
+  propertyStyle: 	POJO
+  type: 	double
+
+- state100: 	Attribute
+  clazz: 	haveSupplyCommand15
+  modified: 	false
+  name: 	state
+  propertyStyle: 	POJO
+  type: 	String
+
+- f101: 	FMethod
+  clazz: 	haveSupplyCommand15
+  declaration: 	"public boolean preCheck(StorageEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"StorageSupply-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"StorageSupply-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"StorageSupply-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
+
+- f102: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveSupplyCommand15
+  declaration: 	"@Override
+   public StorageSupply run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageSupplys().get(this.getId());
+      }
+      StorageSupply dataObject = editor.getOrCreateStorageSupply(this.getId());
+      StorageSupplier supplier = editor.getOrCreateStorageSupplier(this.getSupplier());
+      dataObject.setSupplier(supplier);
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- f103: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveSupplyCommand15
+  declaration: 	"@Override
+   public StorageSupply run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageSupplys().get(this.getId());
+      }
+      StorageSupply dataObject = editor.getOrCreateStorageSupply(this.getId());
+      StorageSupplier supplier = editor.getOrCreateStorageSupplier(this.getSupplier());
+      dataObject.setSupplier(supplier);
+      StorageProduct product = editor.getOrCreateStorageProduct(this.getProduct());
+      dataObject.setProduct(product);
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- f104: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveSupplyCommand15
+  declaration: 	"@Override
+   public StorageSupply run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageSupplys().get(this.getId());
+      }
+      StorageSupply dataObject = editor.getOrCreateStorageSupply(this.getId());
+      dataObject.setItems(this.getItems());
+      StorageSupplier supplier = editor.getOrCreateStorageSupplier(this.getSupplier());
+      dataObject.setSupplier(supplier);
+      StorageProduct product = editor.getOrCreateStorageProduct(this.getProduct());
+      dataObject.setProduct(product);
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- f105: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveSupplyCommand15
+  declaration: 	"@Override
+   public StorageSupply run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageSupplys().get(this.getId());
+      }
+      StorageSupply dataObject = editor.getOrCreateStorageSupply(this.getId());
+      dataObject.setItems(this.getItems());
+      dataObject.setState(this.getState());
+      StorageSupplier supplier = editor.getOrCreateStorageSupplier(this.getSupplier());
+      dataObject.setSupplier(supplier);
+      StorageProduct product = editor.getOrCreateStorageProduct(this.getProduct());
+      dataObject.setProduct(product);
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- id106: 	Attribute
+  clazz: 	storageCustomer16
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- name107: 	Attribute
+  clazz: 	storageCustomer16
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- address108: 	Attribute
+  clazz: 	storageCustomer16
+  modified: 	false
+  name: 	address
+  propertyStyle: 	POJO
+  type: 	String
+
+- name109: 	Attribute
+  clazz: 	haveCustomerCommand17
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- address110: 	Attribute
+  clazz: 	haveCustomerCommand17
+  modified: 	false
+  name: 	address
+  propertyStyle: 	POJO
+  type: 	String
+
+- f111: 	FMethod
+  clazz: 	haveCustomerCommand17
+  declaration: 	"public boolean preCheck(StorageEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"StorageCustomer-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"StorageCustomer-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"StorageCustomer-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
+
+- f112: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveCustomerCommand17
+  declaration: 	"@Override
+   public StorageCustomer run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageCustomers().get(this.getId());
+      }
+      StorageCustomer dataObject = editor.getOrCreateStorageCustomer(this.getId());
+      dataObject.setName(this.getName());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- f113: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveCustomerCommand17
+  declaration: 	"@Override
+   public StorageCustomer run(StorageEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getStorageCustomers().get(this.getId());
+      }
+      StorageCustomer dataObject = editor.getOrCreateStorageCustomer(this.getId());
+      dataObject.setName(this.getName());
+      dataObject.setAddress(this.getAddress());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
 

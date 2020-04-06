@@ -107,7 +107,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand run(RampEditor editor) { 
+   public Object run(RampEditor editor) { 
       return null;
    }
 

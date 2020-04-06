@@ -2,23 +2,37 @@ package unikassel.websystem.Store;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-import static spark.Spark.*;
+
+import spark.*;
 import org.fulib.yaml.ReflectorMap;
-import spark.Request;
-import spark.Response;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import org.fulib.scenarios.MockupTools;
 import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
+import spark.Spark;
 import unikassel.websystem.Shop.ShopService;
 
 import java.lang.reflect.Method;
+import java.util.ServiceConfigurationError;
 import java.util.concurrent.ExecutorService;
+
+import static spark.Spark.port;
+import spark.Service;
+import spark.Request;
+import spark.Response;
 
 public class StoreService  
 {
+
+   private Service spark;
+
+   public Service getSpark()
+   {
+      return spark;
+   }
+
    public static void main(String[] args)
    {
       new StoreService().setMyPort(15016).start();
@@ -182,25 +196,17 @@ public class StoreService
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
       modelEditor = new StoreEditor();
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
-      try { port(myPort);} catch (Exception e) {};
-      get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      get("/Store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      notFound((req, resp) -> {
+      spark = Service.ignite();
+      try { spark.port(myPort);} catch (Exception e) {};
+      spark.get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get("/Store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
 
       java.util.logging.Logger.getGlobal().info("Store Service is listening on port " + myPort);
-   }
-
-   public void addStream(String incommingRoute, String outgoingURL, String... commandList)
-   {
-      CommandStream stream = new CommandStream().setService(this);
-      stream.start(incommingRoute, outgoingURL, this);
-      for (String command : commandList) {
-         modelEditor.addCommandListener(command, stream);
-      }
    }
 
    public static final String PROPERTY_reflectorMap = "reflectorMap";
@@ -323,6 +329,19 @@ public class StoreService
 
    }
 
+   public static final String PROPERTY_spark = "spark";
+
+   public StoreService setSpark(Service value)
+   {
+      if (value != this.spark)
+      {
+         Service oldValue = this.spark;
+         this.spark = value;
+         firePropertyChange("spark", oldValue, value);
+      }
+      return this;
+   }
+
    public String getFirstRoot(Request req, Response res) { 
       currentSession = "" + (sessionToAppMap.size() + 1);
       return root(req, res);
@@ -409,6 +428,14 @@ public class StoreService
       }
 
       return root(req, res);
+   }
+
+   public void addStream(String incommingRoute, String outgoingURL, String... commandList) { 
+      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
    }
 
 }

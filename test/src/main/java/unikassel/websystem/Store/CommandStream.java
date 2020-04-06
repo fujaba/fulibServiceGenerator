@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-import static spark.Spark.post;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.util.*;
+import static spark.Spark.post;
+import spark.Service;
 
 public class CommandStream  
 {
@@ -36,25 +37,6 @@ public class CommandStream
    }
 
    private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
-
-   public CommandStream start(String answerRouteName, String targetUrl, StoreService service) {
-      this.targetUrl = targetUrl;
-      this.service = service;
-      post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
-      return this;
-   }
-
-   private String handlePostRequest(Request req, Response res)
-   {
-      String body = req.body();
-      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
-            .decode(body);
-
-      Collection values = commandMap.values();
-      executeCommands(values);
-
-      return "OK";
-   }
 
    public CommandStream subscribe(StoreService service) {
       this.service = service;
@@ -185,10 +167,23 @@ public class CommandStream
       return result.substring(1);
    }
 
+   public static final String PROPERTY_oldCommands = "oldCommands";
+
+   public CommandStream setOldCommands(ArrayList<ModelCommand> value)
+   {
+      if (value != this.oldCommands)
+      {
+         ArrayList<ModelCommand> oldValue = this.oldCommands;
+         this.oldCommands = value;
+         firePropertyChange("oldCommands", oldValue, value);
+      }
+      return this;
+   }
+
    public void publish(ModelCommand cmd) { 
       String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
-
+      oldCommands.add(cmd);
       send();
    }
 
@@ -236,6 +231,24 @@ public class CommandStream
             e.printStackTrace();
          }
       }
+   }
+
+   public CommandStream start(String answerRouteName, String targetUrl, StoreService service) { 
+      this.targetUrl = targetUrl;
+      this.service = service;
+      service.getSpark().post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+      return this;
+   }
+
+   public String handlePostRequest(Request req, Response res) { 
+      String body = req.body();
+      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+            .decode(body);
+
+      Collection values = commandMap.values();
+      executeCommands(values);
+
+      return "OK";
    }
 
 }

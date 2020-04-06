@@ -190,6 +190,86 @@ public class RampEditor
       return this;
    }
 
+   public static final String PROPERTY_rampProducts = "rampProducts";
+
+   private java.util.Map<String, RampProduct> rampProducts = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, RampProduct> getRampProducts()
+   {
+      return rampProducts;
+   }
+
+   public RampEditor setRampProducts(java.util.Map<String, RampProduct> value)
+   {
+      if (value != this.rampProducts)
+      {
+         java.util.Map<String, RampProduct> oldValue = this.rampProducts;
+         this.rampProducts = value;
+         firePropertyChange("rampProducts", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_rampSuppliers = "rampSuppliers";
+
+   private java.util.Map<String, RampSupplier> rampSuppliers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, RampSupplier> getRampSuppliers()
+   {
+      return rampSuppliers;
+   }
+
+   public RampEditor setRampSuppliers(java.util.Map<String, RampSupplier> value)
+   {
+      if (value != this.rampSuppliers)
+      {
+         java.util.Map<String, RampSupplier> oldValue = this.rampSuppliers;
+         this.rampSuppliers = value;
+         firePropertyChange("rampSuppliers", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_rampSupplys = "rampSupplys";
+
+   private java.util.Map<String, RampSupply> rampSupplys = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, RampSupply> getRampSupplys()
+   {
+      return rampSupplys;
+   }
+
+   public RampEditor setRampSupplys(java.util.Map<String, RampSupply> value)
+   {
+      if (value != this.rampSupplys)
+      {
+         java.util.Map<String, RampSupply> oldValue = this.rampSupplys;
+         this.rampSupplys = value;
+         firePropertyChange("rampSupplys", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_rampCustomers = "rampCustomers";
+
+   private java.util.Map<String, RampCustomer> rampCustomers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, RampCustomer> getRampCustomers()
+   {
+      return rampCustomers;
+   }
+
+   public RampEditor setRampCustomers(java.util.Map<String, RampCustomer> value)
+   {
+      if (value != this.rampCustomers)
+      {
+         java.util.Map<String, RampCustomer> oldValue = this.rampCustomers;
+         this.rampCustomers = value;
+         firePropertyChange("rampCustomers", oldValue, value);
+      }
+      return this;
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -216,12 +296,74 @@ public class RampEditor
       }
    }
 
+   public RampEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+   }
+
    public void loadYaml(String yamlString) { 
       java.util.Map map = Yaml.forPackage("unikassel.qsexample.Ramp").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);
       }
+   }
+
+   public RampProduct getOrCreateRampProduct(String id) { 
+      if (id == null) {
+         return null;
+      }
+      RampProduct oldObject = this.getRampProducts().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      RampProduct newObject = new RampProduct();
+      newObject.setId(id);
+      this.getRampProducts().put(id, newObject);
+      return newObject;
+   }
+
+   public RampSupplier getOrCreateRampSupplier(String id) { 
+      if (id == null) {
+         return null;
+      }
+      RampSupplier oldObject = this.getRampSuppliers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      RampSupplier newObject = new RampSupplier();
+      newObject.setId(id);
+      this.getRampSuppliers().put(id, newObject);
+      return newObject;
+   }
+
+   public RampSupply getOrCreateRampSupply(String id) { 
+      if (id == null) {
+         return null;
+      }
+      RampSupply oldObject = this.getRampSupplys().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      RampSupply newObject = new RampSupply();
+      newObject.setId(id);
+      this.getRampSupplys().put(id, newObject);
+      return newObject;
+   }
+
+   public RampCustomer getOrCreateRampCustomer(String id) { 
+      if (id == null) {
+         return null;
+      }
+      RampCustomer oldObject = this.getRampCustomers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      RampCustomer newObject = new RampCustomer();
+      newObject.setId(id);
+      this.getRampCustomers().put(id, newObject);
+      return newObject;
    }
 
 }

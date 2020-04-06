@@ -89,7 +89,7 @@ public class RemoveCommand extends ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand run(ShopEditor editor) { 
+   public Object run(ShopEditor editor) { 
       // allready removed?
       RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
       if (oldRemoveCommand != null) {

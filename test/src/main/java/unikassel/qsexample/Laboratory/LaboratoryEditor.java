@@ -190,6 +190,86 @@ public class LaboratoryEditor
       return this;
    }
 
+   public static final String PROPERTY_laboratoryProducts = "laboratoryProducts";
+
+   private java.util.Map<String, LaboratoryProduct> laboratoryProducts = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, LaboratoryProduct> getLaboratoryProducts()
+   {
+      return laboratoryProducts;
+   }
+
+   public LaboratoryEditor setLaboratoryProducts(java.util.Map<String, LaboratoryProduct> value)
+   {
+      if (value != this.laboratoryProducts)
+      {
+         java.util.Map<String, LaboratoryProduct> oldValue = this.laboratoryProducts;
+         this.laboratoryProducts = value;
+         firePropertyChange("laboratoryProducts", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_laboratorySuppliers = "laboratorySuppliers";
+
+   private java.util.Map<String, LaboratorySupplier> laboratorySuppliers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, LaboratorySupplier> getLaboratorySuppliers()
+   {
+      return laboratorySuppliers;
+   }
+
+   public LaboratoryEditor setLaboratorySuppliers(java.util.Map<String, LaboratorySupplier> value)
+   {
+      if (value != this.laboratorySuppliers)
+      {
+         java.util.Map<String, LaboratorySupplier> oldValue = this.laboratorySuppliers;
+         this.laboratorySuppliers = value;
+         firePropertyChange("laboratorySuppliers", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_laboratorySupplys = "laboratorySupplys";
+
+   private java.util.Map<String, LaboratorySupply> laboratorySupplys = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, LaboratorySupply> getLaboratorySupplys()
+   {
+      return laboratorySupplys;
+   }
+
+   public LaboratoryEditor setLaboratorySupplys(java.util.Map<String, LaboratorySupply> value)
+   {
+      if (value != this.laboratorySupplys)
+      {
+         java.util.Map<String, LaboratorySupply> oldValue = this.laboratorySupplys;
+         this.laboratorySupplys = value;
+         firePropertyChange("laboratorySupplys", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_laboratoryCustomers = "laboratoryCustomers";
+
+   private java.util.Map<String, LaboratoryCustomer> laboratoryCustomers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, LaboratoryCustomer> getLaboratoryCustomers()
+   {
+      return laboratoryCustomers;
+   }
+
+   public LaboratoryEditor setLaboratoryCustomers(java.util.Map<String, LaboratoryCustomer> value)
+   {
+      if (value != this.laboratoryCustomers)
+      {
+         java.util.Map<String, LaboratoryCustomer> oldValue = this.laboratoryCustomers;
+         this.laboratoryCustomers = value;
+         firePropertyChange("laboratoryCustomers", oldValue, value);
+      }
+      return this;
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -216,12 +296,74 @@ public class LaboratoryEditor
       }
    }
 
+   public LaboratoryEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+   }
+
    public void loadYaml(String yamlString) { 
       java.util.Map map = Yaml.forPackage("unikassel.qsexample.Laboratory").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);
       }
+   }
+
+   public LaboratoryProduct getOrCreateLaboratoryProduct(String id) { 
+      if (id == null) {
+         return null;
+      }
+      LaboratoryProduct oldObject = this.getLaboratoryProducts().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      LaboratoryProduct newObject = new LaboratoryProduct();
+      newObject.setId(id);
+      this.getLaboratoryProducts().put(id, newObject);
+      return newObject;
+   }
+
+   public LaboratorySupplier getOrCreateLaboratorySupplier(String id) { 
+      if (id == null) {
+         return null;
+      }
+      LaboratorySupplier oldObject = this.getLaboratorySuppliers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      LaboratorySupplier newObject = new LaboratorySupplier();
+      newObject.setId(id);
+      this.getLaboratorySuppliers().put(id, newObject);
+      return newObject;
+   }
+
+   public LaboratorySupply getOrCreateLaboratorySupply(String id) { 
+      if (id == null) {
+         return null;
+      }
+      LaboratorySupply oldObject = this.getLaboratorySupplys().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      LaboratorySupply newObject = new LaboratorySupply();
+      newObject.setId(id);
+      this.getLaboratorySupplys().put(id, newObject);
+      return newObject;
+   }
+
+   public LaboratoryCustomer getOrCreateLaboratoryCustomer(String id) { 
+      if (id == null) {
+         return null;
+      }
+      LaboratoryCustomer oldObject = this.getLaboratoryCustomers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      LaboratoryCustomer newObject = new LaboratoryCustomer();
+      newObject.setId(id);
+      this.getLaboratoryCustomers().put(id, newObject);
+      return newObject;
    }
 
 }

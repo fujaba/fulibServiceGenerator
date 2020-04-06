@@ -89,7 +89,7 @@ public class RemoveCommand extends ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand run(RampEditor editor) { 
+   public Object run(RampEditor editor) { 
       // allready removed?
       RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
       if (oldRemoveCommand != null) {

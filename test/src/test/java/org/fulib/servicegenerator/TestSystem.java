@@ -30,10 +30,11 @@ public class TestSystem
       // start shop and store
       storeService = new StoreService();
       storeService.setMyPort(22010).start();
-      storeService.addStream("ShopToStore", "http://localhost:22010/StoreToShop", HaveProductCommand.class.getSimpleName());
+      storeService.addStream("ShopToStore", "http://localhost:22011/StoreToShop",
+            HaveProductCommand.class.getSimpleName());
 
       shopService = new ShopService();
-      shopService.setMyPort(22010).start();
+      shopService.setMyPort(22011).start();
       shopService.addStream("StoreToShop", "http://localhost:22010/ShopToStore",
             HaveCustomerCommand.class.getSimpleName(),
             HaveOfferCommand.class.getSimpleName(),
@@ -75,7 +76,7 @@ public class TestSystem
       assertThat(next.getItems(), is(40.0));
 
       // order pumps
-      open("http://localhost:22010/Shop");
+      open("http://localhost:22011/Shop");
       scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next(),
             "[buy p1 Pumps 9.99]", "[buy b2 Boots 9.99]", "[card]");
       $("#buy_offer_p1_1").$("button").click();

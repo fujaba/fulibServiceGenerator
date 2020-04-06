@@ -107,7 +107,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand run(AccountingEditor editor) { 
+   public Object run(AccountingEditor editor) { 
       return null;
    }
 

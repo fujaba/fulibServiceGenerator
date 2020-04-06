@@ -138,8 +138,9 @@ public class FulibScenarioDiagram
 
       }
 
-      maxNoOfLines -= 3; // do not count <div>, \n, </div>
-      System.out.println(maxNoOfLines);
+      // do not count <div>, \n, </div>
+      maxNoOfLines -= 3;
+      maxNoOfLines = Math.max(maxNoOfLines, 0);
       return maxNoOfLines;
    }
 
@@ -244,7 +245,10 @@ public class FulibScenarioDiagram
                // gui value
                try {
                   String id = (String) reflector.getValue(node, "id");
-                  word = $("#" + id).$("input").getValue();
+                  String inputValue = $("#" + id).$("input").getValue();
+                  if (inputValue != null && ! "".equals(inputValue.trim())) {
+                     word = inputValue.trim();
+                  }
                }
                catch (Exception e) {
                   // nice try
@@ -281,6 +285,12 @@ public class FulibScenarioDiagram
 
    public FulibScenarioDiagram addData(String time, int indent, String lane, Collection objects)
    {
+      try {
+         Thread.sleep(200);
+      }
+      catch (InterruptedException e) {
+         // no problem
+      }
       StringBuilder lines = new StringBuilder();
 
       if (objects.size() == 0) {

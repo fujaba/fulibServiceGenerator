@@ -162,20 +162,39 @@ public class AccountingApp
 
    }
 
-   public AccountingApp init(AccountingEditor editor) { 
+   private String toolBar = "button supply";
+
+   public void supply()
+   {
+      Page page = new Page().setId("supplyPage").setDescription(toolBar).setApp(this);
+      if (modelEditor.getAccountingSupplys().size() == 0) {
+         addSupply();
+         return;
+      }
+      for (AccountingSupply supply : modelEditor.getAccountingSupplys().values()) {
+         new Line().setId(supply.getId()).setPage(page)
+               .setDescription(String.format("button %s %s %s", supply.getSupplier(), supply.getProduct().getDescription(), supply.getState()));
+      }
+      new Line().setId("addButton").setDescription("button addSupply").setPage(page);
+   }
+
+   public void addSupply()
+   {
+      Page page = new Page().setId("supplyPage").setDescription(toolBar).setApp(this);
+      new Line().setId("supplierIn").setDescription("input supplier?").setPage(page);
+      new Line().setId("productIn").setDescription("input product?").setPage(page);
+      new Line().setId("itemsIn").setDescription("input items?").setPage(page);
+      new Line().setId("addButton").setDescription("button add").setPage(page)
+            .setAction("AddSupply supplierIn productIn itemsIn supply");
+   }
+
+   public AccountingApp init(AccountingEditor editor) // no fulib
+   {
       this.modelEditor = editor;
       this.setId("root");
       this.setDescription("Accounting App");
       supply();
       return this;
-   }
-
-   private String toolBar = "button supply";
-
-   public void supply()
-   {
-      new Page().setId("supplyPage").setDescription(toolBar).setApp(this);
-
    }
 
 }

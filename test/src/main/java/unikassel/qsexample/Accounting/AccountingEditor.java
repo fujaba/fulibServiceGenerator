@@ -190,6 +190,86 @@ public class AccountingEditor
       return this;
    }
 
+   public static final String PROPERTY_accountingProducts = "accountingProducts";
+
+   private java.util.Map<String, AccountingProduct> accountingProducts = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, AccountingProduct> getAccountingProducts()
+   {
+      return accountingProducts;
+   }
+
+   public AccountingEditor setAccountingProducts(java.util.Map<String, AccountingProduct> value)
+   {
+      if (value != this.accountingProducts)
+      {
+         java.util.Map<String, AccountingProduct> oldValue = this.accountingProducts;
+         this.accountingProducts = value;
+         firePropertyChange("accountingProducts", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_accountingSuppliers = "accountingSuppliers";
+
+   private java.util.Map<String, AccountingSupplier> accountingSuppliers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, AccountingSupplier> getAccountingSuppliers()
+   {
+      return accountingSuppliers;
+   }
+
+   public AccountingEditor setAccountingSuppliers(java.util.Map<String, AccountingSupplier> value)
+   {
+      if (value != this.accountingSuppliers)
+      {
+         java.util.Map<String, AccountingSupplier> oldValue = this.accountingSuppliers;
+         this.accountingSuppliers = value;
+         firePropertyChange("accountingSuppliers", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_accountingSupplys = "accountingSupplys";
+
+   private java.util.Map<String, AccountingSupply> accountingSupplys = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, AccountingSupply> getAccountingSupplys()
+   {
+      return accountingSupplys;
+   }
+
+   public AccountingEditor setAccountingSupplys(java.util.Map<String, AccountingSupply> value)
+   {
+      if (value != this.accountingSupplys)
+      {
+         java.util.Map<String, AccountingSupply> oldValue = this.accountingSupplys;
+         this.accountingSupplys = value;
+         firePropertyChange("accountingSupplys", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_accountingCustomers = "accountingCustomers";
+
+   private java.util.Map<String, AccountingCustomer> accountingCustomers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, AccountingCustomer> getAccountingCustomers()
+   {
+      return accountingCustomers;
+   }
+
+   public AccountingEditor setAccountingCustomers(java.util.Map<String, AccountingCustomer> value)
+   {
+      if (value != this.accountingCustomers)
+      {
+         java.util.Map<String, AccountingCustomer> oldValue = this.accountingCustomers;
+         this.accountingCustomers = value;
+         firePropertyChange("accountingCustomers", oldValue, value);
+      }
+      return this;
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -216,12 +296,74 @@ public class AccountingEditor
       }
    }
 
+   public AccountingEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+   }
+
    public void loadYaml(String yamlString) { 
       java.util.Map map = Yaml.forPackage("unikassel.qsexample.Accounting").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);
       }
+   }
+
+   public AccountingProduct getOrCreateAccountingProduct(String id) { 
+      if (id == null) {
+         return null;
+      }
+      AccountingProduct oldObject = this.getAccountingProducts().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      AccountingProduct newObject = new AccountingProduct();
+      newObject.setId(id);
+      this.getAccountingProducts().put(id, newObject);
+      return newObject;
+   }
+
+   public AccountingSupplier getOrCreateAccountingSupplier(String id) { 
+      if (id == null) {
+         return null;
+      }
+      AccountingSupplier oldObject = this.getAccountingSuppliers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      AccountingSupplier newObject = new AccountingSupplier();
+      newObject.setId(id);
+      this.getAccountingSuppliers().put(id, newObject);
+      return newObject;
+   }
+
+   public AccountingSupply getOrCreateAccountingSupply(String id) { 
+      if (id == null) {
+         return null;
+      }
+      AccountingSupply oldObject = this.getAccountingSupplys().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      AccountingSupply newObject = new AccountingSupply();
+      newObject.setId(id);
+      this.getAccountingSupplys().put(id, newObject);
+      return newObject;
+   }
+
+   public AccountingCustomer getOrCreateAccountingCustomer(String id) { 
+      if (id == null) {
+         return null;
+      }
+      AccountingCustomer oldObject = this.getAccountingCustomers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      AccountingCustomer newObject = new AccountingCustomer();
+      newObject.setId(id);
+      this.getAccountingCustomers().put(id, newObject);
+      return newObject;
    }
 
 }

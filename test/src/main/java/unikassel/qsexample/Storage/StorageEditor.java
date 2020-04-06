@@ -190,6 +190,86 @@ public class StorageEditor
       return this;
    }
 
+   public static final String PROPERTY_storageProducts = "storageProducts";
+
+   private java.util.Map<String, StorageProduct> storageProducts = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, StorageProduct> getStorageProducts()
+   {
+      return storageProducts;
+   }
+
+   public StorageEditor setStorageProducts(java.util.Map<String, StorageProduct> value)
+   {
+      if (value != this.storageProducts)
+      {
+         java.util.Map<String, StorageProduct> oldValue = this.storageProducts;
+         this.storageProducts = value;
+         firePropertyChange("storageProducts", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_storageSuppliers = "storageSuppliers";
+
+   private java.util.Map<String, StorageSupplier> storageSuppliers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, StorageSupplier> getStorageSuppliers()
+   {
+      return storageSuppliers;
+   }
+
+   public StorageEditor setStorageSuppliers(java.util.Map<String, StorageSupplier> value)
+   {
+      if (value != this.storageSuppliers)
+      {
+         java.util.Map<String, StorageSupplier> oldValue = this.storageSuppliers;
+         this.storageSuppliers = value;
+         firePropertyChange("storageSuppliers", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_storageSupplys = "storageSupplys";
+
+   private java.util.Map<String, StorageSupply> storageSupplys = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, StorageSupply> getStorageSupplys()
+   {
+      return storageSupplys;
+   }
+
+   public StorageEditor setStorageSupplys(java.util.Map<String, StorageSupply> value)
+   {
+      if (value != this.storageSupplys)
+      {
+         java.util.Map<String, StorageSupply> oldValue = this.storageSupplys;
+         this.storageSupplys = value;
+         firePropertyChange("storageSupplys", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_storageCustomers = "storageCustomers";
+
+   private java.util.Map<String, StorageCustomer> storageCustomers = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, StorageCustomer> getStorageCustomers()
+   {
+      return storageCustomers;
+   }
+
+   public StorageEditor setStorageCustomers(java.util.Map<String, StorageCustomer> value)
+   {
+      if (value != this.storageCustomers)
+      {
+         java.util.Map<String, StorageCustomer> oldValue = this.storageCustomers;
+         this.storageCustomers = value;
+         firePropertyChange("storageCustomers", oldValue, value);
+      }
+      return this;
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -216,12 +296,74 @@ public class StorageEditor
       }
    }
 
+   public StorageEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+   }
+
    public void loadYaml(String yamlString) { 
       java.util.Map map = Yaml.forPackage("unikassel.qsexample.Storage").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(this);
       }
+   }
+
+   public StorageProduct getOrCreateStorageProduct(String id) { 
+      if (id == null) {
+         return null;
+      }
+      StorageProduct oldObject = this.getStorageProducts().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageProduct newObject = new StorageProduct();
+      newObject.setId(id);
+      this.getStorageProducts().put(id, newObject);
+      return newObject;
+   }
+
+   public StorageSupplier getOrCreateStorageSupplier(String id) { 
+      if (id == null) {
+         return null;
+      }
+      StorageSupplier oldObject = this.getStorageSuppliers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageSupplier newObject = new StorageSupplier();
+      newObject.setId(id);
+      this.getStorageSuppliers().put(id, newObject);
+      return newObject;
+   }
+
+   public StorageSupply getOrCreateStorageSupply(String id) { 
+      if (id == null) {
+         return null;
+      }
+      StorageSupply oldObject = this.getStorageSupplys().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageSupply newObject = new StorageSupply();
+      newObject.setId(id);
+      this.getStorageSupplys().put(id, newObject);
+      return newObject;
+   }
+
+   public StorageCustomer getOrCreateStorageCustomer(String id) { 
+      if (id == null) {
+         return null;
+      }
+      StorageCustomer oldObject = this.getStorageCustomers().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      StorageCustomer newObject = new StorageCustomer();
+      newObject.setId(id);
+      this.getStorageCustomers().put(id, newObject);
+      return newObject;
    }
 
 }

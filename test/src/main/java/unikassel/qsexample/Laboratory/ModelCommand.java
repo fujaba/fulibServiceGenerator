@@ -107,7 +107,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand run(LaboratoryEditor editor) { 
+   public Object run(LaboratoryEditor editor) { 
       return null;
    }
 

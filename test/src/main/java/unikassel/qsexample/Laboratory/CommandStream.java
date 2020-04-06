@@ -8,6 +8,10 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.*;
 import java.util.*;
+import static spark.Spark.post;
+import spark.Request;
+import spark.Response;
+import spark.Service;
 
 public class CommandStream  
 {
@@ -148,10 +152,30 @@ public class CommandStream
       return result.substring(1);
    }
 
+   public static final String PROPERTY_oldCommands = "oldCommands";
+
+   private ArrayList<ModelCommand> oldCommands = new ArrayList<>();
+
+   public ArrayList<ModelCommand> getOldCommands()
+   {
+      return oldCommands;
+   }
+
+   public CommandStream setOldCommands(ArrayList<ModelCommand> value)
+   {
+      if (value != this.oldCommands)
+      {
+         ArrayList<ModelCommand> oldValue = this.oldCommands;
+         this.oldCommands = value;
+         firePropertyChange("oldCommands", oldValue, value);
+      }
+      return this;
+   }
+
    public void publish(ModelCommand cmd) { 
       String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
-
+      oldCommands.add(cmd);
       send();
    }
 
@@ -199,6 +223,24 @@ public class CommandStream
             e.printStackTrace();
          }
       }
+   }
+
+   public CommandStream start(String answerRouteName, String targetUrl, LaboratoryService service) { 
+      this.targetUrl = targetUrl;
+      this.service = service;
+      service.getSpark().post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+      return this;
+   }
+
+   public String handlePostRequest(Request req, Response res) { 
+      String body = req.body();
+      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+            .decode(body);
+
+      Collection values = commandMap.values();
+      executeCommands(values);
+
+      return "OK";
    }
 
 }
