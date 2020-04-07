@@ -30,12 +30,13 @@ public class TestSystem
       // start shop and store
       storeService = new StoreService();
       storeService.setMyPort(22010).start();
-      storeService.addStream("ShopToStore", "http://localhost:22011/StoreToShop",
-            HaveProductCommand.class.getSimpleName());
 
       shopService = new ShopService();
       shopService.setMyPort(22011).start();
-      shopService.addStream("StoreToShop", "http://localhost:22010/ShopToStore",
+
+      storeService.connectTo("Store", "http://localhost:22010","Shop", "http://localhost:22011",
+            HaveProductCommand.class.getSimpleName(),
+            "<->",
             HaveCustomerCommand.class.getSimpleName(),
             HaveOfferCommand.class.getSimpleName(),
             HaveOrderCommand.class.getSimpleName(),

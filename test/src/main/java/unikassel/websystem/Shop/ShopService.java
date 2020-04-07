@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 
 import org.fulib.scenarios.MockupTools;
 import org.fulib.yaml.ReflectorMap;
+import org.fulib.yaml.Yaml;
 import spark.Request;
 import spark.Response;
 
@@ -15,6 +16,12 @@ import spark.Service;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 public class ShopService  
 {
@@ -119,26 +126,6 @@ public class ShopService
       return true;
    }
 
-   public static final String PROPERTY_modelEditor = "modelEditor";
-
-   private ShopEditor modelEditor;
-
-   public ShopEditor getModelEditor()
-   {
-      return modelEditor;
-   }
-
-   public ShopService setModelEditor(ShopEditor value)
-   {
-      if (value != this.modelEditor)
-      {
-         ShopEditor oldValue = this.modelEditor;
-         this.modelEditor = value;
-         firePropertyChange("modelEditor", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_currentSession = "currentSession";
 
    private String currentSession;
@@ -217,17 +204,6 @@ public class ShopService
          firePropertyChange("executor", oldValue, value);
       }
       return this;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
    }
 
    public String cmd(Request req, Response res) // no fulib
@@ -379,6 +355,8 @@ public class ShopService
 
    public void removeYou()
    {
+      this.setModelEditor(null);
+
       this.withoutStreams(this.getStreams().clone());
 
 
@@ -394,7 +372,7 @@ public class ShopService
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new ShopEditor();
+      setModelEditor(new ShopEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
@@ -402,6 +380,7 @@ public class ShopService
       spark.get("/Shop", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post("/Shopcmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post("/connect", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // no streams
 
       spark.notFound((req, resp) -> {
@@ -422,6 +401,46 @@ public class ShopService
          firePropertyChange("spark", oldValue, value);
       }
       return this;
+   }
+
+   public static final String PROPERTY_modelEditor = "modelEditor";
+
+   private ShopEditor modelEditor = null;
+
+   public ShopEditor getModelEditor()
+   {
+      return this.modelEditor;
+   }
+
+   public ShopService setModelEditor(ShopEditor value)
+   {
+      if (this.modelEditor != value)
+      {
+         ShopEditor oldValue = this.modelEditor;
+         if (this.modelEditor != null)
+         {
+            this.modelEditor = null;
+            oldValue.setService(null);
+         }
+         this.modelEditor = value;
+         if (value != null)
+         {
+            value.setService(this);
+         }
+         firePropertyChange("modelEditor", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -457,11 +476,75 @@ public class ShopService
       }
    }
 
-   public void addStream(String incommingRoute, String outgoingURL, String... commandList) { 
+   public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList) { 
       CommandStream stream = new CommandStream().setService(this);
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
+      }
+      return stream;
+   }
+
+   public String connect(Request req, Response res) { 
+      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return "200";
+   }
+
+   public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList) { 
+      String incommingRoute = targetServiceName + "To" + sourceServiceName;
+      String incommingURL = sourceUrl + "/" + incommingRoute;
+      String outgoingRoute = sourceServiceName + "To" + targetServiceName;
+      String outgoingURL = targetUrl + "/" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if ("<->".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(" ", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + "/connect");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod("POST");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
       }
    }
 

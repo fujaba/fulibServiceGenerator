@@ -270,6 +270,41 @@ public class LaboratoryEditor
       return this;
    }
 
+   public static final String PROPERTY_service = "service";
+
+   private LaboratoryService service = null;
+
+   public LaboratoryService getService()
+   {
+      return this.service;
+   }
+
+   public LaboratoryEditor setService(LaboratoryService value)
+   {
+      if (this.service != value)
+      {
+         LaboratoryService oldValue = this.service;
+         if (this.service != null)
+         {
+            this.service = null;
+            oldValue.setModelEditor(null);
+         }
+         this.service = value;
+         if (value != null)
+         {
+            value.setModelEditor(this);
+         }
+         firePropertyChange("service", oldValue, value);
+      }
+      return this;
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

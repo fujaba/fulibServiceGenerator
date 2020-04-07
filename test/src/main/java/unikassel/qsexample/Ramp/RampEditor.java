@@ -270,6 +270,41 @@ public class RampEditor
       return this;
    }
 
+   public static final String PROPERTY_service = "service";
+
+   private RampService service = null;
+
+   public RampService getService()
+   {
+      return this.service;
+   }
+
+   public RampEditor setService(RampService value)
+   {
+      if (this.service != value)
+      {
+         RampService oldValue = this.service;
+         if (this.service != null)
+         {
+            this.service = null;
+            oldValue.setModelEditor(null);
+         }
+         this.service = value;
+         if (value != null)
+         {
+            value.setModelEditor(this);
+         }
+         firePropertyChange("service", oldValue, value);
+      }
+      return this;
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

@@ -126,7 +126,7 @@ public class ServiceEditor
       this.serviceName = serviceName;
       service = this.mm.haveClass(serviceName + "Service");
       mm.haveAttribute(service, "myPort", INT);
-      mm.haveAttribute(service, "modelEditor", serviceName + "Editor");
+      mm.haveRole(service, "modelEditor", editor, ONE, "service", ONE);
       mm.haveAttribute(service, "reflectorMap", "ReflectorMap");
       mm.haveAttribute(service, "currentSession", STRING);
       mm.haveAttribute(service, "executor", "ExecutorService ");
@@ -137,6 +137,7 @@ public class ServiceEditor
       sessionToAppMap.setInitialization("new LinkedHashMap()");
 
       haveCommandStream();
+      haveAddStreamCommand();
 
       LinkedHashSet<String> importList = service.getImportList();
       importList.add("import java.util.LinkedHashMap;");
@@ -172,11 +173,42 @@ public class ServiceEditor
       importList.add("import org.fulib.yaml.Reflector;");
       importList.add("import java.lang.reflect.Method;");
 
-      declaration = "public void addStream(String incommingRoute, String outgoingURL, String... commandList)";
+      declaration = "public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)";
       st = group.getInstanceOf("serviceAddStream");
       body = st.render();
       mm.haveMethod(service, declaration, body);
 
+      // connect
+      declaration = "public String connect(Request req, Response res)";
+      st = group.getInstanceOf("serviceConnect");
+      body = st.render();
+      mm.haveMethod(service, declaration, body);
+
+      // connectTo
+      declaration = "public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)";
+      st = group.getInstanceOf("serviceConnectTo");
+      body = st.render();
+      mm.haveMethod(service, declaration, body);
+      importList.add("import java.util.ArrayList;");
+      importList.add("import java.net.URL;");
+      importList.add("import java.net.HttpURLConnection;");
+      importList.add("import java.io.DataOutputStream;");
+      importList.add("import java.io.InputStream;");
+      importList.add("import java.io.InputStreamReader;");
+      importList.add("import java.io.BufferedReader;");
+   }
+
+   private void haveAddStreamCommand()
+   {
+      Clazz addStream = haveCommand("AddStreamCommand");
+      mm.haveAttribute(addStream, "incommingRoute", STRING);
+      mm.haveAttribute(addStream, "outgoingUrl", STRING);
+      mm.haveAttribute(addStream, "commandList", STRING);
+
+      String declaration = String.format("public Object run(%sEditor editor)", serviceName);
+      ST st = group.getInstanceOf("AddStreamCommandRun");
+      String body = st.render();
+      mm.haveMethod(addStream, declaration, body);
    }
 
    public void haveCommandStream()

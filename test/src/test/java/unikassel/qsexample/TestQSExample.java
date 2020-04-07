@@ -4,10 +4,10 @@ import org.fulib.servicegenerator.FulibScenarioDiagram;
 import org.junit.Test;
 import unikassel.qsexample.Accounting.AccountingApp;
 import unikassel.qsexample.Accounting.AccountingService;
+import unikassel.qsexample.Accounting.HaveProductCommand;
+import unikassel.qsexample.Ramp.HaveSupplierCommand;
 import unikassel.qsexample.Ramp.HaveSupplyCommand;
 import unikassel.qsexample.Ramp.RampService;
-import unikassel.websystem.Store.HaveProductCommand;
-import unikassel.websystem.Store.StoreApp;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -26,9 +26,14 @@ public class TestQSExample
       RampService rampService = new RampService().setMyPort(22030);
       rampService.start();
 
-      accountingService.addStream("RampToAccounting", "http://localhost:22030/AccountingToRamp",
-            HaveSupplyCommand.class.getSimpleName());
-      rampService.addStream("AccountingToRamp", "http://localhost:22020/RampToAccounting");
+      rampService.connectTo("Ramp0", "http://localhost:22030","Accounting", "http://localhost:22020",
+            "<->",
+            HaveSupplyCommand.class.getSimpleName(),
+            HaveSupplierCommand.class.getSimpleName(),
+            HaveProductCommand.class.getSimpleName());
+//      accountingService.addStream("RampToAccounting", "http://localhost:22030/AccountingToRamp",
+//            HaveSupplyCommand.class.getSimpleName());
+//      rampService.addStream("AccountingToRamp", "http://localhost:22020/RampToAccounting");
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/QSScene.html");

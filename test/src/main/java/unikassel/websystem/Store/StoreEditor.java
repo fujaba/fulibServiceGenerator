@@ -291,6 +291,41 @@ public class StoreEditor
       return this;
    }
 
+   public static final String PROPERTY_service = "service";
+
+   private StoreService service = null;
+
+   public StoreService getService()
+   {
+      return this.service;
+   }
+
+   public StoreEditor setService(StoreService value)
+   {
+      if (this.service != value)
+      {
+         StoreService oldValue = this.service;
+         if (this.service != null)
+         {
+            this.service = null;
+            oldValue.setModelEditor(null);
+         }
+         this.service = value;
+         if (value != null)
+         {
+            value.setModelEditor(this);
+         }
+         firePropertyChange("service", oldValue, value);
+      }
+      return this;
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	storeEditor2 	modelCommand3 	removeCommand4 	storeService5 	commandStream6 	storeApp7 	page8 	line9 	storeProduct10 	haveProductCommand11 	storeCustomer12 	haveCustomerCommand13 	storeOffer14 	haveOfferCommand15 	storeOrder16 	haveOrderCommand17 	storeOrderPosition18 	haveOrderPositionCommand19 	haveCustomerProductsLink20 	removeCustomerProductsLink21 	
+  classes: 	storeEditor2 	modelCommand3 	removeCommand4 	storeService5 	commandStream6 	addStreamCommand7 	storeApp8 	page9 	line10 	storeProduct11 	haveProductCommand12 	storeCustomer13 	haveCustomerCommand14 	storeOffer15 	haveOfferCommand16 	storeOrder17 	haveOrderCommand18 	storeOrderPosition19 	haveOrderPositionCommand20 	haveCustomerProductsLink21 	removeCustomerProductsLink22 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,27 +7,28 @@
   packageSrcFolder: 	"src/main/java/unikassel/websystem/Store"
 
 - storeEditor2: 	Clazz
-  attributes: 	activeCommands22 	removeCommands23 	commandListeners24 	isoDateFormat25 	lastTime26 	timeDelta27 	storeProducts28 	storeCustomers29 	storeOffers30 	storeOrders31 	storeOrderPositions32 	
+  attributes: 	activeCommands23 	removeCommands24 	commandListeners25 	isoDateFormat26 	lastTime27 	timeDelta28 	storeProducts29 	storeCustomers30 	storeOffers31 	storeOrders32 	storeOrderPositions33 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f33 	f34 	f35 	f36 	f37 	f38 	f39 	f40 	f41 	
+  methods: 	f34 	f35 	f36 	f37 	f38 	f39 	f40 	f41 	f42 	
   model: 	c1
   modified: 	false
   name: 	StoreEditor
   propertyStyle: 	POJO
+  roles: 	service43 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id42 	time43 	
-  methods: 	f44 	
+  attributes: 	id44 	time45 	
+  methods: 	f46 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	haveProductCommand11 	haveCustomerCommand13 	haveOfferCommand15 	haveOrderCommand17 	haveOrderPositionCommand19 	haveCustomerProductsLink20 	removeCustomerProductsLink21 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveCustomerCommand14 	haveOfferCommand16 	haveOrderCommand18 	haveOrderPositionCommand20 	haveCustomerProductsLink21 	removeCustomerProductsLink22 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName45 	
+  attributes: 	targetClassName47 	
   importList: 	null 	null 	null 	
-  methods: 	f46 	
+  methods: 	f48 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -35,154 +36,163 @@
   superClass: 	modelCommand3
 
 - storeService5: 	Clazz
-  attributes: 	myPort47 	modelEditor48 	reflectorMap49 	currentSession50 	executor51 	spark52 	sessionToAppMap53 	
-  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f54 	f55 	f56 	f57 	f58 	
+  attributes: 	myPort49 	reflectorMap50 	currentSession51 	executor52 	spark53 	sessionToAppMap54 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f55 	f56 	f57 	f58 	f59 	f60 	f61 	
   model: 	c1
   modified: 	false
   name: 	StoreService
   propertyStyle: 	POJO
-  roles: 	streams59 	
+  roles: 	modelEditor62 	streams63 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl60 	oldCommands61 	activeCommands62 	
+  attributes: 	targetUrl64 	oldCommands65 	activeCommands66 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f63 	f64 	f65 	f66 	f67 	
+  methods: 	f67 	f68 	f69 	f70 	f71 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service68 	
+  roles: 	service72 	
 
-- storeApp7: 	Clazz
-  attributes: 	modelEditor69 	id70 	description71 	
-  methods: 	f72 	
+- addStreamCommand7: 	Clazz
+  attributes: 	incommingRoute73 	outgoingUrl74 	commandList75 	
+  methods: 	f76 	
+  model: 	c1
+  modified: 	false
+  name: 	AddStreamCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- storeApp8: 	Clazz
+  attributes: 	modelEditor77 	id78 	description79 	
+  methods: 	f80 	
   model: 	c1
   modified: 	false
   name: 	StoreApp
   propertyStyle: 	POJO
-  roles: 	content73 	
+  roles: 	content81 	
 
-- page8: 	Clazz
-  attributes: 	id74 	description75 	
+- page9: 	Clazz
+  attributes: 	id82 	description83 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app76 	content77 	
+  roles: 	app84 	content85 	
 
-- line9: 	Clazz
-  attributes: 	id78 	description79 	action80 	value81 	
+- line10: 	Clazz
+  attributes: 	id86 	description87 	action88 	value89 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page82 	
+  roles: 	page90 	
 
-- storeProduct10: 	Clazz
-  attributes: 	id83 	description84 	items85 	
+- storeProduct11: 	Clazz
+  attributes: 	id91 	description92 	items93 	
   model: 	c1
   modified: 	false
   name: 	StoreProduct
   propertyStyle: 	POJO
-  roles: 	offers86 	customers87 	
+  roles: 	offers94 	customers95 	
 
-- haveProductCommand11: 	Clazz
-  attributes: 	description88 	items89 	
-  methods: 	f90 	f91 	f92 	
+- haveProductCommand12: 	Clazz
+  attributes: 	description96 	items97 	
+  methods: 	f98 	f99 	f100 	
   model: 	c1
   modified: 	false
   name: 	HaveProductCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- storeCustomer12: 	Clazz
-  attributes: 	id93 	name94 	address95 	
+- storeCustomer13: 	Clazz
+  attributes: 	id101 	name102 	address103 	
   model: 	c1
   modified: 	false
   name: 	StoreCustomer
   propertyStyle: 	POJO
-  roles: 	orders96 	products97 	
+  roles: 	orders104 	products105 	
 
-- haveCustomerCommand13: 	Clazz
-  attributes: 	name98 	address99 	
-  methods: 	f100 	f101 	f102 	
+- haveCustomerCommand14: 	Clazz
+  attributes: 	name106 	address107 	
+  methods: 	f108 	f109 	f110 	
   model: 	c1
   modified: 	false
   name: 	HaveCustomerCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- storeOffer14: 	Clazz
-  attributes: 	id103 	price104 	startTime105 	endTime106 	
+- storeOffer15: 	Clazz
+  attributes: 	id111 	price112 	startTime113 	endTime114 	
   model: 	c1
   modified: 	false
   name: 	StoreOffer
   propertyStyle: 	POJO
-  roles: 	product107 	orders108 	
+  roles: 	product115 	orders116 	
 
-- haveOfferCommand15: 	Clazz
-  attributes: 	price109 	product110 	startTime111 	endTime112 	
-  methods: 	f113 	f114 	f115 	f116 	f117 	
+- haveOfferCommand16: 	Clazz
+  attributes: 	price117 	product118 	startTime119 	endTime120 	
+  methods: 	f121 	f122 	f123 	f124 	f125 	
   model: 	c1
   modified: 	false
   name: 	HaveOfferCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- storeOrder16: 	Clazz
-  attributes: 	id118 	date119 	state120 	
+- storeOrder17: 	Clazz
+  attributes: 	id126 	date127 	state128 	
   model: 	c1
   modified: 	false
   name: 	StoreOrder
   propertyStyle: 	POJO
-  roles: 	customer121 	positions122 	
+  roles: 	customer129 	positions130 	
 
-- haveOrderCommand17: 	Clazz
-  attributes: 	customer123 	date124 	state125 	
-  methods: 	f126 	f127 	f128 	f129 	
+- haveOrderCommand18: 	Clazz
+  attributes: 	customer131 	date132 	state133 	
+  methods: 	f134 	f135 	f136 	f137 	
   model: 	c1
   modified: 	false
   name: 	HaveOrderCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- storeOrderPosition18: 	Clazz
-  attributes: 	id130 	amount131 	state132 	
+- storeOrderPosition19: 	Clazz
+  attributes: 	id138 	amount139 	state140 	
   model: 	c1
   modified: 	false
   name: 	StoreOrderPosition
   propertyStyle: 	POJO
-  roles: 	order133 	offer134 	
+  roles: 	order141 	offer142 	
 
-- haveOrderPositionCommand19: 	Clazz
-  attributes: 	order135 	offer136 	amount137 	state138 	
-  methods: 	f139 	f140 	f141 	f142 	f143 	
+- haveOrderPositionCommand20: 	Clazz
+  attributes: 	order143 	offer144 	amount145 	state146 	
+  methods: 	f147 	f148 	f149 	f150 	f151 	
   model: 	c1
   modified: 	false
   name: 	HaveOrderPositionCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- haveCustomerProductsLink20: 	Clazz
-  attributes: 	source144 	target145 	
-  methods: 	f146 	
+- haveCustomerProductsLink21: 	Clazz
+  attributes: 	source152 	target153 	
+  methods: 	f154 	
   model: 	c1
   modified: 	false
   name: 	HaveCustomerProductsLink
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- removeCustomerProductsLink21: 	Clazz
-  attributes: 	source147 	target148 	
-  methods: 	f149 	
+- removeCustomerProductsLink22: 	Clazz
+  attributes: 	source155 	target156 	
+  methods: 	f157 	
   model: 	c1
   modified: 	false
   name: 	RemoveCustomerProductsLink
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- activeCommands22: 	Attribute
+- activeCommands23: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -190,7 +200,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands23: 	Attribute
+- removeCommands24: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -198,7 +208,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners24: 	Attribute
+- commandListeners25: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -206,7 +216,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat25: 	Attribute
+- isoDateFormat26: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -214,7 +224,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime26: 	Attribute
+- lastTime27: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -222,7 +232,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta27: 	Attribute
+- timeDelta28: 	Attribute
   clazz: 	storeEditor2
   initialization: 	1
   modified: 	false
@@ -230,7 +240,7 @@
   propertyStyle: 	POJO
   type: 	long
 
-- storeProducts28: 	Attribute
+- storeProducts29: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -238,7 +248,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, StoreProduct>"
 
-- storeCustomers29: 	Attribute
+- storeCustomers30: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -246,7 +256,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, StoreCustomer>"
 
-- storeOffers30: 	Attribute
+- storeOffers31: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -254,7 +264,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, StoreOffer>"
 
-- storeOrders31: 	Attribute
+- storeOrders32: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -262,7 +272,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, StoreOrder>"
 
-- storeOrderPositions32: 	Attribute
+- storeOrderPositions33: 	Attribute
   clazz: 	storeEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -270,7 +280,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, StoreOrderPosition>"
 
-- f33: 	FMethod
+- f34: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -291,7 +301,7 @@
 "
   modified: 	false
 
-- f34: 	FMethod
+- f35: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -302,7 +312,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f36: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -311,7 +321,7 @@
 "
   modified: 	false
 
-- f36: 	FMethod
+- f37: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.websystem.Store\").decode(yamlString);
@@ -322,7 +332,7 @@
 "
   modified: 	false
 
-- f37: 	FMethod
+- f38: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreProduct getOrCreateStoreProduct(String id)"
   methodBody: 	"      if (id == null) {
@@ -339,7 +349,7 @@
 "
   modified: 	false
 
-- f38: 	FMethod
+- f39: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreCustomer getOrCreateStoreCustomer(String id)"
   methodBody: 	"      if (id == null) {
@@ -356,7 +366,7 @@
 "
   modified: 	false
 
-- f39: 	FMethod
+- f40: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreOffer getOrCreateStoreOffer(String id)"
   methodBody: 	"      if (id == null) {
@@ -373,7 +383,7 @@
 "
   modified: 	false
 
-- f40: 	FMethod
+- f41: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreOrder getOrCreateStoreOrder(String id)"
   methodBody: 	"      if (id == null) {
@@ -390,7 +400,7 @@
 "
   modified: 	false
 
-- f41: 	FMethod
+- f42: 	FMethod
   clazz: 	storeEditor2
   declaration: 	"public StoreOrderPosition getOrCreateStoreOrderPosition(String id)"
   methodBody: 	"      if (id == null) {
@@ -407,35 +417,45 @@
 "
   modified: 	false
 
-- id42: 	Attribute
+- service43: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	storeEditor2
+  modified: 	false
+  name: 	service
+  other: 	modelEditor62
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id44: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time43: 	Attribute
+- time45: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f44: 	FMethod
+- f46: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(StoreEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName45: 	Attribute
+- targetClassName47: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f46: 	FMethod
+- f48: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(StoreEditor editor)"
   methodBody: 	"      // allready removed?
@@ -465,49 +485,42 @@
 "
   modified: 	false
 
-- myPort47: 	Attribute
+- myPort49: 	Attribute
   clazz: 	storeService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- modelEditor48: 	Attribute
-  clazz: 	storeService5
-  modified: 	false
-  name: 	modelEditor
-  propertyStyle: 	POJO
-  type: 	StoreEditor
-
-- reflectorMap49: 	Attribute
+- reflectorMap50: 	Attribute
   clazz: 	storeService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession50: 	Attribute
+- currentSession51: 	Attribute
   clazz: 	storeService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor51: 	Attribute
+- executor52: 	Attribute
   clazz: 	storeService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark52: 	Attribute
+- spark53: 	Attribute
   clazz: 	storeService5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap53: 	Attribute
+- sessionToAppMap54: 	Attribute
   clazz: 	storeService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -515,7 +528,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, StoreApp>"
 
-- f54: 	FMethod
+- f55: 	FMethod
   clazz: 	storeService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -526,7 +539,7 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new StoreEditor();
+      setModelEditor(new StoreEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
@@ -534,6 +547,7 @@
       spark.get(\"/Store\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/Storecmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // no streams
 
       spark.notFound((req, resp) -> {
@@ -544,7 +558,7 @@
 "
   modified: 	false
 
-- f55: 	FMethod
+- f56: 	FMethod
   clazz: 	storeService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -552,7 +566,7 @@
 "
   modified: 	false
 
-- f56: 	FMethod
+- f57: 	FMethod
   clazz: 	storeService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -583,7 +597,7 @@
 "
   modified: 	false
 
-- f57: 	FMethod
+- f58: 	FMethod
   clazz: 	storeService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -641,35 +655,115 @@
 "
   modified: 	false
 
-- f58: 	FMethod
+- f59: 	FMethod
   clazz: 	storeService5
-  declaration: 	"public void addStream(String incommingRoute, String outgoingURL, String... commandList)"
+  declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
   methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
       }
+      return stream;
 "
   modified: 	false
 
-- streams59: 	AssocRole
+- f60: 	FMethod
+  clazz: 	storeService5
+  declaration: 	"public String connect(Request req, Response res)"
+  methodBody: 	"      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return \"200\";
+"
+  modified: 	false
+
+- f61: 	FMethod
+  clazz: 	storeService5
+  declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
+  methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
+      String incommingURL = sourceUrl + \"/\" + incommingRoute;
+      String outgoingRoute = sourceServiceName + \"To\" + targetServiceName;
+      String outgoingURL = targetUrl + \"/\" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if (\"<->\".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(\" \", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + \"/connect\");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod(\"POST\");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+"
+  modified: 	false
+
+- modelEditor62: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	storeService5
+  modified: 	false
+  name: 	modelEditor
+  other: 	service43
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- streams63: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	storeService5
   modified: 	false
   name: 	streams
-  other: 	service68
+  other: 	service72
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl60: 	Attribute
+- targetUrl64: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	targetUrl
   propertyStyle: 	POJO
   type: 	String
 
-- oldCommands61: 	Attribute
+- oldCommands65: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -677,7 +771,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands62: 	Attribute
+- activeCommands66: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -685,7 +779,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f63: 	FMethod
+- f67: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -695,7 +789,7 @@
 "
   modified: 	false
 
-- f64: 	FMethod
+- f68: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      try {
@@ -723,7 +817,7 @@
          // got an answer, clear active commands
          activeCommands.clear();
          LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(yaml);
+               .decode(content.toString());
          executeCommands(map.values());
       }
       catch (Exception e) {
@@ -732,7 +826,7 @@
 "
   modified: 	false
 
-- f65: 	FMethod
+- f69: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -747,7 +841,7 @@
 "
   modified: 	false
 
-- f66: 	FMethod
+- f70: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, StoreService service)"
   methodBody: 	"      this.targetUrl = targetUrl;
@@ -757,7 +851,7 @@
 "
   modified: 	false
 
-- f67: 	FMethod
+- f71: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -771,39 +865,69 @@
 "
   modified: 	false
 
-- service68: 	AssocRole
+- service72: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams59
+  other: 	streams63
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- modelEditor69: 	Attribute
-  clazz: 	storeApp7
+- incommingRoute73: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	incommingRoute
+  propertyStyle: 	POJO
+  type: 	String
+
+- outgoingUrl74: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	outgoingUrl
+  propertyStyle: 	POJO
+  type: 	String
+
+- commandList75: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	commandList
+  propertyStyle: 	POJO
+  type: 	String
+
+- f76: 	FMethod
+  clazz: 	addStreamCommand7
+  declaration: 	"public Object run(StoreEditor editor)"
+  methodBody: 	"      String[] split = commandList.split(\" \");
+      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      return null;
+"
+  modified: 	false
+
+- modelEditor77: 	Attribute
+  clazz: 	storeApp8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	StoreEditor
 
-- id70: 	Attribute
-  clazz: 	storeApp7
+- id78: 	Attribute
+  clazz: 	storeApp8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description71: 	Attribute
-  clazz: 	storeApp7
+- description79: 	Attribute
+  clazz: 	storeApp8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f72: 	FMethod
-  clazz: 	storeApp7
+- f80: 	FMethod
+  clazz: 	storeApp8
   declaration: 	"public StoreApp init(StoreEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
@@ -812,145 +936,145 @@
 "
   modified: 	false
 
-- content73: 	AssocRole
+- content81: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	storeApp7
+  clazz: 	storeApp8
   modified: 	false
   name: 	content
-  other: 	app76
+  other: 	app84
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id74: 	Attribute
-  clazz: 	page8
+- id82: 	Attribute
+  clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description75: 	Attribute
-  clazz: 	page8
+- description83: 	Attribute
+  clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app76: 	AssocRole
+- app84: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	page8
+  clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content73
+  other: 	content81
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content77: 	AssocRole
+- content85: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	page8
+  clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page82
+  other: 	page90
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id78: 	Attribute
-  clazz: 	line9
+- id86: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description79: 	Attribute
-  clazz: 	line9
+- description87: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action80: 	Attribute
-  clazz: 	line9
+- action88: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value81: 	Attribute
-  clazz: 	line9
+- value89: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page82: 	AssocRole
+- page90: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	line9
+  clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content77
+  other: 	content85
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id83: 	Attribute
-  clazz: 	storeProduct10
+- id91: 	Attribute
+  clazz: 	storeProduct11
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description84: 	Attribute
-  clazz: 	storeProduct10
+- description92: 	Attribute
+  clazz: 	storeProduct11
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- items85: 	Attribute
-  clazz: 	storeProduct10
+- items93: 	Attribute
+  clazz: 	storeProduct11
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- offers86: 	AssocRole
+- offers94: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	storeProduct10
+  clazz: 	storeProduct11
   modified: 	false
   name: 	offers
-  other: 	product107
+  other: 	product115
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- customers87: 	AssocRole
+- customers95: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	storeProduct10
+  clazz: 	storeProduct11
   modified: 	false
   name: 	customers
-  other: 	products97
+  other: 	products105
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- description88: 	Attribute
-  clazz: 	haveProductCommand11
+- description96: 	Attribute
+  clazz: 	haveProductCommand12
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- items89: 	Attribute
-  clazz: 	haveProductCommand11
+- items97: 	Attribute
+  clazz: 	haveProductCommand12
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- f90: 	FMethod
-  clazz: 	haveProductCommand11
+- f98: 	FMethod
+  clazz: 	haveProductCommand12
   declaration: 	"public boolean preCheck(StoreEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -968,9 +1092,9 @@
 "
   modified: 	false
 
-- f91: 	FMethod
+- f99: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveProductCommand11
+  clazz: 	haveProductCommand12
   declaration: 	"@Override
    public StoreProduct run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -984,9 +1108,9 @@
 "
   modified: 	false
 
-- f92: 	FMethod
+- f100: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveProductCommand11
+  clazz: 	haveProductCommand12
   declaration: 	"@Override
    public StoreProduct run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1001,63 +1125,63 @@
 "
   modified: 	false
 
-- id93: 	Attribute
-  clazz: 	storeCustomer12
+- id101: 	Attribute
+  clazz: 	storeCustomer13
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name94: 	Attribute
-  clazz: 	storeCustomer12
+- name102: 	Attribute
+  clazz: 	storeCustomer13
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address95: 	Attribute
-  clazz: 	storeCustomer12
+- address103: 	Attribute
+  clazz: 	storeCustomer13
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- orders96: 	AssocRole
+- orders104: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	storeCustomer12
+  clazz: 	storeCustomer13
   modified: 	false
   name: 	orders
-  other: 	customer121
+  other: 	customer129
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- products97: 	AssocRole
+- products105: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	storeCustomer12
+  clazz: 	storeCustomer13
   modified: 	false
   name: 	products
-  other: 	customers87
+  other: 	customers95
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name98: 	Attribute
-  clazz: 	haveCustomerCommand13
+- name106: 	Attribute
+  clazz: 	haveCustomerCommand14
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address99: 	Attribute
-  clazz: 	haveCustomerCommand13
+- address107: 	Attribute
+  clazz: 	haveCustomerCommand14
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f100: 	FMethod
-  clazz: 	haveCustomerCommand13
+- f108: 	FMethod
+  clazz: 	haveCustomerCommand14
   declaration: 	"public boolean preCheck(StoreEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1075,9 +1199,9 @@
 "
   modified: 	false
 
-- f101: 	FMethod
+- f109: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerCommand13
+  clazz: 	haveCustomerCommand14
   declaration: 	"@Override
    public StoreCustomer run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1091,9 +1215,9 @@
 "
   modified: 	false
 
-- f102: 	FMethod
+- f110: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerCommand13
+  clazz: 	haveCustomerCommand14
   declaration: 	"@Override
    public StoreCustomer run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1108,84 +1232,84 @@
 "
   modified: 	false
 
-- id103: 	Attribute
-  clazz: 	storeOffer14
+- id111: 	Attribute
+  clazz: 	storeOffer15
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- price104: 	Attribute
-  clazz: 	storeOffer14
+- price112: 	Attribute
+  clazz: 	storeOffer15
   modified: 	false
   name: 	price
   propertyStyle: 	POJO
   type: 	double
 
-- startTime105: 	Attribute
-  clazz: 	storeOffer14
+- startTime113: 	Attribute
+  clazz: 	storeOffer15
   modified: 	false
   name: 	startTime
   propertyStyle: 	POJO
   type: 	String
 
-- endTime106: 	Attribute
-  clazz: 	storeOffer14
+- endTime114: 	Attribute
+  clazz: 	storeOffer15
   modified: 	false
   name: 	endTime
   propertyStyle: 	POJO
   type: 	String
 
-- product107: 	AssocRole
+- product115: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	storeOffer14
+  clazz: 	storeOffer15
   modified: 	false
   name: 	product
-  other: 	offers86
+  other: 	offers94
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- orders108: 	AssocRole
+- orders116: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	storeOffer14
+  clazz: 	storeOffer15
   modified: 	false
   name: 	orders
-  other: 	offer134
+  other: 	offer142
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- price109: 	Attribute
-  clazz: 	haveOfferCommand15
+- price117: 	Attribute
+  clazz: 	haveOfferCommand16
   modified: 	false
   name: 	price
   propertyStyle: 	POJO
   type: 	double
 
-- product110: 	Attribute
-  clazz: 	haveOfferCommand15
+- product118: 	Attribute
+  clazz: 	haveOfferCommand16
   modified: 	false
   name: 	product
   propertyStyle: 	POJO
   type: 	String
 
-- startTime111: 	Attribute
-  clazz: 	haveOfferCommand15
+- startTime119: 	Attribute
+  clazz: 	haveOfferCommand16
   modified: 	false
   name: 	startTime
   propertyStyle: 	POJO
   type: 	String
 
-- endTime112: 	Attribute
-  clazz: 	haveOfferCommand15
+- endTime120: 	Attribute
+  clazz: 	haveOfferCommand16
   modified: 	false
   name: 	endTime
   propertyStyle: 	POJO
   type: 	String
 
-- f113: 	FMethod
-  clazz: 	haveOfferCommand15
+- f121: 	FMethod
+  clazz: 	haveOfferCommand16
   declaration: 	"public boolean preCheck(StoreEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1203,9 +1327,9 @@
 "
   modified: 	false
 
-- f114: 	FMethod
+- f122: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOfferCommand15
+  clazz: 	haveOfferCommand16
   declaration: 	"@Override
    public StoreOffer run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1219,9 +1343,9 @@
 "
   modified: 	false
 
-- f115: 	FMethod
+- f123: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOfferCommand15
+  clazz: 	haveOfferCommand16
   declaration: 	"@Override
    public StoreOffer run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1237,9 +1361,9 @@
 "
   modified: 	false
 
-- f116: 	FMethod
+- f124: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOfferCommand15
+  clazz: 	haveOfferCommand16
   declaration: 	"@Override
    public StoreOffer run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1256,9 +1380,9 @@
 "
   modified: 	false
 
-- f117: 	FMethod
+- f125: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOfferCommand15
+  clazz: 	haveOfferCommand16
   declaration: 	"@Override
    public StoreOffer run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1276,70 +1400,70 @@
 "
   modified: 	false
 
-- id118: 	Attribute
-  clazz: 	storeOrder16
+- id126: 	Attribute
+  clazz: 	storeOrder17
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- date119: 	Attribute
-  clazz: 	storeOrder16
+- date127: 	Attribute
+  clazz: 	storeOrder17
   modified: 	false
   name: 	date
   propertyStyle: 	POJO
   type: 	String
 
-- state120: 	Attribute
-  clazz: 	storeOrder16
+- state128: 	Attribute
+  clazz: 	storeOrder17
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- customer121: 	AssocRole
+- customer129: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	storeOrder16
+  clazz: 	storeOrder17
   modified: 	false
   name: 	customer
-  other: 	orders96
+  other: 	orders104
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- positions122: 	AssocRole
+- positions130: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	storeOrder16
+  clazz: 	storeOrder17
   modified: 	false
   name: 	positions
-  other: 	order133
+  other: 	order141
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- customer123: 	Attribute
-  clazz: 	haveOrderCommand17
+- customer131: 	Attribute
+  clazz: 	haveOrderCommand18
   modified: 	false
   name: 	customer
   propertyStyle: 	POJO
   type: 	String
 
-- date124: 	Attribute
-  clazz: 	haveOrderCommand17
+- date132: 	Attribute
+  clazz: 	haveOrderCommand18
   modified: 	false
   name: 	date
   propertyStyle: 	POJO
   type: 	String
 
-- state125: 	Attribute
-  clazz: 	haveOrderCommand17
+- state133: 	Attribute
+  clazz: 	haveOrderCommand18
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- f126: 	FMethod
-  clazz: 	haveOrderCommand17
+- f134: 	FMethod
+  clazz: 	haveOrderCommand18
   declaration: 	"public boolean preCheck(StoreEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1357,9 +1481,9 @@
 "
   modified: 	false
 
-- f127: 	FMethod
+- f135: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderCommand17
+  clazz: 	haveOrderCommand18
   declaration: 	"@Override
    public StoreOrder run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1374,9 +1498,9 @@
 "
   modified: 	false
 
-- f128: 	FMethod
+- f136: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderCommand17
+  clazz: 	haveOrderCommand18
   declaration: 	"@Override
    public StoreOrder run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1392,9 +1516,9 @@
 "
   modified: 	false
 
-- f129: 	FMethod
+- f137: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderCommand17
+  clazz: 	haveOrderCommand18
   declaration: 	"@Override
    public StoreOrder run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1411,77 +1535,77 @@
 "
   modified: 	false
 
-- id130: 	Attribute
-  clazz: 	storeOrderPosition18
+- id138: 	Attribute
+  clazz: 	storeOrderPosition19
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- amount131: 	Attribute
-  clazz: 	storeOrderPosition18
+- amount139: 	Attribute
+  clazz: 	storeOrderPosition19
   modified: 	false
   name: 	amount
   propertyStyle: 	POJO
   type: 	double
 
-- state132: 	Attribute
-  clazz: 	storeOrderPosition18
+- state140: 	Attribute
+  clazz: 	storeOrderPosition19
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- order133: 	AssocRole
+- order141: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	storeOrderPosition18
+  clazz: 	storeOrderPosition19
   modified: 	false
   name: 	order
-  other: 	positions122
+  other: 	positions130
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- offer134: 	AssocRole
+- offer142: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	storeOrderPosition18
+  clazz: 	storeOrderPosition19
   modified: 	false
   name: 	offer
-  other: 	orders108
+  other: 	orders116
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- order135: 	Attribute
-  clazz: 	haveOrderPositionCommand19
+- order143: 	Attribute
+  clazz: 	haveOrderPositionCommand20
   modified: 	false
   name: 	order
   propertyStyle: 	POJO
   type: 	String
 
-- offer136: 	Attribute
-  clazz: 	haveOrderPositionCommand19
+- offer144: 	Attribute
+  clazz: 	haveOrderPositionCommand20
   modified: 	false
   name: 	offer
   propertyStyle: 	POJO
   type: 	String
 
-- amount137: 	Attribute
-  clazz: 	haveOrderPositionCommand19
+- amount145: 	Attribute
+  clazz: 	haveOrderPositionCommand20
   modified: 	false
   name: 	amount
   propertyStyle: 	POJO
   type: 	double
 
-- state138: 	Attribute
-  clazz: 	haveOrderPositionCommand19
+- state146: 	Attribute
+  clazz: 	haveOrderPositionCommand20
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- f139: 	FMethod
-  clazz: 	haveOrderPositionCommand19
+- f147: 	FMethod
+  clazz: 	haveOrderPositionCommand20
   declaration: 	"public boolean preCheck(StoreEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1499,9 +1623,9 @@
 "
   modified: 	false
 
-- f140: 	FMethod
+- f148: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderPositionCommand19
+  clazz: 	haveOrderPositionCommand20
   declaration: 	"@Override
    public StoreOrderPosition run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1516,9 +1640,9 @@
 "
   modified: 	false
 
-- f141: 	FMethod
+- f149: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderPositionCommand19
+  clazz: 	haveOrderPositionCommand20
   declaration: 	"@Override
    public StoreOrderPosition run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1535,9 +1659,9 @@
 "
   modified: 	false
 
-- f142: 	FMethod
+- f150: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderPositionCommand19
+  clazz: 	haveOrderPositionCommand20
   declaration: 	"@Override
    public StoreOrderPosition run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1555,9 +1679,9 @@
 "
   modified: 	false
 
-- f143: 	FMethod
+- f151: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveOrderPositionCommand19
+  clazz: 	haveOrderPositionCommand20
   declaration: 	"@Override
    public StoreOrderPosition run(StoreEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1576,23 +1700,23 @@
 "
   modified: 	false
 
-- source144: 	Attribute
-  clazz: 	haveCustomerProductsLink20
+- source152: 	Attribute
+  clazz: 	haveCustomerProductsLink21
   modified: 	false
   name: 	source
   propertyStyle: 	POJO
   type: 	String
 
-- target145: 	Attribute
-  clazz: 	haveCustomerProductsLink20
+- target153: 	Attribute
+  clazz: 	haveCustomerProductsLink21
   modified: 	false
   name: 	target
   propertyStyle: 	POJO
   type: 	String
 
-- f146: 	FMethod
+- f154: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerProductsLink20
+  clazz: 	haveCustomerProductsLink21
   declaration: 	"@Override
    public Object run(StoreEditor editor)"
   methodBody: 	"      java.util.Objects.requireNonNull(this.getTime());
@@ -1614,23 +1738,23 @@
 "
   modified: 	false
 
-- source147: 	Attribute
-  clazz: 	removeCustomerProductsLink21
+- source155: 	Attribute
+  clazz: 	removeCustomerProductsLink22
   modified: 	false
   name: 	source
   propertyStyle: 	POJO
   type: 	String
 
-- target148: 	Attribute
-  clazz: 	removeCustomerProductsLink21
+- target156: 	Attribute
+  clazz: 	removeCustomerProductsLink22
   modified: 	false
   name: 	target
   propertyStyle: 	POJO
   type: 	String
 
-- f149: 	FMethod
+- f157: 	FMethod
   annotations: 	"@Override"
-  clazz: 	removeCustomerProductsLink21
+  clazz: 	removeCustomerProductsLink22
   declaration: 	"@Override
    public Object run(StoreEditor editor)"
   methodBody: 	"      java.util.Objects.requireNonNull(this.getTime());

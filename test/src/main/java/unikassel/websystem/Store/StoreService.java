@@ -3,19 +3,23 @@ package unikassel.websystem.Store;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-import spark.*;
+import org.fulib.yaml.Yaml;
 import org.fulib.yaml.ReflectorMap;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import org.fulib.scenarios.MockupTools;
 import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
-import spark.Spark;
-import unikassel.websystem.Shop.ShopService;
 
 import java.lang.reflect.Method;
-import java.util.ServiceConfigurationError;
 import java.util.concurrent.ExecutorService;
 
 import static spark.Spark.port;
@@ -124,26 +128,6 @@ public class StoreService
       return true;
    }
 
-   public static final String PROPERTY_modelEditor = "modelEditor";
-
-   private StoreEditor modelEditor;
-
-   public StoreEditor getModelEditor()
-   {
-      return modelEditor;
-   }
-
-   public StoreService setModelEditor(StoreEditor value)
-   {
-      if (value != this.modelEditor)
-      {
-         StoreEditor oldValue = this.modelEditor;
-         this.modelEditor = value;
-         firePropertyChange("modelEditor", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_currentSession = "currentSession";
 
    private String currentSession;
@@ -202,6 +186,7 @@ public class StoreService
       spark.get("/Store", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post("/Storecmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post("/connect", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       spark.notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
       });
@@ -247,17 +232,6 @@ public class StoreService
          firePropertyChange("executor", oldValue, value);
       }
       return this;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
    }
 
    public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
@@ -324,6 +298,8 @@ public class StoreService
 
    public void removeYou()
    {
+      this.setModelEditor(null);
+
       this.withoutStreams(this.getStreams().clone());
 
 
@@ -340,6 +316,46 @@ public class StoreService
          firePropertyChange("spark", oldValue, value);
       }
       return this;
+   }
+
+   public static final String PROPERTY_modelEditor = "modelEditor";
+
+   private StoreEditor modelEditor = null;
+
+   public StoreEditor getModelEditor()
+   {
+      return this.modelEditor;
+   }
+
+   public StoreService setModelEditor(StoreEditor value)
+   {
+      if (this.modelEditor != value)
+      {
+         StoreEditor oldValue = this.modelEditor;
+         if (this.modelEditor != null)
+         {
+            this.modelEditor = null;
+            oldValue.setService(null);
+         }
+         this.modelEditor = value;
+         if (value != null)
+         {
+            value.setService(this);
+         }
+         firePropertyChange("modelEditor", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -430,11 +446,75 @@ public class StoreService
       return root(req, res);
    }
 
-   public void addStream(String incommingRoute, String outgoingURL, String... commandList) { 
+   public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList) { 
       CommandStream stream = new CommandStream().setService(this);
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
+      }
+      return stream;
+   }
+
+   public String connect(Request req, Response res) { 
+      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return "200";
+   }
+
+   public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList) { 
+      String incommingRoute = targetServiceName + "To" + sourceServiceName;
+      String incommingURL = sourceUrl + "/" + incommingRoute;
+      String outgoingRoute = sourceServiceName + "To" + targetServiceName;
+      String outgoingURL = targetUrl + "/" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if ("<->".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(" ", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + "/connect");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod("POST");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
       }
    }
 

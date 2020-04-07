@@ -162,7 +162,7 @@ serviceInit(serviceName, streamInit) ::= <<
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new <serviceName>Editor();
+      setModelEditor(new <serviceName>Editor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
@@ -170,6 +170,7 @@ serviceInit(serviceName, streamInit) ::= <<
       spark.get("/<serviceName>", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post("/<serviceName>cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post("/connect", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       <streamInit>
       spark.notFound((req, resp) -> {
          return "404 not found: " + req.requestMethod() + req.url() + req.body();
@@ -184,6 +185,72 @@ serviceAddStream() ::= <<
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
+      }
+      return stream;
+
+>>
+
+serviceConnect() ::= <<
+      String body = req.body();
+      LinkedHashMap\<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return "200";
+
+>>
+
+serviceConnectTo() ::= <<
+      String incommingRoute = targetServiceName + "To" + sourceServiceName;
+      String incommingURL = sourceUrl + "/" + incommingRoute;
+      String outgoingRoute = sourceServiceName + "To" + targetServiceName;
+      String outgoingURL = targetUrl + "/" + outgoingRoute;
+      ArrayList\<String> sourceCommands = new ArrayList\<>();
+      ArrayList\<String> targetCommands = new ArrayList\<>();
+
+      ArrayList\<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if ("\<->".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(" ", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + "/connect");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod("POST");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
       }
 
 >>
@@ -328,7 +395,7 @@ CommandStreamSend() ::= <<
          // got an answer, clear active commands
          activeCommands.clear();
          LinkedHashMap\<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(yaml);
+               .decode(content.toString());
          executeCommands(map.values());
       }
       catch (Exception e) {
@@ -367,5 +434,13 @@ CommandStreamHandlePostRequest() ::= <<
       executeCommands(values);
 
       return "OK";
+
+>>
+
+
+AddStreamCommandRun() ::= <<
+      String[] split = commandList.split(" ");
+      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      return null;
 
 >>

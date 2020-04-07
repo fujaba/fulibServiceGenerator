@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	accountingEditor2 	modelCommand3 	removeCommand4 	accountingService5 	commandStream6 	accountingApp7 	page8 	line9 	accountingProduct10 	haveProductCommand11 	accountingSupplier12 	haveSupplierCommand13 	accountingSupply14 	haveSupplyCommand15 	accountingCustomer16 	haveCustomerCommand17 	addSupply18 	
+  classes: 	accountingEditor2 	modelCommand3 	removeCommand4 	accountingService5 	commandStream6 	addStreamCommand7 	accountingApp8 	page9 	line10 	accountingProduct11 	haveProductCommand12 	accountingSupplier13 	haveSupplierCommand14 	accountingSupply15 	haveSupplyCommand16 	accountingCustomer17 	haveCustomerCommand18 	addSupply19 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,27 +7,28 @@
   packageSrcFolder: 	"src/main/java/unikassel/qsexample/Accounting"
 
 - accountingEditor2: 	Clazz
-  attributes: 	activeCommands19 	removeCommands20 	commandListeners21 	isoDateFormat22 	lastTime23 	timeDelta24 	accountingProducts25 	accountingSuppliers26 	accountingSupplys27 	accountingCustomers28 	
+  attributes: 	activeCommands20 	removeCommands21 	commandListeners22 	isoDateFormat23 	lastTime24 	timeDelta25 	accountingProducts26 	accountingSuppliers27 	accountingSupplys28 	accountingCustomers29 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f29 	f30 	f31 	f32 	f33 	f34 	f35 	f36 	
+  methods: 	f30 	f31 	f32 	f33 	f34 	f35 	f36 	f37 	
   model: 	c1
   modified: 	false
   name: 	AccountingEditor
   propertyStyle: 	POJO
+  roles: 	service38 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id37 	time38 	
-  methods: 	f39 	
+  attributes: 	id39 	time40 	
+  methods: 	f41 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	haveProductCommand11 	haveSupplierCommand13 	haveSupplyCommand15 	haveCustomerCommand17 	addSupply18 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveSupplierCommand14 	haveSupplyCommand16 	haveCustomerCommand18 	addSupply19 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName40 	
+  attributes: 	targetClassName42 	
   importList: 	null 	null 	null 	
-  methods: 	f41 	
+  methods: 	f43 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -35,126 +36,135 @@
   superClass: 	modelCommand3
 
 - accountingService5: 	Clazz
-  attributes: 	myPort42 	modelEditor43 	reflectorMap44 	currentSession45 	executor46 	spark47 	sessionToAppMap48 	
-  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f49 	f50 	f51 	f52 	f53 	
+  attributes: 	myPort44 	reflectorMap45 	currentSession46 	executor47 	spark48 	sessionToAppMap49 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f50 	f51 	f52 	f53 	f54 	f55 	f56 	
   model: 	c1
   modified: 	false
   name: 	AccountingService
   propertyStyle: 	POJO
-  roles: 	streams54 	
+  roles: 	modelEditor57 	streams58 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl55 	oldCommands56 	activeCommands57 	
+  attributes: 	targetUrl59 	oldCommands60 	activeCommands61 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f58 	f59 	f60 	f61 	f62 	
+  methods: 	f62 	f63 	f64 	f65 	f66 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service63 	
+  roles: 	service67 	
 
-- accountingApp7: 	Clazz
-  attributes: 	modelEditor64 	id65 	description66 	
-  methods: 	f67 	
+- addStreamCommand7: 	Clazz
+  attributes: 	incommingRoute68 	outgoingUrl69 	commandList70 	
+  methods: 	f71 	
+  model: 	c1
+  modified: 	false
+  name: 	AddStreamCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- accountingApp8: 	Clazz
+  attributes: 	modelEditor72 	id73 	description74 	
+  methods: 	f75 	
   model: 	c1
   modified: 	false
   name: 	AccountingApp
   propertyStyle: 	POJO
-  roles: 	content68 	
+  roles: 	content76 	
 
-- page8: 	Clazz
-  attributes: 	id69 	description70 	
+- page9: 	Clazz
+  attributes: 	id77 	description78 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app71 	content72 	
+  roles: 	app79 	content80 	
 
-- line9: 	Clazz
-  attributes: 	id73 	description74 	action75 	value76 	
+- line10: 	Clazz
+  attributes: 	id81 	description82 	action83 	value84 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page77 	
+  roles: 	page85 	
 
-- accountingProduct10: 	Clazz
-  attributes: 	id78 	description79 	
+- accountingProduct11: 	Clazz
+  attributes: 	id86 	description87 	
   model: 	c1
   modified: 	false
   name: 	AccountingProduct
   propertyStyle: 	POJO
-  roles: 	supplies80 	
+  roles: 	supplies88 	
 
-- haveProductCommand11: 	Clazz
-  attributes: 	description81 	
-  methods: 	f82 	f83 	
+- haveProductCommand12: 	Clazz
+  attributes: 	description89 	
+  methods: 	f90 	f91 	
   model: 	c1
   modified: 	false
   name: 	HaveProductCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- accountingSupplier12: 	Clazz
-  attributes: 	id84 	name85 	address86 	
+- accountingSupplier13: 	Clazz
+  attributes: 	id92 	name93 	address94 	
   model: 	c1
   modified: 	false
   name: 	AccountingSupplier
   propertyStyle: 	POJO
-  roles: 	deliveries87 	
+  roles: 	deliveries95 	
 
-- haveSupplierCommand13: 	Clazz
-  attributes: 	name88 	address89 	
-  methods: 	f90 	f91 	f92 	
+- haveSupplierCommand14: 	Clazz
+  attributes: 	name96 	address97 	
+  methods: 	f98 	f99 	f100 	
   model: 	c1
   modified: 	false
   name: 	HaveSupplierCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- accountingSupply14: 	Clazz
-  attributes: 	id93 	items94 	state95 	
+- accountingSupply15: 	Clazz
+  attributes: 	id101 	items102 	state103 	
   model: 	c1
   modified: 	false
   name: 	AccountingSupply
   propertyStyle: 	POJO
-  roles: 	supplier96 	product97 	
+  roles: 	supplier104 	product105 	
 
-- haveSupplyCommand15: 	Clazz
-  attributes: 	supplier98 	product99 	items100 	state101 	
-  methods: 	f102 	f103 	f104 	f105 	f106 	
+- haveSupplyCommand16: 	Clazz
+  attributes: 	supplier106 	product107 	items108 	state109 	
+  methods: 	f110 	f111 	f112 	f113 	f114 	
   model: 	c1
   modified: 	false
   name: 	HaveSupplyCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- accountingCustomer16: 	Clazz
-  attributes: 	id107 	name108 	address109 	
+- accountingCustomer17: 	Clazz
+  attributes: 	id115 	name116 	address117 	
   model: 	c1
   modified: 	false
   name: 	AccountingCustomer
   propertyStyle: 	POJO
 
-- haveCustomerCommand17: 	Clazz
-  attributes: 	name110 	address111 	
-  methods: 	f112 	f113 	f114 	
+- haveCustomerCommand18: 	Clazz
+  attributes: 	name118 	address119 	
+  methods: 	f120 	f121 	f122 	
   model: 	c1
   modified: 	false
   name: 	HaveCustomerCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- addSupply18: 	Clazz
-  attributes: 	supplier115 	product116 	items117 	_app118 	
+- addSupply19: 	Clazz
+  attributes: 	supplier123 	product124 	items125 	_app126 	
   model: 	c1
   modified: 	false
   name: 	AddSupply
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- activeCommands19: 	Attribute
+- activeCommands20: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -162,7 +172,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands20: 	Attribute
+- removeCommands21: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -170,7 +180,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners21: 	Attribute
+- commandListeners22: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -178,7 +188,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat22: 	Attribute
+- isoDateFormat23: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -186,7 +196,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime23: 	Attribute
+- lastTime24: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -194,7 +204,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta24: 	Attribute
+- timeDelta25: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	1
   modified: 	false
@@ -202,7 +212,7 @@
   propertyStyle: 	POJO
   type: 	long
 
-- accountingProducts25: 	Attribute
+- accountingProducts26: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -210,7 +220,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, AccountingProduct>"
 
-- accountingSuppliers26: 	Attribute
+- accountingSuppliers27: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -218,7 +228,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, AccountingSupplier>"
 
-- accountingSupplys27: 	Attribute
+- accountingSupplys28: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -226,7 +236,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, AccountingSupply>"
 
-- accountingCustomers28: 	Attribute
+- accountingCustomers29: 	Attribute
   clazz: 	accountingEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -234,7 +244,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, AccountingCustomer>"
 
-- f29: 	FMethod
+- f30: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -255,7 +265,7 @@
 "
   modified: 	false
 
-- f30: 	FMethod
+- f31: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -266,7 +276,7 @@
 "
   modified: 	false
 
-- f31: 	FMethod
+- f32: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public AccountingEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -275,7 +285,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f33: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.qsexample.Accounting\").decode(yamlString);
@@ -286,7 +296,7 @@
 "
   modified: 	false
 
-- f33: 	FMethod
+- f34: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public AccountingProduct getOrCreateAccountingProduct(String id)"
   methodBody: 	"      if (id == null) {
@@ -303,7 +313,7 @@
 "
   modified: 	false
 
-- f34: 	FMethod
+- f35: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public AccountingSupplier getOrCreateAccountingSupplier(String id)"
   methodBody: 	"      if (id == null) {
@@ -320,7 +330,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f36: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public AccountingSupply getOrCreateAccountingSupply(String id)"
   methodBody: 	"      if (id == null) {
@@ -337,7 +347,7 @@
 "
   modified: 	false
 
-- f36: 	FMethod
+- f37: 	FMethod
   clazz: 	accountingEditor2
   declaration: 	"public AccountingCustomer getOrCreateAccountingCustomer(String id)"
   methodBody: 	"      if (id == null) {
@@ -354,35 +364,45 @@
 "
   modified: 	false
 
-- id37: 	Attribute
+- service38: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	accountingEditor2
+  modified: 	false
+  name: 	service
+  other: 	modelEditor57
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id39: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time38: 	Attribute
+- time40: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f39: 	FMethod
+- f41: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(AccountingEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName40: 	Attribute
+- targetClassName42: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f41: 	FMethod
+- f43: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(AccountingEditor editor)"
   methodBody: 	"      // allready removed?
@@ -412,49 +432,42 @@
 "
   modified: 	false
 
-- myPort42: 	Attribute
+- myPort44: 	Attribute
   clazz: 	accountingService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- modelEditor43: 	Attribute
-  clazz: 	accountingService5
-  modified: 	false
-  name: 	modelEditor
-  propertyStyle: 	POJO
-  type: 	AccountingEditor
-
-- reflectorMap44: 	Attribute
+- reflectorMap45: 	Attribute
   clazz: 	accountingService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession45: 	Attribute
+- currentSession46: 	Attribute
   clazz: 	accountingService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor46: 	Attribute
+- executor47: 	Attribute
   clazz: 	accountingService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark47: 	Attribute
+- spark48: 	Attribute
   clazz: 	accountingService5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap48: 	Attribute
+- sessionToAppMap49: 	Attribute
   clazz: 	accountingService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -462,7 +475,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, AccountingApp>"
 
-- f49: 	FMethod
+- f50: 	FMethod
   clazz: 	accountingService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -473,7 +486,7 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new AccountingEditor();
+      setModelEditor(new AccountingEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
@@ -481,6 +494,7 @@
       spark.get(\"/Accounting\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/Accountingcmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // no streams
 
       spark.notFound((req, resp) -> {
@@ -491,7 +505,7 @@
 "
   modified: 	false
 
-- f50: 	FMethod
+- f51: 	FMethod
   clazz: 	accountingService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -499,7 +513,7 @@
 "
   modified: 	false
 
-- f51: 	FMethod
+- f52: 	FMethod
   clazz: 	accountingService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -530,7 +544,7 @@
 "
   modified: 	false
 
-- f52: 	FMethod
+- f53: 	FMethod
   clazz: 	accountingService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -588,35 +602,115 @@
 "
   modified: 	false
 
-- f53: 	FMethod
+- f54: 	FMethod
   clazz: 	accountingService5
-  declaration: 	"public void addStream(String incommingRoute, String outgoingURL, String... commandList)"
+  declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
   methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
       }
+      return stream;
 "
   modified: 	false
 
-- streams54: 	AssocRole
+- f55: 	FMethod
+  clazz: 	accountingService5
+  declaration: 	"public String connect(Request req, Response res)"
+  methodBody: 	"      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return \"200\";
+"
+  modified: 	false
+
+- f56: 	FMethod
+  clazz: 	accountingService5
+  declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
+  methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
+      String incommingURL = sourceUrl + \"/\" + incommingRoute;
+      String outgoingRoute = sourceServiceName + \"To\" + targetServiceName;
+      String outgoingURL = targetUrl + \"/\" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if (\"<->\".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(\" \", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + \"/connect\");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod(\"POST\");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+"
+  modified: 	false
+
+- modelEditor57: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	accountingService5
+  modified: 	false
+  name: 	modelEditor
+  other: 	service38
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- streams58: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	accountingService5
   modified: 	false
   name: 	streams
-  other: 	service63
+  other: 	service67
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl55: 	Attribute
+- targetUrl59: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	targetUrl
   propertyStyle: 	POJO
   type: 	String
 
-- oldCommands56: 	Attribute
+- oldCommands60: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -624,7 +718,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands57: 	Attribute
+- activeCommands61: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -632,7 +726,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f58: 	FMethod
+- f62: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -642,7 +736,7 @@
 "
   modified: 	false
 
-- f59: 	FMethod
+- f63: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      try {
@@ -670,7 +764,7 @@
          // got an answer, clear active commands
          activeCommands.clear();
          LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(yaml);
+               .decode(content.toString());
          executeCommands(map.values());
       }
       catch (Exception e) {
@@ -679,7 +773,7 @@
 "
   modified: 	false
 
-- f60: 	FMethod
+- f64: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -694,7 +788,7 @@
 "
   modified: 	false
 
-- f61: 	FMethod
+- f65: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, AccountingService service)"
   methodBody: 	"      this.targetUrl = targetUrl;
@@ -704,7 +798,7 @@
 "
   modified: 	false
 
-- f62: 	FMethod
+- f66: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -718,39 +812,69 @@
 "
   modified: 	false
 
-- service63: 	AssocRole
+- service67: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams54
+  other: 	streams58
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- modelEditor64: 	Attribute
-  clazz: 	accountingApp7
+- incommingRoute68: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	incommingRoute
+  propertyStyle: 	POJO
+  type: 	String
+
+- outgoingUrl69: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	outgoingUrl
+  propertyStyle: 	POJO
+  type: 	String
+
+- commandList70: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	commandList
+  propertyStyle: 	POJO
+  type: 	String
+
+- f71: 	FMethod
+  clazz: 	addStreamCommand7
+  declaration: 	"public Object run(AccountingEditor editor)"
+  methodBody: 	"      String[] split = commandList.split(\" \");
+      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      return null;
+"
+  modified: 	false
+
+- modelEditor72: 	Attribute
+  clazz: 	accountingApp8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	AccountingEditor
 
-- id65: 	Attribute
-  clazz: 	accountingApp7
+- id73: 	Attribute
+  clazz: 	accountingApp8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description66: 	Attribute
-  clazz: 	accountingApp7
+- description74: 	Attribute
+  clazz: 	accountingApp8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f67: 	FMethod
-  clazz: 	accountingApp7
+- f75: 	FMethod
+  clazz: 	accountingApp8
   declaration: 	"public AccountingApp init(AccountingEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
@@ -759,121 +883,121 @@
 "
   modified: 	false
 
-- content68: 	AssocRole
+- content76: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	accountingApp7
+  clazz: 	accountingApp8
   modified: 	false
   name: 	content
-  other: 	app71
+  other: 	app79
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id69: 	Attribute
-  clazz: 	page8
+- id77: 	Attribute
+  clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description70: 	Attribute
-  clazz: 	page8
+- description78: 	Attribute
+  clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app71: 	AssocRole
+- app79: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	page8
+  clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content68
+  other: 	content76
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content72: 	AssocRole
+- content80: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	page8
+  clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page77
+  other: 	page85
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id73: 	Attribute
-  clazz: 	line9
+- id81: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description74: 	Attribute
-  clazz: 	line9
+- description82: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action75: 	Attribute
-  clazz: 	line9
+- action83: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value76: 	Attribute
-  clazz: 	line9
+- value84: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page77: 	AssocRole
+- page85: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	line9
+  clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content72
+  other: 	content80
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id78: 	Attribute
-  clazz: 	accountingProduct10
+- id86: 	Attribute
+  clazz: 	accountingProduct11
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description79: 	Attribute
-  clazz: 	accountingProduct10
+- description87: 	Attribute
+  clazz: 	accountingProduct11
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- supplies80: 	AssocRole
+- supplies88: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	accountingProduct10
+  clazz: 	accountingProduct11
   modified: 	false
   name: 	supplies
-  other: 	product97
+  other: 	product105
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- description81: 	Attribute
-  clazz: 	haveProductCommand11
+- description89: 	Attribute
+  clazz: 	haveProductCommand12
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f82: 	FMethod
-  clazz: 	haveProductCommand11
+- f90: 	FMethod
+  clazz: 	haveProductCommand12
   declaration: 	"public boolean preCheck(AccountingEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -891,9 +1015,9 @@
 "
   modified: 	false
 
-- f83: 	FMethod
+- f91: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveProductCommand11
+  clazz: 	haveProductCommand12
   declaration: 	"@Override
    public AccountingProduct run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -907,53 +1031,53 @@
 "
   modified: 	false
 
-- id84: 	Attribute
-  clazz: 	accountingSupplier12
+- id92: 	Attribute
+  clazz: 	accountingSupplier13
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name85: 	Attribute
-  clazz: 	accountingSupplier12
+- name93: 	Attribute
+  clazz: 	accountingSupplier13
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address86: 	Attribute
-  clazz: 	accountingSupplier12
+- address94: 	Attribute
+  clazz: 	accountingSupplier13
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- deliveries87: 	AssocRole
+- deliveries95: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	accountingSupplier12
+  clazz: 	accountingSupplier13
   modified: 	false
   name: 	deliveries
-  other: 	supplier96
+  other: 	supplier104
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name88: 	Attribute
-  clazz: 	haveSupplierCommand13
+- name96: 	Attribute
+  clazz: 	haveSupplierCommand14
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address89: 	Attribute
-  clazz: 	haveSupplierCommand13
+- address97: 	Attribute
+  clazz: 	haveSupplierCommand14
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f90: 	FMethod
-  clazz: 	haveSupplierCommand13
+- f98: 	FMethod
+  clazz: 	haveSupplierCommand14
   declaration: 	"public boolean preCheck(AccountingEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -971,9 +1095,9 @@
 "
   modified: 	false
 
-- f91: 	FMethod
+- f99: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplierCommand13
+  clazz: 	haveSupplierCommand14
   declaration: 	"@Override
    public AccountingSupplier run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -987,9 +1111,9 @@
 "
   modified: 	false
 
-- f92: 	FMethod
+- f100: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplierCommand13
+  clazz: 	haveSupplierCommand14
   declaration: 	"@Override
    public AccountingSupplier run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1004,77 +1128,77 @@
 "
   modified: 	false
 
-- id93: 	Attribute
-  clazz: 	accountingSupply14
+- id101: 	Attribute
+  clazz: 	accountingSupply15
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- items94: 	Attribute
-  clazz: 	accountingSupply14
+- items102: 	Attribute
+  clazz: 	accountingSupply15
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- state95: 	Attribute
-  clazz: 	accountingSupply14
+- state103: 	Attribute
+  clazz: 	accountingSupply15
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- supplier96: 	AssocRole
+- supplier104: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	accountingSupply14
+  clazz: 	accountingSupply15
   modified: 	false
   name: 	supplier
-  other: 	deliveries87
+  other: 	deliveries95
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- product97: 	AssocRole
+- product105: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	accountingSupply14
+  clazz: 	accountingSupply15
   modified: 	false
   name: 	product
-  other: 	supplies80
+  other: 	supplies88
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- supplier98: 	Attribute
-  clazz: 	haveSupplyCommand15
+- supplier106: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	supplier
   propertyStyle: 	POJO
   type: 	String
 
-- product99: 	Attribute
-  clazz: 	haveSupplyCommand15
+- product107: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	product
   propertyStyle: 	POJO
   type: 	String
 
-- items100: 	Attribute
-  clazz: 	haveSupplyCommand15
+- items108: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- state101: 	Attribute
-  clazz: 	haveSupplyCommand15
+- state109: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- f102: 	FMethod
-  clazz: 	haveSupplyCommand15
+- f110: 	FMethod
+  clazz: 	haveSupplyCommand16
   declaration: 	"public boolean preCheck(AccountingEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1092,9 +1216,9 @@
 "
   modified: 	false
 
-- f103: 	FMethod
+- f111: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public AccountingSupply run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1109,9 +1233,9 @@
 "
   modified: 	false
 
-- f104: 	FMethod
+- f112: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public AccountingSupply run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1128,9 +1252,9 @@
 "
   modified: 	false
 
-- f105: 	FMethod
+- f113: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public AccountingSupply run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1148,9 +1272,9 @@
 "
   modified: 	false
 
-- f106: 	FMethod
+- f114: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public AccountingSupply run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1169,43 +1293,43 @@
 "
   modified: 	false
 
-- id107: 	Attribute
-  clazz: 	accountingCustomer16
+- id115: 	Attribute
+  clazz: 	accountingCustomer17
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name108: 	Attribute
-  clazz: 	accountingCustomer16
+- name116: 	Attribute
+  clazz: 	accountingCustomer17
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address109: 	Attribute
-  clazz: 	accountingCustomer16
+- address117: 	Attribute
+  clazz: 	accountingCustomer17
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- name110: 	Attribute
-  clazz: 	haveCustomerCommand17
+- name118: 	Attribute
+  clazz: 	haveCustomerCommand18
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address111: 	Attribute
-  clazz: 	haveCustomerCommand17
+- address119: 	Attribute
+  clazz: 	haveCustomerCommand18
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f112: 	FMethod
-  clazz: 	haveCustomerCommand17
+- f120: 	FMethod
+  clazz: 	haveCustomerCommand18
   declaration: 	"public boolean preCheck(AccountingEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1223,9 +1347,9 @@
 "
   modified: 	false
 
-- f113: 	FMethod
+- f121: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerCommand17
+  clazz: 	haveCustomerCommand18
   declaration: 	"@Override
    public AccountingCustomer run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1239,9 +1363,9 @@
 "
   modified: 	false
 
-- f114: 	FMethod
+- f122: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerCommand17
+  clazz: 	haveCustomerCommand18
   declaration: 	"@Override
    public AccountingCustomer run(AccountingEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1256,29 +1380,29 @@
 "
   modified: 	false
 
-- supplier115: 	Attribute
-  clazz: 	addSupply18
+- supplier123: 	Attribute
+  clazz: 	addSupply19
   modified: 	false
   name: 	supplier
   propertyStyle: 	POJO
   type: 	String
 
-- product116: 	Attribute
-  clazz: 	addSupply18
+- product124: 	Attribute
+  clazz: 	addSupply19
   modified: 	false
   name: 	product
   propertyStyle: 	POJO
   type: 	String
 
-- items117: 	Attribute
-  clazz: 	addSupply18
+- items125: 	Attribute
+  clazz: 	addSupply19
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	String
 
-- _app118: 	Attribute
-  clazz: 	addSupply18
+- _app126: 	Attribute
+  clazz: 	addSupply19
   modified: 	false
   name: 	_app
   propertyStyle: 	POJO

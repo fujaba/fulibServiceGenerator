@@ -12,6 +12,13 @@ import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
 import java.lang.reflect.Method;
 import spark.Service;
+import java.util.ArrayList;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 public class StorageService  
 {
@@ -32,26 +39,6 @@ public class StorageService
          int oldValue = this.myPort;
          this.myPort = value;
          firePropertyChange("myPort", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_modelEditor = "modelEditor";
-
-   private StorageEditor modelEditor;
-
-   public StorageEditor getModelEditor()
-   {
-      return modelEditor;
-   }
-
-   public StorageService setModelEditor(StorageEditor value)
-   {
-      if (value != this.modelEditor)
-      {
-         StorageEditor oldValue = this.modelEditor;
-         this.modelEditor = value;
-         firePropertyChange("modelEditor", oldValue, value);
       }
       return this;
    }
@@ -260,19 +247,10 @@ public class StorageService
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
-   }
-
    public void removeYou()
    {
+      this.setModelEditor(null);
+
       this.withoutStreams(this.getStreams().clone());
 
 
@@ -322,6 +300,46 @@ public class StorageService
       });
 
       java.util.logging.Logger.getGlobal().info("Storage Service is listening on port " + myPort);
+   }
+
+   public static final String PROPERTY_modelEditor = "modelEditor";
+
+   private StorageEditor modelEditor = null;
+
+   public StorageEditor getModelEditor()
+   {
+      return this.modelEditor;
+   }
+
+   public StorageService setModelEditor(StorageEditor value)
+   {
+      if (this.modelEditor != value)
+      {
+         StorageEditor oldValue = this.modelEditor;
+         if (this.modelEditor != null)
+         {
+            this.modelEditor = null;
+            oldValue.setService(null);
+         }
+         this.modelEditor = value;
+         if (value != null)
+         {
+            value.setService(this);
+         }
+         firePropertyChange("modelEditor", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
    }
 
    public String getFirstRoot(Request req, Response res) { 
@@ -412,11 +430,75 @@ public class StorageService
       return root(req, res);
    }
 
-   public void addStream(String incommingRoute, String outgoingURL, String... commandList) { 
+   public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList) { 
       CommandStream stream = new CommandStream().setService(this);
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
+      }
+      return stream;
+   }
+
+   public String connect(Request req, Response res) { 
+      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return "200";
+   }
+
+   public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList) { 
+      String incommingRoute = targetServiceName + "To" + sourceServiceName;
+      String incommingURL = sourceUrl + "/" + incommingRoute;
+      String outgoingRoute = sourceServiceName + "To" + targetServiceName;
+      String outgoingURL = targetUrl + "/" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if ("<->".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(" ", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + "/connect");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod("POST");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
       }
    }
 

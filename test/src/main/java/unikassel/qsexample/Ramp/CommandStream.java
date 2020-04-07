@@ -205,7 +205,7 @@ public class CommandStream
          // got an answer, clear active commands
          activeCommands.clear();
          LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(yaml);
+               .decode(content.toString());
          executeCommands(map.values());
       }
       catch (Exception e) {

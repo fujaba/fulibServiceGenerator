@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	laboratoryEditor2 	modelCommand3 	removeCommand4 	laboratoryService5 	commandStream6 	laboratoryApp7 	page8 	line9 	laboratoryProduct10 	haveProductCommand11 	laboratorySupplier12 	haveSupplierCommand13 	laboratorySupply14 	haveSupplyCommand15 	laboratoryCustomer16 	haveCustomerCommand17 	
+  classes: 	laboratoryEditor2 	modelCommand3 	removeCommand4 	laboratoryService5 	commandStream6 	addStreamCommand7 	laboratoryApp8 	page9 	line10 	laboratoryProduct11 	haveProductCommand12 	laboratorySupplier13 	haveSupplierCommand14 	laboratorySupply15 	haveSupplyCommand16 	laboratoryCustomer17 	haveCustomerCommand18 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,27 +7,28 @@
   packageSrcFolder: 	"src/main/java/unikassel/qsexample/Laboratory"
 
 - laboratoryEditor2: 	Clazz
-  attributes: 	activeCommands18 	removeCommands19 	commandListeners20 	isoDateFormat21 	lastTime22 	timeDelta23 	laboratoryProducts24 	laboratorySuppliers25 	laboratorySupplys26 	laboratoryCustomers27 	
+  attributes: 	activeCommands19 	removeCommands20 	commandListeners21 	isoDateFormat22 	lastTime23 	timeDelta24 	laboratoryProducts25 	laboratorySuppliers26 	laboratorySupplys27 	laboratoryCustomers28 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f28 	f29 	f30 	f31 	f32 	f33 	f34 	f35 	
+  methods: 	f29 	f30 	f31 	f32 	f33 	f34 	f35 	f36 	
   model: 	c1
   modified: 	false
   name: 	LaboratoryEditor
   propertyStyle: 	POJO
+  roles: 	service37 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id36 	time37 	
-  methods: 	f38 	
+  attributes: 	id38 	time39 	
+  methods: 	f40 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	haveProductCommand11 	haveSupplierCommand13 	haveSupplyCommand15 	haveCustomerCommand17 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveSupplierCommand14 	haveSupplyCommand16 	haveCustomerCommand18 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName39 	
+  attributes: 	targetClassName41 	
   importList: 	null 	null 	null 	
-  methods: 	f40 	
+  methods: 	f42 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -35,118 +36,127 @@
   superClass: 	modelCommand3
 
 - laboratoryService5: 	Clazz
-  attributes: 	myPort41 	modelEditor42 	reflectorMap43 	currentSession44 	executor45 	spark46 	sessionToAppMap47 	
-  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f48 	f49 	f50 	f51 	f52 	
+  attributes: 	myPort43 	reflectorMap44 	currentSession45 	executor46 	spark47 	sessionToAppMap48 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f49 	f50 	f51 	f52 	f53 	f54 	f55 	
   model: 	c1
   modified: 	false
   name: 	LaboratoryService
   propertyStyle: 	POJO
-  roles: 	streams53 	
+  roles: 	modelEditor56 	streams57 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl54 	oldCommands55 	activeCommands56 	
+  attributes: 	targetUrl58 	oldCommands59 	activeCommands60 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f57 	f58 	f59 	f60 	f61 	
+  methods: 	f61 	f62 	f63 	f64 	f65 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service62 	
+  roles: 	service66 	
 
-- laboratoryApp7: 	Clazz
-  attributes: 	modelEditor63 	id64 	description65 	
-  methods: 	f66 	
+- addStreamCommand7: 	Clazz
+  attributes: 	incommingRoute67 	outgoingUrl68 	commandList69 	
+  methods: 	f70 	
+  model: 	c1
+  modified: 	false
+  name: 	AddStreamCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- laboratoryApp8: 	Clazz
+  attributes: 	modelEditor71 	id72 	description73 	
+  methods: 	f74 	
   model: 	c1
   modified: 	false
   name: 	LaboratoryApp
   propertyStyle: 	POJO
-  roles: 	content67 	
+  roles: 	content75 	
 
-- page8: 	Clazz
-  attributes: 	id68 	description69 	
+- page9: 	Clazz
+  attributes: 	id76 	description77 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app70 	content71 	
+  roles: 	app78 	content79 	
 
-- line9: 	Clazz
-  attributes: 	id72 	description73 	action74 	value75 	
+- line10: 	Clazz
+  attributes: 	id80 	description81 	action82 	value83 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page76 	
+  roles: 	page84 	
 
-- laboratoryProduct10: 	Clazz
-  attributes: 	id77 	description78 	
+- laboratoryProduct11: 	Clazz
+  attributes: 	id85 	description86 	
   model: 	c1
   modified: 	false
   name: 	LaboratoryProduct
   propertyStyle: 	POJO
-  roles: 	supplies79 	
+  roles: 	supplies87 	
 
-- haveProductCommand11: 	Clazz
-  attributes: 	description80 	
-  methods: 	f81 	f82 	
+- haveProductCommand12: 	Clazz
+  attributes: 	description88 	
+  methods: 	f89 	f90 	
   model: 	c1
   modified: 	false
   name: 	HaveProductCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- laboratorySupplier12: 	Clazz
-  attributes: 	id83 	name84 	address85 	
+- laboratorySupplier13: 	Clazz
+  attributes: 	id91 	name92 	address93 	
   model: 	c1
   modified: 	false
   name: 	LaboratorySupplier
   propertyStyle: 	POJO
-  roles: 	deliveries86 	
+  roles: 	deliveries94 	
 
-- haveSupplierCommand13: 	Clazz
-  attributes: 	name87 	address88 	
-  methods: 	f89 	f90 	f91 	
+- haveSupplierCommand14: 	Clazz
+  attributes: 	name95 	address96 	
+  methods: 	f97 	f98 	f99 	
   model: 	c1
   modified: 	false
   name: 	HaveSupplierCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- laboratorySupply14: 	Clazz
-  attributes: 	id92 	items93 	state94 	
+- laboratorySupply15: 	Clazz
+  attributes: 	id100 	items101 	state102 	
   model: 	c1
   modified: 	false
   name: 	LaboratorySupply
   propertyStyle: 	POJO
-  roles: 	supplier95 	product96 	
+  roles: 	supplier103 	product104 	
 
-- haveSupplyCommand15: 	Clazz
-  attributes: 	supplier97 	product98 	items99 	state100 	
-  methods: 	f101 	f102 	f103 	f104 	f105 	
+- haveSupplyCommand16: 	Clazz
+  attributes: 	supplier105 	product106 	items107 	state108 	
+  methods: 	f109 	f110 	f111 	f112 	f113 	
   model: 	c1
   modified: 	false
   name: 	HaveSupplyCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- laboratoryCustomer16: 	Clazz
-  attributes: 	id106 	name107 	address108 	
+- laboratoryCustomer17: 	Clazz
+  attributes: 	id114 	name115 	address116 	
   model: 	c1
   modified: 	false
   name: 	LaboratoryCustomer
   propertyStyle: 	POJO
 
-- haveCustomerCommand17: 	Clazz
-  attributes: 	name109 	address110 	
-  methods: 	f111 	f112 	f113 	
+- haveCustomerCommand18: 	Clazz
+  attributes: 	name117 	address118 	
+  methods: 	f119 	f120 	f121 	
   model: 	c1
   modified: 	false
   name: 	HaveCustomerCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- activeCommands18: 	Attribute
+- activeCommands19: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -154,7 +164,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands19: 	Attribute
+- removeCommands20: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -162,7 +172,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners20: 	Attribute
+- commandListeners21: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -170,7 +180,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat21: 	Attribute
+- isoDateFormat22: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -178,7 +188,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime22: 	Attribute
+- lastTime23: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -186,7 +196,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta23: 	Attribute
+- timeDelta24: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	1
   modified: 	false
@@ -194,7 +204,7 @@
   propertyStyle: 	POJO
   type: 	long
 
-- laboratoryProducts24: 	Attribute
+- laboratoryProducts25: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -202,7 +212,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, LaboratoryProduct>"
 
-- laboratorySuppliers25: 	Attribute
+- laboratorySuppliers26: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -210,7 +220,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, LaboratorySupplier>"
 
-- laboratorySupplys26: 	Attribute
+- laboratorySupplys27: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -218,7 +228,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, LaboratorySupply>"
 
-- laboratoryCustomers27: 	Attribute
+- laboratoryCustomers28: 	Attribute
   clazz: 	laboratoryEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -226,7 +236,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, LaboratoryCustomer>"
 
-- f28: 	FMethod
+- f29: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -247,7 +257,7 @@
 "
   modified: 	false
 
-- f29: 	FMethod
+- f30: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -258,7 +268,7 @@
 "
   modified: 	false
 
-- f30: 	FMethod
+- f31: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public LaboratoryEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -267,7 +277,7 @@
 "
   modified: 	false
 
-- f31: 	FMethod
+- f32: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.qsexample.Laboratory\").decode(yamlString);
@@ -278,7 +288,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f33: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public LaboratoryProduct getOrCreateLaboratoryProduct(String id)"
   methodBody: 	"      if (id == null) {
@@ -295,7 +305,7 @@
 "
   modified: 	false
 
-- f33: 	FMethod
+- f34: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public LaboratorySupplier getOrCreateLaboratorySupplier(String id)"
   methodBody: 	"      if (id == null) {
@@ -312,7 +322,7 @@
 "
   modified: 	false
 
-- f34: 	FMethod
+- f35: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public LaboratorySupply getOrCreateLaboratorySupply(String id)"
   methodBody: 	"      if (id == null) {
@@ -329,7 +339,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f36: 	FMethod
   clazz: 	laboratoryEditor2
   declaration: 	"public LaboratoryCustomer getOrCreateLaboratoryCustomer(String id)"
   methodBody: 	"      if (id == null) {
@@ -346,35 +356,45 @@
 "
   modified: 	false
 
-- id36: 	Attribute
+- service37: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	laboratoryEditor2
+  modified: 	false
+  name: 	service
+  other: 	modelEditor56
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id38: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time37: 	Attribute
+- time39: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f38: 	FMethod
+- f40: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(LaboratoryEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName39: 	Attribute
+- targetClassName41: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f40: 	FMethod
+- f42: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(LaboratoryEditor editor)"
   methodBody: 	"      // allready removed?
@@ -404,49 +424,42 @@
 "
   modified: 	false
 
-- myPort41: 	Attribute
+- myPort43: 	Attribute
   clazz: 	laboratoryService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- modelEditor42: 	Attribute
-  clazz: 	laboratoryService5
-  modified: 	false
-  name: 	modelEditor
-  propertyStyle: 	POJO
-  type: 	LaboratoryEditor
-
-- reflectorMap43: 	Attribute
+- reflectorMap44: 	Attribute
   clazz: 	laboratoryService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession44: 	Attribute
+- currentSession45: 	Attribute
   clazz: 	laboratoryService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor45: 	Attribute
+- executor46: 	Attribute
   clazz: 	laboratoryService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark46: 	Attribute
+- spark47: 	Attribute
   clazz: 	laboratoryService5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap47: 	Attribute
+- sessionToAppMap48: 	Attribute
   clazz: 	laboratoryService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -454,7 +467,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, LaboratoryApp>"
 
-- f48: 	FMethod
+- f49: 	FMethod
   clazz: 	laboratoryService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -465,7 +478,7 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      modelEditor = new LaboratoryEditor();
+      setModelEditor(new LaboratoryEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
@@ -473,6 +486,7 @@
       spark.get(\"/Laboratory\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/Laboratorycmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // no streams
 
       spark.notFound((req, resp) -> {
@@ -483,7 +497,7 @@
 "
   modified: 	false
 
-- f49: 	FMethod
+- f50: 	FMethod
   clazz: 	laboratoryService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -491,7 +505,7 @@
 "
   modified: 	false
 
-- f50: 	FMethod
+- f51: 	FMethod
   clazz: 	laboratoryService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -522,7 +536,7 @@
 "
   modified: 	false
 
-- f51: 	FMethod
+- f52: 	FMethod
   clazz: 	laboratoryService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -580,35 +594,115 @@
 "
   modified: 	false
 
-- f52: 	FMethod
+- f53: 	FMethod
   clazz: 	laboratoryService5
-  declaration: 	"public void addStream(String incommingRoute, String outgoingURL, String... commandList)"
+  declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
   methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
       stream.start(incommingRoute, outgoingURL, this);
       for (String command : commandList) {
          modelEditor.addCommandListener(command, stream);
       }
+      return stream;
 "
   modified: 	false
 
-- streams53: 	AssocRole
+- f54: 	FMethod
+  clazz: 	laboratoryService5
+  declaration: 	"public String connect(Request req, Response res)"
+  methodBody: 	"      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return \"200\";
+"
+  modified: 	false
+
+- f55: 	FMethod
+  clazz: 	laboratoryService5
+  declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
+  methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
+      String incommingURL = sourceUrl + \"/\" + incommingRoute;
+      String outgoingRoute = sourceServiceName + \"To\" + targetServiceName;
+      String outgoingURL = targetUrl + \"/\" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if (\"<->\".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(\" \", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + \"/connect\");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod(\"POST\");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+"
+  modified: 	false
+
+- modelEditor56: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	laboratoryService5
+  modified: 	false
+  name: 	modelEditor
+  other: 	service37
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- streams57: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	laboratoryService5
   modified: 	false
   name: 	streams
-  other: 	service62
+  other: 	service66
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl54: 	Attribute
+- targetUrl58: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	targetUrl
   propertyStyle: 	POJO
   type: 	String
 
-- oldCommands55: 	Attribute
+- oldCommands59: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -616,7 +710,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands56: 	Attribute
+- activeCommands60: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -624,7 +718,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f57: 	FMethod
+- f61: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -634,7 +728,7 @@
 "
   modified: 	false
 
-- f58: 	FMethod
+- f62: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      try {
@@ -662,7 +756,7 @@
          // got an answer, clear active commands
          activeCommands.clear();
          LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(yaml);
+               .decode(content.toString());
          executeCommands(map.values());
       }
       catch (Exception e) {
@@ -671,7 +765,7 @@
 "
   modified: 	false
 
-- f59: 	FMethod
+- f63: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -686,7 +780,7 @@
 "
   modified: 	false
 
-- f60: 	FMethod
+- f64: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, LaboratoryService service)"
   methodBody: 	"      this.targetUrl = targetUrl;
@@ -696,7 +790,7 @@
 "
   modified: 	false
 
-- f61: 	FMethod
+- f65: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -710,39 +804,69 @@
 "
   modified: 	false
 
-- service62: 	AssocRole
+- service66: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams53
+  other: 	streams57
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- modelEditor63: 	Attribute
-  clazz: 	laboratoryApp7
+- incommingRoute67: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	incommingRoute
+  propertyStyle: 	POJO
+  type: 	String
+
+- outgoingUrl68: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	outgoingUrl
+  propertyStyle: 	POJO
+  type: 	String
+
+- commandList69: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	commandList
+  propertyStyle: 	POJO
+  type: 	String
+
+- f70: 	FMethod
+  clazz: 	addStreamCommand7
+  declaration: 	"public Object run(LaboratoryEditor editor)"
+  methodBody: 	"      String[] split = commandList.split(\" \");
+      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      return null;
+"
+  modified: 	false
+
+- modelEditor71: 	Attribute
+  clazz: 	laboratoryApp8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	LaboratoryEditor
 
-- id64: 	Attribute
-  clazz: 	laboratoryApp7
+- id72: 	Attribute
+  clazz: 	laboratoryApp8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description65: 	Attribute
-  clazz: 	laboratoryApp7
+- description73: 	Attribute
+  clazz: 	laboratoryApp8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f66: 	FMethod
-  clazz: 	laboratoryApp7
+- f74: 	FMethod
+  clazz: 	laboratoryApp8
   declaration: 	"public LaboratoryApp init(LaboratoryEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
@@ -751,121 +875,121 @@
 "
   modified: 	false
 
-- content67: 	AssocRole
+- content75: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	laboratoryApp7
+  clazz: 	laboratoryApp8
   modified: 	false
   name: 	content
-  other: 	app70
+  other: 	app78
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id68: 	Attribute
-  clazz: 	page8
+- id76: 	Attribute
+  clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description69: 	Attribute
-  clazz: 	page8
+- description77: 	Attribute
+  clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app70: 	AssocRole
+- app78: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	page8
+  clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content67
+  other: 	content75
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content71: 	AssocRole
+- content79: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	page8
+  clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page76
+  other: 	page84
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id72: 	Attribute
-  clazz: 	line9
+- id80: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description73: 	Attribute
-  clazz: 	line9
+- description81: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action74: 	Attribute
-  clazz: 	line9
+- action82: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value75: 	Attribute
-  clazz: 	line9
+- value83: 	Attribute
+  clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page76: 	AssocRole
+- page84: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	line9
+  clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content71
+  other: 	content79
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id77: 	Attribute
-  clazz: 	laboratoryProduct10
+- id85: 	Attribute
+  clazz: 	laboratoryProduct11
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description78: 	Attribute
-  clazz: 	laboratoryProduct10
+- description86: 	Attribute
+  clazz: 	laboratoryProduct11
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- supplies79: 	AssocRole
+- supplies87: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	laboratoryProduct10
+  clazz: 	laboratoryProduct11
   modified: 	false
   name: 	supplies
-  other: 	product96
+  other: 	product104
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- description80: 	Attribute
-  clazz: 	haveProductCommand11
+- description88: 	Attribute
+  clazz: 	haveProductCommand12
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f81: 	FMethod
-  clazz: 	haveProductCommand11
+- f89: 	FMethod
+  clazz: 	haveProductCommand12
   declaration: 	"public boolean preCheck(LaboratoryEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -883,9 +1007,9 @@
 "
   modified: 	false
 
-- f82: 	FMethod
+- f90: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveProductCommand11
+  clazz: 	haveProductCommand12
   declaration: 	"@Override
    public LaboratoryProduct run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -899,53 +1023,53 @@
 "
   modified: 	false
 
-- id83: 	Attribute
-  clazz: 	laboratorySupplier12
+- id91: 	Attribute
+  clazz: 	laboratorySupplier13
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name84: 	Attribute
-  clazz: 	laboratorySupplier12
+- name92: 	Attribute
+  clazz: 	laboratorySupplier13
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address85: 	Attribute
-  clazz: 	laboratorySupplier12
+- address93: 	Attribute
+  clazz: 	laboratorySupplier13
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- deliveries86: 	AssocRole
+- deliveries94: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	laboratorySupplier12
+  clazz: 	laboratorySupplier13
   modified: 	false
   name: 	deliveries
-  other: 	supplier95
+  other: 	supplier103
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name87: 	Attribute
-  clazz: 	haveSupplierCommand13
+- name95: 	Attribute
+  clazz: 	haveSupplierCommand14
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address88: 	Attribute
-  clazz: 	haveSupplierCommand13
+- address96: 	Attribute
+  clazz: 	haveSupplierCommand14
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f89: 	FMethod
-  clazz: 	haveSupplierCommand13
+- f97: 	FMethod
+  clazz: 	haveSupplierCommand14
   declaration: 	"public boolean preCheck(LaboratoryEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -963,9 +1087,9 @@
 "
   modified: 	false
 
-- f90: 	FMethod
+- f98: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplierCommand13
+  clazz: 	haveSupplierCommand14
   declaration: 	"@Override
    public LaboratorySupplier run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -979,9 +1103,9 @@
 "
   modified: 	false
 
-- f91: 	FMethod
+- f99: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplierCommand13
+  clazz: 	haveSupplierCommand14
   declaration: 	"@Override
    public LaboratorySupplier run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -996,77 +1120,77 @@
 "
   modified: 	false
 
-- id92: 	Attribute
-  clazz: 	laboratorySupply14
+- id100: 	Attribute
+  clazz: 	laboratorySupply15
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- items93: 	Attribute
-  clazz: 	laboratorySupply14
+- items101: 	Attribute
+  clazz: 	laboratorySupply15
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- state94: 	Attribute
-  clazz: 	laboratorySupply14
+- state102: 	Attribute
+  clazz: 	laboratorySupply15
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- supplier95: 	AssocRole
+- supplier103: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	laboratorySupply14
+  clazz: 	laboratorySupply15
   modified: 	false
   name: 	supplier
-  other: 	deliveries86
+  other: 	deliveries94
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- product96: 	AssocRole
+- product104: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	laboratorySupply14
+  clazz: 	laboratorySupply15
   modified: 	false
   name: 	product
-  other: 	supplies79
+  other: 	supplies87
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- supplier97: 	Attribute
-  clazz: 	haveSupplyCommand15
+- supplier105: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	supplier
   propertyStyle: 	POJO
   type: 	String
 
-- product98: 	Attribute
-  clazz: 	haveSupplyCommand15
+- product106: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	product
   propertyStyle: 	POJO
   type: 	String
 
-- items99: 	Attribute
-  clazz: 	haveSupplyCommand15
+- items107: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- state100: 	Attribute
-  clazz: 	haveSupplyCommand15
+- state108: 	Attribute
+  clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- f101: 	FMethod
-  clazz: 	haveSupplyCommand15
+- f109: 	FMethod
+  clazz: 	haveSupplyCommand16
   declaration: 	"public boolean preCheck(LaboratoryEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1084,9 +1208,9 @@
 "
   modified: 	false
 
-- f102: 	FMethod
+- f110: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public LaboratorySupply run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1101,9 +1225,9 @@
 "
   modified: 	false
 
-- f103: 	FMethod
+- f111: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public LaboratorySupply run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1120,9 +1244,9 @@
 "
   modified: 	false
 
-- f104: 	FMethod
+- f112: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public LaboratorySupply run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1140,9 +1264,9 @@
 "
   modified: 	false
 
-- f105: 	FMethod
+- f113: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveSupplyCommand15
+  clazz: 	haveSupplyCommand16
   declaration: 	"@Override
    public LaboratorySupply run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1161,43 +1285,43 @@
 "
   modified: 	false
 
-- id106: 	Attribute
-  clazz: 	laboratoryCustomer16
+- id114: 	Attribute
+  clazz: 	laboratoryCustomer17
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name107: 	Attribute
-  clazz: 	laboratoryCustomer16
+- name115: 	Attribute
+  clazz: 	laboratoryCustomer17
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address108: 	Attribute
-  clazz: 	laboratoryCustomer16
+- address116: 	Attribute
+  clazz: 	laboratoryCustomer17
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- name109: 	Attribute
-  clazz: 	haveCustomerCommand17
+- name117: 	Attribute
+  clazz: 	haveCustomerCommand18
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address110: 	Attribute
-  clazz: 	haveCustomerCommand17
+- address118: 	Attribute
+  clazz: 	haveCustomerCommand18
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f111: 	FMethod
-  clazz: 	haveCustomerCommand17
+- f119: 	FMethod
+  clazz: 	haveCustomerCommand18
   declaration: 	"public boolean preCheck(LaboratoryEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -1215,9 +1339,9 @@
 "
   modified: 	false
 
-- f112: 	FMethod
+- f120: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerCommand17
+  clazz: 	haveCustomerCommand18
   declaration: 	"@Override
    public LaboratoryCustomer run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {
@@ -1231,9 +1355,9 @@
 "
   modified: 	false
 
-- f113: 	FMethod
+- f121: 	FMethod
   annotations: 	"@Override"
-  clazz: 	haveCustomerCommand17
+  clazz: 	haveCustomerCommand18
   declaration: 	"@Override
    public LaboratoryCustomer run(LaboratoryEditor editor)"
   methodBody: 	"      if ( ! preCheck(editor)) {

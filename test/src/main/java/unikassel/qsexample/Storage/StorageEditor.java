@@ -270,6 +270,41 @@ public class StorageEditor
       return this;
    }
 
+   public static final String PROPERTY_service = "service";
+
+   private StorageService service = null;
+
+   public StorageService getService()
+   {
+      return this.service;
+   }
+
+   public StorageEditor setService(StorageService value)
+   {
+      if (this.service != value)
+      {
+         StorageService oldValue = this.service;
+         if (this.service != null)
+         {
+            this.service = null;
+            oldValue.setModelEditor(null);
+         }
+         this.service = value;
+         if (value != null)
+         {
+            value.setModelEditor(this);
+         }
+         firePropertyChange("service", oldValue, value);
+      }
+      return this;
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
