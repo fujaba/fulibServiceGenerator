@@ -44,7 +44,7 @@ public class TestSystem
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/scene1.html");
-      scene1.addServices(storeService, shopService);
+      scene1.addServices("Store", "Shop");
 
 
 
@@ -53,7 +53,7 @@ public class TestSystem
       $("#descriptionIn").$("input").setValue("Pumps");
       $("#itemsIn").$("input").setValue("40");
       StoreApp storeApp = storeService.getSessionToAppMap().values().iterator().next();
-      scene1.addScreen("9:00", storeApp, "[add]");
+      scene1.addScreen("Store", "9:00", storeApp, "[add]");
       $("#addButton").$("button").click();
 
       scene1.addMessages("9:01", storeService, 100);

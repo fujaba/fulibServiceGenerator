@@ -31,13 +31,11 @@ public class TestQSExample
             HaveSupplyCommand.class.getSimpleName(),
             HaveSupplierCommand.class.getSimpleName(),
             HaveProductCommand.class.getSimpleName());
-//      accountingService.addStream("RampToAccounting", "http://localhost:22030/AccountingToRamp",
-//            HaveSupplyCommand.class.getSimpleName());
-//      rampService.addStream("AccountingToRamp", "http://localhost:22020/RampToAccounting");
+
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/QSScene.html");
-      scene1.addServices(accountingService, rampService);
+      scene1.addServices("Alice's PC", "Accounting", "Ramp0");
 
       open("http://localhost:22020/Accounting");
       $("#supplierIn").$("input").setValue("Rome Italy");
@@ -47,21 +45,23 @@ public class TestQSExample
       LinkedHashMap<String, AccountingApp> sessionToAppMap = accountingService.getSessionToAppMap();
       Collection<AccountingApp> values = sessionToAppMap.values();
       AccountingApp accountingApp = values.iterator().next();
-      scene1.addScreen("9:00", accountingApp);
+      scene1.addScreen("Alice's PC","9:00", accountingApp);
 
       $("#addButton").$("button").click();
+      scene1.addOneMessage("9:01", "Alice's PC", 0, accountingService.getModelEditor().getActiveCommands().values());
 
       $("#addButton").$("button").click();
 
       $("#supplierIn").$("input").setValue("Rome Italy");
       $("#productIn").$("input").setValue("p2 boots");
       $("#itemsIn").$("input").setValue("50");
-      scene1.addScreen("9:01", accountingApp);
+      scene1.addScreen("Alice's PC","9:02", accountingApp);
       $("#addButton").$("button").click();
 
-      scene1.addData("9:02", "Accounting", accountingService.getModelEditor().getActiveCommands().values());
-      scene1.addMessages("9:03", accountingService);
-      scene1.addData("9:04", "Ramp", rampService.getModelEditor().getActiveCommands().values());
+      scene1.addOneMessage("9:03", "Alice's PC", 0, accountingService.getModelEditor().getActiveCommands().values());
+      scene1.addData("9:04", "Accounting", accountingService.getModelEditor().getActiveCommands().values());
+      scene1.addMessages("9:05", accountingService);
+      scene1.addData("9:06", "Ramp0", rampService.getModelEditor().getActiveCommands().values());
       System.out.println();
    }
 }

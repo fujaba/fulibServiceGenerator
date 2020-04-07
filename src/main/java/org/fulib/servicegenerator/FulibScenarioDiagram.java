@@ -17,7 +17,7 @@ public class FulibScenarioDiagram
 {
    private final STGroupFile group;
    private String htmlFileName;
-   private String lanes;
+   private String allLanes;
 
    private LinkedHashMap<String, ArrayList<String>> laneMap = new LinkedHashMap<>();
    private LinkedHashMap<String, Integer> laneToIndentMap = new LinkedHashMap<>();
@@ -25,7 +25,7 @@ public class FulibScenarioDiagram
    private LinkedHashMap<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
 
    private LinkedHashMap<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
-   private ArrayList<Object> services = new ArrayList<>();
+   private ArrayList<String> lanes = new ArrayList<>();
    private Object currentService;
    private Object modelEditor;
 
@@ -40,9 +40,9 @@ public class FulibScenarioDiagram
    }
 
 
-   public FulibScenarioDiagram addServices(Object... services)
+   public FulibScenarioDiagram addServices(String... lanes)
    {
-      this.services.addAll(Arrays.asList(services));
+      this.lanes.addAll(Arrays.asList(lanes));
       dump();
       return this;
    }
@@ -54,7 +54,7 @@ public class FulibScenarioDiagram
 
       // put all together
       ST st = group.getInstanceOf("overallFile");
-      st.add("lanes", lanes);
+      st.add("lanes", allLanes);
       String body = st.render();
 
       try {
@@ -71,11 +71,8 @@ public class FulibScenarioDiagram
    {
       StringBuilder buf = new StringBuilder();
 
-      for (Object service : services) {
-         ReflectorMap reflectorMap = new ReflectorMap(service.getClass().getPackage().getName());
-         Reflector reflector = reflectorMap.getReflector(service);
-
-         String serviceName = getServiceName(service);
+      for (String laneName : lanes) {
+         String serviceName = laneName;
 
          ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
          int maxNoOfLines = getMaxNoOfLines(entryList);
@@ -111,7 +108,7 @@ public class FulibScenarioDiagram
 
       }
 
-      lanes = buf.toString();
+      allLanes = buf.toString();
    }
 
    private int getMaxNoOfLines(ArrayList<String> entryList)
@@ -161,10 +158,15 @@ public class FulibScenarioDiagram
 
    public FulibScenarioDiagram addScreen(String time, Object app, String... buttonWithMousePointer)
    {
-      return addScreen(time, 0, app, buttonWithMousePointer);
+      return addScreen(getServiceName(app), time, 0, app, buttonWithMousePointer);
    }
 
-   public FulibScenarioDiagram addScreen(String time, int indent, Object app, String... buttonWithMousePointer)
+   public FulibScenarioDiagram addScreen(String lane, String time, Object app, String... buttonWithMousePointer)
+   {
+      return addScreen(lane, time, 0, app, buttonWithMousePointer);
+   }
+
+   public FulibScenarioDiagram addScreen(String lane, String time, int indent, Object app, String... buttonWithMousePointer)
    {
       try {
          Thread.sleep(200);
@@ -172,7 +174,7 @@ public class FulibScenarioDiagram
       catch (InterruptedException e) {
          // no problem
       }
-      String serviceName = getServiceName(app);
+      String serviceName = lane;
       ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
 
       String title = serviceName;
@@ -363,57 +365,81 @@ public class FulibScenarioDiagram
          String targetUrl = (String) streamReflector.getValue(stream, "targetUrl");
          int pos = targetUrl.lastIndexOf('/');
          String streamName = targetUrl.substring(pos + 1);
-
-         // find message lane
-         StringBuilder lines = new StringBuilder();
-         Collection commands = (Collection) streamReflector.getValue(stream, "oldCommands");
-         String lastCmdTime = streamToLastCommandTimeMap.computeIfAbsent(streamName, t -> "0000");
-         for (Object command : commands) {
-            Reflector reflector = reflectorMap.getReflector(command);
-            String newCmdTime = (String) reflector.getValue(command, "time");
-            if (lastCmdTime.compareTo(newCmdTime) >= 0) {
-               // command is already part of some other message
-               continue;
-            }
-            String id = (String) reflector.getValue(command, "id");
-            if (id != null) {
-               lines.append("<p>- ").append(id);
-            }
-            else {
-               lines.append("<p>-");
-            }
-            for (String property : reflector.getProperties()) {
-               if ("id".equals(property)) {
-                  continue;
-               }
-               Object value = reflector.getValue(command, property);
-               if (property.equals("time")) {
-                  streamToLastCommandTimeMap.put(streamName, value.toString());
-                  continue;
-               }
-               if (value != null && (value.getClass().isPrimitive() || value.getClass().getName().startsWith("java.lang"))) {
-                  lines.append(" ").append(value);
-               }
-            }
-            lines.append("</p>\n");
-         }
-
-         int oldIndent = msgLaneToIndentMap.computeIfAbsent(streamName, s -> 0);
-         indent += oldIndent;
-         msgLaneToIndentMap.put(streamName, indent);
-
-         // add to msg lanes
-         ST st = group.getInstanceOf("oneMessage");
-         st.add("time", time + " " + streamName);
-         st.add("indent", "" + indent);
-         st.add("data", lines.toString());
-         String body = st.render();
-
-         ArrayList<String> msgEntryList = findMessageLaneName(streamName);
-         msgEntryList.add(body);
+         Collection oldCommands = (Collection) streamReflector.getValue(stream, "oldCommands");
+         doAddOneMessage(time, streamName, indent, oldCommands);
       }
       dump();
       return this;
+   }
+
+   public void addOneMessage(String time, String streamName, int indent, Collection newCommands)
+   {
+      try {
+         Thread.sleep(200);
+      }
+      catch (InterruptedException e) {
+         // no problem
+      }
+      doAddOneMessage(time, streamName, indent, newCommands);
+   }
+
+   private void doAddOneMessage(String time, String streamName, int indent, Collection oldCommands)
+   {
+      ReflectorMap reflectorMap = null;
+      String lastCmdTime = streamToLastCommandTimeMap.computeIfAbsent(streamName, t -> "0000");
+      Collection newCommands = new ArrayList();
+      for (Object command : oldCommands) {
+         if (reflectorMap == null) {
+            reflectorMap = new ReflectorMap(command.getClass().getPackage().getName());
+         }
+         Reflector reflector = reflectorMap.getReflector(command);
+         String newCmdTime = (String) reflector.getValue(command, "time");
+         if (lastCmdTime.compareTo(newCmdTime) < 0) {
+            newCommands.add(command);
+         }
+      }
+
+      StringBuilder lines = new StringBuilder();
+
+      for (Object command : newCommands) {
+
+         Reflector reflector = reflectorMap.getReflector(command);
+         String id = (String) reflector.getValue(command, "id");
+         if (id != null) {
+            lines.append("<p>- ").append(id);
+         }
+         else {
+            lines.append("<p>-");
+         }
+         for (String property : reflector.getProperties()) {
+            if ("id".equals(property)) {
+               continue;
+            }
+            Object value = reflector.getValue(command, property);
+            if (property.equals("time")) {
+               streamToLastCommandTimeMap.put(streamName, value.toString());
+               continue;
+            }
+            if (value != null && (value.getClass().isPrimitive() || value.getClass().getName().startsWith("java.lang"))) {
+               lines.append(" ").append(value);
+            }
+         }
+         lines.append("</p>\n");
+      }
+
+      int oldIndent = msgLaneToIndentMap.computeIfAbsent(streamName, s -> 0);
+      indent += oldIndent;
+      msgLaneToIndentMap.put(streamName, indent);
+
+      // add to msg lanes
+      ST st = group.getInstanceOf("oneMessage");
+      st.add("time", time + " " + streamName);
+      st.add("indent", "" + indent);
+      st.add("data", lines.toString());
+      String body = st.render();
+
+      ArrayList<String> msgEntryList = findMessageLaneName(streamName);
+      msgEntryList.add(body);
    }
 
    private ArrayList<String> findMessageLaneName(String streamName)
