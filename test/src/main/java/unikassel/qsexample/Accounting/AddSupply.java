@@ -7,7 +7,6 @@ public class AddSupply extends ModelCommand
    @Override
    public Object run(AccountingEditor editor)
    {
-      System.out.println("Going to create supply record");
       String[] split = supplier.split(" ");
       String sid = split[0];
       String name = split[0];

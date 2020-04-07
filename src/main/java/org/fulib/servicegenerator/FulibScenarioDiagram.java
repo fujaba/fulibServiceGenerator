@@ -114,8 +114,8 @@ public class FulibScenarioDiagram
    private int getMaxNoOfLines(ArrayList<String> entryList)
    {
       int maxNoOfLines = 1;
-      int maxLength = "<p align=\"center\">We have 10 products on stock</p>".length();
-      int maxDataLength = "<p>order_1 Pumps Boots order-</p>".length();
+      int maxLength = "<p align=\"center\">- p1Rome 100.0 p1 ordered Rome</p>".length();
+      int maxDataLength = "<p>- p1Rome 100.0 p1 ordered Rome</p>".length();
       for (String entry : entryList) {
          int lines = 0;
          String[] split = entry.split("\\n");
