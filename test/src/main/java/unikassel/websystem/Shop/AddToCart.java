@@ -2,8 +2,35 @@ package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class AddTobCard extends ModelCommand  
+public class AddToCart extends ModelCommand
 {
+   @Override
+   public Object run(ShopEditor modelEditor)
+   {
+      // have an order
+      ShopOrder shoppingCard = _app.getShoppingCart();
+      if (shoppingCard == null) {
+         String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
+         String customerId = null;
+         if (_app.getCustomer() != null) {
+            customerId = _app.getCustomer().getId();
+         }
+         shoppingCard = new HaveOrderCommand()
+               .setId(orderId)
+               .setState("collecting-items")
+               .setCustomer(customerId)
+               .run(modelEditor);
+         _app.setShoppingCart(shoppingCard);
+      }
+
+      // add position
+      ShopOrderPosition pos = new HaveOrderPositionCommand().setId(String.format("%s_pos_%d", shoppingCard.getId(), shoppingCard.getPositions().size() + 1))
+            .setOrder(shoppingCard.getId())
+            .setAmount(1.0)
+            .setOffer(this.getOffer())
+            .run(modelEditor);
+      return pos;
+   }
 
    public static final String PROPERTY_offer = "offer";
 
@@ -14,7 +41,7 @@ public class AddTobCard extends ModelCommand
       return offer;
    }
 
-   public AddTobCard setOffer(String value)
+   public AddToCart setOffer(String value)
    {
       if (value == null ? this.offer != null : ! value.equals(this.offer))
       {
@@ -34,7 +61,7 @@ public class AddTobCard extends ModelCommand
       return _app;
    }
 
-   public AddTobCard set_app(ShopApp value)
+   public AddToCart set_app(ShopApp value)
    {
       if (value != this._app)
       {

@@ -7,7 +7,7 @@ public class ShopApp
 {
 
    public static final String PROPERTY_id = "id";
-   private final String toolBarDescription = "button shop | button card | button orders | button account";
+   private final String toolBarDescription = "button shop | button cart | button orders | button account";
 
    private String id;
 
@@ -141,7 +141,7 @@ public class ShopApp
    public void removeYou()
    {
       this.setContent(null);
-      this.setShoppingCard(null);
+      this.setShoppingCart(null);
 
    }
 
@@ -192,48 +192,48 @@ public class ShopApp
 
          new Line().setId("buy_" + offer.getId())
                .setDescription(String.format("button buy %s %s %s", product.getId(), product.getDescription(), offer.getPrice()))
-               .setAction(String.format("AddToCard?offer=%s shop", offer.getId()))
+               .setAction(String.format("AddToCart?offer=%s shop", offer.getId()))
                .setPage(shopPage);
       }
    }
 
-   public void card()
+   public void cart()
    {
-      Page cardPage = new Page().setId("cardPage").setDescription(toolBarDescription).setApp(this);
+      Page cartPage = new Page().setId("cartPage").setDescription(toolBarDescription).setApp(this);
 
-      if (shoppingCard == null) {
+      if (shoppingCart == null) {
          String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
          String customerId = null;
          if (customer != null) {
             customerId = customer.getId();
          }
-         shoppingCard = new HaveOrderCommand()
+         shoppingCart = new HaveOrderCommand()
                .setId(orderId)
                .setState("collecting-items")
                .setCustomer(customerId)
                .run(modelEditor);
-         this.setShoppingCard(shoppingCard);
+         this.setShoppingCart(shoppingCart);
       }
 
       // show the order positions
-      ShopOrder card = this.getShoppingCard();
-      for (ShopOrderPosition position : card.getPositions()) {
+      ShopOrder cart = this.getShoppingCart();
+      for (ShopOrderPosition position : cart.getPositions()) {
          ShopOffer offer = position.getOffer();
-         new Line().setId(position.getId()).setPage(cardPage)
+         new Line().setId(position.getId()).setPage(cartPage)
                .setDescription(String.format("%s %.2f",
                      offer.getProduct().getDescription(),
                      offer.getPrice()));
       }
 
-      Line nameIn = new Line().setId("nameIn").setDescription("input your name?").setPage(cardPage);
-      Line addressIn = new Line().setId("addressIn").setDescription("input delivery address?").setPage(cardPage);
+      Line nameIn = new Line().setId("nameIn").setDescription("input your name?").setPage(cartPage);
+      Line addressIn = new Line().setId("addressIn").setDescription("input delivery address?").setPage(cartPage);
       if (this.getCustomer() != null) {
          nameIn.setValue(customer.getName());
          addressIn.setValue(customer.getAddress());
       }
       new Line().setId("buyButton").setDescription("button Buy")
             .setAction("OrderAction nameIn addressIn orders")
-            .setPage(cardPage);
+            .setPage(cartPage);
    }
 
    public void orders() {
@@ -249,8 +249,8 @@ public class ShopApp
             }
          }
       }
-      else if (this.getShoppingCard() != null) {
-         displayOneOrder(this.getShoppingCard(), ordersPage);
+      else if (this.getShoppingCart() != null) {
+         displayOneOrder(this.getShoppingCart(), ordersPage);
       }
       else {
          new Line().setId("noOrders").setDescription("You have not yet ordered anything").setPage(ordersPage);
@@ -280,33 +280,29 @@ public class ShopApp
             .setPage(accountPage);
    }
 
-   private ShopOrder card = null;
+   private ShopOrder shoppingCart = null;
 
-   public static final String PROPERTY_shoppingCard = "shoppingCard";
-
-   private ShopOrder shoppingCard = null;
-
-   public ShopOrder getShoppingCard()
+   public ShopOrder getShoppingCart()
    {
-      return this.shoppingCard;
+      return this.shoppingCart;
    }
 
-   public ShopApp setShoppingCard(ShopOrder value)
+   public ShopApp setShoppingCart(ShopOrder value)
    {
-      if (this.shoppingCard != value)
+      if (this.shoppingCart != value)
       {
-         ShopOrder oldValue = this.shoppingCard;
-         if (this.shoppingCard != null)
+         ShopOrder oldValue = this.shoppingCart;
+         if (this.shoppingCart != null)
          {
-            this.shoppingCard = null;
+            this.shoppingCart = null;
             oldValue.setShopApp(null);
          }
-         this.shoppingCard = value;
+         this.shoppingCart = value;
          if (value != null)
          {
             value.setShopApp(this);
          }
-         firePropertyChange("shoppingCard", oldValue, value);
+         firePropertyChange("shoppingCart", oldValue, value);
       }
       return this;
    }
@@ -330,5 +326,7 @@ public class ShopApp
       }
       return this;
    }
+
+   public static final String PROPERTY_shoppingCart = "shoppingCart";
 
 }

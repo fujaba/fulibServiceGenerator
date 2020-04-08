@@ -79,15 +79,15 @@ public class TestSystem
       // order pumps
       open("http://localhost:22011/Shop");
       scene1.addScreen("9:20", shopService.getSessionToAppMap().values().iterator().next(),
-            "[buy p1 Pumps 9.99]", "[buy b2 Boots 9.99]", "[card]");
+            "[buy p1 Pumps 9.99]", "[buy b2 Boots 9.99]", "[cart]");
       $("#buy_offer_p1_1").$("button").click();
       scene1.addMessages("9:21", shopService, 200);
 
       $("#buy_offer_b2_1").$("button").click();
       scene1.addMessages("9:23", shopService);
 
-      SelenideElement card = $(By.xpath("//button[text()='card']"));// .$("button").click();
-      card.click();
+      SelenideElement cart = $(By.xpath("//button[text()='cart']"));// .$("button").click();
+      cart.click();
 
       $("#nameIn").$("input").setValue("Alice");
       $("#addressIn").$("input").setValue("Wonderland 1");

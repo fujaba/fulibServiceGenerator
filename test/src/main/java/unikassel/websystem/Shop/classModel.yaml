@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	shopEditor2 	modelCommand3 	removeCommand4 	shopService5 	commandStream6 	addStreamCommand7 	shopApp8 	page9 	line10 	shopProduct11 	haveProductCommand12 	shopCustomer13 	haveCustomerCommand14 	shopOffer15 	haveOfferCommand16 	shopOrder17 	haveOrderCommand18 	shopOrderPosition19 	haveOrderPositionCommand20 	haveCustomerProductsLink21 	removeCustomerProductsLink22 	addTobCard23 	orderAction24 	customerAccount25 	
+  classes: 	shopEditor2 	modelCommand3 	removeCommand4 	shopService5 	commandStream6 	addStreamCommand7 	shopApp8 	page9 	line10 	shopProduct11 	haveProductCommand12 	shopCustomer13 	haveCustomerCommand14 	shopOffer15 	haveOfferCommand16 	shopOrder17 	haveOrderCommand18 	shopOrderPosition19 	haveOrderPositionCommand20 	haveCustomerProductsLink21 	removeCustomerProductsLink22 	addToCart23 	orderAction24 	customerAccount25 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -23,7 +23,7 @@
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveCustomerCommand14 	haveOfferCommand16 	haveOrderCommand18 	haveOrderPositionCommand20 	haveCustomerProductsLink21 	removeCustomerProductsLink22 	addTobCard23 	orderAction24 	customerAccount25 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveCustomerCommand14 	haveOfferCommand16 	haveOrderCommand18 	haveOrderPositionCommand20 	haveCustomerProductsLink21 	removeCustomerProductsLink22 	addToCart23 	orderAction24 	customerAccount25 	
 
 - removeCommand4: 	Clazz
   attributes: 	targetClassName50 	
@@ -71,7 +71,7 @@
   modified: 	false
   name: 	ShopApp
   propertyStyle: 	POJO
-  roles: 	content85 	shoppingCard86 	
+  roles: 	content85 	shoppingCart86 	
 
 - page9: 	Clazz
   attributes: 	id87 	description88 	
@@ -192,11 +192,11 @@
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- addTobCard23: 	Clazz
+- addToCart23: 	Clazz
   attributes: 	offer164 	_app165 	
   model: 	c1
   modified: 	false
-  name: 	AddTobCard
+  name: 	AddToCart
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
@@ -977,12 +977,12 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- shoppingCard86: 	AssocRole
+- shoppingCart86: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	shopApp8
   modified: 	false
-  name: 	shoppingCard
+  name: 	shoppingCart
   other: 	shopApp136
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
@@ -1488,7 +1488,7 @@
   clazz: 	shopOrder17
   modified: 	false
   name: 	shopApp
-  other: 	shoppingCard86
+  other: 	shoppingCart86
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1828,14 +1828,14 @@
   modified: 	false
 
 - offer164: 	Attribute
-  clazz: 	addTobCard23
+  clazz: 	addToCart23
   modified: 	false
   name: 	offer
   propertyStyle: 	POJO
   type: 	String
 
 - _app165: 	Attribute
-  clazz: 	addTobCard23
+  clazz: 	addToCart23
   modified: 	false
   name: 	_app
   propertyStyle: 	POJO

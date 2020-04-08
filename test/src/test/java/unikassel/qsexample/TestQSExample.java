@@ -25,6 +25,8 @@ public class TestQSExample
 
       RampService rampService = new RampService().setMyPort(22030);
       rampService.start();
+      RampService rampBobService = new RampService().setMyPort(22031);
+      rampBobService.start();
 
       rampService.connectTo("Ramp0", "http://localhost:22030","Accounting", "http://localhost:22020",
             "<->",
@@ -32,10 +34,16 @@ public class TestQSExample
             HaveSupplierCommand.class.getSimpleName(),
             HaveProductCommand.class.getSimpleName());
 
+      //
+      rampBobService.connectTo("RampBob", "http://localhost:22031","Ramp0", "http://localhost:22030",
+            "<->",
+            HaveSupplyCommand.class.getSimpleName(),
+            HaveSupplierCommand.class.getSimpleName(),
+            HaveProductCommand.class.getSimpleName());
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/QSScene.html");
-      scene1.addServices("Alice's PC", "Accounting", "Ramp0");
+      scene1.addServices("Alice's PC", "Accounting", "Ramp0", "Bob's Tablett");
 
       open("http://localhost:22020/Accounting");
       $("#supplierIn").$("input").setValue("Rome Italy");
@@ -62,6 +70,9 @@ public class TestQSExample
       scene1.addData("9:04", "Accounting", accountingService.getModelEditor().getActiveCommands().values());
       scene1.addMessages("9:05", accountingService);
       scene1.addData("9:06", "Ramp0", rampService.getModelEditor().getActiveCommands().values());
+      scene1.addOneMessage("9:07", "Ramp0", 0, rampService.getModelEditor().getActiveCommands().values());
+      scene1.addData("9:08", "Bob's Tablett", rampBobService.getModelEditor().getActiveCommands().values());
+
       System.out.println();
    }
 }

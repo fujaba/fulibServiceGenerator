@@ -258,12 +258,12 @@ public class ShopOrder
          if (this.shopApp != null)
          {
             this.shopApp = null;
-            oldValue.setShoppingCard(null);
+            oldValue.setShoppingCart(null);
          }
          this.shopApp = value;
          if (value != null)
          {
-            value.setShoppingCard(this);
+            value.setShoppingCart(this);
          }
          firePropertyChange("shopApp", oldValue, value);
       }

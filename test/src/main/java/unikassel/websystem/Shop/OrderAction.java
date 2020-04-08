@@ -1,5 +1,4 @@
 package unikassel.websystem.Shop;
-import org.fulib.FulibTools;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
@@ -18,7 +17,7 @@ public class OrderAction extends ModelCommand
       _app.setCustomer(customer);
 
       // have an order
-      ShopOrder shoppingCard = _app.getShoppingCard();
+      ShopOrder shoppingCard = _app.getShoppingCart();
       if (shoppingCard == null) {
          return null;
       }
@@ -28,7 +27,7 @@ public class OrderAction extends ModelCommand
             .setCustomer(customer.getId())
             .setState("order-submitted")
             .run(modelEditor);
-      _app.setShoppingCard(null);
+      _app.setShoppingCart(null);
 
       return null;
    }

@@ -9,7 +9,7 @@ public class AddToCard extends ModelCommand
    public Object run(ShopEditor modelEditor)
    {
       // have an order
-      ShopOrder shoppingCard = _app.getShoppingCard();
+      ShopOrder shoppingCard = _app.getShoppingCart();
       if (shoppingCard == null) {
          String orderId = "order_" + (modelEditor.getShopOrders().size() + 1);
          String customerId = null;
@@ -21,7 +21,7 @@ public class AddToCard extends ModelCommand
                .setState("collecting-items")
                .setCustomer(customerId)
                .run(modelEditor);
-         _app.setShoppingCard(shoppingCard);
+         _app.setShoppingCart(shoppingCard);
       }
 
       // add position
