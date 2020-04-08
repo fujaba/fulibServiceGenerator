@@ -2,7 +2,7 @@ package unikassel.websystem.Shop;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class AddToCart extends ModelCommand
+public class AddToCart extends ModelCommand  
 {
    @Override
    public Object run(ShopEditor modelEditor)
