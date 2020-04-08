@@ -47,6 +47,14 @@ public class GenModel
       accounting.getClassModelManager().haveAttribute(addSupply, "items", STRING);
       accounting.getClassModelManager().haveAttribute(addSupply, "_app", "AccountingApp");
 
+      Clazz openAddPalette = ramp.haveCommand("OpenAddPalette");
+      ramp.getClassModelManager().haveAttribute(openAddPalette, "supply", STRING);
+      ramp.getClassModelManager().haveAttribute(openAddPalette, "_app", "RampApp");
+
+      Clazz rampApp = ramp.getClassModelManager().haveClass("RampApp");
+      ramp.getClassModelManager().haveAttribute(rampApp, "supplyId", STRING);
+
+
       sysEdit.generate();
    }
 

@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	rampEditor2 	modelCommand3 	removeCommand4 	rampService5 	commandStream6 	addStreamCommand7 	rampApp8 	page9 	line10 	rampProduct11 	haveProductCommand12 	rampSupplier13 	haveSupplierCommand14 	rampSupply15 	haveSupplyCommand16 	rampCustomer17 	haveCustomerCommand18 	
+  classes: 	rampEditor2 	modelCommand3 	removeCommand4 	rampService5 	commandStream6 	addStreamCommand7 	rampApp8 	page9 	line10 	rampProduct11 	haveProductCommand12 	rampSupplier13 	haveSupplierCommand14 	rampSupply15 	haveSupplyCommand16 	rampCustomer17 	haveCustomerCommand18 	openAddPalette19 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,28 +7,28 @@
   packageSrcFolder: 	"src/main/java/unikassel/qsexample/Ramp"
 
 - rampEditor2: 	Clazz
-  attributes: 	activeCommands19 	removeCommands20 	commandListeners21 	isoDateFormat22 	lastTime23 	timeDelta24 	rampProducts25 	rampSuppliers26 	rampSupplys27 	rampCustomers28 	
+  attributes: 	activeCommands20 	removeCommands21 	commandListeners22 	isoDateFormat23 	lastTime24 	timeDelta25 	rampProducts26 	rampSuppliers27 	rampSupplys28 	rampCustomers29 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f29 	f30 	f31 	f32 	f33 	f34 	f35 	f36 	
+  methods: 	f30 	f31 	f32 	f33 	f34 	f35 	f36 	f37 	
   model: 	c1
   modified: 	false
   name: 	RampEditor
   propertyStyle: 	POJO
-  roles: 	service37 	
+  roles: 	service38 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id38 	time39 	
-  methods: 	f40 	
+  attributes: 	id39 	time40 	
+  methods: 	f41 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveSupplierCommand14 	haveSupplyCommand16 	haveCustomerCommand18 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	haveProductCommand12 	haveSupplierCommand14 	haveSupplyCommand16 	haveCustomerCommand18 	openAddPalette19 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName41 	
+  attributes: 	targetClassName42 	
   importList: 	null 	null 	null 	
-  methods: 	f42 	
+  methods: 	f43 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -36,28 +36,28 @@
   superClass: 	modelCommand3
 
 - rampService5: 	Clazz
-  attributes: 	myPort43 	reflectorMap44 	currentSession45 	executor46 	spark47 	sessionToAppMap48 	
+  attributes: 	myPort44 	reflectorMap45 	currentSession46 	executor47 	spark48 	sessionToAppMap49 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f49 	f50 	f51 	f52 	f53 	f54 	f55 	
+  methods: 	f50 	f51 	f52 	f53 	f54 	f55 	f56 	
   model: 	c1
   modified: 	false
   name: 	RampService
   propertyStyle: 	POJO
-  roles: 	modelEditor56 	streams57 	
+  roles: 	modelEditor57 	streams58 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl58 	oldCommands59 	activeCommands60 	
+  attributes: 	targetUrl59 	oldCommands60 	activeCommands61 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f61 	f62 	f63 	f64 	f65 	
+  methods: 	f62 	f63 	f64 	f65 	f66 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service66 	
+  roles: 	service67 	
 
 - addStreamCommand7: 	Clazz
-  attributes: 	incommingRoute67 	outgoingUrl68 	commandList69 	
-  methods: 	f70 	
+  attributes: 	incommingRoute68 	outgoingUrl69 	commandList70 	
+  methods: 	f71 	
   model: 	c1
   modified: 	false
   name: 	AddStreamCommand
@@ -65,41 +65,41 @@
   superClass: 	modelCommand3
 
 - rampApp8: 	Clazz
-  attributes: 	modelEditor71 	id72 	description73 	
-  methods: 	f74 	
+  attributes: 	modelEditor72 	id73 	description74 	supplyId75 	
+  methods: 	f76 	
   model: 	c1
   modified: 	false
   name: 	RampApp
   propertyStyle: 	POJO
-  roles: 	content75 	
+  roles: 	content77 	
 
 - page9: 	Clazz
-  attributes: 	id76 	description77 	
+  attributes: 	id78 	description79 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app78 	content79 	
+  roles: 	app80 	content81 	
 
 - line10: 	Clazz
-  attributes: 	id80 	description81 	action82 	value83 	
+  attributes: 	id82 	description83 	action84 	value85 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page84 	
+  roles: 	page86 	
 
 - rampProduct11: 	Clazz
-  attributes: 	id85 	description86 	
+  attributes: 	id87 	description88 	
   model: 	c1
   modified: 	false
   name: 	RampProduct
   propertyStyle: 	POJO
-  roles: 	supplies87 	
+  roles: 	supplies89 	
 
 - haveProductCommand12: 	Clazz
-  attributes: 	description88 	
-  methods: 	f89 	f90 	
+  attributes: 	description90 	
+  methods: 	f91 	f92 	
   model: 	c1
   modified: 	false
   name: 	HaveProductCommand
@@ -107,16 +107,16 @@
   superClass: 	modelCommand3
 
 - rampSupplier13: 	Clazz
-  attributes: 	id91 	name92 	address93 	
+  attributes: 	id93 	name94 	address95 	
   model: 	c1
   modified: 	false
   name: 	RampSupplier
   propertyStyle: 	POJO
-  roles: 	deliveries94 	
+  roles: 	deliveries96 	
 
 - haveSupplierCommand14: 	Clazz
-  attributes: 	name95 	address96 	
-  methods: 	f97 	f98 	f99 	
+  attributes: 	name97 	address98 	
+  methods: 	f99 	f100 	f101 	
   model: 	c1
   modified: 	false
   name: 	HaveSupplierCommand
@@ -124,16 +124,16 @@
   superClass: 	modelCommand3
 
 - rampSupply15: 	Clazz
-  attributes: 	id100 	items101 	state102 	
+  attributes: 	id102 	items103 	state104 	
   model: 	c1
   modified: 	false
   name: 	RampSupply
   propertyStyle: 	POJO
-  roles: 	supplier103 	product104 	
+  roles: 	supplier105 	product106 	
 
 - haveSupplyCommand16: 	Clazz
-  attributes: 	supplier105 	product106 	items107 	state108 	
-  methods: 	f109 	f110 	f111 	f112 	f113 	
+  attributes: 	supplier107 	product108 	items109 	state110 	
+  methods: 	f111 	f112 	f113 	f114 	f115 	
   model: 	c1
   modified: 	false
   name: 	HaveSupplyCommand
@@ -141,22 +141,30 @@
   superClass: 	modelCommand3
 
 - rampCustomer17: 	Clazz
-  attributes: 	id114 	name115 	address116 	
+  attributes: 	id116 	name117 	address118 	
   model: 	c1
   modified: 	false
   name: 	RampCustomer
   propertyStyle: 	POJO
 
 - haveCustomerCommand18: 	Clazz
-  attributes: 	name117 	address118 	
-  methods: 	f119 	f120 	f121 	
+  attributes: 	name119 	address120 	
+  methods: 	f121 	f122 	f123 	
   model: 	c1
   modified: 	false
   name: 	HaveCustomerCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- activeCommands19: 	Attribute
+- openAddPalette19: 	Clazz
+  attributes: 	supply124 	_app125 	
+  model: 	c1
+  modified: 	false
+  name: 	OpenAddPalette
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- activeCommands20: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -164,7 +172,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands20: 	Attribute
+- removeCommands21: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -172,7 +180,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners21: 	Attribute
+- commandListeners22: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -180,7 +188,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat22: 	Attribute
+- isoDateFormat23: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -188,7 +196,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime23: 	Attribute
+- lastTime24: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -196,7 +204,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta24: 	Attribute
+- timeDelta25: 	Attribute
   clazz: 	rampEditor2
   initialization: 	1
   modified: 	false
@@ -204,7 +212,7 @@
   propertyStyle: 	POJO
   type: 	long
 
-- rampProducts25: 	Attribute
+- rampProducts26: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -212,7 +220,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RampProduct>"
 
-- rampSuppliers26: 	Attribute
+- rampSuppliers27: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -220,7 +228,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RampSupplier>"
 
-- rampSupplys27: 	Attribute
+- rampSupplys28: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -228,7 +236,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RampSupply>"
 
-- rampCustomers28: 	Attribute
+- rampCustomers29: 	Attribute
   clazz: 	rampEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -236,7 +244,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RampCustomer>"
 
-- f29: 	FMethod
+- f30: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -257,7 +265,7 @@
 "
   modified: 	false
 
-- f30: 	FMethod
+- f31: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -268,7 +276,7 @@
 "
   modified: 	false
 
-- f31: 	FMethod
+- f32: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public RampEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -277,7 +285,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f33: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.qsexample.Ramp\").decode(yamlString);
@@ -288,7 +296,7 @@
 "
   modified: 	false
 
-- f33: 	FMethod
+- f34: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public RampProduct getOrCreateRampProduct(String id)"
   methodBody: 	"      if (id == null) {
@@ -305,7 +313,7 @@
 "
   modified: 	false
 
-- f34: 	FMethod
+- f35: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public RampSupplier getOrCreateRampSupplier(String id)"
   methodBody: 	"      if (id == null) {
@@ -322,7 +330,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f36: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public RampSupply getOrCreateRampSupply(String id)"
   methodBody: 	"      if (id == null) {
@@ -339,7 +347,7 @@
 "
   modified: 	false
 
-- f36: 	FMethod
+- f37: 	FMethod
   clazz: 	rampEditor2
   declaration: 	"public RampCustomer getOrCreateRampCustomer(String id)"
   methodBody: 	"      if (id == null) {
@@ -356,45 +364,45 @@
 "
   modified: 	false
 
-- service37: 	AssocRole
+- service38: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	rampEditor2
   modified: 	false
   name: 	service
-  other: 	modelEditor56
+  other: 	modelEditor57
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id38: 	Attribute
+- id39: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time39: 	Attribute
+- time40: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f40: 	FMethod
+- f41: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(RampEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName41: 	Attribute
+- targetClassName42: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f42: 	FMethod
+- f43: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(RampEditor editor)"
   methodBody: 	"      // allready removed?
@@ -424,42 +432,42 @@
 "
   modified: 	false
 
-- myPort43: 	Attribute
+- myPort44: 	Attribute
   clazz: 	rampService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- reflectorMap44: 	Attribute
+- reflectorMap45: 	Attribute
   clazz: 	rampService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession45: 	Attribute
+- currentSession46: 	Attribute
   clazz: 	rampService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor46: 	Attribute
+- executor47: 	Attribute
   clazz: 	rampService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark47: 	Attribute
+- spark48: 	Attribute
   clazz: 	rampService5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap48: 	Attribute
+- sessionToAppMap49: 	Attribute
   clazz: 	rampService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -467,7 +475,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, RampApp>"
 
-- f49: 	FMethod
+- f50: 	FMethod
   clazz: 	rampService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -497,7 +505,7 @@
 "
   modified: 	false
 
-- f50: 	FMethod
+- f51: 	FMethod
   clazz: 	rampService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -505,7 +513,7 @@
 "
   modified: 	false
 
-- f51: 	FMethod
+- f52: 	FMethod
   clazz: 	rampService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -536,7 +544,7 @@
 "
   modified: 	false
 
-- f52: 	FMethod
+- f53: 	FMethod
   clazz: 	rampService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -550,10 +558,25 @@
          return \"404 could not find session \" + currentSession;
       }
 
+      String cmdClassName = jsonObject.getString(\"_cmd\");
+      String[] split = new String[0];
+      if (cmdClassName.indexOf('?') > 0) {
+         split = cmdClassName.split(\"\\?\");
+         cmdClassName = split[0];
+         jsonObject.put(\"_cmd\", cmdClassName);
+         String params = split[1];
+         String[] paramArray = params.split(\"\\&\");
+         for (String oneParam : paramArray) {
+            String[] keyValue = oneParam.split(\"\\=\");
+            jsonObject.put(keyValue[0], keyValue[1]);
+         }
+      }
+
       if (jsonObject.keySet().size() > 3) {
-         String cmdClassName = jsonObject.getString(\"_cmd\");
+         cmdClassName = jsonObject.getString(\"_cmd\");
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
+         reflector.setValue(cmdObject, \"_app\", app, null);
          for (String key : jsonObject.keySet()) {
             if (key.startsWith(\"_\")) {
                continue;
@@ -587,14 +610,14 @@
          method.invoke(app);
       }
       catch (Exception e) {
-         return \"404 app has no method to compute page \" + newPage;
+         return \"404 app has no method to compute page \" + newPage+ \"\n\" + e.getMessage();
       }
 
       return root(req, res);
 "
   modified: 	false
 
-- f53: 	FMethod
+- f54: 	FMethod
   clazz: 	rampService5
   declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
   methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
@@ -606,7 +629,7 @@
 "
   modified: 	false
 
-- f54: 	FMethod
+- f55: 	FMethod
   clazz: 	rampService5
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -619,7 +642,7 @@
 "
   modified: 	false
 
-- f55: 	FMethod
+- f56: 	FMethod
   clazz: 	rampService5
   declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
   methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
@@ -675,34 +698,34 @@
 "
   modified: 	false
 
-- modelEditor56: 	AssocRole
+- modelEditor57: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	rampService5
   modified: 	false
   name: 	modelEditor
-  other: 	service37
+  other: 	service38
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- streams57: 	AssocRole
+- streams58: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	rampService5
   modified: 	false
   name: 	streams
-  other: 	service66
+  other: 	service67
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl58: 	Attribute
+- targetUrl59: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	targetUrl
   propertyStyle: 	POJO
   type: 	String
 
-- oldCommands59: 	Attribute
+- oldCommands60: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -710,7 +733,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands60: 	Attribute
+- activeCommands61: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -718,7 +741,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f61: 	FMethod
+- f62: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -728,7 +751,7 @@
 "
   modified: 	false
 
-- f62: 	FMethod
+- f63: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      try {
@@ -765,7 +788,7 @@
 "
   modified: 	false
 
-- f63: 	FMethod
+- f64: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -780,7 +803,7 @@
 "
   modified: 	false
 
-- f64: 	FMethod
+- f65: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, RampService service)"
   methodBody: 	"      this.targetUrl = targetUrl;
@@ -790,7 +813,7 @@
 "
   modified: 	false
 
-- f65: 	FMethod
+- f66: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -804,38 +827,38 @@
 "
   modified: 	false
 
-- service66: 	AssocRole
+- service67: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams57
+  other: 	streams58
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incommingRoute67: 	Attribute
+- incommingRoute68: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	incommingRoute
   propertyStyle: 	POJO
   type: 	String
 
-- outgoingUrl68: 	Attribute
+- outgoingUrl69: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	outgoingUrl
   propertyStyle: 	POJO
   type: 	String
 
-- commandList69: 	Attribute
+- commandList70: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	commandList
   propertyStyle: 	POJO
   type: 	String
 
-- f70: 	FMethod
+- f71: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public Object run(RampEditor editor)"
   methodBody: 	"      String[] split = commandList.split(\" \");
@@ -844,28 +867,35 @@
 "
   modified: 	false
 
-- modelEditor71: 	Attribute
+- modelEditor72: 	Attribute
   clazz: 	rampApp8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	RampEditor
 
-- id72: 	Attribute
+- id73: 	Attribute
   clazz: 	rampApp8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description73: 	Attribute
+- description74: 	Attribute
   clazz: 	rampApp8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f74: 	FMethod
+- supplyId75: 	Attribute
+  clazz: 	rampApp8
+  modified: 	false
+  name: 	supplyId
+  propertyStyle: 	POJO
+  type: 	String
+
+- f76: 	FMethod
   clazz: 	rampApp8
   declaration: 	"public RampApp init(RampEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -875,120 +905,120 @@
 "
   modified: 	false
 
-- content75: 	AssocRole
+- content77: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	rampApp8
   modified: 	false
   name: 	content
-  other: 	app78
+  other: 	app80
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id76: 	Attribute
+- id78: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description77: 	Attribute
+- description79: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app78: 	AssocRole
+- app80: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content75
+  other: 	content77
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content79: 	AssocRole
+- content81: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page84
+  other: 	page86
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id80: 	Attribute
+- id82: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description81: 	Attribute
+- description83: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action82: 	Attribute
+- action84: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value83: 	Attribute
+- value85: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page84: 	AssocRole
+- page86: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content79
+  other: 	content81
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id85: 	Attribute
+- id87: 	Attribute
   clazz: 	rampProduct11
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description86: 	Attribute
+- description88: 	Attribute
   clazz: 	rampProduct11
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- supplies87: 	AssocRole
+- supplies89: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	rampProduct11
   modified: 	false
   name: 	supplies
-  other: 	product104
+  other: 	product106
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- description88: 	Attribute
+- description90: 	Attribute
   clazz: 	haveProductCommand12
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f89: 	FMethod
+- f91: 	FMethod
   clazz: 	haveProductCommand12
   declaration: 	"public boolean preCheck(RampEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -1007,7 +1037,7 @@
 "
   modified: 	false
 
-- f90: 	FMethod
+- f92: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveProductCommand12
   declaration: 	"@Override
@@ -1023,52 +1053,52 @@
 "
   modified: 	false
 
-- id91: 	Attribute
+- id93: 	Attribute
   clazz: 	rampSupplier13
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name92: 	Attribute
+- name94: 	Attribute
   clazz: 	rampSupplier13
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address93: 	Attribute
+- address95: 	Attribute
   clazz: 	rampSupplier13
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- deliveries94: 	AssocRole
+- deliveries96: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	rampSupplier13
   modified: 	false
   name: 	deliveries
-  other: 	supplier103
+  other: 	supplier105
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name95: 	Attribute
+- name97: 	Attribute
   clazz: 	haveSupplierCommand14
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- address96: 	Attribute
+- address98: 	Attribute
   clazz: 	haveSupplierCommand14
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f97: 	FMethod
+- f99: 	FMethod
   clazz: 	haveSupplierCommand14
   declaration: 	"public boolean preCheck(RampEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -1087,7 +1117,7 @@
 "
   modified: 	false
 
-- f98: 	FMethod
+- f100: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveSupplierCommand14
   declaration: 	"@Override
@@ -1103,7 +1133,7 @@
 "
   modified: 	false
 
-- f99: 	FMethod
+- f101: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveSupplierCommand14
   declaration: 	"@Override
@@ -1120,76 +1150,76 @@
 "
   modified: 	false
 
-- id100: 	Attribute
+- id102: 	Attribute
   clazz: 	rampSupply15
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- items101: 	Attribute
+- items103: 	Attribute
   clazz: 	rampSupply15
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- state102: 	Attribute
+- state104: 	Attribute
   clazz: 	rampSupply15
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- supplier103: 	AssocRole
+- supplier105: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	rampSupply15
   modified: 	false
   name: 	supplier
-  other: 	deliveries94
+  other: 	deliveries96
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- product104: 	AssocRole
+- product106: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	rampSupply15
   modified: 	false
   name: 	product
-  other: 	supplies87
+  other: 	supplies89
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- supplier105: 	Attribute
+- supplier107: 	Attribute
   clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	supplier
   propertyStyle: 	POJO
   type: 	String
 
-- product106: 	Attribute
+- product108: 	Attribute
   clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	product
   propertyStyle: 	POJO
   type: 	String
 
-- items107: 	Attribute
+- items109: 	Attribute
   clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	items
   propertyStyle: 	POJO
   type: 	double
 
-- state108: 	Attribute
+- state110: 	Attribute
   clazz: 	haveSupplyCommand16
   modified: 	false
   name: 	state
   propertyStyle: 	POJO
   type: 	String
 
-- f109: 	FMethod
+- f111: 	FMethod
   clazz: 	haveSupplyCommand16
   declaration: 	"public boolean preCheck(RampEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -1208,7 +1238,7 @@
 "
   modified: 	false
 
-- f110: 	FMethod
+- f112: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveSupplyCommand16
   declaration: 	"@Override
@@ -1225,7 +1255,7 @@
 "
   modified: 	false
 
-- f111: 	FMethod
+- f113: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveSupplyCommand16
   declaration: 	"@Override
@@ -1244,7 +1274,7 @@
 "
   modified: 	false
 
-- f112: 	FMethod
+- f114: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveSupplyCommand16
   declaration: 	"@Override
@@ -1264,7 +1294,7 @@
 "
   modified: 	false
 
-- f113: 	FMethod
+- f115: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveSupplyCommand16
   declaration: 	"@Override
@@ -1285,42 +1315,42 @@
 "
   modified: 	false
 
-- id114: 	Attribute
+- id116: 	Attribute
   clazz: 	rampCustomer17
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name115: 	Attribute
-  clazz: 	rampCustomer17
-  modified: 	false
-  name: 	name
-  propertyStyle: 	POJO
-  type: 	String
-
-- address116: 	Attribute
-  clazz: 	rampCustomer17
-  modified: 	false
-  name: 	address
-  propertyStyle: 	POJO
-  type: 	String
-
 - name117: 	Attribute
-  clazz: 	haveCustomerCommand18
+  clazz: 	rampCustomer17
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
 - address118: 	Attribute
+  clazz: 	rampCustomer17
+  modified: 	false
+  name: 	address
+  propertyStyle: 	POJO
+  type: 	String
+
+- name119: 	Attribute
+  clazz: 	haveCustomerCommand18
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- address120: 	Attribute
   clazz: 	haveCustomerCommand18
   modified: 	false
   name: 	address
   propertyStyle: 	POJO
   type: 	String
 
-- f119: 	FMethod
+- f121: 	FMethod
   clazz: 	haveCustomerCommand18
   declaration: 	"public boolean preCheck(RampEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -1339,7 +1369,7 @@
 "
   modified: 	false
 
-- f120: 	FMethod
+- f122: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveCustomerCommand18
   declaration: 	"@Override
@@ -1355,7 +1385,7 @@
 "
   modified: 	false
 
-- f121: 	FMethod
+- f123: 	FMethod
   annotations: 	"@Override"
   clazz: 	haveCustomerCommand18
   declaration: 	"@Override
@@ -1371,4 +1401,18 @@
       return dataObject;
 "
   modified: 	false
+
+- supply124: 	Attribute
+  clazz: 	openAddPalette19
+  modified: 	false
+  name: 	supply
+  propertyStyle: 	POJO
+  type: 	String
+
+- _app125: 	Attribute
+  clazz: 	openAddPalette19
+  modified: 	false
+  name: 	_app
+  propertyStyle: 	POJO
+  type: 	RampApp
 

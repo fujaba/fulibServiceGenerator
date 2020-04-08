@@ -387,10 +387,25 @@ public class LaboratoryService
          return "404 could not find session " + currentSession;
       }
 
+      String cmdClassName = jsonObject.getString("_cmd");
+      String[] split = new String[0];
+      if (cmdClassName.indexOf('?') > 0) {
+         split = cmdClassName.split("\\?");
+         cmdClassName = split[0];
+         jsonObject.put("_cmd", cmdClassName);
+         String params = split[1];
+         String[] paramArray = params.split("\\&");
+         for (String oneParam : paramArray) {
+            String[] keyValue = oneParam.split("\\=");
+            jsonObject.put(keyValue[0], keyValue[1]);
+         }
+      }
+
       if (jsonObject.keySet().size() > 3) {
-         String cmdClassName = jsonObject.getString("_cmd");
+         cmdClassName = jsonObject.getString("_cmd");
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
+         reflector.setValue(cmdObject, "_app", app, null);
          for (String key : jsonObject.keySet()) {
             if (key.startsWith("_")) {
                continue;
@@ -424,7 +439,7 @@ public class LaboratoryService
          method.invoke(app);
       }
       catch (Exception e) {
-         return "404 app has no method to compute page " + newPage;
+         return "404 app has no method to compute page " + newPage+ "\n" + e.getMessage();
       }
 
       return root(req, res);

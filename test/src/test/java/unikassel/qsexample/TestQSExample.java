@@ -2,6 +2,7 @@ package unikassel.qsexample;
 
 import org.fulib.servicegenerator.FulibScenarioDiagram;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import unikassel.qsexample.Accounting.AccountingApp;
 import unikassel.qsexample.Accounting.AccountingService;
 import unikassel.qsexample.Accounting.HaveProductCommand;
@@ -72,6 +73,13 @@ public class TestQSExample
       scene1.addData("9:06", "Ramp0", rampService.getModelEditor().getActiveCommands().values());
       scene1.addOneMessage("9:07", "Ramp0", 0, rampService.getModelEditor().getActiveCommands().values());
       scene1.addData("9:08", "Bob's Tablett", rampBobService.getModelEditor().getActiveCommands().values());
+
+      open("http://localhost:22031/Ramp");
+      scene1.addScreen("Bob's Tablett", "10:00", rampBobService.getSessionToAppMap().values().iterator().next(), "[Rome pumps ordered]");
+      $(By.xpath("//button[text()='Rome pumps ordered']")).click();
+      $("#paletteIn").$("input").setValue("pal1");
+      $("#itemsIn").$("input").setValue("50");
+      scene1.addScreen("Bob's Tablett", "10:05", rampBobService.getSessionToAppMap().values().iterator().next(), "[add]");
 
       System.out.println();
    }
