@@ -1,0 +1,1046 @@
+- c1: 	ClassModel
+  classes: 	workFlowsEditor2 	modelCommand3 	removeCommand4 	workFlowsService5 	commandStream6 	addStreamCommand7 	workFlowsApp8 	page9 	line10 	addStep11 	workFlowsAddStep12 	haveAddStepCommand13 	addFlow14 	workFlowsAddFlow15 	haveAddFlowCommand16 	
+  defaultPropertyStyle: 	POJO
+  defaultRoleType: 	"java.util.ArrayList<%s>"
+  mainJavaDir: 	"src/main/java"
+  packageName: 	unikassel.bpmn2wf.WorkFlows
+  packageSrcFolder: 	"src/main/java/unikassel/bpmn2wf/WorkFlows"
+
+- workFlowsEditor2: 	Clazz
+  attributes: 	activeCommands17 	removeCommands18 	commandListeners19 	isoDateFormat20 	lastTime21 	timeDelta22 	workFlowsAddSteps23 	workFlowsAddFlows24 	
+  importList: 	null 	null 	null 	null 	
+  methods: 	f25 	f26 	f27 	f28 	f29 	f30 	
+  model: 	c1
+  modified: 	false
+  name: 	WorkFlowsEditor
+  propertyStyle: 	POJO
+  roles: 	service31 	
+
+- modelCommand3: 	Clazz
+  attributes: 	id32 	time33 	
+  methods: 	f34 	
+  model: 	c1
+  modified: 	false
+  name: 	ModelCommand
+  propertyStyle: 	POJO
+  subClasses: 	removeCommand4 	addStreamCommand7 	addStep11 	haveAddStepCommand13 	addFlow14 	haveAddFlowCommand16 	
+
+- removeCommand4: 	Clazz
+  attributes: 	targetClassName35 	
+  importList: 	null 	null 	null 	
+  methods: 	f36 	
+  model: 	c1
+  modified: 	false
+  name: 	RemoveCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- workFlowsService5: 	Clazz
+  attributes: 	myPort37 	reflectorMap38 	currentSession39 	executor40 	spark41 	sessionToAppMap42 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f43 	f44 	f45 	f46 	f47 	f48 	f49 	
+  model: 	c1
+  modified: 	false
+  name: 	WorkFlowsService
+  propertyStyle: 	POJO
+  roles: 	modelEditor50 	streams51 	
+
+- commandStream6: 	Clazz
+  attributes: 	targetUrl52 	oldCommands53 	activeCommands54 	
+  importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
+  methods: 	f55 	f56 	f57 	f58 	f59 	
+  model: 	c1
+  modified: 	false
+  name: 	CommandStream
+  propertyStyle: 	POJO
+  roles: 	service60 	
+
+- addStreamCommand7: 	Clazz
+  attributes: 	incommingRoute61 	outgoingUrl62 	commandList63 	
+  methods: 	f64 	
+  model: 	c1
+  modified: 	false
+  name: 	AddStreamCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- workFlowsApp8: 	Clazz
+  attributes: 	modelEditor65 	id66 	description67 	
+  methods: 	f68 	
+  model: 	c1
+  modified: 	false
+  name: 	WorkFlowsApp
+  propertyStyle: 	POJO
+  roles: 	content69 	
+
+- page9: 	Clazz
+  attributes: 	id70 	description71 	
+  model: 	c1
+  modified: 	false
+  name: 	Page
+  propertyStyle: 	POJO
+  roles: 	app72 	content73 	
+
+- line10: 	Clazz
+  attributes: 	id74 	description75 	action76 	value77 	
+  model: 	c1
+  modified: 	false
+  name: 	Line
+  propertyStyle: 	POJO
+  roles: 	page78 	
+
+- addStep11: 	Clazz
+  model: 	c1
+  modified: 	false
+  name: 	AddStep
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- workFlowsAddStep12: 	Clazz
+  attributes: 	id79 	taskText80 	
+  model: 	c1
+  modified: 	false
+  name: 	WorkFlowsAddStep
+  propertyStyle: 	POJO
+
+- haveAddStepCommand13: 	Clazz
+  attributes: 	taskText81 	
+  methods: 	f82 	f83 	
+  model: 	c1
+  modified: 	false
+  name: 	HaveAddStepCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- addFlow14: 	Clazz
+  model: 	c1
+  modified: 	false
+  name: 	AddFlow
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- workFlowsAddFlow15: 	Clazz
+  attributes: 	id84 	source85 	target86 	
+  model: 	c1
+  modified: 	false
+  name: 	WorkFlowsAddFlow
+  propertyStyle: 	POJO
+
+- haveAddFlowCommand16: 	Clazz
+  attributes: 	source87 	target88 	
+  methods: 	f89 	f90 	f91 	
+  model: 	c1
+  modified: 	false
+  name: 	HaveAddFlowCommand
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- activeCommands17: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	activeCommands
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, ModelCommand>"
+
+- removeCommands18: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	removeCommands
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, RemoveCommand>"
+
+- commandListeners19: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	commandListeners
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, ArrayList<CommandStream>>"
+
+- isoDateFormat20: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
+  modified: 	false
+  name: 	isoDateFormat
+  propertyStyle: 	POJO
+  type: 	DateFormat
+
+- lastTime21: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"isoDateFormat.format(new Date())"
+  modified: 	false
+  name: 	lastTime
+  propertyStyle: 	POJO
+  type: 	String
+
+- timeDelta22: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	1
+  modified: 	false
+  name: 	timeDelta
+  propertyStyle: 	POJO
+  type: 	long
+
+- workFlowsAddSteps23: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	workFlowsAddSteps
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, WorkFlowsAddStep>"
+
+- workFlowsAddFlows24: 	Attribute
+  clazz: 	workFlowsEditor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	workFlowsAddFlows
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, WorkFlowsAddFlow>"
+
+- f25: 	FMethod
+  clazz: 	workFlowsEditor2
+  declaration: 	"public String getTime()"
+  methodBody: 	"      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) <= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
+"
+  modified: 	false
+
+- f26: 	FMethod
+  clazz: 	workFlowsEditor2
+  declaration: 	"public void fireCommandExecuted(ModelCommand command)"
+  methodBody: 	"      String commandName = command.getClass().getSimpleName();
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      for (CommandStream stream : listeners) {
+         stream.publish(command);
+      }
+"
+  modified: 	false
+
+- f27: 	FMethod
+  clazz: 	workFlowsEditor2
+  declaration: 	"public WorkFlowsEditor addCommandListener(String commandName, CommandStream stream)"
+  methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+"
+  modified: 	false
+
+- f28: 	FMethod
+  clazz: 	workFlowsEditor2
+  declaration: 	"public void loadYaml(String yamlString)"
+  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.bpmn2wf.WorkFlows\").decode(yamlString);
+      for (Object value : map.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(this);
+      }
+"
+  modified: 	false
+
+- f29: 	FMethod
+  clazz: 	workFlowsEditor2
+  declaration: 	"public WorkFlowsAddStep getOrCreateWorkFlowsAddStep(String id)"
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      WorkFlowsAddStep oldObject = this.getWorkFlowsAddSteps().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      WorkFlowsAddStep newObject = new WorkFlowsAddStep();
+      newObject.setId(id);
+      this.getWorkFlowsAddSteps().put(id, newObject);
+      return newObject;
+"
+  modified: 	false
+
+- f30: 	FMethod
+  clazz: 	workFlowsEditor2
+  declaration: 	"public WorkFlowsAddFlow getOrCreateWorkFlowsAddFlow(String id)"
+  methodBody: 	"      if (id == null) {
+         return null;
+      }
+      WorkFlowsAddFlow oldObject = this.getWorkFlowsAddFlows().get(id);
+      if (oldObject != null) {
+         return oldObject;
+      }
+      WorkFlowsAddFlow newObject = new WorkFlowsAddFlow();
+      newObject.setId(id);
+      this.getWorkFlowsAddFlows().put(id, newObject);
+      return newObject;
+"
+  modified: 	false
+
+- service31: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	workFlowsEditor2
+  modified: 	false
+  name: 	service
+  other: 	modelEditor50
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id32: 	Attribute
+  clazz: 	modelCommand3
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- time33: 	Attribute
+  clazz: 	modelCommand3
+  modified: 	false
+  name: 	time
+  propertyStyle: 	POJO
+  type: 	String
+
+- f34: 	FMethod
+  clazz: 	modelCommand3
+  declaration: 	"public Object run(WorkFlowsEditor editor)"
+  methodBody: 	"      return null;
+"
+  modified: 	false
+
+- targetClassName35: 	Attribute
+  clazz: 	removeCommand4
+  modified: 	false
+  name: 	targetClassName
+  propertyStyle: 	POJO
+  type: 	String
+
+- f36: 	FMethod
+  clazz: 	removeCommand4
+  declaration: 	"public Object run(WorkFlowsEditor editor)"
+  methodBody: 	"      // allready removed?
+      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + \"-\" + this.getId());
+      if (oldRemoveCommand != null) {
+         return null;
+      }
+
+      // find the target object
+      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(editor);
+      Object value = reflector.getValue(editor, this.getTargetClassName() + \"s\");
+      java.util.Map objects = (java.util.Map) value;
+      Object target = objects.get(this.getId());
+      try {
+         Method removeYouMethod = target.getClass().getMethod(\"removeYou\", new Class[0]);
+         removeYouMethod.invoke(target, new Object[0]);
+      }
+      catch (Exception e) {
+         // ignore
+      }
+      objects.remove(this.getId());
+      editor.getRemoveCommands().put(this.getTargetClassName() + \"-\" + this.getId(), this);
+      editor.fireCommandExecuted(this);
+
+      return null;
+"
+  modified: 	false
+
+- myPort37: 	Attribute
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	myPort
+  propertyStyle: 	POJO
+  type: 	int
+
+- reflectorMap38: 	Attribute
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	reflectorMap
+  propertyStyle: 	POJO
+  type: 	ReflectorMap
+
+- currentSession39: 	Attribute
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	currentSession
+  propertyStyle: 	POJO
+  type: 	String
+
+- executor40: 	Attribute
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	executor
+  propertyStyle: 	POJO
+  type: 	"ExecutorService "
+
+- spark41: 	Attribute
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	spark
+  propertyStyle: 	POJO
+  type: 	Service
+
+- sessionToAppMap42: 	Attribute
+  clazz: 	workFlowsService5
+  initialization: 	"new LinkedHashMap()"
+  modified: 	false
+  name: 	sessionToAppMap
+  propertyStyle: 	POJO
+  type: 	"LinkedHashMap<String, WorkFlowsApp>"
+
+- f43: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public void start()"
+  methodBody: 	"      if (myPort <= 0) {
+         myPort = 4571;
+      }
+      String envPort = System.getenv(\"PORT\");
+      if (envPort != null) {
+         myPort = Integer.parseInt(envPort);
+      }
+      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      setModelEditor(new WorkFlowsEditor());
+      reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
+      spark = Service.ignite();
+      try { spark.port(myPort);} catch (Exception e) {};
+      spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get(\"/WorkFlows\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/WorkFlowscmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
+      // no streams
+
+      spark.notFound((req, resp) -> {
+         return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
+      });
+
+      java.util.logging.Logger.getGlobal().info(\"WorkFlows Service is listening on port \" + myPort);
+"
+  modified: 	false
+
+- f44: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public String getFirstRoot(Request req, Response res)"
+  methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
+      return root(req, res);
+"
+  modified: 	false
+
+- f45: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public String root(Request req, Response res)"
+  methodBody: 	"      try
+      {
+         WorkFlowsApp myApp = this.sessionToAppMap.get(currentSession);
+         if (myApp == null) {
+            myApp = new WorkFlowsApp().init(this.modelEditor);
+            sessionToAppMap.put(currentSession, myApp);
+         }
+
+         java.util.Map<String, String> params = req.params();
+         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         StringBuilder page = new StringBuilder(stringWriter.toString());
+         int paramPos = page.indexOf(\"_cmd: words[0],\");
+         String sessionParam = String.format(\"_session: '%s', \", currentSession);
+         page.insert(paramPos, sessionParam);
+         int cmdUrlPos = page.indexOf(\"'/cmd'\");
+         page.insert(cmdUrlPos + 2, \"WorkFlows\");
+         String sessionPage = page.toString();
+         return sessionPage;
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         return \"404 \" + e.getMessage();
+      }
+"
+  modified: 	false
+
+- f46: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public String cmd(Request req, Response res)"
+  methodBody: 	"      String cmd = req.body();
+      JSONObject jsonObject = new JSONObject(cmd);
+
+      this.currentSession = jsonObject.getString(\"_session\");
+
+      WorkFlowsApp app = sessionToAppMap.get(currentSession);
+
+      if (app == null) {
+         return \"404 could not find session \" + currentSession;
+      }
+
+      String cmdClassName = jsonObject.getString(\"_cmd\");
+      String[] split = new String[0];
+      if (cmdClassName.indexOf('?') > 0) {
+         split = cmdClassName.split(\"\\?\");
+         cmdClassName = split[0];
+         jsonObject.put(\"_cmd\", cmdClassName);
+         String params = split[1];
+         String[] paramArray = params.split(\"\\&\");
+         for (String oneParam : paramArray) {
+            String[] keyValue = oneParam.split(\"\\=\");
+            jsonObject.put(keyValue[0], keyValue[1]);
+         }
+      }
+
+      if (jsonObject.keySet().size() > 3) {
+         cmdClassName = jsonObject.getString(\"_cmd\");
+         Reflector reflector = reflectorMap.getReflector(cmdClassName);
+         Object cmdObject = reflector.newInstance();
+         reflector.setValue(cmdObject, \"_app\", app, null);
+         for (String key : jsonObject.keySet()) {
+            if (key.startsWith(\"_\")) {
+               continue;
+            }
+            else {
+               // assign to command attribute
+               String attrName = key;
+               if (key.endsWith(\"In\")) {
+                  attrName = key.substring(0, key.length() - 2);
+               }
+               String value = jsonObject.getString(key);
+               reflector.setValue(cmdObject, attrName, value, null);
+            }
+         }
+         // call command
+         try {
+            Method runMethod = cmdObject.getClass().getMethod(\"run\", WorkFlowsEditor.class);
+            runMethod.invoke(cmdObject, modelEditor);
+
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+            return \"404 \" + e.getMessage();
+         }
+      }
+
+      // next page
+      String newPage = jsonObject.getString(\"_newPage\");
+      try {
+         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         method.invoke(app);
+      }
+      catch (Exception e) {
+         return \"404 app has no method to compute page \" + newPage+ \"\n\" + e.getMessage();
+      }
+
+      return root(req, res);
+"
+  modified: 	false
+
+- f47: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
+  methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
+      stream.start(incommingRoute, outgoingURL, this);
+      for (String command : commandList) {
+         modelEditor.addCommandListener(command, stream);
+      }
+      return stream;
+"
+  modified: 	false
+
+- f48: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public String connect(Request req, Response res)"
+  methodBody: 	"      String body = req.body();
+      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      for (Object value : cmdList.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(modelEditor);
+      }
+      return \"200\";
+"
+  modified: 	false
+
+- f49: 	FMethod
+  clazz: 	workFlowsService5
+  declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
+  methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
+      String incommingURL = sourceUrl + \"/\" + incommingRoute;
+      String outgoingRoute = sourceServiceName + \"To\" + targetServiceName;
+      String outgoingURL = targetUrl + \"/\" + outgoingRoute;
+      ArrayList<String> sourceCommands = new ArrayList<>();
+      ArrayList<String> targetCommands = new ArrayList<>();
+
+      ArrayList<String> currentList = sourceCommands;
+      for (String cmd : commandList) {
+         if (\"<->\".equals(cmd)) {
+            currentList = targetCommands;
+         }
+         else {
+            currentList.add(cmd);
+         }
+      }
+
+      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
+
+      AddStreamCommand addStreamCommand = new AddStreamCommand()
+            .setIncommingRoute(outgoingRoute)
+            .setOutgoingUrl(incommingURL)
+            .setCommandList(String.join(\" \", targetCommands));
+
+      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
+      URL url = null;
+      try {
+         url = new URL(targetUrl + \"/connect\");
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod(\"POST\");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+"
+  modified: 	false
+
+- modelEditor50: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	modelEditor
+  other: 	service31
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- streams51: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	workFlowsService5
+  modified: 	false
+  name: 	streams
+  other: 	service60
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- targetUrl52: 	Attribute
+  clazz: 	commandStream6
+  modified: 	false
+  name: 	targetUrl
+  propertyStyle: 	POJO
+  type: 	String
+
+- oldCommands53: 	Attribute
+  clazz: 	commandStream6
+  initialization: 	"new ArrayList<>()"
+  modified: 	false
+  name: 	oldCommands
+  propertyStyle: 	POJO
+  type: 	"ArrayList<ModelCommand>"
+
+- activeCommands54: 	Attribute
+  clazz: 	commandStream6
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	activeCommands
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, ModelCommand>"
+
+- f55: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public void publish(ModelCommand cmd)"
+  methodBody: 	"      String yaml = Yaml.encode(cmd);
+      activeCommands.put(cmd.getId(), cmd);
+      oldCommands.add(cmd);
+      send();
+"
+  modified: 	false
+
+- f56: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public void send()"
+  methodBody: 	"      try {
+         String yaml = Yaml.encode(activeCommands.values());
+         URL url = new URL(targetUrl);
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setRequestMethod(\"POST\");
+         con.setDoOutput(true);
+         DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.writeBytes(yaml);
+         out.flush();
+
+         InputStream inputStream = con.getInputStream();
+         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+         BufferedReader in = new BufferedReader(inputStreamReader);
+         String inputLine;
+         StringBuffer content = new StringBuffer();
+         while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+         }
+         in.close();
+         out.close();
+         con.disconnect();
+
+         // got an answer, clear active commands
+         activeCommands.clear();
+         LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+               .decode(content.toString());
+         executeCommands(map.values());
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+"
+  modified: 	false
+
+- f57: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public void executeCommands(Collection values)"
+  methodBody: 	"      for (Object value : values) {
+         try {
+            ModelCommand cmd = (ModelCommand) value;
+            this.service.getExecutor().submit(() -> cmd.run(this.service.getModelEditor()));
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+"
+  modified: 	false
+
+- f58: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, WorkFlowsService service)"
+  methodBody: 	"      this.targetUrl = targetUrl;
+      this.service = service;
+      service.getSpark().post(\"/\" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+      return this;
+"
+  modified: 	false
+
+- f59: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public String handlePostRequest(Request req, Response res)"
+  methodBody: 	"      String body = req.body();
+      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+            .decode(body);
+
+      Collection values = commandMap.values();
+      executeCommands(values);
+
+      return \"OK\";
+"
+  modified: 	false
+
+- service60: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	commandStream6
+  modified: 	false
+  name: 	service
+  other: 	streams51
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- incommingRoute61: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	incommingRoute
+  propertyStyle: 	POJO
+  type: 	String
+
+- outgoingUrl62: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	outgoingUrl
+  propertyStyle: 	POJO
+  type: 	String
+
+- commandList63: 	Attribute
+  clazz: 	addStreamCommand7
+  modified: 	false
+  name: 	commandList
+  propertyStyle: 	POJO
+  type: 	String
+
+- f64: 	FMethod
+  clazz: 	addStreamCommand7
+  declaration: 	"public Object run(WorkFlowsEditor editor)"
+  methodBody: 	"      String[] split = commandList.split(\" \");
+      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      return null;
+"
+  modified: 	false
+
+- modelEditor65: 	Attribute
+  clazz: 	workFlowsApp8
+  modified: 	false
+  name: 	modelEditor
+  propertyStyle: 	POJO
+  type: 	WorkFlowsEditor
+
+- id66: 	Attribute
+  clazz: 	workFlowsApp8
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description67: 	Attribute
+  clazz: 	workFlowsApp8
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- f68: 	FMethod
+  clazz: 	workFlowsApp8
+  declaration: 	"public WorkFlowsApp init(WorkFlowsEditor editor)"
+  methodBody: 	"      this.modelEditor = editor;
+      this.setId(\"root\");
+      this.setDescription(\"WorkFlows App\");
+      return this;
+"
+  modified: 	false
+
+- content69: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	workFlowsApp8
+  modified: 	false
+  name: 	content
+  other: 	app72
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id70: 	Attribute
+  clazz: 	page9
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description71: 	Attribute
+  clazz: 	page9
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- app72: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	page9
+  modified: 	false
+  name: 	app
+  other: 	content69
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- content73: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	page9
+  modified: 	false
+  name: 	content
+  other: 	page78
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id74: 	Attribute
+  clazz: 	line10
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description75: 	Attribute
+  clazz: 	line10
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- action76: 	Attribute
+  clazz: 	line10
+  modified: 	false
+  name: 	action
+  propertyStyle: 	POJO
+  type: 	String
+
+- value77: 	Attribute
+  clazz: 	line10
+  modified: 	false
+  name: 	value
+  propertyStyle: 	POJO
+  type: 	String
+
+- page78: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	line10
+  modified: 	false
+  name: 	page
+  other: 	content73
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id79: 	Attribute
+  clazz: 	workFlowsAddStep12
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- taskText80: 	Attribute
+  clazz: 	workFlowsAddStep12
+  modified: 	false
+  name: 	taskText
+  propertyStyle: 	POJO
+  type: 	String
+
+- taskText81: 	Attribute
+  clazz: 	haveAddStepCommand13
+  modified: 	false
+  name: 	taskText
+  propertyStyle: 	POJO
+  type: 	String
+
+- f82: 	FMethod
+  clazz: 	haveAddStepCommand13
+  declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"WorkFlowsAddStep-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"WorkFlowsAddStep-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"WorkFlowsAddStep-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
+
+- f83: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveAddStepCommand13
+  declaration: 	"@Override
+   public WorkFlowsAddStep run(WorkFlowsEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getWorkFlowsAddSteps().get(this.getId());
+      }
+      WorkFlowsAddStep dataObject = editor.getOrCreateWorkFlowsAddStep(this.getId());
+      dataObject.setTaskText(this.getTaskText());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- id84: 	Attribute
+  clazz: 	workFlowsAddFlow15
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- source85: 	Attribute
+  clazz: 	workFlowsAddFlow15
+  modified: 	false
+  name: 	source
+  propertyStyle: 	POJO
+  type: 	String
+
+- target86: 	Attribute
+  clazz: 	workFlowsAddFlow15
+  modified: 	false
+  name: 	target
+  propertyStyle: 	POJO
+  type: 	String
+
+- source87: 	Attribute
+  clazz: 	haveAddFlowCommand16
+  modified: 	false
+  name: 	source
+  propertyStyle: 	POJO
+  type: 	String
+
+- target88: 	Attribute
+  clazz: 	haveAddFlowCommand16
+  modified: 	false
+  name: 	target
+  propertyStyle: 	POJO
+  type: 	String
+
+- f89: 	FMethod
+  clazz: 	haveAddFlowCommand16
+  declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"WorkFlowsAddFlow-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"WorkFlowsAddFlow-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"WorkFlowsAddFlow-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
+
+- f90: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveAddFlowCommand16
+  declaration: 	"@Override
+   public WorkFlowsAddFlow run(WorkFlowsEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getWorkFlowsAddFlows().get(this.getId());
+      }
+      WorkFlowsAddFlow dataObject = editor.getOrCreateWorkFlowsAddFlow(this.getId());
+      dataObject.setSource(this.getSource());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+
+- f91: 	FMethod
+  annotations: 	"@Override"
+  clazz: 	haveAddFlowCommand16
+  declaration: 	"@Override
+   public WorkFlowsAddFlow run(WorkFlowsEditor editor)"
+  methodBody: 	"      if ( ! preCheck(editor)) {
+         return editor.getWorkFlowsAddFlows().get(this.getId());
+      }
+      WorkFlowsAddFlow dataObject = editor.getOrCreateWorkFlowsAddFlow(this.getId());
+      dataObject.setSource(this.getSource());
+      dataObject.setTarget(this.getTarget());
+
+      editor.fireCommandExecuted(this);
+      return dataObject;
+"
+  modified: 	false
+

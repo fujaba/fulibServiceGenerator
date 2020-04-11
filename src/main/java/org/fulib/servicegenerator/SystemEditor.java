@@ -24,10 +24,12 @@ public class SystemEditor
    private Map<ServiceEditor, Map<ServiceEditor, LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
    private String packageName;
    private final ClassModelManager sharedModelManager;
+   private ServiceEditor sharedEditor;
 
    public SystemEditor()
    {
-      sharedModelManager = new ClassModelManager();
+      sharedEditor = new ServiceEditor();
+      sharedModelManager = sharedEditor.getClassModelManager();
    }
 
    public SystemEditor haveMainJavaDir(String mainJavaDir)
@@ -78,6 +80,15 @@ public class SystemEditor
       Clazz clazz = this.sharedModelManager.haveClass(className);
       for (ServiceEditor serviceEditor : this.serviceMap.values()) {
          serviceEditor.haveDataClass(className);
+      }
+      return clazz;
+   }
+
+   public Clazz haveSharedCommand(String commandName)
+   {
+      Clazz clazz = this.sharedEditor.haveCommand(commandName);
+      for (ServiceEditor serviceEditor : this.serviceMap.values()) {
+         serviceEditor.haveCommand(commandName);
       }
       return clazz;
    }

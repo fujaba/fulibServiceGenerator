@@ -10,8 +10,26 @@ public class GenModel
 {
    public static void main(String[] args)
    {
+      genBPMNToWorkFlows();
       genQSExample();
       genStoreShop();
+   }
+
+   private static void genBPMNToWorkFlows()
+   {
+      SystemEditor sysEdit = new SystemEditor();
+      sysEdit.haveMainJavaDir("src/main/java");
+      sysEdit.havePackageName("unikassel.bpmn2wf");
+      ServiceEditor bpmn = sysEdit.haveService("BPMN");
+      ServiceEditor workFlows = sysEdit.haveService("WorkFlows");
+
+      Clazz addStep = sysEdit.haveSharedCommand("AddStep");
+      sysEdit.haveAttribute(addStep, "taskText", STRING);
+      Clazz addFlow = sysEdit.haveSharedCommand("AddFlow");
+      sysEdit.haveAttribute(addFlow, "source", STRING);
+      sysEdit.haveAttribute(addFlow, "target", STRING);
+
+      sysEdit.generate();
    }
 
    private static void genQSExample()
