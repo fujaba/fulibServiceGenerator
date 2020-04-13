@@ -126,9 +126,13 @@ public class FulibScenarioDiagram
             if (s.startsWith("<p>-") && length >= maxDataLength) {
                newLines += length / maxDataLength;
             }
+            else if (s.indexOf("<i class") >= 0) {
+               newLines = 1;
+            }
             else if (s.startsWith("<p align=\"center\">") && length >= maxLength) {
                newLines += length / maxLength;
             }
+
             lines += newLines;
          }
          maxNoOfLines = Math.max(maxNoOfLines, lines);

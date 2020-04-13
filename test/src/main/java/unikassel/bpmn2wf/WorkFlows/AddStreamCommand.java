@@ -2,7 +2,7 @@ package unikassel.bpmn2wf.WorkFlows;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class AddStreamCommand extends ModelCommand
+public class AddStreamCommand extends ModelCommand  
 {
 
    public static final String PROPERTY_incommingRoute = "incommingRoute";
@@ -63,12 +63,6 @@ public class AddStreamCommand extends ModelCommand
          firePropertyChange("commandList", oldValue, value);
       }
       return this;
-   }
-
-   public Object run(WorkFlowsEditor editor) { 
-      String[] split = commandList.split(" ");
-      editor.getService().addStream(incommingRoute, outgoingUrl, split);
-      return null;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -132,6 +126,12 @@ public class AddStreamCommand extends ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public Object run(WorkFlowsEditor editor) { 
+      String[] split = commandList.split(" ");
+      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      return null;
    }
 
 }

@@ -4,9 +4,11 @@ import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import org.fulib.yaml.Yaml;
 
-public class BPMNEditor 
+public class BPMNEditor  
 {
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -129,46 +131,6 @@ public class BPMNEditor
       return this;
    }
 
-   public static final String PROPERTY_bPMNAddSteps = "bPMNAddSteps";
-
-   private java.util.Map<String, BPMNAddStep> bPMNAddSteps = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, BPMNAddStep> getBPMNAddSteps()
-   {
-      return bPMNAddSteps;
-   }
-
-   public BPMNEditor setBPMNAddSteps(java.util.Map<String, BPMNAddStep> value)
-   {
-      if (value != this.bPMNAddSteps)
-      {
-         java.util.Map<String, BPMNAddStep> oldValue = this.bPMNAddSteps;
-         this.bPMNAddSteps = value;
-         firePropertyChange("bPMNAddSteps", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_bPMNAddFlows = "bPMNAddFlows";
-
-   private java.util.Map<String, BPMNAddFlow> bPMNAddFlows = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, BPMNAddFlow> getBPMNAddFlows()
-   {
-      return bPMNAddFlows;
-   }
-
-   public BPMNEditor setBPMNAddFlows(java.util.Map<String, BPMNAddFlow> value)
-   {
-      if (value != this.bPMNAddFlows)
-      {
-         java.util.Map<String, BPMNAddFlow> oldValue = this.bPMNAddFlows;
-         this.bPMNAddFlows = value;
-         firePropertyChange("bPMNAddFlows", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_service = "service";
 
    private BPMNService service = null;
@@ -196,75 +158,6 @@ public class BPMNEditor
          firePropertyChange("service", oldValue, value);
       }
       return this;
-   }
-
-
-   public String getTime() { 
-      String newTime = isoDateFormat.format(new Date());
-      if (newTime.compareTo(lastTime) <= 0) {
-         try {
-            Date lastDate = isoDateFormat.parse(lastTime);
-            long millis = lastDate.getTime();
-            millis += timeDelta;
-            Date newDate = new Date(millis);
-            newTime = isoDateFormat.format(newDate);
-         }
-         catch (Exception e) {
-            e.printStackTrace();
-         }
-      }
-      lastTime = newTime;
-      return newTime;
-   }
-
-   public void fireCommandExecuted(ModelCommand command) { 
-      String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
-      for (CommandStream stream : listeners) {
-         stream.publish(command);
-      }
-   }
-
-   public BPMNEditor addCommandListener(String commandName, CommandStream stream) { 
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
-      listeners.add(stream);
-      return this;
-   }
-
-   public void loadYaml(String yamlString) { 
-      java.util.Map map = Yaml.forPackage("unikassel.bpmn2wf.BPMN").decode(yamlString);
-      for (Object value : map.values()) {
-         ModelCommand cmd = (ModelCommand) value;
-         cmd.run(this);
-      }
-   }
-
-   public BPMNAddStep getOrCreateBPMNAddStep(String id) { 
-      if (id == null) {
-         return null;
-      }
-      BPMNAddStep oldObject = this.getBPMNAddSteps().get(id);
-      if (oldObject != null) {
-         return oldObject;
-      }
-      BPMNAddStep newObject = new BPMNAddStep();
-      newObject.setId(id);
-      this.getBPMNAddSteps().put(id, newObject);
-      return newObject;
-   }
-
-   public BPMNAddFlow getOrCreateBPMNAddFlow(String id) { 
-      if (id == null) {
-         return null;
-      }
-      BPMNAddFlow oldObject = this.getBPMNAddFlows().get(id);
-      if (oldObject != null) {
-         return oldObject;
-      }
-      BPMNAddFlow newObject = new BPMNAddFlow();
-      newObject.setId(id);
-      this.getBPMNAddFlows().put(id, newObject);
-      return newObject;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -317,6 +210,12 @@ public class BPMNEditor
       return true;
    }
 
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
    @Override
    public String toString()
    {
@@ -328,10 +227,65 @@ public class BPMNEditor
       return result.substring(1);
    }
 
-   public void removeYou()
-   {
-      this.setService(null);
+   public LinkedHashMap<String, Task> taskMap = new LinkedHashMap<>();
+   public int taskCounter = 0;
 
+   public BPMNEditor init()
+   {
+      if (taskMap.get("start") == null) {
+         Task start = new Task().setId("start").setKind("start");
+         taskMap.put(start.getId(), start);
+
+         Task end = new Task().setId("end").setKind("end");
+         taskMap.put(end.getId(), end);
+      }
+
+      return this;
+   }
+
+   public Task getOrCreateTask(String id)
+   {
+      Task task = taskMap.computeIfAbsent(id, k -> new Task().setId(k));
+      return task;
+   }
+   public String getTime() { 
+      String newTime = isoDateFormat.format(new Date());
+      if (newTime.compareTo(lastTime) <= 0) {
+         try {
+            Date lastDate = isoDateFormat.parse(lastTime);
+            long millis = lastDate.getTime();
+            millis += timeDelta;
+            Date newDate = new Date(millis);
+            newTime = isoDateFormat.format(newDate);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      lastTime = newTime;
+      return newTime;
+   }
+
+   public void fireCommandExecuted(ModelCommand command) { 
+      String commandName = command.getClass().getSimpleName();
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      for (CommandStream stream : listeners) {
+         stream.publish(command);
+      }
+   }
+
+   public BPMNEditor addCommandListener(String commandName, CommandStream stream) { 
+      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      listeners.add(stream);
+      return this;
+   }
+
+   public void loadYaml(String yamlString) { 
+      java.util.Map map = Yaml.forPackage("unikassel.bpmn2wf.BPMN").decode(yamlString);
+      for (Object value : map.values()) {
+         ModelCommand cmd = (ModelCommand) value;
+         cmd.run(this);
+      }
    }
 
 }

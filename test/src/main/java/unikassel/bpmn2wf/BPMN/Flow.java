@@ -1,45 +1,34 @@
-package unikassel.bpmn2wf.WorkFlows;
+package unikassel.bpmn2wf.BPMN;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class WorkFlowsAddFlow 
+public class Flow  
 {
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public WorkFlowsAddFlow setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
 
    public static final String PROPERTY_source = "source";
 
-   private String source;
+   private Task source = null;
 
-   public String getSource()
+   public Task getSource()
    {
-      return source;
+      return this.source;
    }
 
-   public WorkFlowsAddFlow setSource(String value)
+   public Flow setSource(Task value)
    {
-      if (value == null ? this.source != null : ! value.equals(this.source))
+      if (this.source != value)
       {
-         String oldValue = this.source;
+         Task oldValue = this.source;
+         if (this.source != null)
+         {
+            this.source = null;
+            oldValue.withoutOutgoing(this);
+         }
          this.source = value;
+         if (value != null)
+         {
+            value.withOutgoing(this);
+         }
          firePropertyChange("source", oldValue, value);
       }
       return this;
@@ -47,19 +36,28 @@ public class WorkFlowsAddFlow
 
    public static final String PROPERTY_target = "target";
 
-   private String target;
+   private Task target = null;
 
-   public String getTarget()
+   public Task getTarget()
    {
-      return target;
+      return this.target;
    }
 
-   public WorkFlowsAddFlow setTarget(String value)
+   public Flow setTarget(Task value)
    {
-      if (value == null ? this.target != null : ! value.equals(this.target))
+      if (this.target != value)
       {
-         String oldValue = this.target;
+         Task oldValue = this.target;
+         if (this.target != null)
+         {
+            this.target = null;
+            oldValue.withoutIncomming(this);
+         }
          this.target = value;
+         if (value != null)
+         {
+            value.withIncomming(this);
+         }
          firePropertyChange("target", oldValue, value);
       }
       return this;
@@ -115,17 +113,11 @@ public class WorkFlowsAddFlow
       return true;
    }
 
-   @Override
-   public String toString()
+   public void removeYou()
    {
-      StringBuilder result = new StringBuilder();
+      this.setSource(null);
+      this.setTarget(null);
 
-      result.append(" ").append(this.getId());
-      result.append(" ").append(this.getSource());
-      result.append(" ").append(this.getTarget());
-
-
-      return result.substring(1);
    }
 
 }

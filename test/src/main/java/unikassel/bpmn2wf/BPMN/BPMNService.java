@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
-public class BPMNService 
+public class BPMNService  
 {
 
    public static final String PROPERTY_myPort = "myPort";
@@ -171,7 +171,6 @@ public class BPMNService
       return this;
    }
 
-
    public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
    { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
 
@@ -219,7 +218,6 @@ public class BPMNService
       }
       return this;
    }
-
 
    public BPMNService withoutStreams(Object... value)
    {
@@ -274,6 +272,76 @@ public class BPMNService
       java.util.logging.Logger.getGlobal().info("BPMN Service is listening on port " + myPort);
    }
 
+   protected PropertyChangeSupport listeners = null;
+
+   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
+   {
+      if (listeners != null)
+      {
+         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         return true;
+      }
+      return false;
+   }
+
+   public boolean addPropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(listener);
+      return true;
+   }
+
+   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(propertyName, listener);
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(listener);
+      }
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(propertyName, listener);
+      }
+      return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setModelEditor(null);
+
+      this.withoutStreams(this.getStreams().clone());
+
+
+   }
+
    public String getFirstRoot(Request req, Response res) { 
       currentSession = "" + (sessionToAppMap.size() + 1);
       return root(req, res);
@@ -290,7 +358,18 @@ public class BPMNService
 
          java.util.Map<String, String> params = req.params();
          java.io.StringWriter stringWriter = new java.io.StringWriter();
+         stringWriter.write(
+               "<html>\n" +
+                     "<head>\n" +
+                     "    <meta charset=\"utf-8\">\n" +
+                     "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" +
+                     "\n" +
+                     "    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">\n" +
+                     "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>\n" +
+                     "</head>\n\n"
+         );
          MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         stringWriter.write("\n</html>\n");
          StringBuilder page = new StringBuilder(stringWriter.toString());
          int paramPos = page.indexOf("_cmd: words[0],");
          String sessionParam = String.format("_session: '%s', ", currentSession);
@@ -447,76 +526,6 @@ public class BPMNService
       catch (Exception e) {
          e.printStackTrace();
       }
-   }
-
-   protected PropertyChangeSupport listeners = null;
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (listeners != null)
-      {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
-   }
-
-   public void removeYou()
-   {
-      this.setModelEditor(null);
-
-      this.withoutStreams(this.getStreams().clone());
-
-
    }
 
 }

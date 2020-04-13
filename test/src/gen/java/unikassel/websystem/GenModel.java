@@ -1,5 +1,6 @@
 package unikassel.websystem;
 
+import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Clazz;
 import org.fulib.servicegenerator.ServiceEditor;
 import org.fulib.servicegenerator.SystemEditor;
@@ -24,10 +25,23 @@ public class GenModel
       ServiceEditor workFlows = sysEdit.haveService("WorkFlows");
 
       Clazz addStep = sysEdit.haveSharedCommand("AddStep");
-      sysEdit.haveAttribute(addStep, "taskText", STRING);
+      sysEdit.haveParameter(addStep, "taskId", STRING);
+      sysEdit.haveParameter(addStep, "taskKind", STRING);
+      sysEdit.haveParameter(addStep, "taskText", STRING);
+
       Clazz addFlow = sysEdit.haveSharedCommand("AddFlow");
-      sysEdit.haveAttribute(addFlow, "source", STRING);
-      sysEdit.haveAttribute(addFlow, "target", STRING);
+      sysEdit.haveParameter(addFlow, "source", STRING);
+      sysEdit.haveParameter(addFlow, "target", STRING);
+
+      ClassModelManager mm = bpmn.getClassModelManager();
+      Clazz task = mm.haveClass("Task");
+      mm.haveAttribute(task, "id", STRING);
+      mm.haveAttribute(task, "text", STRING);
+      mm.haveAttribute(task, "kind", STRING);
+      Clazz flow = mm.haveClass("Flow");
+      mm.haveRole(flow, "source", task, ONE, "outgoing", MANY);
+      mm.haveRole(flow, "target", task, ONE, "incomming", MANY);
+      mm.haveRole(task, "kids", task, MANY, "parent", ONE);
 
       sysEdit.generate();
    }

@@ -5,7 +5,7 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 import java.lang.reflect.Method;
 
-public class RemoveCommand extends ModelCommand
+public class RemoveCommand extends ModelCommand  
 {
 
    public static final String PROPERTY_targetClassName = "targetClassName";
@@ -26,33 +26,6 @@ public class RemoveCommand extends ModelCommand
          firePropertyChange("targetClassName", oldValue, value);
       }
       return this;
-   }
-
-   public Object run(BPMNEditor editor) { 
-      // allready removed?
-      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
-      if (oldRemoveCommand != null) {
-         return null;
-      }
-
-      // find the target object
-      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
-      Reflector reflector = reflectorMap.getReflector(editor);
-      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
-      java.util.Map objects = (java.util.Map) value;
-      Object target = objects.get(this.getId());
-      try {
-         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
-         removeYouMethod.invoke(target, new Object[0]);
-      }
-      catch (Exception e) {
-         // ignore
-      }
-      objects.remove(this.getId());
-      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
-      editor.fireCommandExecuted(this);
-
-      return null;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -114,6 +87,33 @@ public class RemoveCommand extends ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public Object run(BPMNEditor editor) { 
+      // allready removed?
+      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
+      if (oldRemoveCommand != null) {
+         return null;
+      }
+
+      // find the target object
+      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
+      Reflector reflector = reflectorMap.getReflector(editor);
+      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
+      java.util.Map objects = (java.util.Map) value;
+      Object target = objects.get(this.getId());
+      try {
+         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
+         removeYouMethod.invoke(target, new Object[0]);
+      }
+      catch (Exception e) {
+         // ignore
+      }
+      objects.remove(this.getId());
+      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
+      editor.fireCommandExecuted(this);
+
+      return null;
    }
 
 }

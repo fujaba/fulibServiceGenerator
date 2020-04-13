@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	bPMNEditor2 	modelCommand3 	removeCommand4 	bPMNService5 	commandStream6 	addStreamCommand7 	bPMNApp8 	page9 	line10 	addStep11 	bPMNAddStep12 	haveAddStepCommand13 	addFlow14 	bPMNAddFlow15 	haveAddFlowCommand16 	
+  classes: 	bPMNEditor2 	modelCommand3 	removeCommand4 	bPMNService5 	commandStream6 	addStreamCommand7 	bPMNApp8 	page9 	line10 	addStep11 	addFlow12 	task13 	flow14 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,28 +7,28 @@
   packageSrcFolder: 	"src/main/java/unikassel/bpmn2wf/BPMN"
 
 - bPMNEditor2: 	Clazz
-  attributes: 	activeCommands17 	removeCommands18 	commandListeners19 	isoDateFormat20 	lastTime21 	timeDelta22 	bPMNAddSteps23 	bPMNAddFlows24 	
+  attributes: 	activeCommands15 	removeCommands16 	commandListeners17 	isoDateFormat18 	lastTime19 	timeDelta20 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f25 	f26 	f27 	f28 	f29 	f30 	
+  methods: 	f21 	f22 	f23 	f24 	
   model: 	c1
   modified: 	false
   name: 	BPMNEditor
   propertyStyle: 	POJO
-  roles: 	service31 	
+  roles: 	service25 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id32 	time33 	
-  methods: 	f34 	
+  attributes: 	id26 	time27 	
+  methods: 	f28 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	addStreamCommand7 	addStep11 	haveAddStepCommand13 	addFlow14 	haveAddFlowCommand16 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	addStep11 	addFlow12 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName35 	
+  attributes: 	targetClassName29 	
   importList: 	null 	null 	null 	
-  methods: 	f36 	
+  methods: 	f30 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -36,28 +36,28 @@
   superClass: 	modelCommand3
 
 - bPMNService5: 	Clazz
-  attributes: 	myPort37 	reflectorMap38 	currentSession39 	executor40 	spark41 	sessionToAppMap42 	
+  attributes: 	myPort31 	reflectorMap32 	currentSession33 	executor34 	spark35 	sessionToAppMap36 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f43 	f44 	f45 	f46 	f47 	f48 	f49 	
+  methods: 	f37 	f38 	f39 	f40 	f41 	f42 	f43 	
   model: 	c1
   modified: 	false
   name: 	BPMNService
   propertyStyle: 	POJO
-  roles: 	modelEditor50 	streams51 	
+  roles: 	modelEditor44 	streams45 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl52 	oldCommands53 	activeCommands54 	
+  attributes: 	targetUrl46 	oldCommands47 	activeCommands48 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f55 	f56 	f57 	f58 	f59 	
+  methods: 	f49 	f50 	f51 	f52 	f53 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service60 	
+  roles: 	service54 	
 
 - addStreamCommand7: 	Clazz
-  attributes: 	incommingRoute61 	outgoingUrl62 	commandList63 	
-  methods: 	f64 	
+  attributes: 	incommingRoute55 	outgoingUrl56 	commandList57 	
+  methods: 	f58 	
   model: 	c1
   modified: 	false
   name: 	AddStreamCommand
@@ -65,77 +65,62 @@
   superClass: 	modelCommand3
 
 - bPMNApp8: 	Clazz
-  attributes: 	modelEditor65 	id66 	description67 	
-  methods: 	f68 	
+  attributes: 	modelEditor59 	id60 	description61 	
+  methods: 	f62 	
   model: 	c1
   modified: 	false
   name: 	BPMNApp
   propertyStyle: 	POJO
-  roles: 	content69 	
+  roles: 	content63 	
 
 - page9: 	Clazz
-  attributes: 	id70 	description71 	
+  attributes: 	id64 	description65 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app72 	content73 	
+  roles: 	app66 	content67 	
 
 - line10: 	Clazz
-  attributes: 	id74 	description75 	action76 	value77 	
+  attributes: 	id68 	description69 	action70 	value71 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page78 	
+  roles: 	page72 	
 
 - addStep11: 	Clazz
+  attributes: 	taskId73 	taskKind74 	taskText75 	
   model: 	c1
   modified: 	false
   name: 	AddStep
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- bPMNAddStep12: 	Clazz
-  attributes: 	id79 	taskText80 	
-  model: 	c1
-  modified: 	false
-  name: 	BPMNAddStep
-  propertyStyle: 	POJO
-
-- haveAddStepCommand13: 	Clazz
-  attributes: 	taskText81 	
-  methods: 	f82 	f83 	
-  model: 	c1
-  modified: 	false
-  name: 	HaveAddStepCommand
-  propertyStyle: 	POJO
-  superClass: 	modelCommand3
-
-- addFlow14: 	Clazz
+- addFlow12: 	Clazz
+  attributes: 	source76 	target77 	
   model: 	c1
   modified: 	false
   name: 	AddFlow
   propertyStyle: 	POJO
   superClass: 	modelCommand3
 
-- bPMNAddFlow15: 	Clazz
-  attributes: 	id84 	source85 	target86 	
+- task13: 	Clazz
+  attributes: 	id78 	text79 	kind80 	
   model: 	c1
   modified: 	false
-  name: 	BPMNAddFlow
+  name: 	Task
   propertyStyle: 	POJO
+  roles: 	outgoing81 	incomming82 	kids83 	parent84 	
 
-- haveAddFlowCommand16: 	Clazz
-  attributes: 	source87 	target88 	
-  methods: 	f89 	f90 	f91 	
+- flow14: 	Clazz
   model: 	c1
   modified: 	false
-  name: 	HaveAddFlowCommand
+  name: 	Flow
   propertyStyle: 	POJO
-  superClass: 	modelCommand3
+  roles: 	source85 	target86 	
 
-- activeCommands17: 	Attribute
+- activeCommands15: 	Attribute
   clazz: 	bPMNEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -143,7 +128,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands18: 	Attribute
+- removeCommands16: 	Attribute
   clazz: 	bPMNEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -151,7 +136,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners19: 	Attribute
+- commandListeners17: 	Attribute
   clazz: 	bPMNEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -159,7 +144,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat20: 	Attribute
+- isoDateFormat18: 	Attribute
   clazz: 	bPMNEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -167,7 +152,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime21: 	Attribute
+- lastTime19: 	Attribute
   clazz: 	bPMNEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -175,7 +160,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta22: 	Attribute
+- timeDelta20: 	Attribute
   clazz: 	bPMNEditor2
   initialization: 	1
   modified: 	false
@@ -183,23 +168,7 @@
   propertyStyle: 	POJO
   type: 	long
 
-- bPMNAddSteps23: 	Attribute
-  clazz: 	bPMNEditor2
-  initialization: 	"new java.util.LinkedHashMap<>()"
-  modified: 	false
-  name: 	bPMNAddSteps
-  propertyStyle: 	POJO
-  type: 	"java.util.Map<String, BPMNAddStep>"
-
-- bPMNAddFlows24: 	Attribute
-  clazz: 	bPMNEditor2
-  initialization: 	"new java.util.LinkedHashMap<>()"
-  modified: 	false
-  name: 	bPMNAddFlows
-  propertyStyle: 	POJO
-  type: 	"java.util.Map<String, BPMNAddFlow>"
-
-- f25: 	FMethod
+- f21: 	FMethod
   clazz: 	bPMNEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -220,7 +189,7 @@
 "
   modified: 	false
 
-- f26: 	FMethod
+- f22: 	FMethod
   clazz: 	bPMNEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -231,7 +200,7 @@
 "
   modified: 	false
 
-- f27: 	FMethod
+- f23: 	FMethod
   clazz: 	bPMNEditor2
   declaration: 	"public BPMNEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -240,7 +209,7 @@
 "
   modified: 	false
 
-- f28: 	FMethod
+- f24: 	FMethod
   clazz: 	bPMNEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.bpmn2wf.BPMN\").decode(yamlString);
@@ -251,79 +220,45 @@
 "
   modified: 	false
 
-- f29: 	FMethod
-  clazz: 	bPMNEditor2
-  declaration: 	"public BPMNAddStep getOrCreateBPMNAddStep(String id)"
-  methodBody: 	"      if (id == null) {
-         return null;
-      }
-      BPMNAddStep oldObject = this.getBPMNAddSteps().get(id);
-      if (oldObject != null) {
-         return oldObject;
-      }
-      BPMNAddStep newObject = new BPMNAddStep();
-      newObject.setId(id);
-      this.getBPMNAddSteps().put(id, newObject);
-      return newObject;
-"
-  modified: 	false
-
-- f30: 	FMethod
-  clazz: 	bPMNEditor2
-  declaration: 	"public BPMNAddFlow getOrCreateBPMNAddFlow(String id)"
-  methodBody: 	"      if (id == null) {
-         return null;
-      }
-      BPMNAddFlow oldObject = this.getBPMNAddFlows().get(id);
-      if (oldObject != null) {
-         return oldObject;
-      }
-      BPMNAddFlow newObject = new BPMNAddFlow();
-      newObject.setId(id);
-      this.getBPMNAddFlows().put(id, newObject);
-      return newObject;
-"
-  modified: 	false
-
-- service31: 	AssocRole
+- service25: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	bPMNEditor2
   modified: 	false
   name: 	service
-  other: 	modelEditor50
+  other: 	modelEditor44
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id32: 	Attribute
+- id26: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time33: 	Attribute
+- time27: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f34: 	FMethod
+- f28: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(BPMNEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName35: 	Attribute
+- targetClassName29: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f36: 	FMethod
+- f30: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(BPMNEditor editor)"
   methodBody: 	"      // allready removed?
@@ -353,42 +288,42 @@
 "
   modified: 	false
 
-- myPort37: 	Attribute
+- myPort31: 	Attribute
   clazz: 	bPMNService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- reflectorMap38: 	Attribute
+- reflectorMap32: 	Attribute
   clazz: 	bPMNService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession39: 	Attribute
+- currentSession33: 	Attribute
   clazz: 	bPMNService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor40: 	Attribute
+- executor34: 	Attribute
   clazz: 	bPMNService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark41: 	Attribute
+- spark35: 	Attribute
   clazz: 	bPMNService5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap42: 	Attribute
+- sessionToAppMap36: 	Attribute
   clazz: 	bPMNService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -396,7 +331,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, BPMNApp>"
 
-- f43: 	FMethod
+- f37: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -426,7 +361,7 @@
 "
   modified: 	false
 
-- f44: 	FMethod
+- f38: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -434,7 +369,7 @@
 "
   modified: 	false
 
-- f45: 	FMethod
+- f39: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -465,7 +400,7 @@
 "
   modified: 	false
 
-- f46: 	FMethod
+- f40: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -538,7 +473,7 @@
 "
   modified: 	false
 
-- f47: 	FMethod
+- f41: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
   methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
@@ -550,7 +485,7 @@
 "
   modified: 	false
 
-- f48: 	FMethod
+- f42: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -563,7 +498,7 @@
 "
   modified: 	false
 
-- f49: 	FMethod
+- f43: 	FMethod
   clazz: 	bPMNService5
   declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
   methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
@@ -619,34 +554,34 @@
 "
   modified: 	false
 
-- modelEditor50: 	AssocRole
+- modelEditor44: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	bPMNService5
   modified: 	false
   name: 	modelEditor
-  other: 	service31
+  other: 	service25
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- streams51: 	AssocRole
+- streams45: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	bPMNService5
   modified: 	false
   name: 	streams
-  other: 	service60
+  other: 	service54
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl52: 	Attribute
+- targetUrl46: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	targetUrl
   propertyStyle: 	POJO
   type: 	String
 
-- oldCommands53: 	Attribute
+- oldCommands47: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -654,7 +589,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands54: 	Attribute
+- activeCommands48: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -662,7 +597,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f55: 	FMethod
+- f49: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -672,7 +607,7 @@
 "
   modified: 	false
 
-- f56: 	FMethod
+- f50: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      try {
@@ -709,7 +644,7 @@
 "
   modified: 	false
 
-- f57: 	FMethod
+- f51: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -724,7 +659,7 @@
 "
   modified: 	false
 
-- f58: 	FMethod
+- f52: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, BPMNService service)"
   methodBody: 	"      this.targetUrl = targetUrl;
@@ -734,7 +669,7 @@
 "
   modified: 	false
 
-- f59: 	FMethod
+- f53: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -748,38 +683,38 @@
 "
   modified: 	false
 
-- service60: 	AssocRole
+- service54: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams51
+  other: 	streams45
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incommingRoute61: 	Attribute
+- incommingRoute55: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	incommingRoute
   propertyStyle: 	POJO
   type: 	String
 
-- outgoingUrl62: 	Attribute
+- outgoingUrl56: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	outgoingUrl
   propertyStyle: 	POJO
   type: 	String
 
-- commandList63: 	Attribute
+- commandList57: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	commandList
   propertyStyle: 	POJO
   type: 	String
 
-- f64: 	FMethod
+- f58: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public Object run(BPMNEditor editor)"
   methodBody: 	"      String[] split = commandList.split(\" \");
@@ -788,28 +723,28 @@
 "
   modified: 	false
 
-- modelEditor65: 	Attribute
+- modelEditor59: 	Attribute
   clazz: 	bPMNApp8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	BPMNEditor
 
-- id66: 	Attribute
+- id60: 	Attribute
   clazz: 	bPMNApp8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description67: 	Attribute
+- description61: 	Attribute
   clazz: 	bPMNApp8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f68: 	FMethod
+- f62: 	FMethod
   clazz: 	bPMNApp8
   declaration: 	"public BPMNApp init(BPMNEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -819,228 +754,201 @@
 "
   modified: 	false
 
-- content69: 	AssocRole
+- content63: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	bPMNApp8
   modified: 	false
   name: 	content
-  other: 	app72
+  other: 	app66
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id70: 	Attribute
+- id64: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description71: 	Attribute
+- description65: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app72: 	AssocRole
+- app66: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content69
+  other: 	content63
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content73: 	AssocRole
+- content67: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page78
+  other: 	page72
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id74: 	Attribute
+- id68: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description75: 	Attribute
+- description69: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action76: 	Attribute
+- action70: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value77: 	Attribute
+- value71: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page78: 	AssocRole
+- page72: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content73
+  other: 	content67
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id79: 	Attribute
-  clazz: 	bPMNAddStep12
+- taskId73: 	Attribute
+  clazz: 	addStep11
   modified: 	false
-  name: 	id
+  name: 	taskId
   propertyStyle: 	POJO
   type: 	String
 
-- taskText80: 	Attribute
-  clazz: 	bPMNAddStep12
+- taskKind74: 	Attribute
+  clazz: 	addStep11
+  modified: 	false
+  name: 	taskKind
+  propertyStyle: 	POJO
+  type: 	String
+
+- taskText75: 	Attribute
+  clazz: 	addStep11
   modified: 	false
   name: 	taskText
   propertyStyle: 	POJO
   type: 	String
 
-- taskText81: 	Attribute
-  clazz: 	haveAddStepCommand13
+- source76: 	Attribute
+  clazz: 	addFlow12
   modified: 	false
-  name: 	taskText
+  name: 	source
   propertyStyle: 	POJO
   type: 	String
 
-- f82: 	FMethod
-  clazz: 	haveAddStepCommand13
-  declaration: 	"public boolean preCheck(BPMNEditor editor)"
-  methodBody: 	"      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"BPMNAddStep-\" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get(\"BPMNAddStep-\" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put(\"BPMNAddStep-\" + this.getId(), this);
-      return true;
-"
+- target77: 	Attribute
+  clazz: 	addFlow12
   modified: 	false
+  name: 	target
+  propertyStyle: 	POJO
+  type: 	String
 
-- f83: 	FMethod
-  annotations: 	"@Override"
-  clazz: 	haveAddStepCommand13
-  declaration: 	"@Override
-   public BPMNAddStep run(BPMNEditor editor)"
-  methodBody: 	"      if ( ! preCheck(editor)) {
-         return editor.getBPMNAddSteps().get(this.getId());
-      }
-      BPMNAddStep dataObject = editor.getOrCreateBPMNAddStep(this.getId());
-      dataObject.setTaskText(this.getTaskText());
-
-      editor.fireCommandExecuted(this);
-      return dataObject;
-"
-  modified: 	false
-
-- id84: 	Attribute
-  clazz: 	bPMNAddFlow15
+- id78: 	Attribute
+  clazz: 	task13
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- source85: 	Attribute
-  clazz: 	bPMNAddFlow15
+- text79: 	Attribute
+  clazz: 	task13
+  modified: 	false
+  name: 	text
+  propertyStyle: 	POJO
+  type: 	String
+
+- kind80: 	Attribute
+  clazz: 	task13
+  modified: 	false
+  name: 	kind
+  propertyStyle: 	POJO
+  type: 	String
+
+- outgoing81: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	task13
+  modified: 	false
+  name: 	outgoing
+  other: 	source85
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- incomming82: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	task13
+  modified: 	false
+  name: 	incomming
+  other: 	target86
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- kids83: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	task13
+  modified: 	false
+  name: 	kids
+  other: 	parent84
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- parent84: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	task13
+  modified: 	false
+  name: 	parent
+  other: 	kids83
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- source85: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	flow14
   modified: 	false
   name: 	source
+  other: 	outgoing81
   propertyStyle: 	POJO
-  type: 	String
+  roleType: 	"java.util.ArrayList<%s>"
 
-- target86: 	Attribute
-  clazz: 	bPMNAddFlow15
+- target86: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	flow14
   modified: 	false
   name: 	target
+  other: 	incomming82
   propertyStyle: 	POJO
-  type: 	String
-
-- source87: 	Attribute
-  clazz: 	haveAddFlowCommand16
-  modified: 	false
-  name: 	source
-  propertyStyle: 	POJO
-  type: 	String
-
-- target88: 	Attribute
-  clazz: 	haveAddFlowCommand16
-  modified: 	false
-  name: 	target
-  propertyStyle: 	POJO
-  type: 	String
-
-- f89: 	FMethod
-  clazz: 	haveAddFlowCommand16
-  declaration: 	"public boolean preCheck(BPMNEditor editor)"
-  methodBody: 	"      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"BPMNAddFlow-\" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get(\"BPMNAddFlow-\" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put(\"BPMNAddFlow-\" + this.getId(), this);
-      return true;
-"
-  modified: 	false
-
-- f90: 	FMethod
-  annotations: 	"@Override"
-  clazz: 	haveAddFlowCommand16
-  declaration: 	"@Override
-   public BPMNAddFlow run(BPMNEditor editor)"
-  methodBody: 	"      if ( ! preCheck(editor)) {
-         return editor.getBPMNAddFlows().get(this.getId());
-      }
-      BPMNAddFlow dataObject = editor.getOrCreateBPMNAddFlow(this.getId());
-      dataObject.setSource(this.getSource());
-
-      editor.fireCommandExecuted(this);
-      return dataObject;
-"
-  modified: 	false
-
-- f91: 	FMethod
-  annotations: 	"@Override"
-  clazz: 	haveAddFlowCommand16
-  declaration: 	"@Override
-   public BPMNAddFlow run(BPMNEditor editor)"
-  methodBody: 	"      if ( ! preCheck(editor)) {
-         return editor.getBPMNAddFlows().get(this.getId());
-      }
-      BPMNAddFlow dataObject = editor.getOrCreateBPMNAddFlow(this.getId());
-      dataObject.setSource(this.getSource());
-      dataObject.setTarget(this.getTarget());
-
-      editor.fireCommandExecuted(this);
-      return dataObject;
-"
-  modified: 	false
+  roleType: 	"java.util.ArrayList<%s>"
 

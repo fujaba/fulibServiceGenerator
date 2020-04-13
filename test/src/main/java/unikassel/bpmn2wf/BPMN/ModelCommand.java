@@ -2,7 +2,7 @@ package unikassel.bpmn2wf.BPMN;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class ModelCommand 
+public class ModelCommand  
 {
 
    public static final String PROPERTY_id = "id";
@@ -43,10 +43,6 @@ public class ModelCommand
          firePropertyChange("time", oldValue, value);
       }
       return this;
-   }
-
-   public Object run(BPMNEditor editor) { 
-      return null;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -109,6 +105,10 @@ public class ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public Object run(BPMNEditor editor) { 
+      return null;
    }
 
 }

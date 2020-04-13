@@ -93,6 +93,17 @@ public class SystemEditor
       return clazz;
    }
 
+   public SystemEditor haveParameter(Clazz sharedCommand, String paramName, String attrType)
+   {
+      this.sharedModelManager.haveAttribute(sharedCommand, paramName, attrType);
+      String commandName = sharedCommand.getName();
+      for (ServiceEditor serviceEditor : this.serviceMap.values()) {
+         Clazz clazz = serviceEditor.haveCommand(commandName);
+         serviceEditor.getClassModelManager().haveAttribute(clazz, paramName, attrType);
+      }
+      return this;
+   }
+
    public SystemEditor haveAttribute(Clazz sharedClass, String attrName, String attrType)
    {
       this.sharedModelManager.haveAttribute(sharedClass, attrName, attrType);

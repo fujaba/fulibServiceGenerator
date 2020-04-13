@@ -2,7 +2,7 @@ package unikassel.bpmn2wf.WorkFlows;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class WorkFlowsApp 
+public class WorkFlowsApp  
 {
 
    public static final String PROPERTY_modelEditor = "modelEditor";
@@ -94,14 +94,6 @@ public class WorkFlowsApp
       return this;
    }
 
-
-   public WorkFlowsApp init(WorkFlowsEditor editor) { 
-      this.modelEditor = editor;
-      this.setId("root");
-      this.setDescription("WorkFlows App");
-      return this;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -168,6 +160,13 @@ public class WorkFlowsApp
    {
       this.setContent(null);
 
+   }
+
+   public WorkFlowsApp init(WorkFlowsEditor editor) { 
+      this.modelEditor = editor;
+      this.setId("root");
+      this.setDescription("WorkFlows App");
+      return this;
    }
 
 }

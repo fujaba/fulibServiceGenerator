@@ -1,8 +1,10 @@
 package unikassel.bpmn2wf.BPMN;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
-public class BPMNApp 
+public class BPMNApp  
 {
 
    public static final String PROPERTY_modelEditor = "modelEditor";
@@ -94,12 +96,105 @@ public class BPMNApp
       return this;
    }
 
-
-   public BPMNApp init(BPMNEditor editor) { 
+   public BPMNApp init(BPMNEditor editor) // no fulib
+   {
+      editor.init();
       this.modelEditor = editor;
       this.setId("root");
       this.setDescription("BPMN App");
+      diagram();
       return this;
+   }
+
+   private String toolBar = "button addStep | button addFlow";
+
+   public Page diagram()
+   {
+      Page page = new Page().setId("bpmnDiagram").setApp(this)
+            .setDescription(toolBar);
+      new Line().setId("startLine").setPage(page).setDescription("<i class=\"fa fa-circle-o\"></i>");
+
+      Task start = modelEditor.taskMap.get("start");
+      LinkedHashSet<Task> preTasks = new LinkedHashSet<>();
+      LinkedHashSet<Flow> flows = new LinkedHashSet<>();
+      LinkedHashSet<Task> nextTasks = new LinkedHashSet<>();
+      preTasks.add(start);
+
+      while ( ! preTasks.isEmpty()) {
+         for (Task preTask : preTasks) {
+            flows.addAll(preTask.getOutgoing());
+         }
+         for (Flow flow : flows) {
+            nextTasks.add(flow.getTarget());
+         }
+         if (preTasks.size() == 1 && nextTasks.size() == 1) {
+            new Line().setId(modelEditor.getTime()).setPage(page).setDescription("<i class=\"fa fa-long-arrow-down\"></i>");
+         }
+         else if (preTasks.size() == 1 && nextTasks.size() > 1) {
+            new Line().setId(modelEditor.getTime()).setPage(page)
+                  .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>");
+         }
+         else if (preTasks.size() > 1 && nextTasks.size() > 1) {
+            new Line().setId(modelEditor.getTime()).setPage(page)
+                  .setDescription("<i class=\"fa fa-long-arrow-down\"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i><i class=\"fa fa-long-arrow-down\"></i>");
+         }
+         else if (preTasks.size() > 1 && nextTasks.size() == 1) {
+            new Line().setId(modelEditor.getTime()).setPage(page)
+                  .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>" +
+                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                        "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>");
+
+         }
+         else if (nextTasks.size() == 0) {
+            new Line().setId(modelEditor.getTime()).setPage(page).setDescription("&nbsp;&nbsp;&nbsp;&nbsp;");
+         }
+
+         ArrayList<String> taskNames = new ArrayList<>();
+         for (Task nextTask : nextTasks) {
+            if ("gate".equals(nextTask.getKind())) {
+               taskNames.add("<i class=\"fa fa-square-o\" style=\"transform: rotate(45deg);\"></i>");
+            }
+            else if ("end".equals(nextTask.getKind())) {
+               taskNames.add("<i class=\"fa fa-dot-circle-o\"></i>");
+            }
+            else {
+               taskNames.add(nextTask.getId());
+            }
+         }
+
+         String join = String.join("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", taskNames.toArray(new String[0]));
+         new Line().setId(modelEditor.getTime()).setPage(page).setDescription(join);
+
+         preTasks = nextTasks;
+         nextTasks = new LinkedHashSet<>();
+         flows.clear();
+
+      }
+
+      return page;
+   }
+
+   public void addStep()
+   {
+      Page page = diagram();
+
+      new Line().setId("taskIdIn").setPage(page).setDescription("input step id?");
+      new Line().setId("taskKindIn").setPage(page).setDescription("input step kind?");
+      new Line().setId("taskTextIn").setPage(page).setDescription("input step text?");
+      new Line().setId("addButton").setPage(page).setDescription("button add")
+         .setAction("AddStep taskIdIn taskKindIn taskTextIn diagram");
+
+   }
+
+   public void addFlow() {
+      Page page = diagram();
+      new Line().setId("sourceIn").setPage(page).setDescription("input source step id?");
+      new Line().setId("targetIn").setPage(page).setDescription("input target step id?");
+      new Line().setId("addButton").setPage(page).setDescription("button add")
+            .setAction("AddFlow sourceIn targetIn diagram");
+
    }
 
    protected PropertyChangeSupport listeners = null;
