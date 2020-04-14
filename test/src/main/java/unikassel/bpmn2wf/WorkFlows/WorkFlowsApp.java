@@ -1,6 +1,9 @@
 package unikassel.bpmn2wf.WorkFlows;
+import javax.swing.*;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class WorkFlowsApp  
 {
@@ -162,11 +165,94 @@ public class WorkFlowsApp
 
    }
 
-   public WorkFlowsApp init(WorkFlowsEditor editor) { 
+   public WorkFlowsApp init(WorkFlowsEditor editor) // no fulib
+   {
+      editor.init();
       this.modelEditor = editor;
       this.setId("root");
       this.setDescription("WorkFlows App");
+      diagram();
       return this;
+   }
+
+   private String toolBar = "button addStep | button addFlow";
+
+   public Page diagram()
+   {
+      Page page = new Page().setId("workflowDiagram").setApp(this)
+            .setDescription(toolBar);
+
+      Step firstStep = getFirstStep(modelEditor.root);
+
+      LinkedHashSet<Step> prevSteps = new LinkedHashSet<>();
+      prevSteps.add(firstStep);
+      while (prevSteps.size() > 0) {
+         ArrayList<String> stepNames = new ArrayList<>();
+         for (Step prevStep : prevSteps) {
+            stepNames.add(prevStep.getId());
+         }
+
+         String join = String.join("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", stepNames.toArray(new String[0]));
+         new Line().setId(modelEditor.getTime()).setPage(page).setDescription(join);
+
+         LinkedHashSet<Step> nextSteps = new LinkedHashSet<>();
+         for (Step prevStep : prevSteps) {
+            ArrayList<Step> nextOfThis = prevStep.getNext();
+            for (Step nextStep : nextOfThis) {
+               if ("parallelStep".equals(nextStep.getKind())) {
+                  for (Flow invokedFlow : nextStep.getInvokedFlows()) {
+                     Step subStep = getFirstStep(invokedFlow);
+                     nextSteps.add(subStep);
+                  }
+               }
+               else {
+                  nextSteps.add(nextStep);
+               }
+            }
+         }
+
+         if (nextSteps.size() > 0) {
+            // add arrows
+            if (prevSteps.size() == 1 && nextSteps.size() == 1) {
+               new Line().setId(modelEditor.getTime()).setPage(page).setDescription("<i class=\"fa fa-long-arrow-down\"></i>");
+            }
+            else if (prevSteps.size() == 1 && nextSteps.size() > 1) {
+               new Line().setId(modelEditor.getTime()).setPage(page)
+                     .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>" +
+                           "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                           "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>");
+            }
+            else if (prevSteps.size() > 1 && nextSteps.size() == 1) {
+               new Line().setId(modelEditor.getTime()).setPage(page)
+                     .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>" +
+                           "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                           "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>");
+            }
+            else if (prevSteps.size() > 1 && nextSteps.size() > 1) {
+               new Line().setId(modelEditor.getTime()).setPage(page)
+                     .setDescription("<i class=\"fa fa-long-arrow-down\"></i>" +
+                           "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                           "<i class=\"fa fa-long-arrow-down\"></i>");
+            }
+         }
+
+         prevSteps = nextSteps;
+
+      }
+
+      return page;
+   }
+
+   private Step getFirstStep(Flow root)
+   {
+      Step firstStep = null;
+      for (Step step : root.getSteps()) {
+         if (step.getPrev().size() == 0) {
+            firstStep = step;
+            break;
+         }
+      }
+      return firstStep;
    }
 
 }

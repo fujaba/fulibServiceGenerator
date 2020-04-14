@@ -459,7 +459,18 @@ public class ShopService
 
          java.util.Map<String, String> params = req.params();
          java.io.StringWriter stringWriter = new java.io.StringWriter();
+         stringWriter.write(
+               "<html>\n" +
+                     "<head>\n" +
+                     "    <meta charset=\"utf-8\">\n" +
+                     "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" +
+                     "\n" +
+                     "    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">\n" +
+                     "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>\n" +
+                     "</head>\n\n"
+         );
          MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         stringWriter.write("\n</html>\n");
          StringBuilder page = new StringBuilder(stringWriter.toString());
          int paramPos = page.indexOf("_cmd: words[0],");
          String sessionParam = String.format("_session: '%s', ", currentSession);

@@ -1,5 +1,6 @@
 package unikassel.bpmn2wf;
 
+import org.fulib.FulibTools;
 import org.fulib.servicegenerator.FulibScenarioDiagram;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -7,6 +8,7 @@ import unikassel.bpmn2wf.BPMN.AddFlow;
 import unikassel.bpmn2wf.BPMN.AddStep;
 import unikassel.bpmn2wf.BPMN.BPMNApp;
 import unikassel.bpmn2wf.BPMN.BPMNService;
+import unikassel.bpmn2wf.WorkFlows.WorkFlowsApp;
 import unikassel.bpmn2wf.WorkFlows.WorkFlowsService;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -98,6 +100,13 @@ public class TestBPMN2WorkFlow
 
       BPMNApp bpmnApp = bpmnService.getSessionToAppMap().values().iterator().next();
       scene1.addScreen("BPMN", "9:00", bpmnApp);
+
+      open("http://localhost:22050/WorkFlows");
+      WorkFlowsApp wfApp = workFlowsService.getSessionToAppMap().values().iterator().next();
+      scene1.addScreen("WorkFlow", "9:00", wfApp);
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/WorkFlowModel.svg",
+            workFlowsService.getModelEditor().root);
 
       System.out.println();
    }

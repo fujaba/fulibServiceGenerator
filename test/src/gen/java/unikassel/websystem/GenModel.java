@@ -33,15 +33,27 @@ public class GenModel
       sysEdit.haveParameter(addFlow, "source", STRING);
       sysEdit.haveParameter(addFlow, "target", STRING);
 
-      ClassModelManager mm = bpmn.getClassModelManager();
-      Clazz task = mm.haveClass("Task");
-      mm.haveAttribute(task, "id", STRING);
-      mm.haveAttribute(task, "text", STRING);
-      mm.haveAttribute(task, "kind", STRING);
-      Clazz flow = mm.haveClass("Flow");
-      mm.haveRole(flow, "source", task, ONE, "outgoing", MANY);
-      mm.haveRole(flow, "target", task, ONE, "incomming", MANY);
-      mm.haveRole(task, "kids", task, MANY, "parent", ONE);
+      ClassModelManager bpmnM = bpmn.getClassModelManager();
+      Clazz task = bpmnM.haveClass("Task");
+      bpmnM.haveAttribute(task, "id", STRING);
+      bpmnM.haveAttribute(task, "text", STRING);
+      bpmnM.haveAttribute(task, "kind", STRING);
+      Clazz flow = bpmnM.haveClass("Flow");
+      bpmnM.haveRole(flow, "source", task, ONE, "outgoing", MANY);
+      bpmnM.haveRole(flow, "target", task, ONE, "incomming", MANY);
+      bpmnM.haveRole(task, "kids", task, MANY, "parent", ONE);
+
+      ClassModelManager wfM = workFlows.getClassModelManager();
+      Clazz step = wfM.haveClass("Step");
+      wfM.haveAttribute(step, "id", STRING);
+      wfM.haveAttribute(step, "text", STRING);
+      wfM.haveAttribute(step, "kind", STRING);
+
+      Clazz workFlow = wfM.haveClass("Flow");
+      wfM.haveRole(step, "next", step, MANY, "prev", MANY);
+      wfM.haveRole(workFlow, "steps", step, MANY, "parent", ONE);
+      wfM.haveRole(workFlow, "finalFlow", step, ONE, "finalFlow", ONE);
+      wfM.haveRole(step, "invokedFlows", workFlow, MANY, "invoker", ONE);
 
       sysEdit.generate();
    }

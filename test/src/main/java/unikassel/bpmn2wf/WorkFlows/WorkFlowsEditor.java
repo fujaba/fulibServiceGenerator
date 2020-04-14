@@ -1,9 +1,12 @@
 package unikassel.bpmn2wf.WorkFlows;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import org.fulib.yaml.Yaml;
 
 public class WorkFlowsEditor  
@@ -225,6 +228,23 @@ public class WorkFlowsEditor
       return result.substring(1);
    }
 
+   public Flow root = null;
+   public LinkedHashMap<String, Step> stepMap = new LinkedHashMap<>();
+   public int stepCounter = 0;
+
+   public WorkFlowsEditor init()
+   {
+      if (root == null) {
+         root = new Flow();
+      }
+
+      return this;
+   }
+
+   public Step getOrCreateStep(String id) {
+      Step step = stepMap.computeIfAbsent(id, k -> new Step().setId(k));
+      return step;
+   }
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

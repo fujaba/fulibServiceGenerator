@@ -248,6 +248,7 @@ public class BPMNEditor
       Task task = taskMap.computeIfAbsent(id, k -> new Task().setId(k));
       return task;
    }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

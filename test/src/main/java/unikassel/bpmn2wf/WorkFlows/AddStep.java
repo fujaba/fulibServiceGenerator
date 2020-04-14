@@ -1,4 +1,5 @@
 package unikassel.bpmn2wf.WorkFlows;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
@@ -7,8 +8,36 @@ public class AddStep extends ModelCommand
    @Override
    public Object run(WorkFlowsEditor editor)
    {
-      System.out.println("Work Flow add step " + taskId);
+      this.setId(taskId);
+      if ( ! preCheck(editor)) {
+         return editor.stepMap.get(taskId);
+      }
+      editor.init();
+      System.out.println("Workflow add step " + taskId);
+      Step step = editor.getOrCreateStep(taskId);
+      step.setParent(editor.root);
+      step.setText(taskText);
+      step.setKind(taskKind);
+
+      editor.fireCommandExecuted(this);
+
       return null;
+   }
+
+   public boolean preCheck(WorkFlowsEditor editor) {
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddStep-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("AddStep-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("AddStep-" + this.getId(), this);
+      return true;
    }
 
    public static final String PROPERTY_taskText = "taskText";
