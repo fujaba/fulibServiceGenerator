@@ -112,4 +112,20 @@ public class OpenAddPalette extends ModelCommand
       return result.substring(1);
    }
 
+   public boolean preCheck(RampEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("OpenAddPalette-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("OpenAddPalette-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("OpenAddPalette-" + this.getId(), this);
+      return true;
+   }
+
 }

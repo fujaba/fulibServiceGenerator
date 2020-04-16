@@ -88,7 +88,7 @@ public class SystemEditor
    {
       Clazz clazz = this.sharedEditor.haveCommand(commandName);
       for (ServiceEditor serviceEditor : this.serviceMap.values()) {
-         serviceEditor.haveCommand(commandName);
+         Clazz command = serviceEditor.haveCommand(commandName);
       }
       return clazz;
    }

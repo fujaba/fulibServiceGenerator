@@ -175,4 +175,20 @@ public class OrderAction extends ModelCommand
       return this;
    }
 
+   public boolean preCheck(ShopEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("OrderAction-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("OrderAction-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("OrderAction-" + this.getId(), this);
+      return true;
+   }
+
 }

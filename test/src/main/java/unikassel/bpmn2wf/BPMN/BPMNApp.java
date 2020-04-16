@@ -106,7 +106,7 @@ public class BPMNApp
       return this;
    }
 
-   private String toolBar = "button addStep | button addFlow";
+   private String toolBar = "button addStep | button addGatePair| button addFlow";
 
    public Page diagram()
    {
@@ -181,10 +181,17 @@ public class BPMNApp
       Page page = diagram();
 
       new Line().setId("taskIdIn").setPage(page).setDescription("input step id?");
-      new Line().setId("taskKindIn").setPage(page).setDescription("input step kind?");
       new Line().setId("taskTextIn").setPage(page).setDescription("input step text?");
       new Line().setId("addButton").setPage(page).setDescription("button add")
-         .setAction("AddStep taskIdIn taskKindIn taskTextIn diagram");
+         .setAction("AddStep taskIdIn taskTextIn diagram");
+
+   }
+
+   public void addGatePair() {
+      Page page = diagram();
+      new Line().setId("gateIdIn").setPage(page).setDescription("input gate id?");
+      new Line().setId("addButton").setPage(page).setDescription("button add")
+            .setAction("AddParallel gateIdIn diagram");
 
    }
 

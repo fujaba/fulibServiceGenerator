@@ -231,6 +231,7 @@ public class CommandStream
 
    public String handlePostRequest(Request req, Response res) { 
       String body = req.body();
+      // System.out.println("Body: \n" + body);
       LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
             .decode(body);
 

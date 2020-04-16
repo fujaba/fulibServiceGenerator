@@ -17,27 +17,10 @@ public class AddStep extends ModelCommand
       Step step = editor.getOrCreateStep(taskId);
       step.setParent(editor.root);
       step.setText(taskText);
-      step.setKind(taskKind);
 
       editor.fireCommandExecuted(this);
 
       return null;
-   }
-
-   public boolean preCheck(WorkFlowsEditor editor) {
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddStep-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("AddStep-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("AddStep-" + this.getId(), this);
-      return true;
    }
 
    public static final String PROPERTY_taskText = "taskText";
@@ -110,19 +93,6 @@ public class AddStep extends ModelCommand
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getTaskId());
-      result.append(" ").append(this.getTaskKind());
-      result.append(" ").append(this.getTaskText());
-
-
-      return result.substring(1);
-   }
-
    public static final String PROPERTY_taskId = "taskId";
 
    private String taskId;
@@ -143,24 +113,32 @@ public class AddStep extends ModelCommand
       return this;
    }
 
-   public static final String PROPERTY_taskKind = "taskKind";
-
-   private String taskKind;
-
-   public String getTaskKind()
+   @Override
+   public String toString()
    {
-      return taskKind;
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getTaskId());
+      result.append(" ").append(this.getTaskText());
+
+
+      return result.substring(1);
    }
 
-   public AddStep setTaskKind(String value)
-   {
-      if (value == null ? this.taskKind != null : ! value.equals(this.taskKind))
-      {
-         String oldValue = this.taskKind;
-         this.taskKind = value;
-         firePropertyChange("taskKind", oldValue, value);
+   public boolean preCheck(WorkFlowsEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
       }
-      return this;
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddStep-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("AddStep-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("AddStep-" + this.getId(), this);
+      return true;
    }
 
 }

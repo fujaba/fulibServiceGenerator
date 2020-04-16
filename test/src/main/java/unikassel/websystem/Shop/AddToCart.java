@@ -133,4 +133,20 @@ public class AddToCart extends ModelCommand
       return result.substring(1);
    }
 
+   public boolean preCheck(ShopEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddToCart-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("AddToCart-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("AddToCart-" + this.getId(), this);
+      return true;
+   }
+
 }

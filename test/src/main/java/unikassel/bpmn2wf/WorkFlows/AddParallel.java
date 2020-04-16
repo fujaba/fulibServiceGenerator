@@ -1,42 +1,42 @@
-package unikassel.bpmn2wf.BPMN;
-
+package unikassel.bpmn2wf.WorkFlows;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class AddStep extends ModelCommand  
+public class AddParallel extends ModelCommand  
 {
+
    @Override
-   public Object run(BPMNEditor editor)
+   public Object run(WorkFlowsEditor editor)
    {
-      this.setId(taskId);
+      this.setId(gateId);
       if ( ! preCheck(editor)) {
-         return editor.taskMap.get(taskId);
+         return null;
       }
 
-      // just add the task
-      Task dataObject = editor.getOrCreateTask(taskId);
-      dataObject.setText(this.getTaskText());
+      System.out.println("Workflow add parallel " + getId());
+      Step pStep = editor.getOrCreateStep(gateId);
+      pStep.setKind("parallelStep");
 
       editor.fireCommandExecuted(this);
-      return dataObject;
+      return null;
    }
 
-   public static final String PROPERTY_taskText = "taskText";
+   public static final String PROPERTY_gateId = "gateId";
 
-   private String taskText;
+   private String gateId;
 
-   public String getTaskText()
+   public String getGateId()
    {
-      return taskText;
+      return gateId;
    }
 
-   public AddStep setTaskText(String value)
+   public AddParallel setGateId(String value)
    {
-      if (value == null ? this.taskText != null : ! value.equals(this.taskText))
+      if (value == null ? this.gateId != null : ! value.equals(this.gateId))
       {
-         String oldValue = this.taskText;
-         this.taskText = value;
-         firePropertyChange("taskText", oldValue, value);
+         String oldValue = this.gateId;
+         this.gateId = value;
+         firePropertyChange("gateId", oldValue, value);
       }
       return this;
    }
@@ -91,51 +91,30 @@ public class AddStep extends ModelCommand
       return true;
    }
 
-   public static final String PROPERTY_taskId = "taskId";
-
-   private String taskId;
-
-   public String getTaskId()
-   {
-      return taskId;
-   }
-
-   public AddStep setTaskId(String value)
-   {
-      if (value == null ? this.taskId != null : ! value.equals(this.taskId))
-      {
-         String oldValue = this.taskId;
-         this.taskId = value;
-         firePropertyChange("taskId", oldValue, value);
-      }
-      return this;
-   }
-
    @Override
    public String toString()
    {
       StringBuilder result = new StringBuilder();
 
-      result.append(" ").append(this.getTaskId());
-      result.append(" ").append(this.getTaskText());
+      result.append(" ").append(this.getGateId());
 
 
       return result.substring(1);
    }
 
-   public boolean preCheck(BPMNEditor editor) { 
+   public boolean preCheck(WorkFlowsEditor editor) { 
       if (this.getTime() == null) {
          this.setTime(editor.getTime());
       }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddStep-" + this.getId());
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddParallel-" + this.getId());
       if (oldRemove != null) {
          return false;
       }
-      ModelCommand oldCommand = editor.getActiveCommands().get("AddStep-" + this.getId());
+      ModelCommand oldCommand = editor.getActiveCommands().get("AddParallel-" + this.getId());
       if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
          return false;
       }
-      editor.getActiveCommands().put("AddStep-" + this.getId(), this);
+      editor.getActiveCommands().put("AddParallel-" + this.getId(), this);
       return true;
    }
 

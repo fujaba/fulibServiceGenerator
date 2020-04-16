@@ -26,8 +26,10 @@ public class GenModel
 
       Clazz addStep = sysEdit.haveSharedCommand("AddStep");
       sysEdit.haveParameter(addStep, "taskId", STRING);
-      sysEdit.haveParameter(addStep, "taskKind", STRING);
       sysEdit.haveParameter(addStep, "taskText", STRING);
+
+      Clazz addParallel = sysEdit.haveSharedCommand("AddParallel");
+      sysEdit.haveParameter(addParallel, "gateId", STRING);
 
       Clazz addFlow = sysEdit.haveSharedCommand("AddFlow");
       sysEdit.haveParameter(addFlow, "source", STRING);

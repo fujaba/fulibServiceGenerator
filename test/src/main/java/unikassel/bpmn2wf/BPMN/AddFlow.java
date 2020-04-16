@@ -17,25 +17,8 @@ public class AddFlow extends ModelCommand
       Task sourceTask = editor.getOrCreateTask(source);
       Task targetTask = editor.getOrCreateTask(target);
       Flow flow = new Flow().setSource(sourceTask).setTarget(targetTask);
-
       editor.fireCommandExecuted(this);
       return flow;
-   }
-
-   public boolean preCheck(BPMNEditor editor) {
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddFlow-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("AddFlow-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("AddFlow-" + this.getId(), this);
-      return true;
    }
 
    public static final String PROPERTY_source = "source";
@@ -138,6 +121,22 @@ public class AddFlow extends ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public boolean preCheck(BPMNEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddFlow-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("AddFlow-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("AddFlow-" + this.getId(), this);
+      return true;
    }
 
 }

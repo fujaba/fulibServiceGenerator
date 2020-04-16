@@ -184,6 +184,11 @@ public class WorkFlowsApp
 
       Step firstStep = getFirstStep(modelEditor.root);
 
+      if (firstStep == null) {
+         new Line().setId("l1").setPage(page).setDescription("empty diagram");
+         return page;
+      }
+
       LinkedHashSet<Step> prevSteps = new LinkedHashSet<>();
       prevSteps.add(firstStep);
       while (prevSteps.size() > 0) {

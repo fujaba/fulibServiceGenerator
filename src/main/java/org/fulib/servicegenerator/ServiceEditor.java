@@ -492,6 +492,13 @@ public class ServiceEditor
       commandClasses.put(className, commandClass);
       commandClass.setSuperClass(this.modelCommand);
 
+      String declaration = String.format("public boolean preCheck(%sEditor editor)", serviceName);
+      ST st = group.getInstanceOf("preCheck");
+      st.add("dataClazz", className);
+      String body = st.render();
+      FMethod fMethod = mm.haveMethod(commandClass, declaration, body);
+
+
       return commandClass;
    }
 

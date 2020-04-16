@@ -245,6 +245,7 @@ public class WorkFlowsEditor
       Step step = stepMap.computeIfAbsent(id, k -> new Step().setId(k));
       return step;
    }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

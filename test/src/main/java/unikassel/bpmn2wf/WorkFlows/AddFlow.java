@@ -11,7 +11,7 @@ public class AddFlow extends ModelCommand
    {
       editor.init();
 
-      String flowId = source + "-" + target;
+      String flowId = source + "_" + target;
       this.setId(flowId);
       if ( ! preCheck(editor)) {
          return null;
@@ -29,47 +29,40 @@ public class AddFlow extends ModelCommand
          sourceStep.setFinalFlow(sourceStep.getParent());
       }
       else {
+         String pSource = null;
+         String pTarget = null;
+         if (source.endsWith("_dot_start")) {
+            pSource = source;
+            source = source.substring(0, source.length() - "_dot_start".length());
+         }
+         if (source.endsWith("_dot_end")) {
+            source = source.substring(0, source.length() - "_dot_end".length());
+         }
+         if (target.endsWith("_dot_start")) {
+            target = target.substring(0, target.length() - "_dot_start".length());
+         }
+         if (target.endsWith("_dot_end")) {
+            pTarget = target;
+            target = target.substring(0, target.length() - "_dot_end".length());
+         }
          Step sourceStep = editor.getOrCreateStep(source);
          Step targetStep = editor.getOrCreateStep(target);
-         sourceStep.withNext(targetStep);
-         targetStep.setParent(sourceStep.getParent());
-
-         if (sourceStep.getNext().size() > 1 || "parallelStep".equals(sourceStep.getKind())) {
-            sourceStep.setKind("parallelStep");
-            // introduce parallel subflows
-            for (Step subStep : (Collection<Step>) sourceStep.getNext().clone()) {
-               sourceStep.withoutNext(subStep);
-               Flow subFlow = new Flow();
-               sourceStep.withInvokedFlows(subFlow);
-               subFlow.withSteps(subStep);
-            }
+         if ( pSource == null && pTarget == null) {
+            sourceStep.withNext(targetStep);
+            targetStep.setParent(sourceStep.getParent());
          }
-         else if (targetStep.getPrev().size() > 1) {
-            for (Step prevStep : targetStep.getPrev()) {
-               prevStep.setFinalFlow(prevStep.getParent());
-            }
-            targetStep.removeYou();
+         else if ("parallelStep".equals(sourceStep.getKind())) {
+            Flow subFlow = new Flow();
+            sourceStep.withInvokedFlows(subFlow);
+            subFlow.withSteps(targetStep);
+         }
+         else if ("parallelStep".equals(targetStep.getKind())) {
+            sourceStep.setFinalFlow(sourceStep.getParent());
          }
       }
 
       editor.fireCommandExecuted(this);
       return null;
-   }
-
-   public boolean preCheck(WorkFlowsEditor editor) {
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddFlow-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("AddFlow-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("AddFlow-" + this.getId(), this);
-      return true;
    }
    public static final String PROPERTY_source = "source";
 
@@ -171,6 +164,22 @@ public class AddFlow extends ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public boolean preCheck(WorkFlowsEditor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddFlow-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("AddFlow-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("AddFlow-" + this.getId(), this);
+      return true;
    }
 
 }

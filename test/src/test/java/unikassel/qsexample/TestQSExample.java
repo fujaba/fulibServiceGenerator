@@ -37,11 +37,8 @@ public class TestQSExample
 
       //
       rampBobService.connectTo("RampBob", "http://localhost:22031","Ramp0", "http://localhost:22030",
-            "<->",
-            HaveSupplyCommand.class.getSimpleName(),
-            HaveSupplierCommand.class.getSimpleName(),
-            HaveProductCommand.class.getSimpleName());
-
+            "<->"
+            );
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/QSScene.html");
       scene1.addServices("Alice's PC", "Accounting", "Ramp0", "Bob's Tablett");

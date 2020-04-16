@@ -2,12 +2,10 @@ package unikassel.bpmn2wf;
 
 import org.fulib.FulibTools;
 import org.fulib.servicegenerator.FulibScenarioDiagram;
+import org.fulib.yaml.Yaml;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import unikassel.bpmn2wf.BPMN.AddFlow;
-import unikassel.bpmn2wf.BPMN.AddStep;
-import unikassel.bpmn2wf.BPMN.BPMNApp;
-import unikassel.bpmn2wf.BPMN.BPMNService;
+import unikassel.bpmn2wf.BPMN.*;
 import unikassel.bpmn2wf.WorkFlows.WorkFlowsApp;
 import unikassel.bpmn2wf.WorkFlows.WorkFlowsService;
 
@@ -27,10 +25,10 @@ public class TestBPMN2WorkFlow
 
       bpmnService.connectTo("BPMN", "http://localhost:22040","WorkFlow", "http://localhost:22050",
             AddStep.class.getSimpleName(),
+            AddParallel.class.getSimpleName(),
             AddFlow.class.getSimpleName(),
-            "<->",
-            AddStep.class.getSimpleName(),
-            AddFlow.class.getSimpleName());
+            "<->"
+      );
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/BPMN2WorkFlow.html");
@@ -40,7 +38,7 @@ public class TestBPMN2WorkFlow
       $(By.xpath("//button[text()='addStep']")).click();
 
       $("#taskIdIn").$("input").setValue("t0");
-      $("#taskTextIn").$("input").setValue("task 0");
+      $("#taskTextIn").$("input").setValue("check stock");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
@@ -48,14 +46,13 @@ public class TestBPMN2WorkFlow
       $("#targetIn").$("input").setValue("t0");
       $(By.xpath("//button[text()='add']")).click();
 
-      $(By.xpath("//button[text()='addStep']")).click();
-      $("#taskIdIn").$("input").setValue("pg1");
-      $("#taskKindIn").$("input").setValue("gate");
+      $(By.xpath("//button[text()='addGatePair']")).click();
+      $("#gateIdIn").$("input").setValue("pg1");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t0");
-      $("#targetIn").$("input").setValue("pg1");
+      $("#targetIn").$("input").setValue("pg1_dot_start");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addStep']")).click();
@@ -64,7 +61,7 @@ public class TestBPMN2WorkFlow
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
-      $("#sourceIn").$("input").setValue("pg1");
+      $("#sourceIn").$("input").setValue("pg1_dot_start");
       $("#targetIn").$("input").setValue("t2");
       $(By.xpath("//button[text()='add']")).click();
 
@@ -74,27 +71,22 @@ public class TestBPMN2WorkFlow
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
-      $("#sourceIn").$("input").setValue("pg1");
+      $("#sourceIn").$("input").setValue("pg1_dot_start");
       $("#targetIn").$("input").setValue("t1");
-      $(By.xpath("//button[text()='add']")).click();
-
-      $(By.xpath("//button[text()='addStep']")).click();
-      $("#taskIdIn").$("input").setValue("pg2");
-      $("#taskKindIn").$("input").setValue("gate");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t2");
-      $("#targetIn").$("input").setValue("pg2");
+      $("#targetIn").$("input").setValue("pg1_dot_end");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t1");
-      $("#targetIn").$("input").setValue("pg2");
+      $("#targetIn").$("input").setValue("pg1_dot_end");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
-      $("#sourceIn").$("input").setValue("pg2");
+      $("#sourceIn").$("input").setValue("pg1_dot_end");
       $("#targetIn").$("input").setValue("end");
       $(By.xpath("//button[text()='add']")).click();
 
@@ -107,6 +99,9 @@ public class TestBPMN2WorkFlow
 
       FulibTools.objectDiagrams().dumpSVG("tmp/WorkFlowModel.svg",
             workFlowsService.getModelEditor().root);
+
+      String yaml = Yaml.encode(workFlowsService.getModelEditor().getActiveCommands().values());
+      System.out.println(yaml);
 
       System.out.println();
    }

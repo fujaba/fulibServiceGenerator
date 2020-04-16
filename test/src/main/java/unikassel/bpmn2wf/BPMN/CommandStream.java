@@ -179,6 +179,7 @@ public class CommandStream
    public void send() { 
       try {
          String yaml = Yaml.encode(activeCommands.values());
+         System.out.println("Sending to " + targetUrl + "\n" + yaml);
          URL url = new URL(targetUrl);
          HttpURLConnection con = (HttpURLConnection) url.openConnection();
          con.setRequestMethod("POST");
