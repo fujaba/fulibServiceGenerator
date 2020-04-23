@@ -99,8 +99,8 @@
   superClass: 	modelCommand3
 
 - addParallel12: 	Clazz
-  attributes: 	gateId79 	
-  methods: 	f80 	
+  attributes: 	gateId79 	gateKind80 	
+  methods: 	f81 	
   model: 	c1
   modified: 	false
   name: 	AddParallel
@@ -108,8 +108,8 @@
   superClass: 	modelCommand3
 
 - addFlow13: 	Clazz
-  attributes: 	source81 	target82 	
-  methods: 	f83 	
+  attributes: 	source82 	target83 	
+  methods: 	f84 	
   model: 	c1
   modified: 	false
   name: 	AddFlow
@@ -117,19 +117,19 @@
   superClass: 	modelCommand3
 
 - task14: 	Clazz
-  attributes: 	id84 	text85 	kind86 	
+  attributes: 	id85 	text86 	kind87 	
   model: 	c1
   modified: 	false
   name: 	Task
   propertyStyle: 	POJO
-  roles: 	outgoing87 	incomming88 	kids89 	parent90 	
+  roles: 	outgoing88 	incomming89 	kids90 	parent91 	
 
 - flow15: 	Clazz
   model: 	c1
   modified: 	false
   name: 	Flow
   propertyStyle: 	POJO
-  roles: 	source91 	target92 	
+  roles: 	source92 	target93 	
 
 - activeCommands16: 	Attribute
   clazz: 	bPMNEditor2
@@ -936,7 +936,14 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f80: 	FMethod
+- gateKind80: 	Attribute
+  clazz: 	addParallel12
+  modified: 	false
+  name: 	gateKind
+  propertyStyle: 	POJO
+  type: 	String
+
+- f81: 	FMethod
   clazz: 	addParallel12
   declaration: 	"public boolean preCheck(BPMNEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -955,21 +962,21 @@
 "
   modified: 	false
 
-- source81: 	Attribute
+- source82: 	Attribute
   clazz: 	addFlow13
   modified: 	false
   name: 	source
   propertyStyle: 	POJO
   type: 	String
 
-- target82: 	Attribute
+- target83: 	Attribute
   clazz: 	addFlow13
   modified: 	false
   name: 	target
   propertyStyle: 	POJO
   type: 	String
 
-- f83: 	FMethod
+- f84: 	FMethod
   clazz: 	addFlow13
   declaration: 	"public boolean preCheck(BPMNEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -988,84 +995,84 @@
 "
   modified: 	false
 
-- id84: 	Attribute
+- id85: 	Attribute
   clazz: 	task14
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- text85: 	Attribute
+- text86: 	Attribute
   clazz: 	task14
   modified: 	false
   name: 	text
   propertyStyle: 	POJO
   type: 	String
 
-- kind86: 	Attribute
+- kind87: 	Attribute
   clazz: 	task14
   modified: 	false
   name: 	kind
   propertyStyle: 	POJO
   type: 	String
 
-- outgoing87: 	AssocRole
+- outgoing88: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	task14
   modified: 	false
   name: 	outgoing
-  other: 	source91
+  other: 	source92
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incomming88: 	AssocRole
+- incomming89: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	task14
   modified: 	false
   name: 	incomming
-  other: 	target92
+  other: 	target93
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- kids89: 	AssocRole
+- kids90: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	task14
   modified: 	false
   name: 	kids
-  other: 	parent90
+  other: 	parent91
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- parent90: 	AssocRole
+- parent91: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	task14
   modified: 	false
   name: 	parent
-  other: 	kids89
+  other: 	kids90
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- source91: 	AssocRole
+- source92: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	flow15
   modified: 	false
   name: 	source
-  other: 	outgoing87
+  other: 	outgoing88
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- target92: 	AssocRole
+- target93: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	flow15
   modified: 	false
   name: 	target
-  other: 	incomming88
+  other: 	incomming89
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 

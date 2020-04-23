@@ -2,7 +2,6 @@ package unikassel.bpmn2wf.WorkFlows;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
 
 public class AddFlow extends ModelCommand  
 {
@@ -23,47 +22,57 @@ public class AddFlow extends ModelCommand
       if ("start".equals(source)) {
          Step targetStep = editor.getOrCreateStep(target);
          targetStep.setParent(editor.root);
+         propagateFlow(targetStep);
       }
       else if ("end".equals(target)) {
          Step sourceStep = editor.getOrCreateStep(source);
-         sourceStep.setFinalFlow(sourceStep.getParent());
+         sourceStep.setFinalFlag(true);
+         propagateFlow(sourceStep);
       }
       else {
-         String pSource = null;
-         String pTarget = null;
-         if (source.endsWith("_dot_start")) {
-            pSource = source;
-            source = source.substring(0, source.length() - "_dot_start".length());
-         }
-         if (source.endsWith("_dot_end")) {
-            source = source.substring(0, source.length() - "_dot_end".length());
-         }
-         if (target.endsWith("_dot_start")) {
-            target = target.substring(0, target.length() - "_dot_start".length());
-         }
-         if (target.endsWith("_dot_end")) {
-            pTarget = target;
-            target = target.substring(0, target.length() - "_dot_end".length());
-         }
-         Step sourceStep = editor.getOrCreateStep(source);
-         Step targetStep = editor.getOrCreateStep(target);
-         if ( pSource == null && pTarget == null) {
+         Step sourceStep = editor.getOrCreateStep(truncate(source));
+         Step targetStep = editor.getOrCreateStep(truncate(target));
+         if ( ! source.endsWith("_dot_start") && ! target.endsWith("_dot_end")) {
             sourceStep.withNext(targetStep);
-            targetStep.setParent(sourceStep.getParent());
+            propagateFlow(sourceStep);
          }
          else if ("parallelStep".equals(sourceStep.getKind())) {
             Flow subFlow = new Flow();
             sourceStep.withInvokedFlows(subFlow);
             subFlow.withSteps(targetStep);
+            propagateFlow(targetStep);
          }
          else if ("parallelStep".equals(targetStep.getKind())) {
-            sourceStep.setFinalFlow(sourceStep.getParent());
+            sourceStep.setFinalFlag(true);
+            propagateFlow(sourceStep);
          }
       }
 
       editor.fireCommandExecuted(this);
       return null;
    }
+
+   public String truncate(String old) {
+      int pos = old.indexOf("_dot_");
+      if (pos < 0) {
+         return old;
+      }
+
+      return old.substring(0, pos);
+   }
+
+   public void propagateFlow(Step currentStep)
+   {
+      if (currentStep.getFinalFlag()) {
+         currentStep.setFinalFlow(currentStep.getParent());
+         return;
+      }
+
+      for (Step nextStep : currentStep.getNext()) {
+         propagateFlow(nextStep);
+      }
+   }
+
    public static final String PROPERTY_source = "source";
 
    private String source;

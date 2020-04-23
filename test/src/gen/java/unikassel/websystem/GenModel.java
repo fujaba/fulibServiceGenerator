@@ -30,6 +30,7 @@ public class GenModel
 
       Clazz addParallel = sysEdit.haveSharedCommand("AddParallel");
       sysEdit.haveParameter(addParallel, "gateId", STRING);
+      sysEdit.haveParameter(addParallel, "gateKind", STRING);
 
       Clazz addFlow = sysEdit.haveSharedCommand("AddFlow");
       sysEdit.haveParameter(addFlow, "source", STRING);
@@ -50,6 +51,7 @@ public class GenModel
       wfM.haveAttribute(step, "id", STRING);
       wfM.haveAttribute(step, "text", STRING);
       wfM.haveAttribute(step, "kind", STRING);
+      wfM.haveAttribute(step, "finalFlag", BOOLEAN);
 
       Clazz workFlow = wfM.haveClass("Flow");
       wfM.haveRole(step, "next", step, MANY, "prev", MANY);

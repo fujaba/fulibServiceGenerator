@@ -97,9 +97,30 @@ public class AddParallel extends ModelCommand
       StringBuilder result = new StringBuilder();
 
       result.append(" ").append(this.getGateId());
+      result.append(" ").append(this.getGateKind());
 
 
       return result.substring(1);
+   }
+
+   public static final String PROPERTY_gateKind = "gateKind";
+
+   private String gateKind;
+
+   public String getGateKind()
+   {
+      return gateKind;
+   }
+
+   public AddParallel setGateKind(String value)
+   {
+      if (value == null ? this.gateKind != null : ! value.equals(this.gateKind))
+      {
+         String oldValue = this.gateKind;
+         this.gateKind = value;
+         firePropertyChange("gateKind", oldValue, value);
+      }
+      return this;
    }
 
    public boolean preCheck(WorkFlowsEditor editor) { 

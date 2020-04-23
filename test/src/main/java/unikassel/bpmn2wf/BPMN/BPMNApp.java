@@ -110,70 +110,102 @@ public class BPMNApp
 
    public Page diagram()
    {
-      Page page = new Page().setId("bpmnDiagram").setApp(this)
-            .setDescription(toolBar);
-      new Line().setId("startLine").setPage(page).setDescription("<i class=\"fa fa-circle-o\"></i>");
+      Page page = new Page().setId("bpmnDiagram").setApp(this);
 
+      ArrayList<Task> allTasks = new ArrayList<>();
       Task start = modelEditor.taskMap.get("start");
+      allTasks.add(start);
+
+      for (Task step : modelEditor.taskMap.values()) {
+         if ( ! allTasks.contains(step)) {
+            allTasks.add(step);
+         }
+      }
+
+      // move end task to the end of the list
+      Task end = modelEditor.taskMap.get("end");
+      allTasks.remove(end);
+      allTasks.add(end);
+
       LinkedHashSet<Task> preTasks = new LinkedHashSet<>();
       LinkedHashSet<Flow> flows = new LinkedHashSet<>();
       LinkedHashSet<Task> nextTasks = new LinkedHashSet<>();
-      preTasks.add(start);
 
-      while ( ! preTasks.isEmpty()) {
-         for (Task preTask : preTasks) {
-            flows.addAll(preTask.getOutgoing());
-         }
-         for (Flow flow : flows) {
-            nextTasks.add(flow.getTarget());
-         }
-         if (preTasks.size() == 1 && nextTasks.size() == 1) {
-            new Line().setId(modelEditor.getTime()).setPage(page).setDescription("<i class=\"fa fa-long-arrow-down\"></i>");
-         }
-         else if (preTasks.size() == 1 && nextTasks.size() > 1) {
-            new Line().setId(modelEditor.getTime()).setPage(page)
-                  .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>" +
-                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                        "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>");
-         }
-         else if (preTasks.size() > 1 && nextTasks.size() > 1) {
-            new Line().setId(modelEditor.getTime()).setPage(page)
-                  .setDescription("<i class=\"fa fa-long-arrow-down\"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i><i class=\"fa fa-long-arrow-down\"></i>");
-         }
-         else if (preTasks.size() > 1 && nextTasks.size() == 1) {
-            new Line().setId(modelEditor.getTime()).setPage(page)
-                  .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>" +
-                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                        "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>");
-
-         }
-         else if (nextTasks.size() == 0) {
-            new Line().setId(modelEditor.getTime()).setPage(page).setDescription("&nbsp;&nbsp;&nbsp;&nbsp;");
+      while (allTasks.size() > 0) {
+         if (preTasks.isEmpty()) {
+            Task nextPreTask = allTasks.remove(0);
+            preTasks.add(nextPreTask);
          }
 
+         // draw preTasks
          ArrayList<String> taskNames = new ArrayList<>();
-         for (Task nextTask : nextTasks) {
-            if ("gate".equals(nextTask.getKind())) {
-               taskNames.add("<i class=\"fa fa-square-o\" style=\"transform: rotate(45deg);\"></i>");
+         for (Task preTask : preTasks) {
+            if ("gate_parallel".equals(preTask.getKind())) {
+               taskNames.add("<i class=\"fa fa-times-rectangle-o\" style=\"transform: rotate(45deg);\"></i>");
             }
-            else if ("end".equals(nextTask.getKind())) {
+            else if ("gate_alternative".equals(preTask.getKind())) {
+               taskNames.add("<i class=\"fa fa-plus-square-o\" style=\"transform: rotate(45deg);\"></i>");
+            }
+            else if ("start".equals(preTask.getKind())) {
+               taskNames.add("<i class=\"fa fa-circle-o\"></i>");
+            }
+            else if ("end".equals(preTask.getKind())) {
                taskNames.add("<i class=\"fa fa-dot-circle-o\"></i>");
             }
             else {
-               taskNames.add(nextTask.getId());
+               taskNames.add(preTask.getId());
             }
          }
 
          String join = String.join("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", taskNames.toArray(new String[0]));
          new Line().setId(modelEditor.getTime()).setPage(page).setDescription(join);
 
+         // compute next tasks
+         for (Task preTask : preTasks) {
+            flows.addAll(preTask.getOutgoing());
+         }
+         for (Flow flow : flows) {
+            Task flowTarget = flow.getTarget();
+            nextTasks.add(flowTarget);
+            allTasks.remove(flowTarget);
+         }
+
+         // compute arrows
+         if (nextTasks.size() == 0) {
+            new Line().setId(modelEditor.getTime()).setPage(page).setDescription("&nbsp;&nbsp;&nbsp;&nbsp;");
+         }
+         else {
+            ArrayList<String> arrowList = new ArrayList<>();
+            int numberOfArrows = Math.max(preTasks.size(), nextTasks.size());
+            for (int i = 0; i < numberOfArrows; i++) {
+               String arrow = "<i class=\"fa fa-long-arrow-down\"></i>";
+               if (preTasks.size() > nextTasks.size() && i == 0) {
+                  arrow = "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>";
+               }
+               else if (preTasks.size() > nextTasks.size() && i == numberOfArrows -1) {
+                  arrow = "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>";
+               }
+               else if (preTasks.size() < nextTasks.size() && i == 0) {
+                  arrow = "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>";
+               }
+               else if (preTasks.size() < nextTasks.size() && i == numberOfArrows -1) {
+                  arrow = "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>";
+               }
+               arrowList.add(arrow);
+            }
+            String arrowJoin = String.join("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", arrowList.toArray(new String[0]));
+            new Line().setId(modelEditor.getTime()).setPage(page).setDescription(arrowJoin);
+         }
+
+         // forward nextTasks
          preTasks = nextTasks;
          nextTasks = new LinkedHashSet<>();
          flows.clear();
-
       }
 
-      return page;
+      new Line().setId("toolbar").setPage(page).setDescription(toolBar);
+
+     return page;
    }
 
    public void addStep()
@@ -190,8 +222,9 @@ public class BPMNApp
    public void addGatePair() {
       Page page = diagram();
       new Line().setId("gateIdIn").setPage(page).setDescription("input gate id?");
+      new Line().setId("gateKindIn").setPage(page).setDescription("input gate kind?");
       new Line().setId("addButton").setPage(page).setDescription("button add")
-            .setAction("AddParallel gateIdIn diagram");
+            .setAction("AddParallel gateIdIn gateKindIn diagram");
 
    }
 

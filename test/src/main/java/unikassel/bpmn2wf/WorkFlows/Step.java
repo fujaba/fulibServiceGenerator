@@ -424,4 +424,24 @@ public class Step
       return this;
    }
 
+   public static final String PROPERTY_finalFlag = "finalFlag";
+
+   private boolean finalFlag;
+
+   public boolean getFinalFlag()
+   {
+      return finalFlag;
+   }
+
+   public Step setFinalFlag(boolean value)
+   {
+      if (value != this.finalFlag)
+      {
+         boolean oldValue = this.finalFlag;
+         this.finalFlag = value;
+         firePropertyChange("finalFlag", oldValue, value);
+      }
+      return this;
+   }
+
 }
