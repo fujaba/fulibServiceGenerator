@@ -235,7 +235,7 @@ public class WorkFlowsEditor
    public WorkFlowsEditor init()
    {
       if (root == null) {
-         root = new Flow();
+         root = new Flow().setKind("basic");
       }
 
       return this;

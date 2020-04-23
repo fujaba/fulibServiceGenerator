@@ -1,6 +1,8 @@
 package unikassel.bpmn2wf.WorkFlows;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import spark.Service;
 import org.fulib.yaml.ReflectorMap;
@@ -344,12 +346,7 @@ public class WorkFlowsService
 
    }
 
-   public String getFirstRoot(Request req, Response res) { 
-      currentSession = "" + (sessionToAppMap.size() + 1);
-      return root(req, res);
-   }
-
-   public String root(Request req, Response res) { 
+   public String root(Request req, Response res) { // no fulib
       try
       {
          WorkFlowsApp myApp = this.sessionToAppMap.get(currentSession);
@@ -378,7 +375,14 @@ public class WorkFlowsService
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf("'/cmd'");
          page.insert(cmdUrlPos + 2, "WorkFlows");
+
          String sessionPage = page.toString();
+
+         sessionPage = sessionPage.replaceAll("class='row justify-content-center'", "class='row'");
+         sessionPage = sessionPage.replaceAll(" class='col col-lg-2 text-center'", "");
+         sessionPage = sessionPage.replaceAll("<div style='margin: 1rem'>", "<div>");
+
+         Files.write(Paths.get("tmp/WorflowText.html"), sessionPage.getBytes());
          return sessionPage;
       }
       catch (Exception e)
@@ -386,6 +390,11 @@ public class WorkFlowsService
          e.printStackTrace();
          return "404 " + e.getMessage();
       }
+   }
+
+   public String getFirstRoot(Request req, Response res) { 
+      currentSession = "" + (sessionToAppMap.size() + 1);
+      return root(req, res);
    }
 
    public String cmd(Request req, Response res) { 

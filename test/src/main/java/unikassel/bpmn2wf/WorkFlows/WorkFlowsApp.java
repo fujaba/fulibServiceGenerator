@@ -175,75 +175,54 @@ public class WorkFlowsApp
       return this;
    }
 
-   private String toolBar = "button addStep | button addFlow";
+   private String toolBar = "button addStep | button addGatePair| button addFlow";
 
    public Page diagram()
    {
-      Page page = new Page().setId("workflowDiagram").setApp(this)
+      Page page = new Page().setId("workflowDiagram").setApp(this);
+
+      ArrayList<Flow> allFlows = new ArrayList<>();
+      allFlows.add(modelEditor.root);
+
+      while (allFlows.size() > 0) {
+         Flow currentFlow = allFlows.remove(0);
+         String flowName = "";
+         if (currentFlow.getInvoker() != null) {
+            flowName = " " + currentFlow.getInvoker().getId();
+            Step firstStep = getFirstStep(currentFlow);
+            flowName += " " + firstStep.getId();
+         }
+         new Line().setId("basicFlow").setPage(page).setDescription("" + currentFlow.getKind() + " flow" + flowName );
+
+         for (Step step : currentFlow.getSteps()) {
+            String nextId = "";
+            if (step.getNext().size() > 0) {
+               nextId = "next " + step.getNext().iterator().next().getId();
+            }
+            String description = String.format("&nbsp;&nbsp;&nbsp;&nbsp; step %s \"%s\" %s", step.getId(), step.getText(), nextId);
+
+            if ("parallelStep".equals(step.getKind())) {
+               allFlows.addAll(step.getInvokedFlows());
+               String subFlowIds = "";
+               ArrayList<String> subIdList = new ArrayList<>();
+               for (Flow subFlow : step.getInvokedFlows()) {
+                  Step firstStep = getFirstStep(subFlow);
+                  subIdList.add(firstStep.getId());
+               }
+               subFlowIds = String.join(", ", subIdList.toArray(new String[0]));
+               description = String.format("&nbsp;&nbsp;&nbsp;&nbsp; parallel step %s subflows %s %s", step.getId(), subFlowIds, nextId);
+            }
+
+            new Line().setId(step.getId()).setPage(page)
+                  .setDescription(description);
+
+         }
+
+         new Line().setId("endBasicFlow").setPage(page).setDescription("end flow");
+      }
+
+      new Line().setId("toolBar").setPage(page)
             .setDescription(toolBar);
-
-      Step firstStep = getFirstStep(modelEditor.root);
-
-      if (firstStep == null) {
-         new Line().setId("l1").setPage(page).setDescription("empty diagram");
-         return page;
-      }
-
-      LinkedHashSet<Step> prevSteps = new LinkedHashSet<>();
-      prevSteps.add(firstStep);
-      while (prevSteps.size() > 0) {
-         ArrayList<String> stepNames = new ArrayList<>();
-         for (Step prevStep : prevSteps) {
-            stepNames.add(prevStep.getId());
-         }
-
-         String join = String.join("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", stepNames.toArray(new String[0]));
-         new Line().setId(modelEditor.getTime()).setPage(page).setDescription(join);
-
-         LinkedHashSet<Step> nextSteps = new LinkedHashSet<>();
-         for (Step prevStep : prevSteps) {
-            ArrayList<Step> nextOfThis = prevStep.getNext();
-            for (Step nextStep : nextOfThis) {
-               if ("parallelStep".equals(nextStep.getKind())) {
-                  for (Flow invokedFlow : nextStep.getInvokedFlows()) {
-                     Step subStep = getFirstStep(invokedFlow);
-                     nextSteps.add(subStep);
-                  }
-               }
-               else {
-                  nextSteps.add(nextStep);
-               }
-            }
-         }
-
-         if (nextSteps.size() > 0) {
-            // add arrows
-            if (prevSteps.size() == 1 && nextSteps.size() == 1) {
-               new Line().setId(modelEditor.getTime()).setPage(page).setDescription("<i class=\"fa fa-long-arrow-down\"></i>");
-            }
-            else if (prevSteps.size() == 1 && nextSteps.size() > 1) {
-               new Line().setId(modelEditor.getTime()).setPage(page)
-                     .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>" +
-                           "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                           "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>");
-            }
-            else if (prevSteps.size() > 1 && nextSteps.size() == 1) {
-               new Line().setId(modelEditor.getTime()).setPage(page)
-                     .setDescription("<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(-45deg);\"></i>" +
-                           "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                           "<i class=\"fa fa-long-arrow-down\" style=\"transform: rotate(45deg);\"></i>");
-            }
-            else if (prevSteps.size() > 1 && nextSteps.size() > 1) {
-               new Line().setId(modelEditor.getTime()).setPage(page)
-                     .setDescription("<i class=\"fa fa-long-arrow-down\"></i>" +
-                           "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                           "<i class=\"fa fa-long-arrow-down\"></i>");
-            }
-         }
-
-         prevSteps = nextSteps;
-
-      }
 
       return page;
    }

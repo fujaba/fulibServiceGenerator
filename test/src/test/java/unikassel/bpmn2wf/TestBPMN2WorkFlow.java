@@ -143,7 +143,6 @@ public class TestBPMN2WorkFlow
       FulibTools.objectDiagrams().dumpSVG("tmp/CommandModel.svg",
             commands);
 
-
       System.out.println();
    }
 }

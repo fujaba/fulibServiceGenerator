@@ -125,11 +125,12 @@
   roles: 	next89 	prev90 	parent91 	finalFlow92 	invokedFlows93 	
 
 - flow15: 	Clazz
+  attributes: 	kind94 	
   model: 	c1
   modified: 	false
   name: 	Flow
   propertyStyle: 	POJO
-  roles: 	steps94 	finalFlow95 	invoker96 	
+  roles: 	steps95 	finalFlow96 	invoker97 	
 
 - activeCommands16: 	Attribute
   clazz: 	workFlowsEditor2
@@ -1049,7 +1050,7 @@
   clazz: 	step14
   modified: 	false
   name: 	parent
-  other: 	steps94
+  other: 	steps95
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1059,7 +1060,7 @@
   clazz: 	step14
   modified: 	false
   name: 	finalFlow
-  other: 	finalFlow95
+  other: 	finalFlow96
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1069,11 +1070,18 @@
   clazz: 	step14
   modified: 	false
   name: 	invokedFlows
-  other: 	invoker96
+  other: 	invoker97
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- steps94: 	AssocRole
+- kind94: 	Attribute
+  clazz: 	flow15
+  modified: 	false
+  name: 	kind
+  propertyStyle: 	POJO
+  type: 	String
+
+- steps95: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	flow15
@@ -1083,7 +1091,7 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- finalFlow95: 	AssocRole
+- finalFlow96: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	flow15
@@ -1093,7 +1101,7 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- invoker96: 	AssocRole
+- invoker97: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	flow15

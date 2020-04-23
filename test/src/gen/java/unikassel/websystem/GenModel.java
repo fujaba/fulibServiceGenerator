@@ -54,6 +54,7 @@ public class GenModel
       wfM.haveAttribute(step, "finalFlag", BOOLEAN);
 
       Clazz workFlow = wfM.haveClass("Flow");
+      wfM.haveAttribute(workFlow, "kind", STRING);
       wfM.haveRole(step, "next", step, MANY, "prev", MANY);
       wfM.haveRole(workFlow, "steps", step, MANY, "parent", ONE);
       wfM.haveRole(workFlow, "finalFlow", step, ONE, "finalFlow", ONE);

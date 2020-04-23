@@ -197,4 +197,35 @@ public class Flow
       return this;
    }
 
+   public static final String PROPERTY_kind = "kind";
+
+   private String kind;
+
+   public String getKind()
+   {
+      return kind;
+   }
+
+   public Flow setKind(String value)
+   {
+      if (value == null ? this.kind != null : ! value.equals(this.kind))
+      {
+         String oldValue = this.kind;
+         this.kind = value;
+         firePropertyChange("kind", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getKind());
+
+
+      return result.substring(1);
+   }
+
 }

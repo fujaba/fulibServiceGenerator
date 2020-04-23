@@ -37,7 +37,7 @@ public class AddFlow extends ModelCommand
             propagateFlow(sourceStep);
          }
          else if ("parallelStep".equals(sourceStep.getKind())) {
-            Flow subFlow = new Flow();
+            Flow subFlow = new Flow().setKind("parallel");
             sourceStep.withInvokedFlows(subFlow);
             subFlow.withSteps(targetStep);
             propagateFlow(targetStep);
@@ -69,6 +69,7 @@ public class AddFlow extends ModelCommand
       }
 
       for (Step nextStep : currentStep.getNext()) {
+         nextStep.setParent(currentStep.getParent());
          propagateFlow(nextStep);
       }
    }
