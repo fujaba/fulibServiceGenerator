@@ -34,13 +34,13 @@ public class TestSystem
       shopService = new ShopService();
       shopService.setMyPort(22011).start();
 
-      storeService.connectTo("Store", "http://localhost:22010","Shop", "http://localhost:22011",
-            HaveProductCommand.class.getSimpleName(),
-            "<->",
-            HaveCustomerCommand.class.getSimpleName(),
-            HaveOfferCommand.class.getSimpleName(),
-            HaveOrderCommand.class.getSimpleName(),
-            HaveOrderPositionCommand.class.getSimpleName());
+//      storeService.connectTo("Store", "http://localhost:22010","Shop", "http://localhost:22011",
+//            HaveProductCommand.class.getSimpleName(),
+//            "<->",
+//            HaveCustomerCommand.class.getSimpleName(),
+//            HaveOfferCommand.class.getSimpleName(),
+//            HaveOrderCommand.class.getSimpleName(),
+//            HaveOrderPositionCommand.class.getSimpleName());
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/scene1.html");

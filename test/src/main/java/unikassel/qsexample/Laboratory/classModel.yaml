@@ -38,25 +38,25 @@
 - laboratoryService5: 	Clazz
   attributes: 	myPort44 	reflectorMap45 	currentSession46 	executor47 	spark48 	sessionToAppMap49 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f50 	f51 	f52 	f53 	f54 	f55 	f56 	
+  methods: 	f50 	f51 	f52 	f53 	f54 	f55 	
   model: 	c1
   modified: 	false
   name: 	LaboratoryService
   propertyStyle: 	POJO
-  roles: 	modelEditor57 	streams58 	
+  roles: 	modelEditor56 	streams57 	
 
 - commandStream6: 	Clazz
-  attributes: 	targetUrl59 	oldCommands60 	activeCommands61 	
+  attributes: 	name58 	targetUrlList59 	oldCommands60 	activeCommands61 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f62 	f63 	f64 	f65 	f66 	
+  methods: 	f62 	f63 	f64 	f65 	f66 	f67 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service67 	
+  roles: 	service68 	
 
 - addStreamCommand7: 	Clazz
-  attributes: 	incommingRoute68 	outgoingUrl69 	commandList70 	
+  attributes: 	incommingRoute69 	outgoingUrl70 	
   methods: 	f71 	f72 	
   model: 	c1
   modified: 	false
@@ -362,7 +362,7 @@
   clazz: 	laboratoryEditor2
   modified: 	false
   name: 	service
-  other: 	modelEditor57
+  other: 	modelEditor56
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -506,7 +506,7 @@
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/Laboratorycmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
-      // no streams
+      // there are no streams
 
       spark.notFound((req, resp) -> {
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
@@ -641,18 +641,6 @@
 
 - f54: 	FMethod
   clazz: 	laboratoryService5
-  declaration: 	"public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)"
-  methodBody: 	"      CommandStream stream = new CommandStream().setService(this);
-      stream.start(incommingRoute, outgoingURL, this);
-      for (String command : commandList) {
-         modelEditor.addCommandListener(command, stream);
-      }
-      return stream;
-"
-  modified: 	false
-
-- f55: 	FMethod
-  clazz: 	laboratoryService5
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
       LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
@@ -664,63 +652,23 @@
 "
   modified: 	false
 
-- f56: 	FMethod
+- f55: 	FMethod
   clazz: 	laboratoryService5
-  declaration: 	"public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)"
-  methodBody: 	"      String incommingRoute = targetServiceName + \"To\" + sourceServiceName;
-      String incommingURL = sourceUrl + \"/\" + incommingRoute;
-      String outgoingRoute = sourceServiceName + \"To\" + targetServiceName;
-      String outgoingURL = targetUrl + \"/\" + outgoingRoute;
-      ArrayList<String> sourceCommands = new ArrayList<>();
-      ArrayList<String> targetCommands = new ArrayList<>();
-
-      ArrayList<String> currentList = sourceCommands;
-      for (String cmd : commandList) {
-         if (\"<->\".equals(cmd)) {
-            currentList = targetCommands;
-         }
-         else {
-            currentList.add(cmd);
+  declaration: 	"public CommandStream getStream(String streamName)"
+  methodBody: 	"      for (CommandStream stream : this.getStreams()) {
+         if (stream.getName().equals(streamName)) {
+            return stream;
          }
       }
-
-      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
-
-      AddStreamCommand addStreamCommand = new AddStreamCommand()
-            .setIncommingRoute(outgoingRoute)
-            .setOutgoingUrl(incommingURL)
-            .setCommandList(String.join(\" \", targetCommands));
-
-      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
-      URL url = null;
-      try {
-         url = new URL(targetUrl + \"/connect\");
-         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-         con.setRequestMethod(\"POST\");
-         con.setDoOutput(true);
-         DataOutputStream out = new DataOutputStream(con.getOutputStream());
-         out.writeBytes(yaml);
-         out.flush();
-
-         InputStream inputStream = con.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-         BufferedReader in = new BufferedReader(inputStreamReader);
-         String inputLine;
-         StringBuffer content = new StringBuffer();
-         while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-         }
-         in.close();
-         out.close();
-         con.disconnect();
-      }
-      catch (Exception e) {
-         e.printStackTrace();
-      }
+      CommandStream newStream = new CommandStream().setName(streamName);
+      newStream.setService(this);
+      withStreams(newStream);
+      newStream.start();
+      return newStream;
 "
   modified: 	false
 
-- modelEditor57: 	AssocRole
+- modelEditor56: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	laboratoryService5
@@ -730,22 +678,30 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- streams58: 	AssocRole
+- streams57: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	laboratoryService5
   modified: 	false
   name: 	streams
-  other: 	service67
+  other: 	service68
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- targetUrl59: 	Attribute
+- name58: 	Attribute
   clazz: 	commandStream6
   modified: 	false
-  name: 	targetUrl
+  name: 	name
   propertyStyle: 	POJO
   type: 	String
+
+- targetUrlList59: 	Attribute
+  clazz: 	commandStream6
+  initialization: 	"new ArrayList<>()"
+  modified: 	false
+  name: 	targetUrlList
+  propertyStyle: 	POJO
+  type: 	"ArrayList<String>"
 
 - oldCommands60: 	Attribute
   clazz: 	commandStream6
@@ -776,36 +732,39 @@
 - f63: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
-  methodBody: 	"      try {
-         String yaml = Yaml.encode(activeCommands.values());
-         URL url = new URL(targetUrl);
-         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-         con.setRequestMethod(\"POST\");
-         con.setDoOutput(true);
-         DataOutputStream out = new DataOutputStream(con.getOutputStream());
-         out.writeBytes(yaml);
-         out.flush();
+  methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
+      for (String targetUrl : targetUrlList) {
+         try {
+            URL url = new URL(targetUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod(\"POST\");
+            con.setDoOutput(true);
+            DataOutputStream out = new DataOutputStream(con.getOutputStream());
+            out.writeBytes(yaml);
+            out.flush();
 
-         InputStream inputStream = con.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-         BufferedReader in = new BufferedReader(inputStreamReader);
-         String inputLine;
-         StringBuffer content = new StringBuffer();
-         while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+            InputStream inputStream = con.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader in = new BufferedReader(inputStreamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+               content.append(inputLine);
+            }
+            in.close();
+            out.close();
+            con.disconnect();
+
+            // got an answer, clear active commands
+            activeCommands.clear();
+            LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+                  .decode(content.toString());
+            executeCommands(map.values());
+
          }
-         in.close();
-         out.close();
-         con.disconnect();
-
-         // got an answer, clear active commands
-         activeCommands.clear();
-         LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(content.toString());
-         executeCommands(map.values());
-      }
-      catch (Exception e) {
-         e.printStackTrace();
+         catch (Exception e) {
+            e.printStackTrace();
+         }
       }
 "
   modified: 	false
@@ -827,10 +786,8 @@
 
 - f65: 	FMethod
   clazz: 	commandStream6
-  declaration: 	"public CommandStream start(String answerRouteName, String targetUrl, LaboratoryService service)"
-  methodBody: 	"      this.targetUrl = targetUrl;
-      this.service = service;
-      service.getSpark().post(\"/\" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+  declaration: 	"public CommandStream start()"
+  methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
       return this;
 "
   modified: 	false
@@ -849,34 +806,36 @@
 "
   modified: 	false
 
-- service67: 	AssocRole
+- f67: 	FMethod
+  clazz: 	commandStream6
+  declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
+  methodBody: 	"      for (String cmd : commandList) {
+         service.getModelEditor().addCommandListener(cmd, this);
+      }
+"
+  modified: 	false
+
+- service68: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams58
+  other: 	streams57
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incommingRoute68: 	Attribute
+- incommingRoute69: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	incommingRoute
   propertyStyle: 	POJO
   type: 	String
 
-- outgoingUrl69: 	Attribute
+- outgoingUrl70: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	outgoingUrl
-  propertyStyle: 	POJO
-  type: 	String
-
-- commandList70: 	Attribute
-  clazz: 	addStreamCommand7
-  modified: 	false
-  name: 	commandList
   propertyStyle: 	POJO
   type: 	String
 
@@ -902,8 +861,8 @@
 - f72: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public Object run(LaboratoryEditor editor)"
-  methodBody: 	"      String[] split = commandList.split(\" \");
-      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+  methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
+      stream.getTargetUrlList().add(outgoingUrl);
       return null;
 "
   modified: 	false

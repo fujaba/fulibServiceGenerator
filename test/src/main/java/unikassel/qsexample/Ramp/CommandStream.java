@@ -121,37 +121,6 @@ public class CommandStream
       return this;
    }
 
-   public static final String PROPERTY_targetUrl = "targetUrl";
-
-   private String targetUrl;
-
-   public String getTargetUrl()
-   {
-      return targetUrl;
-   }
-
-   public CommandStream setTargetUrl(String value)
-   {
-      if (value == null ? this.targetUrl != null : ! value.equals(this.targetUrl))
-      {
-         String oldValue = this.targetUrl;
-         this.targetUrl = value;
-         firePropertyChange("targetUrl", oldValue, value);
-      }
-      return this;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getTargetUrl());
-
-
-      return result.substring(1);
-   }
-
    public static final String PROPERTY_oldCommands = "oldCommands";
 
    private ArrayList<ModelCommand> oldCommands = new ArrayList<>();
@@ -172,6 +141,57 @@ public class CommandStream
       return this;
    }
 
+   public static final String PROPERTY_name = "name";
+
+   private String name;
+
+   public String getName()
+   {
+      return name;
+   }
+
+   public CommandStream setName(String value)
+   {
+      if (value == null ? this.name != null : ! value.equals(this.name))
+      {
+         String oldValue = this.name;
+         this.name = value;
+         firePropertyChange("name", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_targetUrlList = "targetUrlList";
+
+   private ArrayList<String> targetUrlList = new ArrayList<>();
+
+   public ArrayList<String> getTargetUrlList()
+   {
+      return targetUrlList;
+   }
+
+   public CommandStream setTargetUrlList(ArrayList<String> value)
+   {
+      if (value != this.targetUrlList)
+      {
+         ArrayList<String> oldValue = this.targetUrlList;
+         this.targetUrlList = value;
+         firePropertyChange("targetUrlList", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getName());
+
+
+      return result.substring(1);
+   }
+
    public void publish(ModelCommand cmd) { 
       String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
@@ -180,36 +200,39 @@ public class CommandStream
    }
 
    public void send() { 
-      try {
-         String yaml = Yaml.encode(activeCommands.values());
-         URL url = new URL(targetUrl);
-         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-         con.setRequestMethod("POST");
-         con.setDoOutput(true);
-         DataOutputStream out = new DataOutputStream(con.getOutputStream());
-         out.writeBytes(yaml);
-         out.flush();
+      String yaml = Yaml.encode(activeCommands.values());
+      for (String targetUrl : targetUrlList) {
+         try {
+            URL url = new URL(targetUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            DataOutputStream out = new DataOutputStream(con.getOutputStream());
+            out.writeBytes(yaml);
+            out.flush();
 
-         InputStream inputStream = con.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-         BufferedReader in = new BufferedReader(inputStreamReader);
-         String inputLine;
-         StringBuffer content = new StringBuffer();
-         while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+            InputStream inputStream = con.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader in = new BufferedReader(inputStreamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+               content.append(inputLine);
+            }
+            in.close();
+            out.close();
+            con.disconnect();
+
+            // got an answer, clear active commands
+            activeCommands.clear();
+            LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+                  .decode(content.toString());
+            executeCommands(map.values());
+
          }
-         in.close();
-         out.close();
-         con.disconnect();
-
-         // got an answer, clear active commands
-         activeCommands.clear();
-         LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-               .decode(content.toString());
-         executeCommands(map.values());
-      }
-      catch (Exception e) {
-         e.printStackTrace();
+         catch (Exception e) {
+            e.printStackTrace();
+         }
       }
    }
 
@@ -225,10 +248,8 @@ public class CommandStream
       }
    }
 
-   public CommandStream start(String answerRouteName, String targetUrl, RampService service) { 
-      this.targetUrl = targetUrl;
-      this.service = service;
-      service.getSpark().post("/" + answerRouteName, (req, res) -> handlePostRequest(req, res));
+   public CommandStream start() { 
+      service.getSpark().post("/" + name, (req, res) -> handlePostRequest(req, res));
       return this;
    }
 
@@ -241,6 +262,12 @@ public class CommandStream
       executeCommands(values);
 
       return "OK";
+   }
+
+   public void addCommandsToBeStreamed(String... commandList) { 
+      for (String cmd : commandList) {
+         service.getModelEditor().addCommandListener(cmd, this);
+      }
    }
 
 }

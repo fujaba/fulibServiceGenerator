@@ -145,7 +145,7 @@ public class ServiceEditor
       importList.add("import org.fulib.yaml.ReflectorMap;");
       importList.add("import java.util.concurrent.ExecutorService;");
 
-      haveStartMethod(serviceName, "// no streams\n");
+      haveStartMethod(serviceName, "// there are no streams\n");
 
       String body;
       ST st;
@@ -173,22 +173,19 @@ public class ServiceEditor
       importList.add("import org.fulib.yaml.Reflector;");
       importList.add("import java.lang.reflect.Method;");
 
-      declaration = "public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList)";
-      st = group.getInstanceOf("serviceAddStream");
-      body = st.render();
-      mm.haveMethod(service, declaration, body);
-
       // connect
       declaration = "public String connect(Request req, Response res)";
       st = group.getInstanceOf("serviceConnect");
       body = st.render();
       mm.haveMethod(service, declaration, body);
 
-      // connectTo
-      declaration = "public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList)";
-      st = group.getInstanceOf("serviceConnectTo");
+      // getStream
+      declaration = "public CommandStream getStream(String streamName)";
+      st = group.getInstanceOf("serviceGetStream");
       body = st.render();
       mm.haveMethod(service, declaration, body);
+
+
       importList.add("import java.util.ArrayList;");
       importList.add("import java.net.URL;");
       importList.add("import java.net.HttpURLConnection;");
@@ -203,7 +200,6 @@ public class ServiceEditor
       Clazz addStream = haveCommand("AddStreamCommand");
       mm.haveAttribute(addStream, "incommingRoute", STRING);
       mm.haveAttribute(addStream, "outgoingUrl", STRING);
-      mm.haveAttribute(addStream, "commandList", STRING);
 
       String declaration = String.format("public Object run(%sEditor editor)", serviceName);
       ST st = group.getInstanceOf("AddStreamCommandRun");
@@ -214,8 +210,9 @@ public class ServiceEditor
    public void haveCommandStream()
    {
       Clazz commandStream = mm.haveClass("CommandStream");
-
-      mm.haveAttribute(commandStream, "targetUrl", STRING);
+      mm.haveAttribute(commandStream, "name", STRING);
+      Attribute targetUrlList = mm.haveAttribute(commandStream, "targetUrlList", "ArrayList<String>");
+      targetUrlList.setInitialization("new ArrayList<>()");
       Attribute oldCommands = mm.haveAttribute(commandStream, "oldCommands", "ArrayList<ModelCommand>");
       oldCommands.setInitialization("new ArrayList<>()");
       mm.haveRole(service, "streams", commandStream, MANY, "service", ONE);
@@ -235,7 +232,7 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(commandStream, declaration, body);
 
-      declaration = String.format("public CommandStream start(String answerRouteName, String targetUrl, %sService service)",
+      declaration = String.format("public CommandStream start()",
             serviceName);
       st = group.getInstanceOf("CommandStreamStart");
       body = st.render();
@@ -249,6 +246,11 @@ public class ServiceEditor
 
       Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
+
+      declaration = "public void addCommandsToBeStreamed(String... commandList)";
+      st = group.getInstanceOf("CommandStreamAddCommandsToBeStreamed");
+      body = st.render();
+      mm.haveMethod(commandStream, declaration, body);
 
       LinkedHashSet<String> importList = commandStream.getImportList();
       importList.add("import org.fulib.yaml.Yaml;");

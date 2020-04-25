@@ -26,26 +26,6 @@ public class AddStreamCommand extends ModelCommand
       return this;
    }
 
-   public static final String PROPERTY_commandList = "commandList";
-
-   private String commandList;
-
-   public String getCommandList()
-   {
-      return commandList;
-   }
-
-   public AddStreamCommand setCommandList(String value)
-   {
-      if (value == null ? this.commandList != null : ! value.equals(this.commandList))
-      {
-         String oldValue = this.commandList;
-         this.commandList = value;
-         firePropertyChange("commandList", oldValue, value);
-      }
-      return this;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -123,7 +103,6 @@ public class AddStreamCommand extends ModelCommand
 
       result.append(" ").append(this.getIncommingRoute());
       result.append(" ").append(this.getOutgoingUrl());
-      result.append(" ").append(this.getCommandList());
 
 
       return result.substring(1);
@@ -146,8 +125,8 @@ public class AddStreamCommand extends ModelCommand
    }
 
    public Object run(ShopEditor editor) { 
-      String[] split = commandList.split(" ");
-      editor.getService().addStream(incommingRoute, outgoingUrl, split);
+      CommandStream stream = editor.getService().getStream(incommingRoute);
+      stream.getTargetUrlList().add(outgoingUrl);
       return null;
    }
 

@@ -59,12 +59,12 @@ public class TestBPMN2WorkFlow
       WorkFlowsService workFlowsService = new WorkFlowsService().setMyPort(22050);
       workFlowsService.start();
 
-      bpmnService.connectTo("BPMN", "http://localhost:22040","WorkFlow", "http://localhost:22050",
-            AddStep.class.getSimpleName(),
-            AddParallel.class.getSimpleName(),
-            AddFlow.class.getSimpleName(),
-            "<->"
-      );
+//      bpmnService.connectTo("BPMN", "http://localhost:22040","WorkFlow", "http://localhost:22050",
+//            AddStep.class.getSimpleName(),
+//            AddParallel.class.getSimpleName(),
+//            AddFlow.class.getSimpleName(),
+//            "<->"
+//      );
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/BPMN2WorkFlow.html");

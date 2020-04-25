@@ -366,9 +366,7 @@ public class FulibScenarioDiagram
          if (streamReflector == null) {
             streamReflector = new Reflector().setClazz(stream.getClass());
          }
-         String targetUrl = (String) streamReflector.getValue(stream, "targetUrl");
-         int pos = targetUrl.lastIndexOf('/');
-         String streamName = targetUrl.substring(pos + 1);
+         String streamName = (String) streamReflector.getValue(stream, "name");
          Collection oldCommands = (Collection) streamReflector.getValue(stream, "oldCommands");
          doAddOneMessage(time, streamName, indent, oldCommands);
       }

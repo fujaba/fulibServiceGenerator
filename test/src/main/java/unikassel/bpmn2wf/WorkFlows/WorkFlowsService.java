@@ -467,15 +467,6 @@ public class WorkFlowsService
       return root(req, res);
    }
 
-   public CommandStream addStream(String incommingRoute, String outgoingURL, String... commandList) { 
-      CommandStream stream = new CommandStream().setService(this);
-      stream.start(incommingRoute, outgoingURL, this);
-      for (String command : commandList) {
-         modelEditor.addCommandListener(command, stream);
-      }
-      return stream;
-   }
-
    public String connect(Request req, Response res) { 
       String body = req.body();
       LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
@@ -486,57 +477,17 @@ public class WorkFlowsService
       return "200";
    }
 
-   public void connectTo(String sourceServiceName, String sourceUrl, String targetServiceName, String targetUrl, String... commandList) { 
-      String incommingRoute = targetServiceName + "To" + sourceServiceName;
-      String incommingURL = sourceUrl + "/" + incommingRoute;
-      String outgoingRoute = sourceServiceName + "To" + targetServiceName;
-      String outgoingURL = targetUrl + "/" + outgoingRoute;
-      ArrayList<String> sourceCommands = new ArrayList<>();
-      ArrayList<String> targetCommands = new ArrayList<>();
-
-      ArrayList<String> currentList = sourceCommands;
-      for (String cmd : commandList) {
-         if ("<->".equals(cmd)) {
-            currentList = targetCommands;
-         }
-         else {
-            currentList.add(cmd);
+   public CommandStream getStream(String streamName) { 
+      for (CommandStream stream : this.getStreams()) {
+         if (stream.getName().equals(streamName)) {
+            return stream;
          }
       }
-
-      CommandStream stream = addStream(incommingRoute, outgoingURL, sourceCommands.toArray(new String[0]));
-
-      AddStreamCommand addStreamCommand = new AddStreamCommand()
-            .setIncommingRoute(outgoingRoute)
-            .setOutgoingUrl(incommingURL)
-            .setCommandList(String.join(" ", targetCommands));
-
-      String yaml = org.fulib.yaml.Yaml.encode(addStreamCommand);
-      URL url = null;
-      try {
-         url = new URL(targetUrl + "/connect");
-         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-         con.setRequestMethod("POST");
-         con.setDoOutput(true);
-         DataOutputStream out = new DataOutputStream(con.getOutputStream());
-         out.writeBytes(yaml);
-         out.flush();
-
-         InputStream inputStream = con.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-         BufferedReader in = new BufferedReader(inputStreamReader);
-         String inputLine;
-         StringBuffer content = new StringBuffer();
-         while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-         }
-         in.close();
-         out.close();
-         con.disconnect();
-      }
-      catch (Exception e) {
-         e.printStackTrace();
-      }
+      CommandStream newStream = new CommandStream().setName(streamName);
+      newStream.setService(this);
+      withStreams(newStream);
+      newStream.start();
+      return newStream;
    }
 
 }
