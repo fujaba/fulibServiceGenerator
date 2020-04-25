@@ -55,16 +55,24 @@ public class TestBPMN2WorkFlow
    {
       BPMNService bpmnService = new BPMNService().setMyPort(22040);
       bpmnService.start();
+      CommandStream bpmnData4WorkFlows = bpmnService.getStream("BPMNData4WorkFlows");
+      bpmnData4WorkFlows.addCommandsToBeStreamed(
+            AddStep.class.getSimpleName(),
+            AddParallel.class.getSimpleName(),
+            AddFlow.class.getSimpleName()
+      );
 
       WorkFlowsService workFlowsService = new WorkFlowsService().setMyPort(22050);
       workFlowsService.start();
+      unikassel.bpmn2wf.WorkFlows.CommandStream workFlowData4BPMN = workFlowsService.getStream("WorkFlowData4BPMN");
+      workFlowData4BPMN.addCommandsToBeStreamed(
+            AddStep.class.getSimpleName(),
+            AddParallel.class.getSimpleName(),
+            AddFlow.class.getSimpleName()
+      );
 
-//      bpmnService.connectTo("BPMN", "http://localhost:22040","WorkFlow", "http://localhost:22050",
-//            AddStep.class.getSimpleName(),
-//            AddParallel.class.getSimpleName(),
-//            AddFlow.class.getSimpleName(),
-//            "<->"
-//      );
+      bpmnData4WorkFlows.getTargetUrlList().add("http://localhost:22050/WorkFlowData4BPMN");
+      workFlowData4BPMN.getTargetUrlList().add("http://localhost:22040/BPMNData4WorkFlows");
 
       FulibScenarioDiagram scene1 = new FulibScenarioDiagram();
       scene1.setHtmlFileName("tmp/BPMN2WorkFlow.html");
@@ -84,6 +92,7 @@ public class TestBPMN2WorkFlow
 
       $(By.xpath("//button[text()='addGatePair']")).click();
       $("#gateIdIn").$("input").setValue("pg1");
+      $("#gateKindIn").$("input").setValue("parallel");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();

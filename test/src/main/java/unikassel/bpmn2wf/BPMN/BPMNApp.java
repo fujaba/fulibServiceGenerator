@@ -131,7 +131,7 @@ public class BPMNApp
       LinkedHashSet<Flow> flows = new LinkedHashSet<>();
       LinkedHashSet<Task> nextTasks = new LinkedHashSet<>();
 
-      while (allTasks.size() > 0) {
+      while (allTasks.size() > 0 || preTasks.size() > 0) {
          if (preTasks.isEmpty()) {
             Task nextPreTask = allTasks.remove(0);
             preTasks.add(nextPreTask);
