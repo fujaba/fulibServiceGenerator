@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'antlr'
 }
 
 group = 'org.fulib'
@@ -16,6 +17,10 @@ sourceSets.create('gen')
 
 // Das
 dependencies {
+	// https://mvnrepository.com/artifact/org.antlr/antlr4
+	antlr group: 'org.antlr', name: 'antlr4', version: '4.8-1'
+
+	// https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
 	implementation group: 'org.antlr', name: 'antlr4-runtime', version: '4.8-1'
 
 	genImplementation rootProject
@@ -41,4 +46,22 @@ tasks.register('genModel', JavaExec) {
 
 	it.inputs.dir('src/main/java')
 	it.outputs.dir('src/main/java')
+}
+
+// --------------- ANTLR ---------------
+
+def generatedANTLRDir = "$buildDir/generated/sources/antlr/java/main/"
+def parserPackage = 'unikassel.bpmn2wf.WorkFlows.parser'
+
+sourceSets.main.java.srcDir(generatedANTLRDir)
+
+// https://stackoverflow.com/questions/40995727/gradle-cant-find-antlr-token-file
+generateGrammarSource {
+	arguments += [ '-package', parserPackage ]
+	outputDirectory = file("$generatedANTLRDir/${ parserPackage.replace('.', '/') }/")
+}
+
+// https://github.com/gradle/gradle/issues/820
+configurations.compile {
+	extendsFrom = extendsFrom.findAll { it != configurations.antlr }
 }
