@@ -175,7 +175,7 @@ public class WorkFlowsApp
       return this;
    }
 
-   private String toolBar = "button addStep | button addGatePair| button addFlow";
+   private String toolBar = "button addStep | button addGatePair| button addFlow | button edit";
 
    public Page diagram()
    {
@@ -183,6 +183,8 @@ public class WorkFlowsApp
 
       ArrayList<Flow> allFlows = new ArrayList<>();
       allFlows.add(modelEditor.root);
+
+      StringBuilder buf = new StringBuilder();
 
       while (allFlows.size() > 0) {
          Flow currentFlow = allFlows.remove(0);
@@ -192,7 +194,8 @@ public class WorkFlowsApp
             Step firstStep = getFirstStep(currentFlow);
             flowName += " " + firstStep.getId();
          }
-         new Line().setId("basicFlow").setPage(page).setDescription("" + currentFlow.getKind() + " flow" + flowName );
+         String text = "" + currentFlow.getKind() + " flow" + flowName;
+         buf.append(text).append("\n");
 
          for (Step step : currentFlow.getSteps()) {
             String nextId = "";
@@ -200,6 +203,7 @@ public class WorkFlowsApp
                nextId = "next " + step.getNext().iterator().next().getId();
             }
             String description = String.format("&nbsp;&nbsp;&nbsp;&nbsp; step %s \"%s\" %s", step.getId(), step.getText(), nextId);
+            text = String.format("    step %s \"%s\" %s", step.getId(), step.getText(), nextId);
 
             if ("parallelStep".equals(step.getKind())) {
                allFlows.addAll(step.getInvokedFlows());
@@ -211,15 +215,15 @@ public class WorkFlowsApp
                }
                subFlowIds = String.join(", ", subIdList.toArray(new String[0]));
                description = String.format("&nbsp;&nbsp;&nbsp;&nbsp; parallel step %s subflows %s %s", step.getId(), subFlowIds, nextId);
+               text = String.format("    parallel step %s subflows %s %s", step.getId(), subFlowIds, nextId);
             }
 
-            new Line().setId(step.getId()).setPage(page)
-                  .setDescription(description);
-
+            buf.append(text).append("\n");
          }
-
-         new Line().setId("endBasicFlow").setPage(page).setDescription("end flow");
+         buf.append("end flow\n");
       }
+
+      new Line().setId("text").setPage(page).setDescription("<pre>\n" + buf.toString() + "</pre>\n");
 
       new Line().setId("toolBar").setPage(page)
             .setDescription(toolBar);

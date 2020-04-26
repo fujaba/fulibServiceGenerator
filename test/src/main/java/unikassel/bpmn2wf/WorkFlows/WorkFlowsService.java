@@ -380,7 +380,7 @@ public class WorkFlowsService
 
          sessionPage = sessionPage.replaceAll("class='row justify-content-center'", "class='row'");
          sessionPage = sessionPage.replaceAll(" class='col col-lg-2 text-center'", "");
-         sessionPage = sessionPage.replaceAll("<div style='margin: 1rem'>", "<div>");
+//         sessionPage = sessionPage.replaceAll("<div style='margin: 1rem'>", "<div>");
 
          Files.write(Paths.get("tmp/WorflowText.html"), sessionPage.getBytes());
          return sessionPage;

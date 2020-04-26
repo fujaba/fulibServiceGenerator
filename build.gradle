@@ -1,6 +1,8 @@
 plugins {
 	id 'java-library'
+	id 'antlr'
 }
+
 
 group = 'org.fulib'
 version = '0.1.0'
