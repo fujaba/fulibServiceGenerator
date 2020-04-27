@@ -4,34 +4,23 @@
 // Derived from http://json.org
 grammar WorkFlowGrammar;
 
-json
-   : value
-   ;
+flowList: flow+ ;
 
-obj
-   : '{' pair (',' pair)* '}'
-   | '{' '}'
-   ;
+flow: basicFlow | parallelFlow;
 
-pair
-   : STRING ':' value
-   ;
+basicFlow: 'basic' 'flow' stepList 'end' 'flow';
 
-arr
-   : '[' value (',' value)* ']'
-   | '[' ']'
-   ;
+parallelFlow: 'parallel' 'flow' parentId=ID firstStepId=ID stepList 'end' 'flow';
 
-value
-   : STRING
-   | NUMBER
-   | obj
-   | arr
-   | 'true'
-   | 'false'
-   | 'null'
-   ;
+stepList: step+;
 
+step: basicStep | parallelStep;
+
+basicStep: 'step' stepId=ID STRING ('next' ID)? ;
+
+parallelStep: 'parallel' 'step' stepId=ID 'subflows' idList;
+
+idList: ID (',' ID)*;
 
 STRING
    : '"' (ESC | SAFECODEPOINT)* '"'
@@ -51,6 +40,7 @@ fragment SAFECODEPOINT
    : ~ ["\\\u0000-\u001F]
    ;
 
+ID: [a-zA-Z] [a-zA-Z0-9_]*;
 
 NUMBER
    : '-'? INT ('.' [0-9] +)? EXP?

@@ -16,12 +16,6 @@ import spark.Service;
 public class CommandStream  
 {
 
-   public void addCommandsToBeStreamed(String... commandList) { 
-      for (String cmd : commandList) {
-         service.getModelEditor().addCommandListener(cmd, this);
-      }
-   }
-
    public static final String PROPERTY_service = "service";
 
    private AccountingService service = null;
@@ -267,6 +261,12 @@ public class CommandStream
       executeCommands(values);
 
       return "OK";
+   }
+
+   public void addCommandsToBeStreamed(String... commandList) { 
+      for (String cmd : commandList) {
+         service.getModelEditor().addCommandListener(cmd, this);
+      }
    }
 
 }

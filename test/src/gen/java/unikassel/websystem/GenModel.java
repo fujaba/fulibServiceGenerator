@@ -60,6 +60,9 @@ public class GenModel
       wfM.haveRole(workFlow, "finalFlow", step, ONE, "finalFlow", ONE);
       wfM.haveRole(step, "invokedFlows", workFlow, MANY, "invoker", ONE);
 
+      Clazz parse = workFlows.haveCommand("Parse");
+      wfM.haveAttribute(parse, "text", STRING);
+
       sysEdit.generate();
    }
 

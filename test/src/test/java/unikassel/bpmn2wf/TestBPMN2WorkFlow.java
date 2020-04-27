@@ -6,6 +6,7 @@ import org.fulib.yaml.Yaml;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import unikassel.bpmn2wf.BPMN.*;
+import unikassel.bpmn2wf.WorkFlows.Parse;
 import unikassel.bpmn2wf.WorkFlows.WorkFlowsApp;
 import unikassel.bpmn2wf.WorkFlows.WorkFlowsService;
 
@@ -16,6 +17,29 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class TestBPMN2WorkFlow
 {
+   @Test
+   public void testWorkFlowParser()
+   {
+      String text = "" +
+            "basic flow\n" +
+            "    step t0 \"check stock\" next pg1\n" +
+            "    parallel step pg1 subflows t2, t1 \n" +
+            "end flow\n" +
+            "parallel flow pg1 t2\n" +
+            "    step t2 \"charge\" \n" +
+            "end flow\n" +
+            "parallel flow pg1 t1\n" +
+            "    step t1 \"collect\" \n" +
+            "end flow";
+      Parse parseCmd = new Parse();
+      parseCmd.setText(text);
+
+      WorkFlowsService workFlowsService = new WorkFlowsService();
+      workFlowsService.start();
+      parseCmd.run(workFlowsService.getModelEditor());
+
+   }
+
    @Test
    public void testBPMNEditing() throws InterruptedException
    {

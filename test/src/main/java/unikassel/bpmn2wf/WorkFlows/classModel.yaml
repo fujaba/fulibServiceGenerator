@@ -1,5 +1,5 @@
 - c1: 	ClassModel
-  classes: 	workFlowsEditor2 	modelCommand3 	removeCommand4 	workFlowsService5 	commandStream6 	addStreamCommand7 	workFlowsApp8 	page9 	line10 	addStep11 	addParallel12 	addFlow13 	step14 	flow15 	
+  classes: 	workFlowsEditor2 	modelCommand3 	removeCommand4 	workFlowsService5 	commandStream6 	addStreamCommand7 	workFlowsApp8 	page9 	line10 	addStep11 	addParallel12 	addFlow13 	step14 	flow15 	parse16 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"src/main/java"
@@ -7,28 +7,28 @@
   packageSrcFolder: 	"src/main/java/unikassel/bpmn2wf/WorkFlows"
 
 - workFlowsEditor2: 	Clazz
-  attributes: 	activeCommands16 	removeCommands17 	commandListeners18 	isoDateFormat19 	lastTime20 	timeDelta21 	
+  attributes: 	activeCommands17 	removeCommands18 	commandListeners19 	isoDateFormat20 	lastTime21 	timeDelta22 	
   importList: 	null 	null 	null 	null 	
-  methods: 	f22 	f23 	f24 	f25 	
+  methods: 	f23 	f24 	f25 	f26 	
   model: 	c1
   modified: 	false
   name: 	WorkFlowsEditor
   propertyStyle: 	POJO
-  roles: 	service26 	
+  roles: 	service27 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id27 	time28 	
-  methods: 	f29 	
+  attributes: 	id28 	time29 	
+  methods: 	f30 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand4 	addStreamCommand7 	addStep11 	addParallel12 	addFlow13 	
+  subClasses: 	removeCommand4 	addStreamCommand7 	addStep11 	addParallel12 	addFlow13 	parse16 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName30 	
+  attributes: 	targetClassName31 	
   importList: 	null 	null 	null 	
-  methods: 	f31 	f32 	
+  methods: 	f32 	f33 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -36,28 +36,28 @@
   superClass: 	modelCommand3
 
 - workFlowsService5: 	Clazz
-  attributes: 	myPort33 	reflectorMap34 	currentSession35 	executor36 	spark37 	sessionToAppMap38 	
+  attributes: 	myPort34 	reflectorMap35 	currentSession36 	executor37 	spark38 	sessionToAppMap39 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f39 	f40 	f41 	f42 	f43 	f44 	
+  methods: 	f40 	f41 	f42 	f43 	f44 	f45 	
   model: 	c1
   modified: 	false
   name: 	WorkFlowsService
   propertyStyle: 	POJO
-  roles: 	modelEditor45 	streams46 	
+  roles: 	modelEditor46 	streams47 	
 
 - commandStream6: 	Clazz
-  attributes: 	name47 	targetUrlList48 	oldCommands49 	activeCommands50 	
+  attributes: 	name48 	targetUrlList49 	oldCommands50 	activeCommands51 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f51 	f52 	f53 	f54 	f55 	f56 	
+  methods: 	f52 	f53 	f54 	f55 	f56 	f57 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service57 	
+  roles: 	service58 	
 
 - addStreamCommand7: 	Clazz
-  attributes: 	incommingRoute58 	outgoingUrl59 	
-  methods: 	f60 	f61 	
+  attributes: 	incommingRoute59 	outgoingUrl60 	
+  methods: 	f61 	f62 	
   model: 	c1
   modified: 	false
   name: 	AddStreamCommand
@@ -65,33 +65,33 @@
   superClass: 	modelCommand3
 
 - workFlowsApp8: 	Clazz
-  attributes: 	modelEditor62 	id63 	description64 	
-  methods: 	f65 	
+  attributes: 	modelEditor63 	id64 	description65 	
+  methods: 	f66 	
   model: 	c1
   modified: 	false
   name: 	WorkFlowsApp
   propertyStyle: 	POJO
-  roles: 	content66 	
+  roles: 	content67 	
 
 - page9: 	Clazz
-  attributes: 	id67 	description68 	
+  attributes: 	id68 	description69 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app69 	content70 	
+  roles: 	app70 	content71 	
 
 - line10: 	Clazz
-  attributes: 	id71 	description72 	action73 	value74 	
+  attributes: 	id72 	description73 	action74 	value75 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page75 	
+  roles: 	page76 	
 
 - addStep11: 	Clazz
-  attributes: 	taskId76 	taskText77 	
-  methods: 	f78 	
+  attributes: 	taskId77 	taskText78 	
+  methods: 	f79 	
   model: 	c1
   modified: 	false
   name: 	AddStep
@@ -99,8 +99,8 @@
   superClass: 	modelCommand3
 
 - addParallel12: 	Clazz
-  attributes: 	gateId79 	gateKind80 	
-  methods: 	f81 	
+  attributes: 	gateId80 	gateKind81 	
+  methods: 	f82 	
   model: 	c1
   modified: 	false
   name: 	AddParallel
@@ -108,8 +108,8 @@
   superClass: 	modelCommand3
 
 - addFlow13: 	Clazz
-  attributes: 	source82 	target83 	
-  methods: 	f84 	
+  attributes: 	source83 	target84 	
+  methods: 	f85 	
   model: 	c1
   modified: 	false
   name: 	AddFlow
@@ -117,22 +117,31 @@
   superClass: 	modelCommand3
 
 - step14: 	Clazz
-  attributes: 	id85 	text86 	kind87 	finalFlag88 	
+  attributes: 	id86 	text87 	kind88 	finalFlag89 	
   model: 	c1
   modified: 	false
   name: 	Step
   propertyStyle: 	POJO
-  roles: 	next89 	prev90 	parent91 	finalFlow92 	invokedFlows93 	
+  roles: 	next90 	prev91 	parent92 	finalFlow93 	invokedFlows94 	
 
 - flow15: 	Clazz
-  attributes: 	kind94 	
+  attributes: 	kind95 	
   model: 	c1
   modified: 	false
   name: 	Flow
   propertyStyle: 	POJO
-  roles: 	steps95 	finalFlow96 	invoker97 	
+  roles: 	steps96 	finalFlow97 	invoker98 	
 
-- activeCommands16: 	Attribute
+- parse16: 	Clazz
+  attributes: 	text99 	
+  methods: 	f100 	
+  model: 	c1
+  modified: 	false
+  name: 	Parse
+  propertyStyle: 	POJO
+  superClass: 	modelCommand3
+
+- activeCommands17: 	Attribute
   clazz: 	workFlowsEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -140,7 +149,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- removeCommands17: 	Attribute
+- removeCommands18: 	Attribute
   clazz: 	workFlowsEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -148,7 +157,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, RemoveCommand>"
 
-- commandListeners18: 	Attribute
+- commandListeners19: 	Attribute
   clazz: 	workFlowsEditor2
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -156,7 +165,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat19: 	Attribute
+- isoDateFormat20: 	Attribute
   clazz: 	workFlowsEditor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -164,7 +173,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime20: 	Attribute
+- lastTime21: 	Attribute
   clazz: 	workFlowsEditor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -172,7 +181,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta21: 	Attribute
+- timeDelta22: 	Attribute
   clazz: 	workFlowsEditor2
   initialization: 	1
   modified: 	false
@@ -180,7 +189,7 @@
   propertyStyle: 	POJO
   type: 	long
 
-- f22: 	FMethod
+- f23: 	FMethod
   clazz: 	workFlowsEditor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -201,7 +210,7 @@
 "
   modified: 	false
 
-- f23: 	FMethod
+- f24: 	FMethod
   clazz: 	workFlowsEditor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -212,7 +221,7 @@
 "
   modified: 	false
 
-- f24: 	FMethod
+- f25: 	FMethod
   clazz: 	workFlowsEditor2
   declaration: 	"public WorkFlowsEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -221,7 +230,7 @@
 "
   modified: 	false
 
-- f25: 	FMethod
+- f26: 	FMethod
   clazz: 	workFlowsEditor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"unikassel.bpmn2wf.WorkFlows\").decode(yamlString);
@@ -232,45 +241,45 @@
 "
   modified: 	false
 
-- service26: 	AssocRole
+- service27: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	workFlowsEditor2
   modified: 	false
   name: 	service
-  other: 	modelEditor45
+  other: 	modelEditor46
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id27: 	Attribute
+- id28: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time28: 	Attribute
+- time29: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f29: 	FMethod
+- f30: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(WorkFlowsEditor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName30: 	Attribute
+- targetClassName31: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f31: 	FMethod
+- f32: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -289,7 +298,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f33: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(WorkFlowsEditor editor)"
   methodBody: 	"      // allready removed?
@@ -319,42 +328,42 @@
 "
   modified: 	false
 
-- myPort33: 	Attribute
+- myPort34: 	Attribute
   clazz: 	workFlowsService5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- reflectorMap34: 	Attribute
+- reflectorMap35: 	Attribute
   clazz: 	workFlowsService5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession35: 	Attribute
+- currentSession36: 	Attribute
   clazz: 	workFlowsService5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor36: 	Attribute
+- executor37: 	Attribute
   clazz: 	workFlowsService5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark37: 	Attribute
+- spark38: 	Attribute
   clazz: 	workFlowsService5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap38: 	Attribute
+- sessionToAppMap39: 	Attribute
   clazz: 	workFlowsService5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -362,7 +371,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, WorkFlowsApp>"
 
-- f39: 	FMethod
+- f40: 	FMethod
   clazz: 	workFlowsService5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -392,7 +401,7 @@
 "
   modified: 	false
 
-- f40: 	FMethod
+- f41: 	FMethod
   clazz: 	workFlowsService5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -400,7 +409,7 @@
 "
   modified: 	false
 
-- f41: 	FMethod
+- f42: 	FMethod
   clazz: 	workFlowsService5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -442,7 +451,7 @@
 "
   modified: 	false
 
-- f42: 	FMethod
+- f43: 	FMethod
   clazz: 	workFlowsService5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -515,7 +524,7 @@
 "
   modified: 	false
 
-- f43: 	FMethod
+- f44: 	FMethod
   clazz: 	workFlowsService5
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -528,7 +537,7 @@
 "
   modified: 	false
 
-- f44: 	FMethod
+- f45: 	FMethod
   clazz: 	workFlowsService5
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
@@ -544,34 +553,34 @@
 "
   modified: 	false
 
-- modelEditor45: 	AssocRole
+- modelEditor46: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	workFlowsService5
   modified: 	false
   name: 	modelEditor
-  other: 	service26
+  other: 	service27
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- streams46: 	AssocRole
+- streams47: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	workFlowsService5
   modified: 	false
   name: 	streams
-  other: 	service57
+  other: 	service58
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name47: 	Attribute
+- name48: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- targetUrlList48: 	Attribute
+- targetUrlList49: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -579,7 +588,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<String>"
 
-- oldCommands49: 	Attribute
+- oldCommands50: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -587,7 +596,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands50: 	Attribute
+- activeCommands51: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -595,7 +604,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f51: 	FMethod
+- f52: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -605,7 +614,7 @@
 "
   modified: 	false
 
-- f52: 	FMethod
+- f53: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
@@ -645,7 +654,7 @@
 "
   modified: 	false
 
-- f53: 	FMethod
+- f54: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -660,7 +669,7 @@
 "
   modified: 	false
 
-- f54: 	FMethod
+- f55: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start()"
   methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
@@ -668,7 +677,7 @@
 "
   modified: 	false
 
-- f55: 	FMethod
+- f56: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -682,7 +691,7 @@
 "
   modified: 	false
 
-- f56: 	FMethod
+- f57: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
   methodBody: 	"      for (String cmd : commandList) {
@@ -691,31 +700,31 @@
 "
   modified: 	false
 
-- service57: 	AssocRole
+- service58: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams46
+  other: 	streams47
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incommingRoute58: 	Attribute
+- incommingRoute59: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	incommingRoute
   propertyStyle: 	POJO
   type: 	String
 
-- outgoingUrl59: 	Attribute
+- outgoingUrl60: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	outgoingUrl
   propertyStyle: 	POJO
   type: 	String
 
-- f60: 	FMethod
+- f61: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -734,7 +743,7 @@
 "
   modified: 	false
 
-- f61: 	FMethod
+- f62: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public Object run(WorkFlowsEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
@@ -743,28 +752,28 @@
 "
   modified: 	false
 
-- modelEditor62: 	Attribute
+- modelEditor63: 	Attribute
   clazz: 	workFlowsApp8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	WorkFlowsEditor
 
-- id63: 	Attribute
+- id64: 	Attribute
   clazz: 	workFlowsApp8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description64: 	Attribute
+- description65: 	Attribute
   clazz: 	workFlowsApp8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f65: 	FMethod
+- f66: 	FMethod
   clazz: 	workFlowsApp8
   declaration: 	"public WorkFlowsApp init(WorkFlowsEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -774,103 +783,103 @@
 "
   modified: 	false
 
-- content66: 	AssocRole
+- content67: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	workFlowsApp8
   modified: 	false
   name: 	content
-  other: 	app69
+  other: 	app70
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id67: 	Attribute
+- id68: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description68: 	Attribute
+- description69: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app69: 	AssocRole
+- app70: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content66
+  other: 	content67
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content70: 	AssocRole
+- content71: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page75
+  other: 	page76
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id71: 	Attribute
+- id72: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description72: 	Attribute
+- description73: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action73: 	Attribute
+- action74: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value74: 	Attribute
+- value75: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page75: 	AssocRole
+- page76: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content70
+  other: 	content71
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- taskId76: 	Attribute
+- taskId77: 	Attribute
   clazz: 	addStep11
   modified: 	false
   name: 	taskId
   propertyStyle: 	POJO
   type: 	String
 
-- taskText77: 	Attribute
+- taskText78: 	Attribute
   clazz: 	addStep11
   modified: 	false
   name: 	taskText
   propertyStyle: 	POJO
   type: 	String
 
-- f78: 	FMethod
+- f79: 	FMethod
   clazz: 	addStep11
   declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -889,21 +898,21 @@
 "
   modified: 	false
 
-- gateId79: 	Attribute
+- gateId80: 	Attribute
   clazz: 	addParallel12
   modified: 	false
   name: 	gateId
   propertyStyle: 	POJO
   type: 	String
 
-- gateKind80: 	Attribute
+- gateKind81: 	Attribute
   clazz: 	addParallel12
   modified: 	false
   name: 	gateKind
   propertyStyle: 	POJO
   type: 	String
 
-- f81: 	FMethod
+- f82: 	FMethod
   clazz: 	addParallel12
   declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -922,21 +931,21 @@
 "
   modified: 	false
 
-- source82: 	Attribute
+- source83: 	Attribute
   clazz: 	addFlow13
   modified: 	false
   name: 	source
   propertyStyle: 	POJO
   type: 	String
 
-- target83: 	Attribute
+- target84: 	Attribute
   clazz: 	addFlow13
   modified: 	false
   name: 	target
   propertyStyle: 	POJO
   type: 	String
 
-- f84: 	FMethod
+- f85: 	FMethod
   clazz: 	addFlow13
   declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -955,118 +964,144 @@
 "
   modified: 	false
 
-- id85: 	Attribute
+- id86: 	Attribute
   clazz: 	step14
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- text86: 	Attribute
+- text87: 	Attribute
   clazz: 	step14
   modified: 	false
   name: 	text
   propertyStyle: 	POJO
   type: 	String
 
-- kind87: 	Attribute
+- kind88: 	Attribute
   clazz: 	step14
   modified: 	false
   name: 	kind
   propertyStyle: 	POJO
   type: 	String
 
-- finalFlag88: 	Attribute
+- finalFlag89: 	Attribute
   clazz: 	step14
   modified: 	false
   name: 	finalFlag
   propertyStyle: 	POJO
   type: 	boolean
 
-- next89: 	AssocRole
+- next90: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	step14
   modified: 	false
   name: 	next
-  other: 	prev90
+  other: 	prev91
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- prev90: 	AssocRole
+- prev91: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	step14
   modified: 	false
   name: 	prev
-  other: 	next89
+  other: 	next90
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- parent91: 	AssocRole
+- parent92: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	step14
   modified: 	false
   name: 	parent
-  other: 	steps95
+  other: 	steps96
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- finalFlow92: 	AssocRole
+- finalFlow93: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	step14
   modified: 	false
   name: 	finalFlow
-  other: 	finalFlow96
+  other: 	finalFlow97
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- invokedFlows93: 	AssocRole
+- invokedFlows94: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	step14
   modified: 	false
   name: 	invokedFlows
-  other: 	invoker97
+  other: 	invoker98
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- kind94: 	Attribute
+- kind95: 	Attribute
   clazz: 	flow15
   modified: 	false
   name: 	kind
   propertyStyle: 	POJO
   type: 	String
 
-- steps95: 	AssocRole
+- steps96: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	flow15
   modified: 	false
   name: 	steps
-  other: 	parent91
+  other: 	parent92
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- finalFlow96: 	AssocRole
+- finalFlow97: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	flow15
   modified: 	false
   name: 	finalFlow
-  other: 	finalFlow92
+  other: 	finalFlow93
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- invoker97: 	AssocRole
+- invoker98: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	flow15
   modified: 	false
   name: 	invoker
-  other: 	invokedFlows93
+  other: 	invokedFlows94
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
+
+- text99: 	Attribute
+  clazz: 	parse16
+  modified: 	false
+  name: 	text
+  propertyStyle: 	POJO
+  type: 	String
+
+- f100: 	FMethod
+  clazz: 	parse16
+  declaration: 	"public boolean preCheck(WorkFlowsEditor editor)"
+  methodBody: 	"      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get(\"Parse-\" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get(\"Parse-\" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put(\"Parse-\" + this.getId(), this);
+      return true;
+"
+  modified: 	false
 
