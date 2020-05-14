@@ -15,12 +15,21 @@ public class AddStep extends ModelCommand
       editor.init();
       System.out.println("Workflow add step " + taskId);
       Step step = editor.getOrCreateStep(taskId);
-      step.setParent(editor.root);
+      if (step.getParent() == null) {
+         step.setParent(editor.root);
+      }
       step.setText(taskText);
 
       editor.fireCommandExecuted(this);
 
       return null;
+   }
+
+   @Override
+   public void undo(WorkFlowsEditor editor)
+   {
+      Step step = editor.stepMap.remove(taskId);
+      step.removeYou();
    }
 
    public static final String PROPERTY_taskText = "taskText";

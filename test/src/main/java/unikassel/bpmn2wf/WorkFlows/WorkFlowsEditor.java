@@ -2,10 +2,15 @@ package unikassel.bpmn2wf.WorkFlows;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.fulib.yaml.Yaml;
 
@@ -278,6 +283,16 @@ public class WorkFlowsEditor
       return this;
    }
 
+   public void storeYamlCommands(String fileName) {
+      String yaml = Yaml.encode(this.activeCommands.values());
+      try {
+         Files.write(Paths.get(fileName), yaml.getBytes(StandardCharsets.UTF_8));
+      }
+      catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+
    public void loadYaml(String yamlString) { 
       java.util.Map map = Yaml.forPackage("unikassel.bpmn2wf.WorkFlows").decode(yamlString);
       for (Object value : map.values()) {
@@ -286,4 +301,87 @@ public class WorkFlowsEditor
       }
    }
 
+   public Map<String, ModelCommand> parseModelToCommandSet(Flow basicFlow)
+   {
+      Map<String, ModelCommand> newCommands = new LinkedHashMap<>();
+
+      addStepsOfFlow(newCommands, basicFlow, "start", "end");
+
+      return newCommands;
+   }
+
+   private void addStepsOfFlow(Map<String, ModelCommand> newCommands, Flow flow, String previousStep, String successorStep)
+   {
+      for (Step step : flow.getSteps()) {
+         if ("parallelStep".equals(step.getKind())) {
+            AddParallel addParallel = new AddParallel().setGateId(step.getId()).setGateKind("parallel");
+            addParallel.setId(addParallel.getGateId());
+            String key = "AddParallel-" + addParallel.getId();
+            newCommands.put(key, addParallel);
+            addFlowCommand(newCommands, previousStep, step.getId() + "_dot_start");
+            previousStep = step.getId() + "_dot_end";
+
+            if (step.getFinalFlag()) {
+               addFlowCommand(newCommands, step.getId() + "_dot_end", successorStep);
+            }
+
+            for (Flow invokedFlow : step.getInvokedFlows()) {
+               addStepsOfFlow(newCommands, invokedFlow, step.getId() + "_dot_start", step.getId() + "_dot_end");
+            }
+         }
+         else { // standard step
+            AddStep addStep = new AddStep().setTaskId(step.getId()).setTaskText(step.getText());
+            addStep.setId(step.getId());
+            String key = String.format("AddStep-%s", step.getId());
+            newCommands.put(key, addStep);
+            addFlowCommand(newCommands, previousStep, step.getId());
+            previousStep = step.getId();
+
+            if (step.getFinalFlag()) {
+               addFlowCommand(newCommands, step.getId(), successorStep);
+            }
+         }
+      }
+   }
+
+   private void addFlowCommand(Map<String, ModelCommand> newCommands, String previousStep, String id)
+   {
+      String key;
+      AddFlow inFlow = new AddFlow().setSource(previousStep).setTarget(id);
+      inFlow.setId(inFlow.getSource() + "_" + inFlow.getTarget());
+      key = "AddFlow-" + inFlow.getId();
+      newCommands.put(key, inFlow);
+   }
+
+   public void mergeIntoHistory(Map<String, ModelCommand> newHistory) {
+      // remove old commands that are no longer there
+      LinkedHashMap<String, ModelCommand> oldHistory = new LinkedHashMap<>();
+      oldHistory.putAll(activeCommands);
+
+      for (Map.Entry<String, ModelCommand> entry : oldHistory.entrySet()) {
+         String key = entry.getKey();
+         ModelCommand oldCommand = entry.getValue();
+         ModelCommand newCommand = newHistory.get(key);
+         if (newCommand == null) {
+            System.out.println("Remove " + key);
+            oldCommand.removeYou(this);
+         }
+      }
+
+      // compare new commands and apply if actually new
+      for (Map.Entry<String, ModelCommand> entry : newHistory.entrySet()) {
+         String key = entry.getKey();
+         ModelCommand newCommand = entry.getValue();
+         ModelCommand oldCommand = activeCommands.get(key);
+
+         if (oldCommand == null) {
+            newCommand.run(this);
+            continue;
+         }
+
+         if ( ! oldCommand.equalsButTime(newCommand)) {
+            newCommand.run(this);
+         }
+      }
+   }
 }

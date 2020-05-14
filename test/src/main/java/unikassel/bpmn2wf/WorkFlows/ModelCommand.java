@@ -1,6 +1,9 @@
 package unikassel.bpmn2wf.WorkFlows;
+import org.fulib.yaml.Reflector;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 public class ModelCommand  
 {
@@ -111,4 +114,39 @@ public class ModelCommand
       return null;
    }
 
+   public boolean equalsButTime(ModelCommand newCommand)
+   {
+      Reflector reflector = new Reflector().setClazz(this.getClass());
+
+      for (String property : reflector.getProperties()) {
+         if ("time".equals(property)) {
+            continue;
+         }
+         Object oldValue = reflector.getValue(this, property);
+         Object newValue = reflector.getValue(newCommand, property);
+
+         if ( ! Objects.equals(oldValue, newValue)) {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+   public void removeYou(WorkFlowsEditor editor)
+   {
+      RemoveCommand removeCommand = new RemoveCommand();
+      removeCommand.setTargetClassName(this.getClass().getSimpleName())
+            .setId(this.getId());
+      String key = String.format("%s-%s", removeCommand.getTargetClassName(), this.getId());
+      editor.getActiveCommands().remove(key);
+      editor.getRemoveCommands().put(key, removeCommand);
+      this.undo(editor);
+   }
+
+   public void undo(WorkFlowsEditor editor)
+   {
+      String key = String.format("%s-%s", this.getClass().getSimpleName(), this.getId());
+      System.out.println("" + key +  "needs to overwrite undo");
+   }
 }

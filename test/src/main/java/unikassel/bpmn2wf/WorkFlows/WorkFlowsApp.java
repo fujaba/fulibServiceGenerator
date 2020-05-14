@@ -11,6 +11,7 @@ public class WorkFlowsApp
    public static final String PROPERTY_modelEditor = "modelEditor";
 
    private WorkFlowsEditor modelEditor;
+   public StringBuilder buf;
 
    public WorkFlowsEditor getModelEditor()
    {
@@ -184,7 +185,7 @@ public class WorkFlowsApp
       ArrayList<Flow> allFlows = new ArrayList<>();
       allFlows.add(modelEditor.root);
 
-      StringBuilder buf = new StringBuilder();
+      buf = new StringBuilder();
 
       while (allFlows.size() > 0) {
          Flow currentFlow = allFlows.remove(0);

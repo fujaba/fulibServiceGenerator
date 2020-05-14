@@ -126,7 +126,7 @@ public class WorkFlowsService
 
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
 
-   private LinkedHashMap<String, WorkFlowsApp> sessionToAppMap = new LinkedHashMap();
+   public LinkedHashMap<String, WorkFlowsApp> sessionToAppMap = new LinkedHashMap();
 
    public LinkedHashMap<String, WorkFlowsApp> getSessionToAppMap()
    {

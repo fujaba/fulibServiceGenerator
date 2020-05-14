@@ -14,6 +14,9 @@ import java.io.StringReader;
 
 public class Parse extends ModelCommand
 {
+
+   public ParseTreeListener parseTreeListener;
+
    @Override
    public Object run(WorkFlowsEditor editor)
    {
@@ -24,7 +27,7 @@ public class Parse extends ModelCommand
       WorkFlowGrammarParser.FlowListContext flowListContext = parser.flowList();
 
       ParseTreeWalker treeWalker = new ParseTreeWalker();
-      ParseTreeListener parseTreeListener = new ParseTreeListener();
+      parseTreeListener = new ParseTreeListener();
       treeWalker.walk(parseTreeListener, flowListContext);
 
       return null;

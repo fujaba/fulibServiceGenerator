@@ -16,7 +16,7 @@ stepList: step+;
 
 step: basicStep | parallelStep;
 
-basicStep: 'step' stepId=ID STRING ('next' ID)? ;
+basicStep: 'step' stepId=ID text=STRING ('next' ID)? ;
 
 parallelStep: 'parallel' 'step' stepId=ID 'subflows' idList;
 

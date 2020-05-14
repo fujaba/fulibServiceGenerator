@@ -6,17 +6,78 @@ import org.fulib.yaml.Yaml;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import unikassel.bpmn2wf.BPMN.*;
-import unikassel.bpmn2wf.WorkFlows.Parse;
-import unikassel.bpmn2wf.WorkFlows.WorkFlowsApp;
-import unikassel.bpmn2wf.WorkFlows.WorkFlowsService;
+import unikassel.bpmn2wf.BPMN.AddFlow;
+import unikassel.bpmn2wf.BPMN.AddParallel;
+import unikassel.bpmn2wf.BPMN.AddStep;
+import unikassel.bpmn2wf.BPMN.CommandStream;
+import unikassel.bpmn2wf.WorkFlows.*;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestBPMN2WorkFlow
 {
+   @Test
+   public void testWorkFlowTextEditing()
+   {
+      WorkFlowsService workFlowsService = new WorkFlowsService();
+      workFlowsService.start();
+      WorkFlowsEditor editor = workFlowsService.getModelEditor();
+      WorkFlowsApp myApp = new WorkFlowsApp().init(editor);
+
+      try {
+         byte[] bytes = Files.readAllBytes(Paths.get("tmp/WorkFlowCommandHistory.yaml"));
+         String yaml = new String(bytes, StandardCharsets.UTF_8);
+
+         // load commandstream and build model
+         editor.loadYaml(yaml);
+
+         // unparse to string
+         myApp.diagram();
+         String flowText = myApp.buf.toString();
+         System.out.println(flowText);
+         assertThat(flowText.startsWith("basic flow"), is(true));
+
+         // edit flow string
+         String changedText = flowText.replace("\"charge\"", "\"billing\"");
+         changedText = changedText.replace("t0", "prep");
+         // parse changed text
+         Parse parseCmd = new Parse();
+         parseCmd.setText(changedText);
+         parseCmd.run(null);
+         unikassel.bpmn2wf.WorkFlows.Flow basicFlow = parseCmd.parseTreeListener.basicFlow;
+         assertThat(basicFlow, not(equals(null)));
+
+         Map<String, unikassel.bpmn2wf.WorkFlows.ModelCommand> newHistory = editor.parseModelToCommandSet(basicFlow);
+         assertThat(newHistory.get("AddFlow-pg1_dot_end_end"), notNullValue());
+
+         editor.mergeIntoHistory(newHistory);
+         Step t2 = editor.stepMap.get("t2");
+         assertThat(t2.getText(), equalTo("billing"));
+         assertThat(t2.getParent().getKind(), equalTo("parallel"));
+
+         myApp.diagram();
+         String newFlowText = myApp.buf.toString();
+         System.out.println(newFlowText);
+         assertThat(newFlowText.startsWith("basic flow"), is(true));
+
+         System.out.println();
+      }
+      catch (IOException e) {
+         return;
+      }
+
+   }
+
    @Test
    public void testWorkFlowParser()
    {
@@ -31,12 +92,19 @@ public class TestBPMN2WorkFlow
             "parallel flow pg1 t1\n" +
             "    step t1 \"collect\" \n" +
             "end flow";
+
+      // get model from text
       Parse parseCmd = new Parse();
       parseCmd.setText(text);
+      parseCmd.run(null);
+      unikassel.bpmn2wf.WorkFlows.Flow basicFlow = parseCmd.parseTreeListener.basicFlow;
+      assertThat(basicFlow, not(equals(null)));
+      FulibTools.objectDiagrams().dumpSVG("tmp/WorkFlowModelParsed.svg", basicFlow);
 
-      WorkFlowsService workFlowsService = new WorkFlowsService();
-      workFlowsService.start();
-      parseCmd.run(workFlowsService.getModelEditor());
+
+      System.out.println();
+
+
 
    }
 
@@ -164,6 +232,8 @@ public class TestBPMN2WorkFlow
 
       open("http://localhost:22050/WorkFlows");
       WorkFlowsApp wfApp = workFlowsService.getSessionToAppMap().values().iterator().next();
+      wfApp.getModelEditor().storeYamlCommands("tmp/WorkFlowCommandHistory.yaml");
+
       scene1.addScreen("WorkFlow", "9:00", wfApp);
 
       FulibTools.objectDiagrams().dumpSVG("tmp/BPMNModel.svg",

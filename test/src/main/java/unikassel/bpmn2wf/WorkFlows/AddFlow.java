@@ -52,6 +52,16 @@ public class AddFlow extends ModelCommand
       return null;
    }
 
+   @Override
+   public void undo(WorkFlowsEditor editor)
+   {
+      Step source = editor.stepMap.get(this.source);
+      Step target = editor.stepMap.get(this.target);
+      if (source != null && target != null) {
+         source.withoutNext(target);
+      }
+   }
+
    public String truncate(String old) {
       int pos = old.indexOf("_dot_");
       if (pos < 0) {
