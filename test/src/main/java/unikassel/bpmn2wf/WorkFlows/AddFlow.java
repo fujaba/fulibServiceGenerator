@@ -32,7 +32,7 @@ public class AddFlow extends ModelCommand
       else {
          Step sourceStep = editor.getOrCreateStep(truncate(source));
          Step targetStep = editor.getOrCreateStep(truncate(target));
-         if ( ! source.endsWith("_dot_start") && ! target.endsWith("_dot_end")) {
+         if ( ! source.endsWith("_start") && ! target.endsWith("_end")) {
             sourceStep.withNext(targetStep);
             propagateFlow(sourceStep);
          }
@@ -63,7 +63,7 @@ public class AddFlow extends ModelCommand
    }
 
    public String truncate(String old) {
-      int pos = old.indexOf("_dot_");
+      int pos = old.indexOf("_");
       if (pos < 0) {
          return old;
       }

@@ -318,15 +318,15 @@ public class WorkFlowsEditor
             addParallel.setId(addParallel.getGateId());
             String key = "AddParallel-" + addParallel.getId();
             newCommands.put(key, addParallel);
-            addFlowCommand(newCommands, previousStep, step.getId() + "_dot_start");
-            previousStep = step.getId() + "_dot_end";
+            addFlowCommand(newCommands, previousStep, step.getId() + "_start");
+            previousStep = step.getId() + "_end";
 
             if (step.getFinalFlag()) {
-               addFlowCommand(newCommands, step.getId() + "_dot_end", successorStep);
+               addFlowCommand(newCommands, step.getId() + "_end", successorStep);
             }
 
             for (Flow invokedFlow : step.getInvokedFlows()) {
-               addStepsOfFlow(newCommands, invokedFlow, step.getId() + "_dot_start", step.getId() + "_dot_end");
+               addStepsOfFlow(newCommands, invokedFlow, step.getId() + "_start", step.getId() + "_end");
             }
          }
          else { // standard step

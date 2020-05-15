@@ -13,9 +13,9 @@ public class AddParallel extends ModelCommand
       }
 
       // add start gate and end gate
-      Task sourceTask = editor.getOrCreateTask(gateId + "_dot_start");
+      Task sourceTask = editor.getOrCreateTask(gateId + "_start");
       sourceTask.setKind("gate_"+gateKind);
-      Task targetTask = editor.getOrCreateTask(gateId + "_dot_end");
+      Task targetTask = editor.getOrCreateTask(gateId + "_end");
       targetTask.setKind("gate_"+gateKind);
 
       editor.fireCommandExecuted(this);

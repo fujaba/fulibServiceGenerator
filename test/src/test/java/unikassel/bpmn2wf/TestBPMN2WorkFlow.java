@@ -61,7 +61,7 @@ public class TestBPMN2WorkFlow
          assertThat(basicFlow, not(equals(null)));
 
          Map<String, unikassel.bpmn2wf.WorkFlows.ModelCommand> newHistory = editor.parseModelToCommandSet(basicFlow);
-         assertThat(newHistory.get("AddFlow-pg1_dot_end_end"), notNullValue());
+         assertThat(newHistory.get("AddFlow-pg1_end_end"), notNullValue());
 
          editor.mergeIntoHistory(newHistory);
          Step t2 = editor.stepMap.get("t2");
@@ -132,7 +132,7 @@ public class TestBPMN2WorkFlow
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t0");
-      $("#targetIn").$("input").setValue("pg1_dot_start");
+      $("#targetIn").$("input").setValue("pg1_start");
       $(By.xpath("//button[text()='add']")).click();
 
       FulibTools.objectDiagrams().dumpSVG("tmp/BPMNScreen1Model.svg",
@@ -192,7 +192,7 @@ public class TestBPMN2WorkFlow
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t0");
-      $("#targetIn").$("input").setValue("pg1_dot_start");
+      $("#targetIn").$("input").setValue("pg1_start");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addStep']")).click();
@@ -201,7 +201,7 @@ public class TestBPMN2WorkFlow
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
-      $("#sourceIn").$("input").setValue("pg1_dot_start");
+      $("#sourceIn").$("input").setValue("pg1_start");
       $("#targetIn").$("input").setValue("t2");
       $(By.xpath("//button[text()='add']")).click();
 
@@ -211,22 +211,22 @@ public class TestBPMN2WorkFlow
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
-      $("#sourceIn").$("input").setValue("pg1_dot_start");
+      $("#sourceIn").$("input").setValue("pg1_start");
       $("#targetIn").$("input").setValue("t1");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t2");
-      $("#targetIn").$("input").setValue("pg1_dot_end");
+      $("#targetIn").$("input").setValue("pg1_end");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
       $("#sourceIn").$("input").setValue("t1");
-      $("#targetIn").$("input").setValue("pg1_dot_end");
+      $("#targetIn").$("input").setValue("pg1_end");
       $(By.xpath("//button[text()='add']")).click();
 
       $(By.xpath("//button[text()='addFlow']")).click();
-      $("#sourceIn").$("input").setValue("pg1_dot_end");
+      $("#sourceIn").$("input").setValue("pg1_end");
       $("#targetIn").$("input").setValue("end");
       $(By.xpath("//button[text()='add']")).click();
 
