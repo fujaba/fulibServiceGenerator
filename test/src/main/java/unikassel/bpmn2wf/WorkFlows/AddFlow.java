@@ -73,8 +73,9 @@ public class AddFlow extends ModelCommand
 
    public void propagateFlow(Step currentStep)
    {
-      if (currentStep.getFinalFlag()) {
+      if (currentStep.getNext().isEmpty()) {
          currentStep.setFinalFlow(currentStep.getParent());
+         currentStep.setFinalFlag(true);
          return;
       }
 

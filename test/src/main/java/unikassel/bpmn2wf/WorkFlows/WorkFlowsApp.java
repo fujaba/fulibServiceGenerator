@@ -198,7 +198,15 @@ public class WorkFlowsApp
          String text = "" + currentFlow.getKind() + " flow" + flowName;
          buf.append(text).append("\n");
 
-         for (Step step : currentFlow.getSteps()) {
+         Step step = null;
+         for (Step s : currentFlow.getSteps()) {
+            if (s.getPrev().isEmpty()) {
+               step = s;
+               break;
+            }
+         }
+
+         while (step != null) {
             String nextId = "";
             if (step.getNext().size() > 0) {
                nextId = "next " + step.getNext().iterator().next().getId();
@@ -220,6 +228,11 @@ public class WorkFlowsApp
             }
 
             buf.append(text).append("\n");
+
+            if (step.getNext().isEmpty()) {
+               break;
+            }
+            step = step.getNext().get(0);
          }
          buf.append("end flow\n");
       }

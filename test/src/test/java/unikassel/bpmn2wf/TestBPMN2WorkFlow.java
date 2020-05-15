@@ -48,8 +48,11 @@ public class TestBPMN2WorkFlow
          assertThat(flowText.startsWith("basic flow"), is(true));
 
          // edit flow string
-         String changedText = flowText.replace("\"charge\"", "\"billing\"");
+         String changedText = flowText.replace("\"charge\"",
+               "\"billing\" next t3\n" +
+                     "    step t3 \"accounting\"");
          changedText = changedText.replace("t0", "prep");
+
          // parse changed text
          Parse parseCmd = new Parse();
          parseCmd.setText(changedText);
