@@ -11,9 +11,50 @@ public class GenModel
 {
    public static void main(String[] args)
    {
-      genBPMNToWorkFlows();
-      genQSExample();
-      genStoreShop();
+      genTTC2020Model();
+
+//      genBPMNToWorkFlows();
+//      genQSExample();
+//      genStoreShop();
+   }
+
+   private static void genTTC2020Model()
+   {
+      SystemEditor sysEdit = new SystemEditor();
+      sysEdit.haveMainJavaDir("test/src/main/java");
+      sysEdit.havePackageName("de.hub.mse.ttc2020.solution");
+
+      ServiceEditor m1Service = sysEdit.haveService("M1");
+      ClassModelManager m1Manager = m1Service.getClassModelManager();
+      Clazz person = m1Manager.haveClass("Person");
+      m1Manager.haveAttribute(person, "name", STRING);
+      m1Manager.haveAttribute(person, "age", INT);
+
+      Clazz dog = m1Manager.haveClass("Dog");
+      m1Manager.haveAttribute(dog, "name", STRING);
+      m1Manager.haveAttribute(dog, "age", INT);
+      m1Manager.haveAttribute(dog, "owner", "Person");
+
+      ServiceEditor m2Service = sysEdit.haveService("M2");
+      ClassModelManager m2Manager = m2Service.getClassModelManager();
+      person = m2Manager.haveClass("Person");
+      m2Manager.haveAttribute(person, "name", STRING);
+      m2Manager.haveAttribute(person, "ybirth", INT);
+
+      dog = m2Manager.haveClass("Dog");
+      m2Manager.haveAttribute(dog, "name", STRING);
+      m2Manager.haveAttribute(dog, "owner", "Person");
+
+      Clazz havePerson = sysEdit.haveSharedCommand("HavePerson");
+      sysEdit.haveParameter(havePerson, "name", STRING);
+      sysEdit.haveParameter(havePerson, "age", INT);
+
+      Clazz haveDog = sysEdit.haveSharedCommand("HaveDog");
+      sysEdit.haveParameter(haveDog, "name", STRING);
+      sysEdit.haveParameter(haveDog, "age", INT);
+      sysEdit.haveParameter(haveDog, "owner", STRING);
+
+      sysEdit.generate();
    }
 
    private static void genBPMNToWorkFlows()
