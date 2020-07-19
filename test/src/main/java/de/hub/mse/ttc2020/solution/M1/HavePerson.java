@@ -4,6 +4,13 @@ import java.beans.PropertyChangeListener;
 
 public class HavePerson extends ModelCommand  
 {
+   @Override
+   public Object run(M1Editor editor)
+   {
+      Person person = (Person) editor.getOrCreate(Person.class, getId());
+      person.setName(name).setAge(age);
+      return person;
+   }
 
    public static final String PROPERTY_name = "name";
 

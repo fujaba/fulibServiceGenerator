@@ -1,6 +1,7 @@
 package de.hub.mse.ttc2020.solution.M2;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.ArrayList;
@@ -65,6 +66,26 @@ public class M2Editor
          java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
          this.commandListeners = value;
          firePropertyChange("commandListeners", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_idMap = "idMap";
+
+   private java.util.Map<String, Object> idMap = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getIdMap()
+   {
+      return idMap;
+   }
+
+   public M2Editor setIdMap(java.util.Map<String, Object> value)
+   {
+      if (value != this.idMap)
+      {
+         java.util.Map<String, Object> oldValue = this.idMap;
+         this.idMap = value;
+         firePropertyChange("idMap", oldValue, value);
       }
       return this;
    }
@@ -225,6 +246,26 @@ public class M2Editor
 
    }
 
+   public Object getOrCreate(Class clazz, String id) { 
+      try {
+         Object modelObject = idMap.get(id);
+         if (modelObject == null) {
+            modelObject = (Object) clazz.getConstructor().newInstance();
+            Method setIdMethod = clazz.getMethod("setId", String.class);
+            setIdMethod.invoke(modelObject, id);
+            idMap.put(id, modelObject);
+         }
+         return modelObject;
+      }
+      catch (Exception e) {
+         throw new RuntimeException(e);
+      }
+   }
+
+   public Object getModelObject(String id) { 
+   return idMap.get(id);
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -261,8 +302,33 @@ public class M2Editor
       java.util.Map map = Yaml.forPackage("de.hub.mse.ttc2020.solution.M2").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
-         cmd.run(this);
+         execute(cmd);
       }
+   }
+
+   public void execute(ModelCommand command) { 
+      String id = command.getId();
+      if (id == null) {
+         id = "obj" + activeCommands.size();
+         command.setId(id);
+      }
+
+      String time = command.getTime();
+      if (time == null) {
+         time = getTime();
+         command.setTime(time);
+      }
+
+      ModelCommand oldCommand = activeCommands.get(id);
+
+      if (oldCommand != null && oldCommand.getTime().compareTo(time) >= 0) {
+         // already updated
+         return;
+      }
+
+      command.run(this);
+
+      activeCommands.put(id, command);
    }
 
 }

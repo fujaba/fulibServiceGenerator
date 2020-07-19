@@ -120,10 +120,31 @@ public class Dog
    {
       StringBuilder result = new StringBuilder();
 
+      result.append(" ").append(this.getId());
       result.append(" ").append(this.getName());
 
 
       return result.substring(1);
+   }
+
+   public static final String PROPERTY_id = "id";
+
+   private String id;
+
+   public String getId()
+   {
+      return id;
+   }
+
+   public Dog setId(String value)
+   {
+      if (value == null ? this.id != null : ! value.equals(this.id))
+      {
+         String oldValue = this.id;
+         this.id = value;
+         firePropertyChange("id", oldValue, value);
+      }
+      return this;
    }
 
 }

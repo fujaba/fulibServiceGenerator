@@ -65,7 +65,7 @@ public class SystemEditor
 
    public void generate()
    {
-      FulibTools.classDiagrams().dumpSVG(this.sharedModelManager.getClassModel(), "tmp/sharedClasse.svg");
+      FulibTools.classDiagrams().dumpSVG(this.sharedModelManager.getClassModel(), "tmp/sharedClasses.svg");
       for (Map.Entry<String, ServiceEditor> entry : this.serviceMap.entrySet()) {
          String serviceName = entry.getKey();
          ServiceEditor serviceEditor = entry.getValue();

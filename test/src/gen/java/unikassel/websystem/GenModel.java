@@ -27,10 +27,12 @@ public class GenModel
       ServiceEditor m1Service = sysEdit.haveService("M1");
       ClassModelManager m1Manager = m1Service.getClassModelManager();
       Clazz person = m1Manager.haveClass("Person");
+      m1Manager.haveAttribute(person, "id", STRING);
       m1Manager.haveAttribute(person, "name", STRING);
       m1Manager.haveAttribute(person, "age", INT);
 
       Clazz dog = m1Manager.haveClass("Dog");
+      m1Manager.haveAttribute(dog, "id", STRING);
       m1Manager.haveAttribute(dog, "name", STRING);
       m1Manager.haveAttribute(dog, "age", INT);
       m1Manager.haveAttribute(dog, "owner", "Person");
@@ -38,10 +40,12 @@ public class GenModel
       ServiceEditor m2Service = sysEdit.haveService("M2");
       ClassModelManager m2Manager = m2Service.getClassModelManager();
       person = m2Manager.haveClass("Person");
+      m2Manager.haveAttribute(person, "id", STRING);
       m2Manager.haveAttribute(person, "name", STRING);
       m2Manager.haveAttribute(person, "ybirth", INT);
 
       dog = m2Manager.haveClass("Dog");
+      m2Manager.haveAttribute(dog, "id", STRING);
       m2Manager.haveAttribute(dog, "name", STRING);
       m2Manager.haveAttribute(dog, "owner", "Person");
 

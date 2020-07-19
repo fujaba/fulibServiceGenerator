@@ -1,9 +1,59 @@
 package de.hub.mse.ttc2020.solution.M2;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
 public class HaveDog extends ModelCommand  
 {
+   @Override
+   public Object run(M2Editor editor)
+   {
+      Dog dog = (Dog) editor.getOrCreate(Dog.class, getId());
+      Person ownerObject = (Person) editor.getOrCreate(Person.class, owner);
+      dog.setName(name).setOwner(ownerObject);
+
+      return dog;
+   }
+
+   public static final String PROPERTY_name = "name";
+
+   private String name;
+
+   public String getName()
+   {
+      return name;
+   }
+
+   public HaveDog setName(String value)
+   {
+      if (value == null ? this.name != null : ! value.equals(this.name))
+      {
+         String oldValue = this.name;
+         this.name = value;
+         firePropertyChange("name", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_age = "age";
+
+   private int age;
+
+   public int getAge()
+   {
+      return age;
+   }
+
+   public HaveDog setAge(int value)
+   {
+      if (value != this.age)
+      {
+         int oldValue = this.age;
+         this.age = value;
+         firePropertyChange("age", oldValue, value);
+      }
+      return this;
+   }
 
    public static final String PROPERTY_owner = "owner";
 
@@ -85,46 +135,6 @@ public class HaveDog extends ModelCommand
 
 
       return result.substring(1);
-   }
-
-   public static final String PROPERTY_name = "name";
-
-   private String name;
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public HaveDog setName(String value)
-   {
-      if (value == null ? this.name != null : ! value.equals(this.name))
-      {
-         String oldValue = this.name;
-         this.name = value;
-         firePropertyChange("name", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_age = "age";
-
-   private int age;
-
-   public int getAge()
-   {
-      return age;
-   }
-
-   public HaveDog setAge(int value)
-   {
-      if (value != this.age)
-      {
-         int oldValue = this.age;
-         this.age = value;
-         firePropertyChange("age", oldValue, value);
-      }
-      return this;
    }
 
    public boolean preCheck(M2Editor editor) { 

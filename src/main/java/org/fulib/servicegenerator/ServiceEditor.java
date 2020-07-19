@@ -86,6 +86,9 @@ public class ServiceEditor
       this.editorHaveMapFor("RemoveCommand");
       this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
 
+      this.editorHaveMapFor("idMap", "Object");
+      haveGetOrCreate();
+
 
       Attribute dateFormat = this.getClassModelManager().haveAttribute(editor, "isoDateFormat", "DateFormat");
       dateFormat.setInitialization("new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
@@ -118,7 +121,17 @@ public class ServiceEditor
       haveRemoveCommand();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
 
+      haveExecuteMethod();
+
       return editor;
+   }
+
+   private void haveExecuteMethod()
+   {
+      String declaration = "public void execute(ModelCommand command)";
+      ST st = group.getInstanceOf("editorExecute");
+      String body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
    }
 
    public void haveService(String serviceName)
@@ -321,6 +334,7 @@ public class ServiceEditor
       return dataClass;
    }
 
+   @Deprecated
    private void editorHaveGetOrCreateFor(String dataClassName)
    {
       String declaration = String.format("public %1$s getOrCreate%1$s(String id)", dataClassName);
@@ -355,14 +369,19 @@ public class ServiceEditor
       return fMethod;
    }
 
-   private FMethod haveGetOrCreate(String className)
+   private FMethod haveGetOrCreate()
    {
-      Clazz commandClass = this.commandClasses.get(className);
-      String declaration = String.format("public %s getOrCreate(%s sme)", className, this.editor.getName());
-      ST st = group.getInstanceOf("getOrCreateBody");
-      st.add("dataClazz", className);
+      String declaration = "public Object getOrCreate(Class clazz, String id)";
+      ST st = group.getInstanceOf("editorGetOrCreateBody");
       String body = st.render();
-      FMethod fMethod = mm.haveMethod(commandClass, declaration, body);
+      FMethod fMethod = mm.haveMethod(editor, declaration, body);
+
+      editor.getImportList().add("import java.lang.reflect.Method;");
+
+      // and
+      declaration = "public Object getModelObject(String id)";
+      body = "   return idMap.get(id);\n";
+      mm.haveMethod(editor, declaration, body);
 
       return fMethod;
    }

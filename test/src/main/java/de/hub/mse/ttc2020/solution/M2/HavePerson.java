@@ -1,9 +1,17 @@
 package de.hub.mse.ttc2020.solution.M2;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
 public class HavePerson extends ModelCommand  
 {
+   @Override
+   public Object run(M2Editor editor)
+   {
+      Person person = (Person) editor.getOrCreate(Person.class, getId());
+      person.setName(name).setYbirth(2020 - age);
+      return person;
+   }
 
    public static final String PROPERTY_name = "name";
 

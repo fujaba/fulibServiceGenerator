@@ -11,18 +11,20 @@ getOrCreateBody(dataClazz) ::= <<
 
 >>
 
-editorGetOrCreateBody(dataClazz) ::= <<
-      if (id == null) {
-         return null;
+editorGetOrCreateBody() ::= <<
+      try {
+         Object modelObject = idMap.get(id);
+         if (modelObject == null) {
+            modelObject = (Object) clazz.getConstructor().newInstance();
+            Method setIdMethod = clazz.getMethod("setId", String.class);
+            setIdMethod.invoke(modelObject, id);
+            idMap.put(id, modelObject);
+         }
+         return modelObject;
       }
-      <dataClazz> oldObject = this.get<dataClazz>s().get(id);
-      if (oldObject != null) {
-         return oldObject;
+      catch (Exception e) {
+         throw new RuntimeException(e);
       }
-      <dataClazz> newObject = new <dataClazz>();
-      newObject.setId(id);
-      this.get<dataClazz>s().put(id, newObject);
-      return newObject;
 
 >>
 
@@ -39,6 +41,32 @@ editorAddCommandListener() ::= <<
       ArrayList\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
       listeners.add(stream);
       return this;
+
+>>
+
+editorExecute() ::= <<
+      String id = command.getId();
+      if (id == null) {
+         id = "obj" + activeCommands.size();
+         command.setId(id);
+      }
+
+      String time = command.getTime();
+      if (time == null) {
+         time = getTime();
+         command.setTime(time);
+      }
+
+      ModelCommand oldCommand = activeCommands.get(id);
+
+      if (oldCommand != null && oldCommand.getTime().compareTo(time) >= 0) {
+         // already updated
+         return;
+      }
+
+      command.run(this);
+
+      activeCommands.put(id, command);
 
 >>
 
@@ -147,7 +175,7 @@ loadYaml(packageName) ::= <<
       java.util.Map map = Yaml.forPackage("<packageName>").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
-         cmd.run(this);
+         execute(cmd);
       }
 
 >>

@@ -7,18 +7,18 @@
   packageSrcFolder: 	"test/src/main/java/de/hub/mse/ttc2020/solution/M1"
 
 - m1Editor2: 	Clazz
-  attributes: 	activeCommands15 	removeCommands16 	commandListeners17 	isoDateFormat18 	lastTime19 	timeDelta20 	
-  importList: 	null 	null 	null 	null 	
-  methods: 	f21 	f22 	f23 	f24 	
+  attributes: 	activeCommands15 	removeCommands16 	commandListeners17 	idMap18 	isoDateFormat19 	lastTime20 	timeDelta21 	
+  importList: 	null 	null 	null 	null 	null 	
+  methods: 	f22 	f23 	f24 	f25 	f26 	f27 	f28 	
   model: 	c1
   modified: 	false
   name: 	M1Editor
   propertyStyle: 	POJO
-  roles: 	service25 	
+  roles: 	service29 	
 
 - modelCommand3: 	Clazz
-  attributes: 	id26 	time27 	
-  methods: 	f28 	
+  attributes: 	id30 	time31 	
+  methods: 	f32 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
@@ -26,9 +26,9 @@
   subClasses: 	removeCommand4 	addStreamCommand7 	havePerson13 	haveDog14 	
 
 - removeCommand4: 	Clazz
-  attributes: 	targetClassName29 	
+  attributes: 	targetClassName33 	
   importList: 	null 	null 	null 	
-  methods: 	f30 	f31 	
+  methods: 	f34 	f35 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -36,28 +36,28 @@
   superClass: 	modelCommand3
 
 - m1Service5: 	Clazz
-  attributes: 	myPort32 	reflectorMap33 	currentSession34 	executor35 	spark36 	sessionToAppMap37 	
+  attributes: 	myPort36 	reflectorMap37 	currentSession38 	executor39 	spark40 	sessionToAppMap41 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f38 	f39 	f40 	f41 	f42 	f43 	
+  methods: 	f42 	f43 	f44 	f45 	f46 	f47 	
   model: 	c1
   modified: 	false
   name: 	M1Service
   propertyStyle: 	POJO
-  roles: 	modelEditor44 	streams45 	
+  roles: 	modelEditor48 	streams49 	
 
 - commandStream6: 	Clazz
-  attributes: 	name46 	targetUrlList47 	oldCommands48 	activeCommands49 	
+  attributes: 	name50 	targetUrlList51 	oldCommands52 	activeCommands53 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f50 	f51 	f52 	f53 	f54 	f55 	
+  methods: 	f54 	f55 	f56 	f57 	f58 	f59 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service56 	
+  roles: 	service60 	
 
 - addStreamCommand7: 	Clazz
-  attributes: 	incommingRoute57 	outgoingUrl58 	
-  methods: 	f59 	f60 	
+  attributes: 	incommingRoute61 	outgoingUrl62 	
+  methods: 	f63 	f64 	
   model: 	c1
   modified: 	false
   name: 	AddStreamCommand
@@ -65,47 +65,47 @@
   superClass: 	modelCommand3
 
 - m1App8: 	Clazz
-  attributes: 	modelEditor61 	id62 	description63 	
-  methods: 	f64 	
+  attributes: 	modelEditor65 	id66 	description67 	
+  methods: 	f68 	
   model: 	c1
   modified: 	false
   name: 	M1App
   propertyStyle: 	POJO
-  roles: 	content65 	
+  roles: 	content69 	
 
 - page9: 	Clazz
-  attributes: 	id66 	description67 	
+  attributes: 	id70 	description71 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app68 	content69 	
+  roles: 	app72 	content73 	
 
 - line10: 	Clazz
-  attributes: 	id70 	description71 	action72 	value73 	
+  attributes: 	id74 	description75 	action76 	value77 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page74 	
+  roles: 	page78 	
 
 - person11: 	Clazz
-  attributes: 	name75 	age76 	
+  attributes: 	id79 	name80 	age81 	
   model: 	c1
   modified: 	false
   name: 	Person
   propertyStyle: 	POJO
 
 - dog12: 	Clazz
-  attributes: 	name77 	age78 	owner79 	
+  attributes: 	id82 	name83 	age84 	owner85 	
   model: 	c1
   modified: 	false
   name: 	Dog
   propertyStyle: 	POJO
 
 - havePerson13: 	Clazz
-  attributes: 	name80 	age81 	
-  methods: 	f82 	
+  attributes: 	name86 	age87 	
+  methods: 	f88 	
   model: 	c1
   modified: 	false
   name: 	HavePerson
@@ -113,8 +113,8 @@
   superClass: 	modelCommand3
 
 - haveDog14: 	Clazz
-  attributes: 	name83 	age84 	owner85 	
-  methods: 	f86 	
+  attributes: 	name89 	age90 	owner91 	
+  methods: 	f92 	
   model: 	c1
   modified: 	false
   name: 	HaveDog
@@ -145,7 +145,15 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
-- isoDateFormat18: 	Attribute
+- idMap18: 	Attribute
+  clazz: 	m1Editor2
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	idMap
+  propertyStyle: 	POJO
+  type: 	"java.util.Map<String, Object>"
+
+- isoDateFormat19: 	Attribute
   clazz: 	m1Editor2
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
@@ -153,7 +161,7 @@
   propertyStyle: 	POJO
   type: 	DateFormat
 
-- lastTime19: 	Attribute
+- lastTime20: 	Attribute
   clazz: 	m1Editor2
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
@@ -161,7 +169,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- timeDelta20: 	Attribute
+- timeDelta21: 	Attribute
   clazz: 	m1Editor2
   initialization: 	1
   modified: 	false
@@ -169,7 +177,33 @@
   propertyStyle: 	POJO
   type: 	long
 
-- f21: 	FMethod
+- f22: 	FMethod
+  clazz: 	m1Editor2
+  declaration: 	"public Object getOrCreate(Class clazz, String id)"
+  methodBody: 	"      try {
+         Object modelObject = idMap.get(id);
+         if (modelObject == null) {
+            modelObject = (Object) clazz.getConstructor().newInstance();
+            Method setIdMethod = clazz.getMethod(\"setId\", String.class);
+            setIdMethod.invoke(modelObject, id);
+            idMap.put(id, modelObject);
+         }
+         return modelObject;
+      }
+      catch (Exception e) {
+         throw new RuntimeException(e);
+      }
+"
+  modified: 	false
+
+- f23: 	FMethod
+  clazz: 	m1Editor2
+  declaration: 	"public Object getModelObject(String id)"
+  methodBody: 	"   return idMap.get(id);
+"
+  modified: 	false
+
+- f24: 	FMethod
   clazz: 	m1Editor2
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
@@ -190,7 +224,7 @@
 "
   modified: 	false
 
-- f22: 	FMethod
+- f25: 	FMethod
   clazz: 	m1Editor2
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
@@ -201,7 +235,7 @@
 "
   modified: 	false
 
-- f23: 	FMethod
+- f26: 	FMethod
   clazz: 	m1Editor2
   declaration: 	"public M1Editor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -210,56 +244,84 @@
 "
   modified: 	false
 
-- f24: 	FMethod
+- f27: 	FMethod
   clazz: 	m1Editor2
   declaration: 	"public void loadYaml(String yamlString)"
   methodBody: 	"      java.util.Map map = Yaml.forPackage(\"de.hub.mse.ttc2020.solution.M1\").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
-         cmd.run(this);
+         execute(cmd);
       }
 "
   modified: 	false
 
-- service25: 	AssocRole
+- f28: 	FMethod
+  clazz: 	m1Editor2
+  declaration: 	"public void execute(ModelCommand command)"
+  methodBody: 	"      String id = command.getId();
+      if (id == null) {
+         id = \"obj\" + activeCommands.size();
+         command.setId(id);
+      }
+
+      String time = command.getTime();
+      if (time == null) {
+         time = getTime();
+         command.setTime(time);
+      }
+
+      ModelCommand oldCommand = activeCommands.get(id);
+
+      if (oldCommand != null && oldCommand.getTime().compareTo(time) >= 0) {
+         // already updated
+         return;
+      }
+
+      command.run(this);
+
+      activeCommands.put(id, command);
+"
+  modified: 	false
+
+- service29: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	m1Editor2
   modified: 	false
   name: 	service
-  other: 	modelEditor44
+  other: 	modelEditor48
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id26: 	Attribute
+- id30: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- time27: 	Attribute
+- time31: 	Attribute
   clazz: 	modelCommand3
   modified: 	false
   name: 	time
   propertyStyle: 	POJO
   type: 	String
 
-- f28: 	FMethod
+- f32: 	FMethod
   clazz: 	modelCommand3
   declaration: 	"public Object run(M1Editor editor)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- targetClassName29: 	Attribute
+- targetClassName33: 	Attribute
   clazz: 	removeCommand4
   modified: 	false
   name: 	targetClassName
   propertyStyle: 	POJO
   type: 	String
 
-- f30: 	FMethod
+- f34: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public boolean preCheck(M1Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -278,7 +340,7 @@
 "
   modified: 	false
 
-- f31: 	FMethod
+- f35: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(M1Editor editor)"
   methodBody: 	"      // allready removed?
@@ -308,42 +370,42 @@
 "
   modified: 	false
 
-- myPort32: 	Attribute
+- myPort36: 	Attribute
   clazz: 	m1Service5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- reflectorMap33: 	Attribute
+- reflectorMap37: 	Attribute
   clazz: 	m1Service5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession34: 	Attribute
+- currentSession38: 	Attribute
   clazz: 	m1Service5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor35: 	Attribute
+- executor39: 	Attribute
   clazz: 	m1Service5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark36: 	Attribute
+- spark40: 	Attribute
   clazz: 	m1Service5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap37: 	Attribute
+- sessionToAppMap41: 	Attribute
   clazz: 	m1Service5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -351,7 +413,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, M1App>"
 
-- f38: 	FMethod
+- f42: 	FMethod
   clazz: 	m1Service5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -381,7 +443,7 @@
 "
   modified: 	false
 
-- f39: 	FMethod
+- f43: 	FMethod
   clazz: 	m1Service5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -389,7 +451,7 @@
 "
   modified: 	false
 
-- f40: 	FMethod
+- f44: 	FMethod
   clazz: 	m1Service5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -431,7 +493,7 @@
 "
   modified: 	false
 
-- f41: 	FMethod
+- f45: 	FMethod
   clazz: 	m1Service5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -504,7 +566,7 @@
 "
   modified: 	false
 
-- f42: 	FMethod
+- f46: 	FMethod
   clazz: 	m1Service5
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -517,7 +579,7 @@
 "
   modified: 	false
 
-- f43: 	FMethod
+- f47: 	FMethod
   clazz: 	m1Service5
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
@@ -533,34 +595,34 @@
 "
   modified: 	false
 
-- modelEditor44: 	AssocRole
+- modelEditor48: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	m1Service5
   modified: 	false
   name: 	modelEditor
-  other: 	service25
+  other: 	service29
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- streams45: 	AssocRole
+- streams49: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	m1Service5
   modified: 	false
   name: 	streams
-  other: 	service56
+  other: 	service60
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name46: 	Attribute
+- name50: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- targetUrlList47: 	Attribute
+- targetUrlList51: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -568,7 +630,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<String>"
 
-- oldCommands48: 	Attribute
+- oldCommands52: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -576,7 +638,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands49: 	Attribute
+- activeCommands53: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -584,7 +646,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f50: 	FMethod
+- f54: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -594,7 +656,7 @@
 "
   modified: 	false
 
-- f51: 	FMethod
+- f55: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
@@ -634,7 +696,7 @@
 "
   modified: 	false
 
-- f52: 	FMethod
+- f56: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -649,7 +711,7 @@
 "
   modified: 	false
 
-- f53: 	FMethod
+- f57: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start()"
   methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
@@ -657,7 +719,7 @@
 "
   modified: 	false
 
-- f54: 	FMethod
+- f58: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -671,7 +733,7 @@
 "
   modified: 	false
 
-- f55: 	FMethod
+- f59: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
   methodBody: 	"      for (String cmd : commandList) {
@@ -680,31 +742,31 @@
 "
   modified: 	false
 
-- service56: 	AssocRole
+- service60: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams45
+  other: 	streams49
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incommingRoute57: 	Attribute
+- incommingRoute61: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	incommingRoute
   propertyStyle: 	POJO
   type: 	String
 
-- outgoingUrl58: 	Attribute
+- outgoingUrl62: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	outgoingUrl
   propertyStyle: 	POJO
   type: 	String
 
-- f59: 	FMethod
+- f63: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public boolean preCheck(M1Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -723,7 +785,7 @@
 "
   modified: 	false
 
-- f60: 	FMethod
+- f64: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public Object run(M1Editor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
@@ -732,28 +794,28 @@
 "
   modified: 	false
 
-- modelEditor61: 	Attribute
+- modelEditor65: 	Attribute
   clazz: 	m1App8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	M1Editor
 
-- id62: 	Attribute
+- id66: 	Attribute
   clazz: 	m1App8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description63: 	Attribute
+- description67: 	Attribute
   clazz: 	m1App8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f64: 	FMethod
+- f68: 	FMethod
   clazz: 	m1App8
   declaration: 	"public M1App init(M1Editor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -763,138 +825,152 @@
 "
   modified: 	false
 
-- content65: 	AssocRole
+- content69: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	m1App8
   modified: 	false
   name: 	content
-  other: 	app68
-  propertyStyle: 	POJO
-  roleType: 	"java.util.ArrayList<%s>"
-
-- id66: 	Attribute
-  clazz: 	page9
-  modified: 	false
-  name: 	id
-  propertyStyle: 	POJO
-  type: 	String
-
-- description67: 	Attribute
-  clazz: 	page9
-  modified: 	false
-  name: 	description
-  propertyStyle: 	POJO
-  type: 	String
-
-- app68: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	page9
-  modified: 	false
-  name: 	app
-  other: 	content65
-  propertyStyle: 	POJO
-  roleType: 	"java.util.ArrayList<%s>"
-
-- content69: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	page9
-  modified: 	false
-  name: 	content
-  other: 	page74
+  other: 	app72
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
 - id70: 	Attribute
-  clazz: 	line10
+  clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
 - description71: 	Attribute
+  clazz: 	page9
+  modified: 	false
+  name: 	description
+  propertyStyle: 	POJO
+  type: 	String
+
+- app72: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	page9
+  modified: 	false
+  name: 	app
+  other: 	content69
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- content73: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	page9
+  modified: 	false
+  name: 	content
+  other: 	page78
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id74: 	Attribute
+  clazz: 	line10
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- description75: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action72: 	Attribute
+- action76: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value73: 	Attribute
+- value77: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page74: 	AssocRole
+- page78: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content69
+  other: 	content73
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name75: 	Attribute
+- id79: 	Attribute
   clazz: 	person11
   modified: 	false
-  name: 	name
+  name: 	id
   propertyStyle: 	POJO
   type: 	String
-
-- age76: 	Attribute
-  clazz: 	person11
-  modified: 	false
-  name: 	age
-  propertyStyle: 	POJO
-  type: 	int
-
-- name77: 	Attribute
-  clazz: 	dog12
-  modified: 	false
-  name: 	name
-  propertyStyle: 	POJO
-  type: 	String
-
-- age78: 	Attribute
-  clazz: 	dog12
-  modified: 	false
-  name: 	age
-  propertyStyle: 	POJO
-  type: 	int
-
-- owner79: 	Attribute
-  clazz: 	dog12
-  modified: 	false
-  name: 	owner
-  propertyStyle: 	POJO
-  type: 	Person
 
 - name80: 	Attribute
-  clazz: 	havePerson13
+  clazz: 	person11
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
 - age81: 	Attribute
+  clazz: 	person11
+  modified: 	false
+  name: 	age
+  propertyStyle: 	POJO
+  type: 	int
+
+- id82: 	Attribute
+  clazz: 	dog12
+  modified: 	false
+  name: 	id
+  propertyStyle: 	POJO
+  type: 	String
+
+- name83: 	Attribute
+  clazz: 	dog12
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- age84: 	Attribute
+  clazz: 	dog12
+  modified: 	false
+  name: 	age
+  propertyStyle: 	POJO
+  type: 	int
+
+- owner85: 	Attribute
+  clazz: 	dog12
+  modified: 	false
+  name: 	owner
+  propertyStyle: 	POJO
+  type: 	Person
+
+- name86: 	Attribute
+  clazz: 	havePerson13
+  modified: 	false
+  name: 	name
+  propertyStyle: 	POJO
+  type: 	String
+
+- age87: 	Attribute
   clazz: 	havePerson13
   modified: 	false
   name: 	age
   propertyStyle: 	POJO
   type: 	int
 
-- f82: 	FMethod
+- f88: 	FMethod
   clazz: 	havePerson13
   declaration: 	"public boolean preCheck(M1Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -913,28 +989,28 @@
 "
   modified: 	false
 
-- name83: 	Attribute
+- name89: 	Attribute
   clazz: 	haveDog14
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- age84: 	Attribute
+- age90: 	Attribute
   clazz: 	haveDog14
   modified: 	false
   name: 	age
   propertyStyle: 	POJO
   type: 	int
 
-- owner85: 	Attribute
+- owner91: 	Attribute
   clazz: 	haveDog14
   modified: 	false
   name: 	owner
   propertyStyle: 	POJO
   type: 	String
 
-- f86: 	FMethod
+- f92: 	FMethod
   clazz: 	haveDog14
   declaration: 	"public boolean preCheck(M1Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
