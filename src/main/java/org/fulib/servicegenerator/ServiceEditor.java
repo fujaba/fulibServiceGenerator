@@ -41,9 +41,8 @@ public class ServiceEditor
    private void haveRemoveCommand()
    {
       removeCommand = this.haveCommand("RemoveCommand");
-      mm.haveAttribute(removeCommand, "targetClassName", STRING);
-      ST st = group.getInstanceOf("removeCommandRun");
       String declaration = String.format("public Object run(%s editor)", this.editor.getName());
+      ST st = group.getInstanceOf("removeCommandRun");
       String body = st.render();
       mm.haveMethod(removeCommand, declaration, body);
 
@@ -60,6 +59,8 @@ public class ServiceEditor
       mm.haveAttribute(modelCommand, "time", STRING);
       String declaration = String.format("public Object run(%s editor)", this.editor.getName());
       mm.haveMethod(modelCommand, declaration, "      return null;\n");
+      declaration = String.format("public void undo(%s editor)", this.editor.getName());
+      mm.haveMethod(modelCommand, declaration, "      // overwrite when necessary\n");
    }
 
    public ClassModelManager getClassModelManager()
@@ -86,7 +87,8 @@ public class ServiceEditor
       this.editorHaveMapFor("RemoveCommand");
       this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
 
-      this.editorHaveMapFor("idMap", "Object");
+      this.editorHaveMapFor("mapOfFrames", "Object");
+      this.editorHaveMapFor("mapOfModelObjects", "Object");
       haveGetOrCreate();
 
 
@@ -376,11 +378,16 @@ public class ServiceEditor
       String body = st.render();
       FMethod fMethod = mm.haveMethod(editor, declaration, body);
 
+      declaration = "public Object getObjectFrame(Class clazz, String id)";
+      st = group.getInstanceOf("editorGetFrameBody");
+      body = st.render();
+      mm.haveMethod(editor, declaration, body);
+
       editor.getImportList().add("import java.lang.reflect.Method;");
 
       // and
       declaration = "public Object getModelObject(String id)";
-      body = "   return idMap.get(id);\n";
+      body = "   return mapOfModelObjects.get(id);\n";
       mm.haveMethod(editor, declaration, body);
 
       return fMethod;

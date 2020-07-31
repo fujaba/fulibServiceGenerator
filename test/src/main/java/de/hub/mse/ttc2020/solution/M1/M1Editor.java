@@ -70,26 +70,6 @@ public class M1Editor
       return this;
    }
 
-   public static final String PROPERTY_idMap = "idMap";
-
-   private java.util.Map<String, Object> idMap = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getIdMap()
-   {
-      return idMap;
-   }
-
-   public M1Editor setIdMap(java.util.Map<String, Object> value)
-   {
-      if (value != this.idMap)
-      {
-         java.util.Map<String, Object> oldValue = this.idMap;
-         this.idMap = value;
-         firePropertyChange("idMap", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_isoDateFormat = "isoDateFormat";
 
    private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -229,6 +209,52 @@ public class M1Editor
       return true;
    }
 
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
+   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
+
+   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getMapOfFrames()
+   {
+      return mapOfFrames;
+   }
+
+   public M1Editor setMapOfFrames(java.util.Map<String, Object> value)
+   {
+      if (value != this.mapOfFrames)
+      {
+         java.util.Map<String, Object> oldValue = this.mapOfFrames;
+         this.mapOfFrames = value;
+         firePropertyChange("mapOfFrames", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
+
+   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getMapOfModelObjects()
+   {
+      return mapOfModelObjects;
+   }
+
+   public M1Editor setMapOfModelObjects(java.util.Map<String, Object> value)
+   {
+      if (value != this.mapOfModelObjects)
+      {
+         java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
+         this.mapOfModelObjects = value;
+         firePropertyChange("mapOfModelObjects", oldValue, value);
+      }
+      return this;
+   }
+
    @Override
    public String toString()
    {
@@ -240,21 +266,37 @@ public class M1Editor
       return result.substring(1);
    }
 
-   public void removeYou()
-   {
-      this.setService(null);
+   public Object getOrCreate(Class clazz, String id) { 
+      Object modelObject = mapOfModelObjects.get(id);
+      if (modelObject != null) {
+         return modelObject;
+      }
 
+      modelObject = getObjectFrame(clazz, id);
+
+      mapOfFrames.remove(id);
+      mapOfModelObjects.put(id, modelObject);
+
+      return modelObject;
    }
 
-   public Object getOrCreate(Class clazz, String id) { 
+   public Object getObjectFrame(Class clazz, String id) { 
       try {
-         Object modelObject = idMap.get(id);
-         if (modelObject == null) {
-            modelObject = (Object) clazz.getConstructor().newInstance();
-            Method setIdMethod = clazz.getMethod("setId", String.class);
-            setIdMethod.invoke(modelObject, id);
-            idMap.put(id, modelObject);
+         Object modelObject = mapOfModelObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
          }
+
+         modelObject = mapOfFrames.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = (Object) clazz.getConstructor().newInstance();
+         Method setIdMethod = clazz.getMethod("setId", String.class);
+         setIdMethod.invoke(modelObject, id);
+         mapOfFrames.put(id, modelObject);
+
          return modelObject;
       }
       catch (Exception e) {
@@ -263,7 +305,7 @@ public class M1Editor
    }
 
    public Object getModelObject(String id) { 
-   return idMap.get(id);
+   return mapOfModelObjects.get(id);
    }
 
    public String getTime() { 
@@ -323,6 +365,11 @@ public class M1Editor
 
       if (oldCommand != null && oldCommand.getTime().compareTo(time) >= 0) {
          // already updated
+         return;
+      }
+
+      if (oldCommand != null && oldCommand instanceof RemoveCommand) {
+         // object is dead, do not recreate
          return;
       }
 

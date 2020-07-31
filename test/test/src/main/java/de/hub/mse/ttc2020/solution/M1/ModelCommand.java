@@ -2,47 +2,51 @@ package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class Person  
+public class ModelCommand 
 {
 
-   public static final String PROPERTY_name = "name";
+   public static final String PROPERTY_id = "id";
 
-   private String name;
+   private String id;
 
-   public String getName()
+   public String getId()
    {
-      return name;
+      return id;
    }
 
-   public Person setName(String value)
+   public ModelCommand setId(String value)
    {
-      if (value == null ? this.name != null : ! value.equals(this.name))
+      if (value == null ? this.id != null : ! value.equals(this.id))
       {
-         String oldValue = this.name;
-         this.name = value;
-         firePropertyChange("name", oldValue, value);
+         String oldValue = this.id;
+         this.id = value;
+         firePropertyChange("id", oldValue, value);
       }
       return this;
    }
 
-   public static final String PROPERTY_age = "age";
+   public static final String PROPERTY_time = "time";
 
-   private int age;
+   private String time;
 
-   public int getAge()
+   public String getTime()
    {
-      return age;
+      return time;
    }
 
-   public Person setAge(int value)
+   public ModelCommand setTime(String value)
    {
-      if (value != this.age)
+      if (value == null ? this.time != null : ! value.equals(this.time))
       {
-         int oldValue = this.age;
-         this.age = value;
-         firePropertyChange("age", oldValue, value);
+         String oldValue = this.time;
+         this.time = value;
+         firePropertyChange("time", oldValue, value);
       }
       return this;
+   }
+
+   public Object run(M1Editor editor) { 
+      return null;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -101,65 +105,10 @@ public class Person
       StringBuilder result = new StringBuilder();
 
       result.append(" ").append(this.getId());
-      result.append(" ").append(this.getName());
+      result.append(" ").append(this.getTime());
 
 
       return result.substring(1);
-   }
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public Person setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_dog = "dog";
-
-   private Dog dog = null;
-
-   public Dog getDog()
-   {
-      return this.dog;
-   }
-
-   public Person setDog(Dog value)
-   {
-      if (this.dog != value)
-      {
-         Dog oldValue = this.dog;
-         if (this.dog != null)
-         {
-            this.dog = null;
-            oldValue.setOwner(null);
-         }
-         this.dog = value;
-         if (value != null)
-         {
-            value.setOwner(this);
-         }
-         firePropertyChange("dog", oldValue, value);
-      }
-      return this;
-   }
-
-   public void removeYou()
-   {
-      this.setDog(null);
-
    }
 
 }

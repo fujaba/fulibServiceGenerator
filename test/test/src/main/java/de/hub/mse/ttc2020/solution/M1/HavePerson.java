@@ -2,7 +2,7 @@ package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class Person  
+public class HavePerson extends ModelCommand
 {
 
    public static final String PROPERTY_name = "name";
@@ -14,7 +14,7 @@ public class Person
       return name;
    }
 
-   public Person setName(String value)
+   public HavePerson setName(String value)
    {
       if (value == null ? this.name != null : ! value.equals(this.name))
       {
@@ -34,7 +34,7 @@ public class Person
       return age;
    }
 
-   public Person setAge(int value)
+   public HavePerson setAge(int value)
    {
       if (value != this.age)
       {
@@ -43,6 +43,22 @@ public class Person
          firePropertyChange("age", oldValue, value);
       }
       return this;
+   }
+
+   public boolean preCheck(M1Editor editor) { 
+      if (this.getTime() == null) {
+         this.setTime(editor.getTime());
+      }
+      RemoveCommand oldRemove = editor.getRemoveCommands().get("HavePerson-" + this.getId());
+      if (oldRemove != null) {
+         return false;
+      }
+      ModelCommand oldCommand = editor.getActiveCommands().get("HavePerson-" + this.getId());
+      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
+         return false;
+      }
+      editor.getActiveCommands().put("HavePerson-" + this.getId(), this);
+      return true;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -100,66 +116,10 @@ public class Person
    {
       StringBuilder result = new StringBuilder();
 
-      result.append(" ").append(this.getId());
       result.append(" ").append(this.getName());
 
 
       return result.substring(1);
-   }
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public Person setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_dog = "dog";
-
-   private Dog dog = null;
-
-   public Dog getDog()
-   {
-      return this.dog;
-   }
-
-   public Person setDog(Dog value)
-   {
-      if (this.dog != value)
-      {
-         Dog oldValue = this.dog;
-         if (this.dog != null)
-         {
-            this.dog = null;
-            oldValue.setOwner(null);
-         }
-         this.dog = value;
-         if (value != null)
-         {
-            value.setOwner(this);
-         }
-         firePropertyChange("dog", oldValue, value);
-      }
-      return this;
-   }
-
-   public void removeYou()
-   {
-      this.setDog(null);
-
    }
 
 }

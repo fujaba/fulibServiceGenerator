@@ -45,26 +45,6 @@ public class Dog
       return this;
    }
 
-   public static final String PROPERTY_owner = "owner";
-
-   private Person owner;
-
-   public Person getOwner()
-   {
-      return owner;
-   }
-
-   public Dog setOwner(Person value)
-   {
-      if (value != this.owner)
-      {
-         Person oldValue = this.owner;
-         this.owner = value;
-         firePropertyChange("owner", oldValue, value);
-      }
-      return this;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -115,18 +95,6 @@ public class Dog
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-      result.append(" ").append(this.getName());
-
-
-      return result.substring(1);
-   }
-
    public static final String PROPERTY_id = "id";
 
    private String id;
@@ -145,6 +113,53 @@ public class Dog
          firePropertyChange("id", oldValue, value);
       }
       return this;
+   }
+
+   public static final String PROPERTY_owner = "owner";
+
+   private Person owner = null;
+
+   public Person getOwner()
+   {
+      return this.owner;
+   }
+
+   public Dog setOwner(Person value)
+   {
+      if (this.owner != value)
+      {
+         Person oldValue = this.owner;
+         if (this.owner != null)
+         {
+            this.owner = null;
+            oldValue.setDog(null);
+         }
+         this.owner = value;
+         if (value != null)
+         {
+            value.setDog(this);
+         }
+         firePropertyChange("owner", oldValue, value);
+      }
+      return this;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getId());
+      result.append(" ").append(this.getName());
+
+
+      return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setOwner(null);
+
    }
 
 }

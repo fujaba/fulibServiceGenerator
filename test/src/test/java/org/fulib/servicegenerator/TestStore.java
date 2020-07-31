@@ -20,7 +20,7 @@ public class TestStore
    @Test
    public void testService() throws IOException
    {
-      int port = 4599;
+      int port = 4571;
       StoreService service = new StoreService();
       service.setMyPort(port);
       service.init(null);

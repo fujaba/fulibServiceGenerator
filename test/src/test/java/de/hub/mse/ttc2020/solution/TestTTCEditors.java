@@ -2,13 +2,14 @@ package de.hub.mse.ttc2020.solution;
 
 import de.hub.mse.ttc2020.solution.M1.*;
 import de.hub.mse.ttc2020.solution.M2.M2Editor;
+import org.fulib.FulibTools;
 import org.fulib.yaml.Yaml;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestTTCEditors
@@ -66,6 +67,57 @@ public class TestTTCEditors
 
       backwardToM1(m2Editor, m1Editor);
       assertThat(bob2.getName(), is("Bobby"));
+
+      // remove alice
+      ModelCommand removeAlice1 = new RemoveCommand().setId("alice1");
+      m1Editor.execute(removeAlice1);
+      Person alice1Zombie = (Person) m1Editor.getModelObject("alice1");
+      assertThat(alice1Zombie, nullValue());
+
+      // reuse of alice1 should fail
+      ModelCommand haveZombie = new HavePerson().setName("Zombie Alice").setAge(24).setId("alice1");
+      m1Editor.execute(haveZombie);
+      alice1Zombie = (Person) m1Editor.getModelObject("alice1");
+      assertThat(alice1Zombie, nullValue());
+
+      // re-adding Alice as alice2
+      ModelCommand haveAlice3 = new HavePerson().setName("Alice").setAge(25).setId("alice2");
+      m1Editor.execute(haveAlice3);
+      Person alice2 = (Person) m1Editor.getModelObject("alice2");
+      assertThat(alice2, notNullValue());
+
+      // move the dog to the new alice2
+      ModelCommand haveBob2 = new HaveDog().setName("Bob").setAge(2).setOwner("alice2").setId("bob2");
+      m1Editor.execute(haveBob2);
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/M1Model.svg", m1Editor.getMapOfModelObjects().values());
+
+
+      assertThat(bob2, CoreMatchers.notNullValue());
+      assertThat(bob2.getName(), is("Bob"));
+      assertThat(bob2.getAge(), is(2));
+      assertThat(bob2.getOwner(), is(alice2));
+      assertThat(alice2.getDog(), is(bob2));
+
+      forwardToM2(m1Editor, m2Editor);
+      m2Alice = (de.hub.mse.ttc2020.solution.M2.Person) m2Editor.getModelObject("alice1");
+      assertThat(m2Alice, nullValue());
+      m2Alice = (de.hub.mse.ttc2020.solution.M2.Person) m2Editor.getModelObject("alice2");
+      assertThat(m2Alice, CoreMatchers.notNullValue());
+      assertThat(m2Alice.getName(), is("Alice"));
+      assertThat(m2Alice.getYbirth(), is(2020 - 25));
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/M2Model.svg", m2Editor.getMapOfModelObjects().values());
+
+      // remove the dog
+      ModelCommand removeDog = new RemoveCommand().setId("bob2");
+      m1Editor.execute(removeDog);
+
+      assertThat(m1Editor.getModelObject("bob2"), nullValue());
+      assertThat(alice2.getDog(), nullValue());
+
+
+
    }
 
    private void forwardToM2(M1Editor m1Editor, M2Editor m2Editor)

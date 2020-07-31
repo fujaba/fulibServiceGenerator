@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import org.fulib.yaml.Yaml;
 
-public class M2Editor  
+public class M2Editor 
 {
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -66,6 +66,46 @@ public class M2Editor
          java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
          this.commandListeners = value;
          firePropertyChange("commandListeners", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
+
+   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getMapOfFrames()
+   {
+      return mapOfFrames;
+   }
+
+   public M2Editor setMapOfFrames(java.util.Map<String, Object> value)
+   {
+      if (value != this.mapOfFrames)
+      {
+         java.util.Map<String, Object> oldValue = this.mapOfFrames;
+         this.mapOfFrames = value;
+         firePropertyChange("mapOfFrames", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
+
+   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getMapOfModelObjects()
+   {
+      return mapOfModelObjects;
+   }
+
+   public M2Editor setMapOfModelObjects(java.util.Map<String, Object> value)
+   {
+      if (value != this.mapOfModelObjects)
+      {
+         java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
+         this.mapOfModelObjects = value;
+         firePropertyChange("mapOfModelObjects", oldValue, value);
       }
       return this;
    }
@@ -159,112 +199,6 @@ public class M2Editor
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (listeners != null)
-      {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
-   }
-
-   public void removeYou()
-   {
-      this.setService(null);
-
-   }
-
-   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
-
-   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getMapOfFrames()
-   {
-      return mapOfFrames;
-   }
-
-   public M2Editor setMapOfFrames(java.util.Map<String, Object> value)
-   {
-      if (value != this.mapOfFrames)
-      {
-         java.util.Map<String, Object> oldValue = this.mapOfFrames;
-         this.mapOfFrames = value;
-         firePropertyChange("mapOfFrames", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
-
-   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getMapOfModelObjects()
-   {
-      return mapOfModelObjects;
-   }
-
-   public M2Editor setMapOfModelObjects(java.util.Map<String, Object> value)
-   {
-      if (value != this.mapOfModelObjects)
-      {
-         java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
-         this.mapOfModelObjects = value;
-         firePropertyChange("mapOfModelObjects", oldValue, value);
-      }
-      return this;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
-   }
 
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
@@ -376,6 +310,73 @@ public class M2Editor
       command.run(this);
 
       activeCommands.put(id, command);
+   }
+
+   protected PropertyChangeSupport listeners = null;
+
+   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
+   {
+      if (listeners != null)
+      {
+         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         return true;
+      }
+      return false;
+   }
+
+   public boolean addPropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(listener);
+      return true;
+   }
+
+   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(propertyName, listener);
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(listener);
+      }
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(propertyName, listener);
+      }
+      return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
    }
 
 }

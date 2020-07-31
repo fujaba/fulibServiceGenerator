@@ -1,13 +1,53 @@
-package de.hub.mse.ttc2020.solution.M1;
+package de.hub.mse.ttc2020.solution.M2;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-import org.fulib.yaml.Reflector;
-import org.fulib.yaml.ReflectorMap;
-import java.lang.reflect.Method;
-import java.util.Map;
 
-public class RemoveCommand extends ModelCommand  
+public class ModelCommand 
 {
+
+   public static final String PROPERTY_id = "id";
+
+   private String id;
+
+   public String getId()
+   {
+      return id;
+   }
+
+   public ModelCommand setId(String value)
+   {
+      if (value == null ? this.id != null : ! value.equals(this.id))
+      {
+         String oldValue = this.id;
+         this.id = value;
+         firePropertyChange("id", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_time = "time";
+
+   private String time;
+
+   public String getTime()
+   {
+      return time;
+   }
+
+   public ModelCommand setTime(String value)
+   {
+      if (value == null ? this.time != null : ! value.equals(this.time))
+      {
+         String oldValue = this.time;
+         this.time = value;
+         firePropertyChange("time", oldValue, value);
+      }
+      return this;
+   }
+
+   public Object run(M2Editor editor) { 
+      return null;
+   }
 
    protected PropertyChangeSupport listeners = null;
 
@@ -59,37 +99,16 @@ public class RemoveCommand extends ModelCommand
       return true;
    }
 
-   public boolean preCheck(M1Editor editor) { 
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("RemoveCommand-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("RemoveCommand-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("RemoveCommand-" + this.getId(), this);
-      return true;
-   }
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
 
-   public Object run(M1Editor editor) { 
-      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
-      java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
+      result.append(" ").append(this.getId());
+      result.append(" ").append(this.getTime());
 
-      Object oldObject = mapOfModelObjects.remove(getId());
 
-      if (oldObject != null) {
-         mapOfFrames.put(getId(), oldObject);
-      }
-
-      // call undo on old command
-      ModelCommand oldCommand = editor.getActiveCommands().get(getId());
-      oldCommand.undo(editor);
-
-      return null;
+      return result.substring(1);
    }
 
 }

@@ -18,7 +18,7 @@
 
 - modelCommand3: 	Clazz
   attributes: 	id32 	time33 	
-  methods: 	f34 	f35 	
+  methods: 	f34 	
   model: 	c1
   modified: 	false
   name: 	ModelCommand
@@ -27,7 +27,7 @@
 
 - removeCommand4: 	Clazz
   importList: 	null 	null 	null 	
-  methods: 	f36 	f37 	
+  methods: 	f35 	f36 	
   model: 	c1
   modified: 	false
   name: 	RemoveCommand
@@ -35,28 +35,28 @@
   superClass: 	modelCommand3
 
 - m2Service5: 	Clazz
-  attributes: 	myPort38 	reflectorMap39 	currentSession40 	executor41 	spark42 	sessionToAppMap43 	
+  attributes: 	myPort37 	reflectorMap38 	currentSession39 	executor40 	spark41 	sessionToAppMap42 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f44 	f45 	f46 	f47 	f48 	f49 	
+  methods: 	f43 	f44 	f45 	f46 	f47 	f48 	
   model: 	c1
   modified: 	false
   name: 	M2Service
   propertyStyle: 	POJO
-  roles: 	modelEditor50 	streams51 	
+  roles: 	modelEditor49 	streams50 	
 
 - commandStream6: 	Clazz
-  attributes: 	name52 	targetUrlList53 	oldCommands54 	activeCommands55 	
+  attributes: 	name51 	targetUrlList52 	oldCommands53 	activeCommands54 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f56 	f57 	f58 	f59 	f60 	f61 	
+  methods: 	f55 	f56 	f57 	f58 	f59 	f60 	
   model: 	c1
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service62 	
+  roles: 	service61 	
 
 - addStreamCommand7: 	Clazz
-  attributes: 	incommingRoute63 	outgoingUrl64 	
-  methods: 	f65 	f66 	
+  attributes: 	incommingRoute62 	outgoingUrl63 	
+  methods: 	f64 	f65 	
   model: 	c1
   modified: 	false
   name: 	AddStreamCommand
@@ -64,47 +64,47 @@
   superClass: 	modelCommand3
 
 - m2App8: 	Clazz
-  attributes: 	modelEditor67 	id68 	description69 	
-  methods: 	f70 	
+  attributes: 	modelEditor66 	id67 	description68 	
+  methods: 	f69 	
   model: 	c1
   modified: 	false
   name: 	M2App
   propertyStyle: 	POJO
-  roles: 	content71 	
+  roles: 	content70 	
 
 - page9: 	Clazz
-  attributes: 	id72 	description73 	
+  attributes: 	id71 	description72 	
   model: 	c1
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app74 	content75 	
+  roles: 	app73 	content74 	
 
 - line10: 	Clazz
-  attributes: 	id76 	description77 	action78 	value79 	
+  attributes: 	id75 	description76 	action77 	value78 	
   model: 	c1
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page80 	
+  roles: 	page79 	
 
 - person11: 	Clazz
-  attributes: 	id81 	name82 	ybirth83 	
+  attributes: 	id80 	name81 	ybirth82 	
   model: 	c1
   modified: 	false
   name: 	Person
   propertyStyle: 	POJO
 
 - dog12: 	Clazz
-  attributes: 	id84 	name85 	owner86 	
+  attributes: 	id83 	name84 	owner85 	
   model: 	c1
   modified: 	false
   name: 	Dog
   propertyStyle: 	POJO
 
 - havePerson13: 	Clazz
-  attributes: 	name87 	age88 	
-  methods: 	f89 	
+  attributes: 	name86 	age87 	
+  methods: 	f88 	
   model: 	c1
   modified: 	false
   name: 	HavePerson
@@ -112,8 +112,8 @@
   superClass: 	modelCommand3
 
 - haveDog14: 	Clazz
-  attributes: 	name90 	age91 	owner92 	
-  methods: 	f93 	
+  attributes: 	name89 	age90 	owner91 	
+  methods: 	f92 	
   model: 	c1
   modified: 	false
   name: 	HaveDog
@@ -326,7 +326,7 @@
   clazz: 	m2Editor2
   modified: 	false
   name: 	service
-  other: 	modelEditor50
+  other: 	modelEditor49
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -352,13 +352,6 @@
   modified: 	false
 
 - f35: 	FMethod
-  clazz: 	modelCommand3
-  declaration: 	"public void undo(M2Editor editor)"
-  methodBody: 	"      // overwrite when necessary
-"
-  modified: 	false
-
-- f36: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public boolean preCheck(M2Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -377,7 +370,7 @@
 "
   modified: 	false
 
-- f37: 	FMethod
+- f36: 	FMethod
   clazz: 	removeCommand4
   declaration: 	"public Object run(M2Editor editor)"
   methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
@@ -389,50 +382,46 @@
          mapOfFrames.put(getId(), oldObject);
       }
 
-      // call undo on old command
-      ModelCommand oldCommand = editor.getActiveCommands().get(getId());
-      oldCommand.undo(editor);
-
       return null;
 "
   modified: 	false
 
-- myPort38: 	Attribute
+- myPort37: 	Attribute
   clazz: 	m2Service5
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
-- reflectorMap39: 	Attribute
+- reflectorMap38: 	Attribute
   clazz: 	m2Service5
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
-- currentSession40: 	Attribute
+- currentSession39: 	Attribute
   clazz: 	m2Service5
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
-- executor41: 	Attribute
+- executor40: 	Attribute
   clazz: 	m2Service5
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
-- spark42: 	Attribute
+- spark41: 	Attribute
   clazz: 	m2Service5
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
-- sessionToAppMap43: 	Attribute
+- sessionToAppMap42: 	Attribute
   clazz: 	m2Service5
   initialization: 	"new LinkedHashMap()"
   modified: 	false
@@ -440,7 +429,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, M2App>"
 
-- f44: 	FMethod
+- f43: 	FMethod
   clazz: 	m2Service5
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -470,7 +459,7 @@
 "
   modified: 	false
 
-- f45: 	FMethod
+- f44: 	FMethod
   clazz: 	m2Service5
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -478,7 +467,7 @@
 "
   modified: 	false
 
-- f46: 	FMethod
+- f45: 	FMethod
   clazz: 	m2Service5
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -520,7 +509,7 @@
 "
   modified: 	false
 
-- f47: 	FMethod
+- f46: 	FMethod
   clazz: 	m2Service5
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -593,7 +582,7 @@
 "
   modified: 	false
 
-- f48: 	FMethod
+- f47: 	FMethod
   clazz: 	m2Service5
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -606,7 +595,7 @@
 "
   modified: 	false
 
-- f49: 	FMethod
+- f48: 	FMethod
   clazz: 	m2Service5
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
@@ -622,7 +611,7 @@
 "
   modified: 	false
 
-- modelEditor50: 	AssocRole
+- modelEditor49: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	m2Service5
@@ -632,24 +621,24 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- streams51: 	AssocRole
+- streams50: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	m2Service5
   modified: 	false
   name: 	streams
-  other: 	service62
+  other: 	service61
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- name52: 	Attribute
+- name51: 	Attribute
   clazz: 	commandStream6
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- targetUrlList53: 	Attribute
+- targetUrlList52: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -657,7 +646,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<String>"
 
-- oldCommands54: 	Attribute
+- oldCommands53: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new ArrayList<>()"
   modified: 	false
@@ -665,7 +654,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands55: 	Attribute
+- activeCommands54: 	Attribute
   clazz: 	commandStream6
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -673,7 +662,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f56: 	FMethod
+- f55: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -683,7 +672,7 @@
 "
   modified: 	false
 
-- f57: 	FMethod
+- f56: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void send()"
   methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
@@ -723,7 +712,7 @@
 "
   modified: 	false
 
-- f58: 	FMethod
+- f57: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -738,7 +727,7 @@
 "
   modified: 	false
 
-- f59: 	FMethod
+- f58: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public CommandStream start()"
   methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
@@ -746,7 +735,7 @@
 "
   modified: 	false
 
-- f60: 	FMethod
+- f59: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -760,7 +749,7 @@
 "
   modified: 	false
 
-- f61: 	FMethod
+- f60: 	FMethod
   clazz: 	commandStream6
   declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
   methodBody: 	"      for (String cmd : commandList) {
@@ -769,31 +758,31 @@
 "
   modified: 	false
 
-- service62: 	AssocRole
+- service61: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream6
   modified: 	false
   name: 	service
-  other: 	streams51
+  other: 	streams50
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- incommingRoute63: 	Attribute
+- incommingRoute62: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	incommingRoute
   propertyStyle: 	POJO
   type: 	String
 
-- outgoingUrl64: 	Attribute
+- outgoingUrl63: 	Attribute
   clazz: 	addStreamCommand7
   modified: 	false
   name: 	outgoingUrl
   propertyStyle: 	POJO
   type: 	String
 
-- f65: 	FMethod
+- f64: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public boolean preCheck(M2Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -812,7 +801,7 @@
 "
   modified: 	false
 
-- f66: 	FMethod
+- f65: 	FMethod
   clazz: 	addStreamCommand7
   declaration: 	"public Object run(M2Editor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
@@ -821,28 +810,28 @@
 "
   modified: 	false
 
-- modelEditor67: 	Attribute
+- modelEditor66: 	Attribute
   clazz: 	m2App8
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	M2Editor
 
-- id68: 	Attribute
+- id67: 	Attribute
   clazz: 	m2App8
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description69: 	Attribute
+- description68: 	Attribute
   clazz: 	m2App8
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f70: 	FMethod
+- f69: 	FMethod
   clazz: 	m2App8
   declaration: 	"public M2App init(M2Editor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -852,145 +841,145 @@
 "
   modified: 	false
 
-- content71: 	AssocRole
+- content70: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	m2App8
   modified: 	false
   name: 	content
-  other: 	app74
+  other: 	app73
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id72: 	Attribute
+- id71: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description73: 	Attribute
+- description72: 	Attribute
   clazz: 	page9
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- app74: 	AssocRole
+- app73: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	page9
   modified: 	false
   name: 	app
-  other: 	content71
+  other: 	content70
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content75: 	AssocRole
+- content74: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page9
   modified: 	false
   name: 	content
-  other: 	page80
+  other: 	page79
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id76: 	Attribute
+- id75: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description77: 	Attribute
+- description76: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- action78: 	Attribute
+- action77: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	action
   propertyStyle: 	POJO
   type: 	String
 
-- value79: 	Attribute
+- value78: 	Attribute
   clazz: 	line10
   modified: 	false
   name: 	value
   propertyStyle: 	POJO
   type: 	String
 
-- page80: 	AssocRole
+- page79: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line10
   modified: 	false
   name: 	page
-  other: 	content75
+  other: 	content74
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id81: 	Attribute
+- id80: 	Attribute
   clazz: 	person11
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name82: 	Attribute
+- name81: 	Attribute
   clazz: 	person11
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- ybirth83: 	Attribute
+- ybirth82: 	Attribute
   clazz: 	person11
   modified: 	false
   name: 	ybirth
   propertyStyle: 	POJO
   type: 	int
 
-- id84: 	Attribute
+- id83: 	Attribute
   clazz: 	dog12
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name85: 	Attribute
+- name84: 	Attribute
   clazz: 	dog12
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- owner86: 	Attribute
+- owner85: 	Attribute
   clazz: 	dog12
   modified: 	false
   name: 	owner
   propertyStyle: 	POJO
   type: 	Person
 
-- name87: 	Attribute
+- name86: 	Attribute
   clazz: 	havePerson13
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- age88: 	Attribute
+- age87: 	Attribute
   clazz: 	havePerson13
   modified: 	false
   name: 	age
   propertyStyle: 	POJO
   type: 	int
 
-- f89: 	FMethod
+- f88: 	FMethod
   clazz: 	havePerson13
   declaration: 	"public boolean preCheck(M2Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {
@@ -1009,28 +998,28 @@
 "
   modified: 	false
 
-- name90: 	Attribute
+- name89: 	Attribute
   clazz: 	haveDog14
   modified: 	false
   name: 	name
   propertyStyle: 	POJO
   type: 	String
 
-- age91: 	Attribute
+- age90: 	Attribute
   clazz: 	haveDog14
   modified: 	false
   name: 	age
   propertyStyle: 	POJO
   type: 	int
 
-- owner92: 	Attribute
+- owner91: 	Attribute
   clazz: 	haveDog14
   modified: 	false
   name: 	owner
   propertyStyle: 	POJO
   type: 	String
 
-- f93: 	FMethod
+- f92: 	FMethod
   clazz: 	haveDog14
   declaration: 	"public boolean preCheck(M2Editor editor)"
   methodBody: 	"      if (this.getTime() == null) {

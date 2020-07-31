@@ -8,10 +8,17 @@ public class HaveDog extends ModelCommand
    public Object run(M1Editor editor)
    {
       Dog dog = (Dog) editor.getOrCreate(Dog.class, getId());
-      Person ownerObject = (Person) editor.getOrCreate(Person.class, owner);
+      Person ownerObject = (Person) editor.getObjectFrame(Person.class, owner);
       dog.setName(name).setAge(age).setOwner(ownerObject);
 
       return dog;
+   }
+
+   @Override
+   public void undo(M1Editor editor)
+   {
+      Dog dog = (Dog) editor.getObjectFrame(Dog.class, owner);
+      dog.setOwner(null);
    }
 
    public static final String PROPERTY_name = "name";

@@ -11,20 +11,45 @@ getOrCreateBody(dataClazz) ::= <<
 
 >>
 
-editorGetOrCreateBody() ::= <<
+
+editorGetFrameBody() ::= <<
       try {
-         Object modelObject = idMap.get(id);
-         if (modelObject == null) {
-            modelObject = (Object) clazz.getConstructor().newInstance();
-            Method setIdMethod = clazz.getMethod("setId", String.class);
-            setIdMethod.invoke(modelObject, id);
-            idMap.put(id, modelObject);
+         Object modelObject = mapOfModelObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
          }
+
+         modelObject = mapOfFrames.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = (Object) clazz.getConstructor().newInstance();
+         Method setIdMethod = clazz.getMethod("setId", String.class);
+         setIdMethod.invoke(modelObject, id);
+         mapOfFrames.put(id, modelObject);
+
          return modelObject;
       }
       catch (Exception e) {
          throw new RuntimeException(e);
       }
+
+>>
+
+
+editorGetOrCreateBody() ::= <<
+      Object modelObject = mapOfModelObjects.get(id);
+      if (modelObject != null) {
+         return modelObject;
+      }
+
+      modelObject = getObjectFrame(clazz, id);
+
+      mapOfFrames.remove(id);
+      mapOfModelObjects.put(id, modelObject);
+
+      return modelObject;
 
 >>
 
@@ -61,6 +86,11 @@ editorExecute() ::= <<
 
       if (oldCommand != null && oldCommand.getTime().compareTo(time) >= 0) {
          // already updated
+         return;
+      }
+
+      if (oldCommand != null && oldCommand instanceof RemoveCommand) {
+         // object is dead, do not recreate
          return;
       }
 
@@ -143,28 +173,18 @@ runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
 
 
 removeCommandRun() ::= <<
-      // allready removed?
-      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
-      if (oldRemoveCommand != null) {
-         return null;
+      java.util.Map\<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
+      java.util.Map\<String, Object> mapOfFrames = editor.getMapOfFrames();
+
+      Object oldObject = mapOfModelObjects.remove(getId());
+
+      if (oldObject != null) {
+         mapOfFrames.put(getId(), oldObject);
       }
 
-      // find the target object
-      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
-      Reflector reflector = reflectorMap.getReflector(editor);
-      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
-      java.util.Map objects = (java.util.Map) value;
-      Object target = objects.get(this.getId());
-      try {
-         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
-         removeYouMethod.invoke(target, new Object[0]);
-      }
-      catch (Exception e) {
-         // ignore
-      }
-      objects.remove(this.getId());
-      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
-      editor.fireCommandExecuted(this);
+      // call undo on old command
+      ModelCommand oldCommand = editor.getActiveCommands().get(getId());
+      oldCommand.undo(editor);
 
       return null;
 

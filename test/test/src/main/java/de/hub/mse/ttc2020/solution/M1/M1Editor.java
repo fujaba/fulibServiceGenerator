@@ -1,4 +1,4 @@
-package de.hub.mse.ttc2020.solution.M2;
+package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import org.fulib.yaml.Yaml;
 
-public class M2Editor  
+public class M1Editor 
 {
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -19,7 +19,7 @@ public class M2Editor
       return activeCommands;
    }
 
-   public M2Editor setActiveCommands(java.util.Map<String, ModelCommand> value)
+   public M1Editor setActiveCommands(java.util.Map<String, ModelCommand> value)
    {
       if (value != this.activeCommands)
       {
@@ -39,7 +39,7 @@ public class M2Editor
       return removeCommands;
    }
 
-   public M2Editor setRemoveCommands(java.util.Map<String, RemoveCommand> value)
+   public M1Editor setRemoveCommands(java.util.Map<String, RemoveCommand> value)
    {
       if (value != this.removeCommands)
       {
@@ -59,7 +59,7 @@ public class M2Editor
       return commandListeners;
    }
 
-   public M2Editor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
+   public M1Editor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
    {
       if (value != this.commandListeners)
       {
@@ -68,151 +68,6 @@ public class M2Editor
          firePropertyChange("commandListeners", oldValue, value);
       }
       return this;
-   }
-
-   public static final String PROPERTY_isoDateFormat = "isoDateFormat";
-
-   private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-   public DateFormat getIsoDateFormat()
-   {
-      return isoDateFormat;
-   }
-
-   public M2Editor setIsoDateFormat(DateFormat value)
-   {
-      if (value != this.isoDateFormat)
-      {
-         DateFormat oldValue = this.isoDateFormat;
-         this.isoDateFormat = value;
-         firePropertyChange("isoDateFormat", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_lastTime = "lastTime";
-
-   private String lastTime = isoDateFormat.format(new Date());
-
-   public String getLastTime()
-   {
-      return lastTime;
-   }
-
-   public M2Editor setLastTime(String value)
-   {
-      if (value == null ? this.lastTime != null : ! value.equals(this.lastTime))
-      {
-         String oldValue = this.lastTime;
-         this.lastTime = value;
-         firePropertyChange("lastTime", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_timeDelta = "timeDelta";
-
-   private long timeDelta = 1;
-
-   public long getTimeDelta()
-   {
-      return timeDelta;
-   }
-
-   public M2Editor setTimeDelta(long value)
-   {
-      if (value != this.timeDelta)
-      {
-         long oldValue = this.timeDelta;
-         this.timeDelta = value;
-         firePropertyChange("timeDelta", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_service = "service";
-
-   private M2Service service = null;
-
-   public M2Service getService()
-   {
-      return this.service;
-   }
-
-   public M2Editor setService(M2Service value)
-   {
-      if (this.service != value)
-      {
-         M2Service oldValue = this.service;
-         if (this.service != null)
-         {
-            this.service = null;
-            oldValue.setModelEditor(null);
-         }
-         this.service = value;
-         if (value != null)
-         {
-            value.setModelEditor(this);
-         }
-         firePropertyChange("service", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (listeners != null)
-      {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
-   }
-
-   public void removeYou()
-   {
-      this.setService(null);
-
    }
 
    public static final String PROPERTY_mapOfFrames = "mapOfFrames";
@@ -224,7 +79,7 @@ public class M2Editor
       return mapOfFrames;
    }
 
-   public M2Editor setMapOfFrames(java.util.Map<String, Object> value)
+   public M1Editor setMapOfFrames(java.util.Map<String, Object> value)
    {
       if (value != this.mapOfFrames)
       {
@@ -244,7 +99,7 @@ public class M2Editor
       return mapOfModelObjects;
    }
 
-   public M2Editor setMapOfModelObjects(java.util.Map<String, Object> value)
+   public M1Editor setMapOfModelObjects(java.util.Map<String, Object> value)
    {
       if (value != this.mapOfModelObjects)
       {
@@ -255,16 +110,95 @@ public class M2Editor
       return this;
    }
 
-   @Override
-   public String toString()
+   public static final String PROPERTY_isoDateFormat = "isoDateFormat";
+
+   private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+   public DateFormat getIsoDateFormat()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
+      return isoDateFormat;
    }
+
+   public M1Editor setIsoDateFormat(DateFormat value)
+   {
+      if (value != this.isoDateFormat)
+      {
+         DateFormat oldValue = this.isoDateFormat;
+         this.isoDateFormat = value;
+         firePropertyChange("isoDateFormat", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_lastTime = "lastTime";
+
+   private String lastTime = isoDateFormat.format(new Date());
+
+   public String getLastTime()
+   {
+      return lastTime;
+   }
+
+   public M1Editor setLastTime(String value)
+   {
+      if (value == null ? this.lastTime != null : ! value.equals(this.lastTime))
+      {
+         String oldValue = this.lastTime;
+         this.lastTime = value;
+         firePropertyChange("lastTime", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_timeDelta = "timeDelta";
+
+   private long timeDelta = 1;
+
+   public long getTimeDelta()
+   {
+      return timeDelta;
+   }
+
+   public M1Editor setTimeDelta(long value)
+   {
+      if (value != this.timeDelta)
+      {
+         long oldValue = this.timeDelta;
+         this.timeDelta = value;
+         firePropertyChange("timeDelta", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_service = "service";
+
+   private M1Service service = null;
+
+   public M1Service getService()
+   {
+      return this.service;
+   }
+
+   public M1Editor setService(M1Service value)
+   {
+      if (this.service != value)
+      {
+         M1Service oldValue = this.service;
+         if (this.service != null)
+         {
+            this.service = null;
+            oldValue.setModelEditor(null);
+         }
+         this.service = value;
+         if (value != null)
+         {
+            value.setModelEditor(this);
+         }
+         firePropertyChange("service", oldValue, value);
+      }
+      return this;
+   }
+
 
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
@@ -334,14 +268,14 @@ public class M2Editor
       }
    }
 
-   public M2Editor addCommandListener(String commandName, CommandStream stream) { 
+   public M1Editor addCommandListener(String commandName, CommandStream stream) { 
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
    }
 
    public void loadYaml(String yamlString) { 
-      java.util.Map map = Yaml.forPackage("de.hub.mse.ttc2020.solution.M2").decode(yamlString);
+      java.util.Map map = Yaml.forPackage("de.hub.mse.ttc2020.solution.M1").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -376,6 +310,73 @@ public class M2Editor
       command.run(this);
 
       activeCommands.put(id, command);
+   }
+
+   protected PropertyChangeSupport listeners = null;
+
+   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
+   {
+      if (listeners != null)
+      {
+         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         return true;
+      }
+      return false;
+   }
+
+   public boolean addPropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(listener);
+      return true;
+   }
+
+   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(propertyName, listener);
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(listener);
+      }
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(propertyName, listener);
+      }
+      return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
    }
 
 }

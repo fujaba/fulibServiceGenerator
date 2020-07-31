@@ -111,4 +111,8 @@ public class ModelCommand
       return null;
    }
 
+   public void undo(M2Editor editor) { 
+      // overwrite when necessary
+   }
+
 }

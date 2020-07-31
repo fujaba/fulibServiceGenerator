@@ -8,26 +8,6 @@ import java.lang.reflect.Method;
 public class RemoveCommand extends ModelCommand  
 {
 
-   public static final String PROPERTY_targetClassName = "targetClassName";
-
-   private String targetClassName;
-
-   public String getTargetClassName()
-   {
-      return targetClassName;
-   }
-
-   public RemoveCommand setTargetClassName(String value)
-   {
-      if (value == null ? this.targetClassName != null : ! value.equals(this.targetClassName))
-      {
-         String oldValue = this.targetClassName;
-         this.targetClassName = value;
-         firePropertyChange("targetClassName", oldValue, value);
-      }
-      return this;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -78,17 +58,6 @@ public class RemoveCommand extends ModelCommand
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getTargetClassName());
-
-
-      return result.substring(1);
-   }
-
    public boolean preCheck(M2Editor editor) { 
       if (this.getTime() == null) {
          this.setTime(editor.getTime());
@@ -106,28 +75,18 @@ public class RemoveCommand extends ModelCommand
    }
 
    public Object run(M2Editor editor) { 
-      // allready removed?
-      RemoveCommand oldRemoveCommand = editor.getRemoveCommands().get(this.getTargetClassName() + "-" + this.getId());
-      if (oldRemoveCommand != null) {
-         return null;
+      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
+      java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
+
+      Object oldObject = mapOfModelObjects.remove(getId());
+
+      if (oldObject != null) {
+         mapOfFrames.put(getId(), oldObject);
       }
 
-      // find the target object
-      ReflectorMap reflectorMap = new ReflectorMap(editor.getClass().getPackage().getName());
-      Reflector reflector = reflectorMap.getReflector(editor);
-      Object value = reflector.getValue(editor, this.getTargetClassName() + "s");
-      java.util.Map objects = (java.util.Map) value;
-      Object target = objects.get(this.getId());
-      try {
-         Method removeYouMethod = target.getClass().getMethod("removeYou", new Class[0]);
-         removeYouMethod.invoke(target, new Object[0]);
-      }
-      catch (Exception e) {
-         // ignore
-      }
-      objects.remove(this.getId());
-      editor.getRemoveCommands().put(this.getTargetClassName() + "-" + this.getId(), this);
-      editor.fireCommandExecuted(this);
+      // call undo on old command
+      ModelCommand oldCommand = editor.getActiveCommands().get(getId());
+      oldCommand.undo(editor);
 
       return null;
    }

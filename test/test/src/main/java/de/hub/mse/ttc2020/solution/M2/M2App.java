@@ -1,9 +1,29 @@
-package de.hub.mse.ttc2020.solution.M1;
+package de.hub.mse.ttc2020.solution.M2;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class ModelCommand  
+public class M2App 
 {
+
+   public static final String PROPERTY_modelEditor = "modelEditor";
+
+   private M2Editor modelEditor;
+
+   public M2Editor getModelEditor()
+   {
+      return modelEditor;
+   }
+
+   public M2App setModelEditor(M2Editor value)
+   {
+      if (value != this.modelEditor)
+      {
+         M2Editor oldValue = this.modelEditor;
+         this.modelEditor = value;
+         firePropertyChange("modelEditor", oldValue, value);
+      }
+      return this;
+   }
 
    public static final String PROPERTY_id = "id";
 
@@ -14,7 +34,7 @@ public class ModelCommand
       return id;
    }
 
-   public ModelCommand setId(String value)
+   public M2App setId(String value)
    {
       if (value == null ? this.id != null : ! value.equals(this.id))
       {
@@ -25,23 +45,60 @@ public class ModelCommand
       return this;
    }
 
-   public static final String PROPERTY_time = "time";
+   public static final String PROPERTY_description = "description";
 
-   private String time;
+   private String description;
 
-   public String getTime()
+   public String getDescription()
    {
-      return time;
+      return description;
    }
 
-   public ModelCommand setTime(String value)
+   public M2App setDescription(String value)
    {
-      if (value == null ? this.time != null : ! value.equals(this.time))
+      if (value == null ? this.description != null : ! value.equals(this.description))
       {
-         String oldValue = this.time;
-         this.time = value;
-         firePropertyChange("time", oldValue, value);
+         String oldValue = this.description;
+         this.description = value;
+         firePropertyChange("description", oldValue, value);
       }
+      return this;
+   }
+
+   public static final String PROPERTY_content = "content";
+
+   private Page content = null;
+
+   public Page getContent()
+   {
+      return this.content;
+   }
+
+   public M2App setContent(Page value)
+   {
+      if (this.content != value)
+      {
+         Page oldValue = this.content;
+         if (this.content != null)
+         {
+            this.content = null;
+            oldValue.setApp(null);
+         }
+         this.content = value;
+         if (value != null)
+         {
+            value.setApp(this);
+         }
+         firePropertyChange("content", oldValue, value);
+      }
+      return this;
+   }
+
+
+   public M2App init(M2Editor editor) { 
+      this.modelEditor = editor;
+      this.setId("root");
+      this.setDescription("M2 App");
       return this;
    }
 
@@ -101,18 +158,16 @@ public class ModelCommand
       StringBuilder result = new StringBuilder();
 
       result.append(" ").append(this.getId());
-      result.append(" ").append(this.getTime());
+      result.append(" ").append(this.getDescription());
 
 
       return result.substring(1);
    }
 
-   public Object run(M1Editor editor) { 
-      return null;
-   }
+   public void removeYou()
+   {
+      this.setContent(null);
 
-   public void undo(M1Editor editor) { 
-      // overwrite when necessary
    }
 
 }

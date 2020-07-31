@@ -35,7 +35,8 @@ public class GenModel
       m1Manager.haveAttribute(dog, "id", STRING);
       m1Manager.haveAttribute(dog, "name", STRING);
       m1Manager.haveAttribute(dog, "age", INT);
-      m1Manager.haveAttribute(dog, "owner", "Person");
+      //      m1Manager.haveAttribute(dog, "owner", "Person");
+      m1Manager.haveRole(dog, "owner", person, ONE, "dog", ONE);
 
       ServiceEditor m2Service = sysEdit.haveService("M2");
       ClassModelManager m2Manager = m2Service.getClassModelManager();
