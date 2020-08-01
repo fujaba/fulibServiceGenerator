@@ -1,4 +1,6 @@
 package de.hub.mse.ttc2020.solution.M1;
+import org.fulib.yaml.Reflector;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;import java.util.Objects;
 
@@ -111,11 +113,82 @@ public class ModelCommand
    }
 
    public Object run(M1Editor editor) { 
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return null;
+      }
+
+      // have handle objects
+      for (PatternObject patternObject : pattern.getObjects()) {
+         String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
+         Class handleObjectClass = patternObject.getHandleObjectClass();
+         Object handleObject = null;
+         if (patternObject.getKind() == "core") {
+            handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
+         }
+         else {
+            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
+         }
+         patternObject.setHandleObject(handleObject);
+      }
+
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         Reflector commandReflector = new Reflector().setClassName(this.getClass().getName());
+         Reflector handleObjectReflector = new Reflector().setClassName(patternObject.getHandleObject().getClass().getName());
+
+         for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
+            if ("id".equals(patternAttribute.getHandleAttrName())) {
+               continue;
+            }
+
+            Object paramValue = commandReflector.getValue(this, patternAttribute.getCommandParamName());
+            paramValue = paramValue.toString();
+            handleObjectReflector.setValue(patternObject.getHandleObject(), patternAttribute.getHandleAttrName(), paramValue, null);
+         }
+
+         Object sourceHandleObject = patternObject.getHandleObject();
+         for (PatternLink patternLink : patternObject.getLinks()) {
+            String linkName = patternLink.getHandleLinkName();
+            Object targetHandleObject = patternLink.getTarget().getHandleObject();
+            handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+         }
+      }
       return null;
    }
 
    public void undo(M1Editor editor) { 
-      // overwrite when necessary
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return;
+      }
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getKind() == "core") {
+            String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
+            Object oldObject = editor.removeModelObject(handleObjectId);
+            Reflector handleObjectReflector = new Reflector().setClassName(oldObject.getClass().getName());
+            handleObjectReflector.removeObject(oldObject);
+         }
+      }
+   }
+
+   public Pattern havePattern() { 
+      return null;
+   }
+
+   public Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName) { 
+      Reflector reflector = new Reflector().setClassName(this.getClass().getName());
+      for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
+         if (patternAttribute.getHandleAttrName().equals(handleAttributeName)) {
+            String commandParamName = patternAttribute.getCommandParamName();
+            Object value = reflector.getValue(this, commandParamName);
+            return value;
+         }
+      }
+      return null;
    }
 
 }

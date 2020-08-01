@@ -308,6 +308,16 @@ public class M2Editor
    return mapOfModelObjects.get(id);
    }
 
+   public Object removeModelObject(String id) { 
+      Object oldObject = mapOfModelObjects.remove(id);
+
+      if (oldObject != null) {
+         mapOfFrames.put(id, oldObject);
+      }
+
+      return mapOfFrames.get(id);
+   }
+
    public String getTime() { 
       String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {

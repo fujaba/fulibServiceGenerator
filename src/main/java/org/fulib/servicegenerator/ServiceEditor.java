@@ -83,10 +83,27 @@ public class ServiceEditor
       modelCommand = mm.haveClass("ModelCommand");
       mm.haveAttribute(modelCommand, "id", STRING);
       mm.haveAttribute(modelCommand, "time", STRING);
+
       String declaration = String.format("public Object run(%s editor)", this.editor.getName());
-      mm.haveMethod(modelCommand, declaration, "      return null;\n");
+      ST st = group.getInstanceOf("modelCommandRun");
+      String body = st.render();
+      mm.haveMethod(modelCommand, declaration, body);
+
       declaration = String.format("public void undo(%s editor)", this.editor.getName());
-      mm.haveMethod(modelCommand, declaration, "      // overwrite when necessary\n");
+      st = group.getInstanceOf("modelCommandUndo");
+      body = st.render();
+      mm.haveMethod(modelCommand, declaration, body);
+
+      declaration = "public Pattern havePattern()";
+      body =  "      return null;\n";
+      mm.haveMethod(modelCommand, declaration, body);
+
+      declaration = "private Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)";
+      st = group.getInstanceOf("modelCommandGetHandleValue");
+      body = st.render();
+      mm.haveMethod(modelCommand, declaration, body);
+
+      modelCommand.getImportList().add("import org.fulib.yaml.Reflector;");
    }
 
    public ClassModelManager getClassModelManager()
@@ -116,7 +133,6 @@ public class ServiceEditor
       this.editorHaveMapFor("mapOfFrames", "Object");
       this.editorHaveMapFor("mapOfModelObjects", "Object");
       haveGetOrCreate();
-
 
       Attribute dateFormat = this.getClassModelManager().haveAttribute(editor, "isoDateFormat", "DateFormat");
       dateFormat.setInitialization("new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
@@ -416,8 +432,15 @@ public class ServiceEditor
       body = "   return mapOfModelObjects.get(id);\n";
       mm.haveMethod(editor, declaration, body);
 
+      declaration = "public Object removeModelObject(String id)";
+      st = group.getInstanceOf("editorRemoveModelObject");
+      body = st.render();
+      mm.haveMethod(editor, declaration, body);
+
       return fMethod;
    }
+
+
 
    public FMethod haveLoadYaml(String modelPackageName) {
       String declaration = "public void loadYaml(String yamlString)";

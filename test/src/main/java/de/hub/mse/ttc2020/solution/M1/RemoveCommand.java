@@ -8,23 +8,6 @@ import java.util.Map;
 
 public class RemoveCommand extends ModelCommand  
 {
-   public Object run(M1Editor editor) {
-      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
-      java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
-
-      Object oldObject = mapOfModelObjects.remove(getId());
-
-      if (oldObject != null) {
-         mapOfFrames.put(getId(), oldObject);
-      }
-
-      // call undo on old command
-      ModelCommand oldCommand = editor.getActiveCommands().get(getId());
-      oldCommand.undo(editor);
-
-      return null;
-   }
-
 
    protected PropertyChangeSupport listeners = null;
 
@@ -82,6 +65,21 @@ public class RemoveCommand extends ModelCommand
       super.removeYou();
    }
 
+   public Object run(M1Editor editor) { 
+      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
+      java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
 
+      Object oldObject = mapOfModelObjects.remove(getId());
+
+      if (oldObject != null) {
+         mapOfFrames.put(getId(), oldObject);
+      }
+
+      // call undo on old command
+      ModelCommand oldCommand = editor.getActiveCommands().get(getId());
+      oldCommand.undo(editor);
+
+      return null;
+   }
 
 }
