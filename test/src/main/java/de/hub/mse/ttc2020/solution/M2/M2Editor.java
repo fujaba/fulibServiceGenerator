@@ -70,6 +70,46 @@ public class M2Editor
       return this;
    }
 
+   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
+
+   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getMapOfFrames()
+   {
+      return mapOfFrames;
+   }
+
+   public M2Editor setMapOfFrames(java.util.Map<String, Object> value)
+   {
+      if (value != this.mapOfFrames)
+      {
+         java.util.Map<String, Object> oldValue = this.mapOfFrames;
+         this.mapOfFrames = value;
+         firePropertyChange("mapOfFrames", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
+
+   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String, Object> getMapOfModelObjects()
+   {
+      return mapOfModelObjects;
+   }
+
+   public M2Editor setMapOfModelObjects(java.util.Map<String, Object> value)
+   {
+      if (value != this.mapOfModelObjects)
+      {
+         java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
+         this.mapOfModelObjects = value;
+         firePropertyChange("mapOfModelObjects", oldValue, value);
+      }
+      return this;
+   }
+
    public static final String PROPERTY_isoDateFormat = "isoDateFormat";
 
    private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -209,52 +249,6 @@ public class M2Editor
       return true;
    }
 
-   public void removeYou()
-   {
-      this.setService(null);
-
-   }
-
-   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
-
-   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getMapOfFrames()
-   {
-      return mapOfFrames;
-   }
-
-   public M2Editor setMapOfFrames(java.util.Map<String, Object> value)
-   {
-      if (value != this.mapOfFrames)
-      {
-         java.util.Map<String, Object> oldValue = this.mapOfFrames;
-         this.mapOfFrames = value;
-         firePropertyChange("mapOfFrames", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
-
-   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getMapOfModelObjects()
-   {
-      return mapOfModelObjects;
-   }
-
-   public M2Editor setMapOfModelObjects(java.util.Map<String, Object> value)
-   {
-      if (value != this.mapOfModelObjects)
-      {
-         java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
-         this.mapOfModelObjects = value;
-         firePropertyChange("mapOfModelObjects", oldValue, value);
-      }
-      return this;
-   }
-
    @Override
    public String toString()
    {
@@ -264,6 +258,12 @@ public class M2Editor
 
 
       return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
    }
 
    public Object getOrCreate(Class clazz, String id) { 

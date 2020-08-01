@@ -38,6 +38,32 @@ public class ServiceEditor
       return serviceName;
    }
 
+
+   private void havePatterns()
+   {
+      Clazz pattern = mm.haveClass("Pattern");
+
+      Clazz patternObject = mm.haveClass("PatternObject");
+      mm.haveAttribute(patternObject, "poId", STRING);
+      mm.haveAttribute(patternObject, "handleObjectClass", "Class");
+      mm.haveAttribute(patternObject, "handleObject", "Object");
+      mm.haveAttribute(patternObject, "kind", STRING);
+
+      Clazz patternAttribute = mm.haveClass("PatternAttribute");
+      mm.haveAttribute(patternAttribute, "handleAttrName", STRING);
+      mm.haveAttribute(patternAttribute, "commandParamName", STRING);
+
+      Clazz patternLink = mm.haveClass("PatternLink");
+      mm.haveAttribute(patternLink, "handleLinkName", STRING);
+
+      mm.haveRole(pattern, "objects", patternObject, MANY, "pattern", ONE);
+      mm.haveRole(patternObject, "attributes", patternAttribute, MANY, "object", ONE);
+      mm.haveRole(patternObject, "links", patternLink, MANY, "source", ONE);
+      mm.haveRole(patternLink, "target", patternObject, ONE, "incommingLinks", MANY);
+
+   }
+
+
    private void haveRemoveCommand()
    {
       removeCommand = this.haveCommand("RemoveCommand");
@@ -121,6 +147,7 @@ public class ServiceEditor
 
       haveModelCommand();
       haveRemoveCommand();
+      havePatterns();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
 
       haveExecuteMethod();
@@ -328,7 +355,6 @@ public class ServiceEditor
       Clazz commandClass = mm.haveClass("Have" + dataClassName + "Command");
       commandClasses.put(dataClassName, commandClass);
       commandClass.setSuperClass(this.modelCommand);
-      this.havePreCheck(dataClassName);
 
       this.editorHaveMapFor(serviceName + dataClassName);
       this.editorHaveGetOrCreateFor(serviceName + dataClassName);
@@ -519,13 +545,6 @@ public class ServiceEditor
       Clazz commandClass = mm.haveClass(className);
       commandClasses.put(className, commandClass);
       commandClass.setSuperClass(this.modelCommand);
-
-      String declaration = String.format("public boolean preCheck(%sEditor editor)", serviceName);
-      ST st = group.getInstanceOf("preCheck");
-      st.add("dataClazz", className);
-      String body = st.render();
-      FMethod fMethod = mm.haveMethod(commandClass, declaration, body);
-
 
       return commandClass;
    }

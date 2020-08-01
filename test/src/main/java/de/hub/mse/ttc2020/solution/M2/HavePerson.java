@@ -1,7 +1,7 @@
 package de.hub.mse.ttc2020.solution.M2;
 
 import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeListener;import java.util.Objects;
 
 public class HavePerson extends ModelCommand  
 {
@@ -112,22 +112,6 @@ public class HavePerson extends ModelCommand
 
 
       return result.substring(1);
-   }
-
-   public boolean preCheck(M2Editor editor) { 
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("HavePerson-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("HavePerson-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("HavePerson-" + this.getId(), this);
-      return true;
    }
 
 }

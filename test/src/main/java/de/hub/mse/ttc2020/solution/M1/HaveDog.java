@@ -1,29 +1,112 @@
 package de.hub.mse.ttc2020.solution.M1;
+
+import org.fulib.yaml.Reflector;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveDog extends ModelCommand  
+import java.util.Objects;
+
+public class HaveDog extends ModelCommand
 {
+   private Pattern pattern = null;
+
+   protected PropertyChangeSupport listeners = null;
+
+   public static final String PROPERTY_name = "name";
+
+   private String name;
+
+   public static final String PROPERTY_age = "age";
+
+   private int age;
+
+   public static final String PROPERTY_owner = "owner";
+
+   private String owner;
+
+   public Pattern havePattern() {
+      if (pattern == null) {
+         pattern = new Pattern();
+         PatternObject dog = new PatternObject().setPattern(pattern).setPoId("dog").setHandleObjectClass(Dog.class).setKind("core");
+         new PatternAttribute().setObject(dog).setHandleAttrName(Dog.PROPERTY_id).setCommandParamName(HaveDog.PROPERTY_id);
+         new PatternAttribute().setObject(dog).setHandleAttrName(Dog.PROPERTY_name).setCommandParamName(HaveDog.PROPERTY_name);
+         new PatternAttribute().setObject(dog).setHandleAttrName(Dog.PROPERTY_age).setCommandParamName(HaveDog.PROPERTY_age);
+
+         PatternObject person = new PatternObject().setPattern(pattern).setPoId("person").setHandleObjectClass(Person.class).setKind("context");
+         new PatternAttribute().setObject(person).setHandleAttrName(Person.PROPERTY_id).setCommandParamName(HaveDog.PROPERTY_owner);
+
+         new PatternLink().setSource(dog).setHandleLinkName(Dog.PROPERTY_owner).setTarget(person);
+      }
+      return pattern;
+   }
+
    @Override
    public Object run(M1Editor editor)
    {
-      Dog dog = (Dog) editor.getOrCreate(Dog.class, getId());
-      Person ownerObject = (Person) editor.getObjectFrame(Person.class, owner);
-      dog.setName(name).setAge(age).setOwner(ownerObject);
+      havePattern();
 
-      return dog;
+      // have handle objects
+      for (PatternObject patternObject : pattern.getObjects()) {
+         String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
+         Class handleObjectClass = patternObject.getHandleObjectClass();
+         Object handleObject = null;
+         if (patternObject.getKind() == "core") {
+            handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
+         }
+         else {
+            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
+         }
+         patternObject.setHandleObject(handleObject);
+      }
+
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         Reflector commandReflector = new Reflector().setClassName(this.getClass().getName());
+         Reflector handleObjectReflector = new Reflector().setClassName(patternObject.getHandleObject().getClass().getName());
+
+         for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
+            if ("id".equals(patternAttribute.getHandleAttrName())) {
+               continue;
+            }
+
+            Object paramValue = commandReflector.getValue(this, patternAttribute.getCommandParamName());
+            paramValue = paramValue.toString();
+            handleObjectReflector.setValue(patternObject.getHandleObject(), patternAttribute.getHandleAttrName(), paramValue, null);
+         }
+
+         Object sourceHandleObject = patternObject.getHandleObject();
+         for (PatternLink patternLink : patternObject.getLinks()) {
+            String linkName = patternLink.getHandleLinkName();
+            Object targetHandleObject = patternLink.getTarget().getHandleObject();
+            handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+         }
+      }
+
+      return null;
    }
 
    @Override
    public void undo(M1Editor editor)
    {
-      Dog dog = (Dog) editor.getObjectFrame(Dog.class, owner);
+      Dog dog = (Dog) editor.getObjectFrame(Dog.class, getId());
       dog.setOwner(null);
    }
 
-   public static final String PROPERTY_name = "name";
 
-   private String name;
+   private Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)
+   {
+      Reflector reflector = new Reflector().setClassName(this.getClass().getName());
+      for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
+         if (patternAttribute.getHandleAttrName().equals(handleAttributeName)) {
+            String commandParamName = patternAttribute.getCommandParamName();
+            Object value = reflector.getValue(this, commandParamName);
+            return value;
+         }
+      }
+      return null;
+   }
+
 
    public String getName()
    {
@@ -41,10 +124,6 @@ public class HaveDog extends ModelCommand
       return this;
    }
 
-   public static final String PROPERTY_age = "age";
-
-   private int age;
-
    public int getAge()
    {
       return age;
@@ -61,10 +140,6 @@ public class HaveDog extends ModelCommand
       return this;
    }
 
-   public static final String PROPERTY_owner = "owner";
-
-   private String owner;
-
    public String getOwner()
    {
       return owner;
@@ -80,8 +155,6 @@ public class HaveDog extends ModelCommand
       }
       return this;
    }
-
-   protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -143,20 +216,10 @@ public class HaveDog extends ModelCommand
       return result.substring(1);
    }
 
-   public boolean preCheck(M1Editor editor) { 
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("HaveDog-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("HaveDog-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("HaveDog-" + this.getId(), this);
-      return true;
+   @Override
+   public void removeYou()
+   {
+      super.removeYou();
    }
 
 }

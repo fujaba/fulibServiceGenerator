@@ -122,26 +122,6 @@ public class M1Service
       return this;
    }
 
-   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-
-   private LinkedHashMap<String, M1App> sessionToAppMap = new LinkedHashMap();
-
-   public LinkedHashMap<String, M1App> getSessionToAppMap()
-   {
-      return sessionToAppMap;
-   }
-
-   public M1Service setSessionToAppMap(LinkedHashMap<String, M1App> value)
-   {
-      if (value != this.sessionToAppMap)
-      {
-         LinkedHashMap<String, M1App> oldValue = this.sessionToAppMap;
-         this.sessionToAppMap = value;
-         firePropertyChange("sessionToAppMap", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_modelEditor = "modelEditor";
 
    private M1Editor modelEditor = null;
@@ -295,6 +275,35 @@ public class M1Service
       return true;
    }
 
+   public void removeYou()
+   {
+      this.setModelEditor(null);
+
+      this.withoutStreams(this.getStreams().clone());
+
+
+   }
+
+   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
+
+   private LinkedHashMap<String, M1App> sessionToAppMap = new LinkedHashMap();
+
+   public LinkedHashMap<String, M1App> getSessionToAppMap()
+   {
+      return sessionToAppMap;
+   }
+
+   public M1Service setSessionToAppMap(LinkedHashMap<String, M1App> value)
+   {
+      if (value != this.sessionToAppMap)
+      {
+         LinkedHashMap<String, M1App> oldValue = this.sessionToAppMap;
+         this.sessionToAppMap = value;
+         firePropertyChange("sessionToAppMap", oldValue, value);
+      }
+      return this;
+   }
+
    @Override
    public String toString()
    {
@@ -304,15 +313,6 @@ public class M1Service
 
 
       return result.substring(1);
-   }
-
-   public void removeYou()
-   {
-      this.setModelEditor(null);
-
-      this.withoutStreams(this.getStreams().clone());
-
-
    }
 
    public void start() { 

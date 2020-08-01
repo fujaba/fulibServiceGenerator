@@ -1,51 +1,18 @@
 package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeListener;import java.util.Objects;
 
 public class ModelCommand  
 {
+   protected PropertyChangeSupport listeners = null;
 
    public static final String PROPERTY_id = "id";
 
    private String id;
 
-   public String getId()
-   {
-      return id;
-   }
-
-   public ModelCommand setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_time = "time";
 
    private String time;
-
-   public String getTime()
-   {
-      return time;
-   }
-
-   public ModelCommand setTime(String value)
-   {
-      if (value == null ? this.time != null : ! value.equals(this.time))
-      {
-         String oldValue = this.time;
-         this.time = value;
-         firePropertyChange("time", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -105,6 +72,42 @@ public class ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+   }
+
+   public String getId()
+   {
+      return id;
+   }
+
+   public ModelCommand setId(String value)
+   {
+      if (value == null ? this.id != null : ! value.equals(this.id))
+      {
+         String oldValue = this.id;
+         this.id = value;
+         firePropertyChange("id", oldValue, value);
+      }
+      return this;
+   }
+
+   public String getTime()
+   {
+      return time;
+   }
+
+   public ModelCommand setTime(String value)
+   {
+      if (value == null ? this.time != null : ! value.equals(this.time))
+      {
+         String oldValue = this.time;
+         this.time = value;
+         firePropertyChange("time", oldValue, value);
+      }
+      return this;
    }
 
    public Object run(M1Editor editor) { 

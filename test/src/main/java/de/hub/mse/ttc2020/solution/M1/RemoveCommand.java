@@ -59,20 +59,10 @@ public class RemoveCommand extends ModelCommand
       return true;
    }
 
-   public boolean preCheck(M1Editor editor) { 
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("RemoveCommand-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("RemoveCommand-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("RemoveCommand-" + this.getId(), this);
-      return true;
+@Override
+   public void removeYou()
+   {
+      super.removeYou();
    }
 
    public Object run(M1Editor editor) { 
