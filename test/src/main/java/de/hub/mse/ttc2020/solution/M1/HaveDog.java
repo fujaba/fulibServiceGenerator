@@ -89,8 +89,16 @@ public class HaveDog extends ModelCommand
    @Override
    public void undo(M1Editor editor)
    {
-      Dog dog = (Dog) editor.getObjectFrame(Dog.class, getId());
-      dog.setOwner(null);
+      havePattern();
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getKind() == "core") {
+            String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
+            Object oldObject = editor.removeModelObject(handleObjectId);
+            Reflector handleObjectReflector = new Reflector().setClassName(oldObject.getClass().getName());
+            handleObjectReflector.removeObject(oldObject);
+         }
+      }
    }
 
 

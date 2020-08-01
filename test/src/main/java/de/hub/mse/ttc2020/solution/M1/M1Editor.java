@@ -327,6 +327,16 @@ public void removeYou()
       return newTime;
    }
 
+   public Object removeModelObject(String id) {
+      Object oldObject = mapOfModelObjects.remove(id);
+
+      if (oldObject != null) {
+         mapOfFrames.put(id, oldObject);
+      }
+
+      return mapOfFrames.get(id);
+   }
+
    public void fireCommandExecuted(ModelCommand command) { 
       String commandName = command.getClass().getSimpleName();
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
