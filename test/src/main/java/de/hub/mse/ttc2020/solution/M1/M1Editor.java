@@ -4,12 +4,10 @@ import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
-import java.util.Date;
-import java.util.ArrayList;
+import java.util.*;
 
+import org.fulib.yaml.Reflector;
 import org.fulib.yaml.Yaml;
-
-import java.util.Objects;
 
 public class M1Editor  
 {
@@ -389,4 +387,83 @@ public void removeYou()
       activeCommands.put(id, command);
    }
 
+   public void parse(Object... startObjects)
+   {
+      LinkedHashSet allObjects = new Yaml(startObjects[0].getClass().getPackage().getName()).collectObjects(startObjects);
+
+      // add parsed objects to model
+      for (Object parsedObject : allObjects) {
+         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
+         String id = (String) reflector.getValue(parsedObject, "id");
+         if (id != null) {
+            mapOfModelObjects.put(id, parsedObject);
+            mapOfFrames.remove(id);
+         }
+      }
+
+      ArrayList<ModelCommand> allCommands = new ArrayList<>();
+      for (Object currentObject : allObjects) {
+         findCommands(allCommands, currentObject);
+      }
+
+      // remove obsolete commands from history
+      for (Map.Entry<String, ModelCommand> entry : activeCommands.entrySet()) {
+         String id = entry.getKey();
+         ModelCommand oldCommand = entry.getValue();
+         if (oldCommand instanceof RemoveCommand) {
+            continue;
+         }
+
+         ModelCommand parsedCommand = getFromAllCommands(allCommands, id);
+         if (parsedCommand == null) {
+            ModelCommand removeCommand = new RemoveCommand().setId(id);
+            execute(removeCommand);
+         }
+      }
+
+      // add parsed commands, if new
+      for (ModelCommand parsedCommand : allCommands) {
+         String id = parsedCommand.getId();
+         ModelCommand oldCommand = activeCommands.get(id);
+         if (oldCommand == null || ! oldCommand.equalsButTime(parsedCommand)) {
+            execute(parsedCommand);
+         }
+      }
+   }
+
+   private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)
+   {
+      for (ModelCommand command : allCommands) {
+         if (command.getId().equals(id)) {
+            return command;
+         }
+      }
+      return null;
+   }
+
+   private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)
+   {
+      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
+      for (ModelCommand prototype : prototypes) {
+         ModelCommand currentCommand = prototype.parse(currentObject);
+         if (currentCommand != null) {
+            allCommands.add(currentCommand);
+         }
+      }
+
+      return null;
+   }
+
+   private ArrayList<ModelCommand> commandPrototypes = null;
+
+   private ArrayList<ModelCommand> haveCommandPrototypes()
+   {
+      if (commandPrototypes == null) {
+         commandPrototypes = new ArrayList<>();
+         commandPrototypes.add(new HavePerson());
+         commandPrototypes.add(new HaveDog());
+      }
+
+      return commandPrototypes;
+   }
 }

@@ -12,6 +12,21 @@ public class HavePerson extends ModelCommand
       return person;
    }
 
+   @Override
+   public ModelCommand parse(Object currentObject)
+   {
+      if (currentObject instanceof Person) {
+         // yes, its me
+         Person currentPerson = (Person) currentObject;
+         HavePerson modelCommand = new HavePerson();
+         modelCommand.setId(currentPerson.getId());
+         modelCommand.setName(currentPerson.getName())
+               .setAge(currentPerson.getAge());
+         return modelCommand;
+      }
+      return null;
+   }
+
    public static final String PROPERTY_name = "name";
 
    private String name;

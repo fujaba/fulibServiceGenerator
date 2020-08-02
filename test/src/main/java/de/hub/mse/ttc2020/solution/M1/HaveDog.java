@@ -42,6 +42,24 @@ public class HaveDog extends ModelCommand
       return pattern;
    }
 
+   @Override
+   public ModelCommand parse(Object currentObject)
+   {
+      if (currentObject instanceof Dog) {
+         // yes, its me
+         Dog currentDog = (Dog) currentObject;
+         HaveDog modelCommand = new HaveDog();
+         modelCommand.setId(currentDog.getId());
+         modelCommand.setName(currentDog.getName())
+               .setAge(currentDog.getAge());
+         modelCommand.setOwner(currentDog.getOwner().getId());
+
+         return modelCommand;
+      }
+
+      return null;
+   }
+
    public String getName()
    {
       return name;

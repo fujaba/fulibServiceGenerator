@@ -15,6 +15,36 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestTTCEditors
 {
    @Test
+   public void testParsing()
+   {
+      M1Editor m1Editor = new M1Editor();
+
+      ModelCommand haveAlice = new HavePerson().setName("Alice").setAge(23).setId("alice1");
+      m1Editor.execute(haveAlice);
+      Person alice1 = (Person) m1Editor.getModelObject("alice1");
+      assertThat(alice1, CoreMatchers.notNullValue());
+
+      ModelCommand haveBob = new HaveDog().setName("Bob").setAge(2).setOwner("alice1").setId("bob2");
+      m1Editor.execute(haveBob);
+      Dog bob2 = (Dog) m1Editor.getModelObject("bob2");
+      assertThat(bob2, CoreMatchers.notNullValue());
+
+      // test parsing
+      Person carli = new Person().setId("carli").setName("carli").setAge(42);
+      bob2.setOwner(carli);
+
+      m1Editor.parse(bob2);
+
+      assertThat(m1Editor.getActiveCommands().size(), is(3));
+      ModelCommand alice1Command = m1Editor.getActiveCommands().get("alice1");
+      assertThat(alice1Command, CoreMatchers.instanceOf(RemoveCommand.class));
+      assertThat(m1Editor.getActiveCommands().get("carli"), CoreMatchers.notNullValue());
+      assertThat(m1Editor.getActiveCommands().get("bob2"), CoreMatchers.notNullValue());
+      assertThat(bob2.getOwner(), is(carli));
+   }
+
+
+   @Test
    public void testAliceAndDog()
    {
       M1Editor m1Editor = new M1Editor();
@@ -115,9 +145,6 @@ public class TestTTCEditors
 
       assertThat(m1Editor.getModelObject("bob2"), nullValue());
       assertThat(alice2.getDog(), nullValue());
-
-
-
    }
 
    private void forwardToM2(M1Editor m1Editor, M2Editor m2Editor)
