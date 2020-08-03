@@ -112,6 +112,29 @@ public class ModelCommand
       return this;
    }
 
+   public ModelCommand parse(Object currentObject)
+   {
+      return null;
+   }
+
+   public boolean equalsButTime(ModelCommand newCommand)
+   {
+      Reflector reflector = new Reflector().setClazz(this.getClass());
+
+      for (String property : reflector.getProperties()) {
+         if ("time".equals(property)) {
+            continue;
+         }
+         Object oldValue = reflector.getValue(this, property);
+         Object newValue = reflector.getValue(newCommand, property);
+
+         if ( ! Objects.equals(oldValue, newValue)) {
+            return false;
+         }
+      }
+
+      return true;
+   }
    public Object run(M1Editor editor) { 
       Pattern pattern = havePattern();
 
@@ -191,27 +214,4 @@ public class ModelCommand
       return null;
    }
 
-   public ModelCommand parse(Object currentObject)
-   {
-      return null;
-   }
-
-   public boolean equalsButTime(ModelCommand newCommand)
-   {
-      Reflector reflector = new Reflector().setClazz(this.getClass());
-
-      for (String property : reflector.getProperties()) {
-         if ("time".equals(property)) {
-            continue;
-         }
-         Object oldValue = reflector.getValue(this, property);
-         Object newValue = reflector.getValue(newCommand, property);
-
-         if ( ! Objects.equals(oldValue, newValue)) {
-            return false;
-         }
-      }
-
-      return true;
-   }
 }

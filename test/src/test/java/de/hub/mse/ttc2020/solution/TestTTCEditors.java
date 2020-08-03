@@ -26,7 +26,7 @@ public class TestTTCEditors
       Files.deleteIfExists(Paths.get("tmp/HaveDogPattern.svg"));
       HaveDog haveDog = new HaveDog();
       Pattern pattern = haveDog.havePattern();
-      // new FulibPatternDiagram().dump("tmp/HaveDogPattern.svg", pattern);
+      new FulibPatternDiagram().dump("tmp/HaveDogPattern.svg", pattern);
 
       Path path = Paths.get("tmp/HaveDogPattern.svg");
       assertThat(Files.exists(path), is(true));
