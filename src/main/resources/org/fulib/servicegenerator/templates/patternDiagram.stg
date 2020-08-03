@@ -1,0 +1,58 @@
+delimiters "{", "}"
+
+patternDiagram(coreObjects, contextObjects, links) ::= <<
+digraph "pattern" \{
+   rankdir=BT
+
+   {contextObjects:blackObject(); separator="\n\n"}
+
+   {coreObjects:greenObject(); separator="\n\n"}
+
+   {links:link();  separator="\n\n"}
+}
+>>
+
+greenObject(obj) ::= <<
+{obj.poId} [
+   shape=plaintext
+   color=green
+   label=<
+     <table border='0' cellborder='1' cellspacing='0'>
+       <tr><td>{obj.poId} :{obj.handleObjectClass.simpleName}</td></tr>
+       <tr><td>{obj.attributes:attribute(); separator=""}</td></tr>
+     </table>
+   >
+];
+>>
+
+blackObject(obj) ::= <<
+{obj.poId} [
+   shape=plaintext
+   label=<
+     <table border='0' cellborder='1' cellspacing='0'>
+       <tr><td>{obj.poId} :{obj.handleObjectClass.simpleName}</td></tr>
+       <tr><td>{obj.attributes:attribute(); separator=""}</td></tr>
+     </table>
+   >
+];
+>>
+
+
+attribute(attr) ::= <<
+{attr.handleAttrName} = {attr.commandParamName}<br align='left'/>
+>>
+
+role(role) ::= <<
+{role.other.clazz.name} -> {role.clazz.name} [
+   arrowhead=none
+   taillabel="{role.name}{if(role.toMany)} *{endif}"
+   headlabel="{role.other.name}{if(role.other.toMany)} *{endif}"
+];
+>>
+
+link(l) ::= <<
+{l.source.poId} -> {l.target.poId} [
+   arrowhead=none
+   headlabel="{l.handleLinkName}"
+];
+>>

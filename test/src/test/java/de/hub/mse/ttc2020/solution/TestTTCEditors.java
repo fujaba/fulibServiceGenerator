@@ -2,11 +2,17 @@ package de.hub.mse.ttc2020.solution;
 
 import de.hub.mse.ttc2020.solution.M1.*;
 import de.hub.mse.ttc2020.solution.M2.M2Editor;
+import org.antlr.v4.runtime.atn.StarLoopEntryState;
 import org.fulib.FulibTools;
+import org.fulib.servicegenerator.FulibPatternDiagram;
 import org.fulib.yaml.Yaml;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -14,6 +20,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestTTCEditors
 {
+   @Test
+   public void testPatternDiagram() throws IOException
+   {
+      Files.deleteIfExists(Paths.get("tmp/HaveDogPattern.svg"));
+      HaveDog haveDog = new HaveDog();
+      Pattern pattern = haveDog.havePattern();
+      // new FulibPatternDiagram().dump("tmp/HaveDogPattern.svg", pattern);
+
+      Path path = Paths.get("tmp/HaveDogPattern.svg");
+      assertThat(Files.exists(path), is(true));
+
+   }
+
    @Test
    public void testParsing()
    {

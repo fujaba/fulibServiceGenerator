@@ -1,5 +1,6 @@
 package de.hub.mse.ttc2020.solution.M1;
 
+import org.fulib.servicegenerator.FulibPatternDiagram;
 import org.fulib.tables.ObjectTable;
 import org.fulib.tables.Table;
 import org.fulib.yaml.Reflector;
@@ -40,6 +41,8 @@ public class HaveDog extends ModelCommand
          new PatternAttribute().setObject(person).setHandleAttrName(Person.PROPERTY_id).setCommandParamName(HaveDog.PROPERTY_owner);
 
          new PatternLink().setSource(dog).setHandleLinkName(Dog.PROPERTY_owner).setTarget(person);
+
+         new FulibPatternDiagram().dump("tmp/HaveDogPattern.svg", pattern);
       }
       return pattern;
    }
