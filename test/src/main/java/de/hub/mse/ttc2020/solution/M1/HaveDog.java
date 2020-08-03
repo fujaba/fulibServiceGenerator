@@ -1,11 +1,13 @@
 package de.hub.mse.ttc2020.solution.M1;
 
+import org.fulib.tables.ObjectTable;
+import org.fulib.tables.Table;
 import org.fulib.yaml.Reflector;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-import java.util.Objects;
+import java.util.*;
 
 public class HaveDog extends ModelCommand  
 {
@@ -45,19 +47,80 @@ public class HaveDog extends ModelCommand
    @Override
    public ModelCommand parse(Object currentObject)
    {
-      if (currentObject instanceof Dog) {
-         // yes, its me
-         Dog currentDog = (Dog) currentObject;
-         HaveDog modelCommand = new HaveDog();
-         modelCommand.setId(currentDog.getId());
-         modelCommand.setName(currentDog.getName())
-               .setAge(currentDog.getAge());
-         modelCommand.setOwner(currentDog.getOwner().getId());
+      Pattern pattern = havePattern();
 
-         return modelCommand;
+      if (pattern == null) {
+         return null;
       }
 
-      return null;
+      PatternObject firstPatternObject = pattern.getObjects().get(0);
+      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
+         // not my business
+         return null;
+      }
+
+      ObjectTable objectTable = new ObjectTable(firstPatternObject.getPoId(), currentObject);
+      LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
+      mapPatternObject2Table.put(firstPatternObject, objectTable);
+
+      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable);
+
+      // retrieve command
+      ArrayList rows = new ArrayList();
+      objectTable.filterRows( m -> { rows.add(m); return true; });
+      Map<String, Object> firstRow = (Map<String, Object>) rows.get(0);
+      HaveDog newCommand = new HaveDog();
+      Reflector commandReflector = new Reflector().setClazz(newCommand.getClass());
+      for (PatternObject patternObject : pattern.getObjects()) {
+         String poId = patternObject.getPoId();
+         for (PatternAttribute attribute : patternObject.getAttributes()) {
+            String commandParamName = attribute.getCommandParamName();
+            Object value = firstRow.get(poId + "." + attribute.getHandleAttrName());
+            commandReflector.setValue(newCommand, commandParamName, "" + value);
+         }
+      }
+
+      return newCommand;
+
+
+//      if (currentObject instanceof Dog) {
+//         // yes, its me
+//         Dog currentDog = (Dog) currentObject;
+//         HaveDog modelCommand = new HaveDog();
+//         modelCommand.setId(currentDog.getId());
+//         modelCommand.setName(currentDog.getName())
+//               .setAge(currentDog.getAge());
+//         modelCommand.setOwner(currentDog.getOwner().getId());
+//
+//         return modelCommand;
+//      }
+//
+//      return null;
+   }
+
+   private void matchAttributesAndLinks(Pattern pattern, LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable)
+   {
+      // match attributes
+      String poId = currentPatternObject.getPoId();
+      for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
+         String attrName = attribute.getHandleAttrName();
+         objectTable.expandAttribute(poId + "." +attrName, attrName);
+      }
+
+      // match links
+      for (PatternLink link : currentPatternObject.getLinks()) {
+         PatternObject target = link.getTarget();
+         ObjectTable targetTable = mapPatternObject2Table.get(target);
+
+         if (targetTable != null) {
+            objectTable.hasLink(link.getHandleLinkName(), targetTable);
+         }
+         else {
+            targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
+            mapPatternObject2Table.put(target, targetTable);
+            matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable);
+         }
+      }
    }
 
    public String getName()

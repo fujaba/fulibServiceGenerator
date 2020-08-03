@@ -29,6 +29,7 @@ dependencies {
 
 	implementation 'org.fulib:fulibYaml:1.1.0'
 	implementation 'org.fulib:fulibMockups:0.2.0'
+	implementation 'org.fulib:fulibTables:1.3.0'
 
 	implementation 'org.json:json:20190722'
 	implementation 'com.sparkjava:spark-core:2.8.+'

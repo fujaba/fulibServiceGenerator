@@ -30,7 +30,7 @@ public class TestTTCEditors
       assertThat(bob2, CoreMatchers.notNullValue());
 
       // test parsing
-      Person carli = new Person().setId("carli").setName("carli").setAge(42);
+      Person carli = new Person().setId("carli").setName("Carli").setAge(42);
       bob2.setOwner(carli);
 
       m1Editor.parse(bob2);
