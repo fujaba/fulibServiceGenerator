@@ -240,7 +240,7 @@ public class JavaPackage
             if ( ! this.classes.contains(item))
             {
                this.classes.add((JavaClass)item);
-               ((JavaClass)item).setParent(this);
+               ((JavaClass)item).setUp(this);
                firePropertyChange("classes", null, item);
             }
          }
@@ -248,7 +248,6 @@ public class JavaPackage
       }
       return this;
    }
-
 
    public JavaPackage withoutClasses(Object... value)
    {
@@ -268,7 +267,7 @@ public class JavaPackage
             if (this.classes.contains(item))
             {
                this.classes.remove((JavaClass)item);
-               ((JavaClass)item).setParent(null);
+               ((JavaClass)item).setUp(null);
                firePropertyChange("classes", item, null);
             }
          }

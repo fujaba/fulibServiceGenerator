@@ -57,7 +57,7 @@ public class DocFile
 
    public void removeYou()
    {
-      this.setFolder(null);
+      this.setUp(null);
 
    }
 
@@ -113,33 +113,34 @@ public class DocFile
       return result.substring(1);
    }
 
-   public static final String PROPERTY_folder = "folder";
+   public static final String PROPERTY_up = "up";
 
-   private Folder folder = null;
+   private Folder up = null;
 
-   public Folder getFolder()
+   public Folder getUp()
    {
-      return this.folder;
+      return this.up;
    }
 
-   public DocFile setFolder(Folder value)
+   public DocFile setUp(Folder value)
    {
-      if (this.folder != value)
+      if (this.up != value)
       {
-         Folder oldValue = this.folder;
-         if (this.folder != null)
+         Folder oldValue = this.up;
+         if (this.up != null)
          {
-            this.folder = null;
+            this.up = null;
             oldValue.withoutFiles(this);
          }
-         this.folder = value;
+         this.up = value;
          if (value != null)
          {
             value.withFiles(this);
          }
-         firePropertyChange("folder", oldValue, value);
+         firePropertyChange("up", oldValue, value);
       }
       return this;
    }
+
 
 }

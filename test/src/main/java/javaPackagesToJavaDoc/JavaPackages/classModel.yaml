@@ -134,7 +134,7 @@
   modified: 	false
   name: 	JavaClass
   propertyStyle: 	POJO
-  roles: 	parent 	
+  roles: 	up41 	
 
 - haveRoot: 	Clazz
   model: 	c
@@ -144,7 +144,7 @@
   superClass: 	modelCommand
 
 - haveSubUnit: 	Clazz
-  attributes: 	parent41 	
+  attributes: 	parent 	
   model: 	c
   modified: 	false
   name: 	HaveSubUnit
@@ -1209,7 +1209,7 @@
   clazz: 	javaPackage
   modified: 	false
   name: 	classes
-  other: 	parent
+  other: 	up41
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1220,17 +1220,17 @@
   propertyStyle: 	POJO
   type: 	String
 
-- parent: 	AssocRole
+- up41: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	javaClass
   modified: 	false
-  name: 	parent
+  name: 	up
   other: 	classes
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- parent41: 	Attribute
+- parent: 	Attribute
   clazz: 	haveSubUnit
   modified: 	false
   name: 	parent

@@ -9,7 +9,7 @@ public class HaveLeaf extends ModelCommand
    {
       JavaClass obj = (JavaClass) editor.getOrCreate(JavaClass.class, getId());
       JavaPackage parent = (JavaPackage) editor.getObjectFrame(JavaPackage.class, this.parent);
-      obj.setParent(parent);
+      obj.setUp(parent);
       return obj;
    }
 

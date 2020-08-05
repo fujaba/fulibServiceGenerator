@@ -201,6 +201,15 @@ public class Folder
       return result.substring(1);
    }
 
+   public DocFile getFromFiles(String fileId)
+   {
+      for (DocFile file : getFiles()) {
+         if (file.getId().equals(fileId)) {
+            return file;
+         }
+      }
+      return null;
+   }
    public static final java.util.ArrayList<DocFile> EMPTY_files = new java.util.ArrayList<DocFile>()
    { @Override public boolean add(DocFile value){ throw new UnsupportedOperationException("No direct add! Use xy.withFiles(obj)"); }};
 
@@ -240,7 +249,7 @@ public class Folder
             if ( ! this.files.contains(item))
             {
                this.files.add((DocFile)item);
-               ((DocFile)item).setFolder(this);
+               ((DocFile)item).setUp(this);
                firePropertyChange("files", null, item);
             }
          }
@@ -248,6 +257,7 @@ public class Folder
       }
       return this;
    }
+
 
    public Folder withoutFiles(Object... value)
    {
@@ -267,7 +277,7 @@ public class Folder
             if (this.files.contains(item))
             {
                this.files.remove((DocFile)item);
-               ((DocFile)item).setFolder(null);
+               ((DocFile)item).setUp(null);
                firePropertyChange("files", item, null);
             }
          }

@@ -4,6 +4,15 @@ import java.beans.PropertyChangeListener;
 
 public class HaveLeaf extends ModelCommand  
 {
+   @Override
+   public Object run(JavaDocEditor editor)
+   {
+      DocFile obj = (DocFile) editor.getOrCreate(DocFile.class, getId());
+      Folder up = (Folder) editor.getObjectFrame(Folder.class, parent);
+      obj.setUp(up);
+
+      return obj;
+   }
 
    public static final String PROPERTY_parent = "parent";
 

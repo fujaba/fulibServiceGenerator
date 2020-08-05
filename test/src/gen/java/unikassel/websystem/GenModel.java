@@ -34,7 +34,7 @@ public class GenModel
       javaPackagesManager.haveAttribute(javaClass, "id", STRING);
 
       javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
-      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "parent", ONE);
+      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "up", ONE);
 
       ServiceEditor javaDocEditor = sysEdit.haveService("JavaDoc");
       Clazz haveContent = javaDocEditor.haveCommand("HaveContent");
@@ -49,7 +49,7 @@ public class GenModel
       javaDocManager.haveAttribute(docFile, "content", STRING);
 
       javaDocManager.haveRole(folder, "subFolders", folder, MANY, "up", ONE);
-      javaDocManager.haveRole(folder, "files", docFile, MANY, "folder", ONE);
+      javaDocManager.haveRole(folder, "files", docFile, MANY, "up", ONE);
 
       sysEdit.haveSharedCommand("HaveRoot");
 

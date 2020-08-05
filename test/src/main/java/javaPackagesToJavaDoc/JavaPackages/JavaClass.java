@@ -86,40 +86,39 @@ public class JavaClass
       return result.substring(1);
    }
 
-   public static final String PROPERTY_parent = "parent";
-
-   private JavaPackage parent = null;
-
-   public JavaPackage getParent()
+   public void removeYou()
    {
-      return this.parent;
+      this.setUp(null);
+
    }
 
-   public JavaClass setParent(JavaPackage value)
+   public static final String PROPERTY_up = "up";
+
+   private JavaPackage up = null;
+
+   public JavaPackage getUp()
    {
-      if (this.parent != value)
+      return this.up;
+   }
+
+   public JavaClass setUp(JavaPackage value)
+   {
+      if (this.up != value)
       {
-         JavaPackage oldValue = this.parent;
-         if (this.parent != null)
+         JavaPackage oldValue = this.up;
+         if (this.up != null)
          {
-            this.parent = null;
+            this.up = null;
             oldValue.withoutClasses(this);
          }
-         this.parent = value;
+         this.up = value;
          if (value != null)
          {
             value.withClasses(this);
          }
-         firePropertyChange("parent", oldValue, value);
+         firePropertyChange("up", oldValue, value);
       }
       return this;
-   }
-
-
-   public void removeYou()
-   {
-      this.setParent(null);
-
    }
 
 }
