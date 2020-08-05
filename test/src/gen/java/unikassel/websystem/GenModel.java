@@ -11,11 +11,55 @@ public class GenModel
 {
    public static void main(String[] args)
    {
+      genTGGPackageToDocDir();
       genTTC2020Model();
 
 //      genBPMNToWorkFlows();
 //      genQSExample();
 //      genStoreShop();
+   }
+
+   private static void genTGGPackageToDocDir()
+   {
+      SystemEditor sysEdit = new SystemEditor();
+      sysEdit.haveMainJavaDir("test/src/main/java");
+      sysEdit.havePackageName("javaPackagesToJavaDoc");
+
+      ServiceEditor javaPackagesEditor = sysEdit.haveService("JavaPackages");
+      ClassModelManager javaPackagesManager = javaPackagesEditor.getClassModelManager();
+      Clazz javaPackage = javaPackagesManager.haveClass("JavaPackage");
+      javaPackagesManager.haveAttribute(javaPackage, "id", STRING);
+
+      Clazz javaClass = javaPackagesManager.haveClass("JavaClass");
+      javaPackagesManager.haveAttribute(javaClass, "id", STRING);
+
+      javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
+      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "parent", ONE);
+
+      ServiceEditor javaDocEditor = sysEdit.haveService("JavaDoc");
+      Clazz haveContent = javaDocEditor.haveCommand("HaveContent");
+
+      ClassModelManager javaDocManager = javaDocEditor.getClassModelManager();
+
+      Clazz folder = javaDocManager.haveClass("Folder");
+      javaDocManager.haveAttribute(folder, "id", STRING);
+
+      Clazz docFile = javaDocManager.haveClass("DocFile");
+      javaDocManager.haveAttribute(docFile, "id", STRING);
+      javaDocManager.haveAttribute(docFile, "content", STRING);
+
+      javaDocManager.haveRole(folder, "subFolders", folder, MANY, "up", ONE);
+      javaDocManager.haveRole(folder, "files", docFile, MANY, "folder", ONE);
+
+      sysEdit.haveSharedCommand("HaveRoot");
+
+      Clazz haveSubUnit = sysEdit.haveSharedCommand("HaveSubUnit");
+      sysEdit.haveParameter(haveSubUnit, "parent", STRING);
+
+      Clazz haveLeaf = sysEdit.haveSharedCommand("HaveLeaf");
+      sysEdit.haveParameter(haveLeaf, "parent", STRING);
+
+      sysEdit.generate();
    }
 
    private static void genTTC2020Model()

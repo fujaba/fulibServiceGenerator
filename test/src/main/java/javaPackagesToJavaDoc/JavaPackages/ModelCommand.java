@@ -1,9 +1,7 @@
-package de.hub.mse.ttc2020.solution.M2;
-
-import org.fulib.yaml.Reflector;
-
+package javaPackagesToJavaDoc.JavaPackages;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import org.fulib.yaml.Reflector;
 
 public class ModelCommand  
 {
@@ -110,7 +108,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public Object run(M2Editor editor) { 
+   public Object run(JavaPackagesEditor editor) { 
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -156,7 +154,7 @@ public class ModelCommand
       return null;
    }
 
-   public void undo(M2Editor editor) { 
+   public void undo(JavaPackagesEditor editor) { 
       Pattern pattern = havePattern();
 
       if (pattern == null) {

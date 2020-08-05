@@ -346,6 +346,7 @@ public void removeYou()
 
       return commandPrototypes;
    }
+
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {

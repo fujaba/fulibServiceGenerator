@@ -2,7 +2,10 @@ package de.hub.mse.ttc2020.solution.M1;
 import org.fulib.yaml.Reflector;
 
 import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;import java.util.Objects;
+import java.beans.PropertyChangeListener;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Objects;
 
 public class ModelCommand  
 {
@@ -135,6 +138,7 @@ public class ModelCommand
 
       return true;
    }
+
    public Object run(M1Editor editor) { 
       Pattern pattern = havePattern();
 
@@ -190,10 +194,32 @@ public class ModelCommand
 
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getKind() == "core") {
-            String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
-            Object oldObject = editor.removeModelObject(handleObjectId);
-            Reflector handleObjectReflector = new Reflector().setClassName(oldObject.getClass().getName());
-            handleObjectReflector.removeObject(oldObject);
+            String id = (String) getHandleObjectAttributeValue(patternObject, "id");
+            Object handleObject = editor.getObjectFrame(null, id);
+            for (PatternLink link : patternObject.getLinks()) {
+               String linkName = link.getHandleLinkName();
+               Reflector handleObjectReflector = new Reflector().setClassName(handleObject.getClass().getName());
+               Object value = handleObjectReflector.getValue(handleObject, linkName);
+               if (value != null && value instanceof java.util.Collection) {
+                  try {
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
+                     withoutMethod.invoke(handleObject, value);
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+               else {
+                  try {
+                     java.lang.reflect.Method setMethod = handleObject.getClass().getMethod("set" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1),
+                           link.getTarget().getHandleObjectClass());
+                     setMethod.invoke(handleObject, new Object[]{null});
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+            }
          }
       }
    }

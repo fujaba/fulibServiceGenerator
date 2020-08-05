@@ -1,18 +1,18 @@
 - c: 	ClassModel
-  classes: 	m2Editor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	m2Service 	commandStream 	addStreamCommand 	m2App 	page 	line 	person 	dog 	havePerson 	haveDog 	
+  classes: 	javaDocEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	haveContent 	folder 	docFile 	haveRoot 	haveSubUnit 	haveLeaf 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"test/src/main/java"
-  packageName: 	de.hub.mse.ttc2020.solution.M2
-  packageSrcFolder: 	"test/src/main/java/de/hub/mse/ttc2020/solution/M2"
+  packageName: 	javaPackagesToJavaDoc.JavaDoc
+  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaDoc"
 
-- m2Editor: 	Clazz
+- javaDocEditor: 	Clazz
   attributes: 	activeCommands 	removeCommands 	commandListeners 	mapOfFrames 	mapOfModelObjects 	isoDateFormat 	lastTime 	timeDelta 	
   importList: 	null 	null 	null 	null 	null 	
   methods: 	f 	f1 	f2 	f3 	f4 	f5 	f6 	f7 	f8 	
   model: 	c
   modified: 	false
-  name: 	M2Editor
+  name: 	JavaDocEditor
   propertyStyle: 	POJO
   roles: 	service 	
 
@@ -24,7 +24,7 @@
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand 	addStreamCommand 	havePerson 	haveDog 	
+  subClasses: 	removeCommand 	addStreamCommand 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf 	
 
 - removeCommand: 	Clazz
   importList: 	null 	null 	null 	
@@ -66,13 +66,13 @@
   propertyStyle: 	POJO
   roles: 	source 	target 	
 
-- m2Service: 	Clazz
+- javaDocService: 	Clazz
   attributes: 	myPort 	reflectorMap 	currentSession 	executor 	spark 	sessionToAppMap 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
   methods: 	f15 	f16 	f17 	f18 	f19 	f20 	
   model: 	c
   modified: 	false
-  name: 	M2Service
+  name: 	JavaDocService
   propertyStyle: 	POJO
   roles: 	modelEditor 	streams 	
 
@@ -95,12 +95,12 @@
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
-- m2App: 	Clazz
+- javaDocApp: 	Clazz
   attributes: 	modelEditor30 	id31 	description 	
   methods: 	f32 	
   model: 	c
   modified: 	false
-  name: 	M2App
+  name: 	JavaDocApp
   propertyStyle: 	POJO
   roles: 	content 	
 
@@ -120,38 +120,54 @@
   propertyStyle: 	POJO
   roles: 	page38 	
 
-- person: 	Clazz
-  attributes: 	id39 	name40 	ybirth 	
+- haveContent: 	Clazz
   model: 	c
   modified: 	false
-  name: 	Person
-  propertyStyle: 	POJO
-
-- dog: 	Clazz
-  attributes: 	id41 	name42 	owner 	
-  model: 	c
-  modified: 	false
-  name: 	Dog
-  propertyStyle: 	POJO
-
-- havePerson: 	Clazz
-  attributes: 	name43 	age 	
-  model: 	c
-  modified: 	false
-  name: 	HavePerson
+  name: 	HaveContent
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
-- haveDog: 	Clazz
-  attributes: 	name44 	age45 	owner46 	
+- folder: 	Clazz
+  attributes: 	id39 	
   model: 	c
   modified: 	false
-  name: 	HaveDog
+  name: 	Folder
+  propertyStyle: 	POJO
+  roles: 	subFolders 	up 	files 	
+
+- docFile: 	Clazz
+  attributes: 	id40 	content41 	
+  model: 	c
+  modified: 	false
+  name: 	DocFile
+  propertyStyle: 	POJO
+  roles: 	folder42 	
+
+- haveRoot: 	Clazz
+  model: 	c
+  modified: 	false
+  name: 	HaveRoot
+  propertyStyle: 	POJO
+  superClass: 	modelCommand
+
+- haveSubUnit: 	Clazz
+  attributes: 	parent 	
+  model: 	c
+  modified: 	false
+  name: 	HaveSubUnit
+  propertyStyle: 	POJO
+  superClass: 	modelCommand
+
+- haveLeaf: 	Clazz
+  attributes: 	parent43 	
+  model: 	c
+  modified: 	false
+  name: 	HaveLeaf
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - activeCommands: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
@@ -159,7 +175,7 @@
   type: 	"java.util.Map<String, ModelCommand>"
 
 - removeCommands: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	removeCommands
@@ -167,7 +183,7 @@
   type: 	"java.util.Map<String, RemoveCommand>"
 
 - commandListeners: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
@@ -175,7 +191,7 @@
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
 - mapOfFrames: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
@@ -183,7 +199,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - mapOfModelObjects: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
@@ -191,7 +207,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - isoDateFormat: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
   name: 	isoDateFormat
@@ -199,7 +215,7 @@
   type: 	DateFormat
 
 - lastTime: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
   name: 	lastTime
@@ -207,7 +223,7 @@
   type: 	String
 
 - timeDelta: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   initialization: 	1
   modified: 	false
   name: 	timeDelta
@@ -215,7 +231,7 @@
   type: 	long
 
 - f: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public Object getOrCreate(Class clazz, String id)"
   methodBody: 	"      Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
@@ -232,7 +248,7 @@
   modified: 	false
 
 - f1: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public Object getObjectFrame(Class clazz, String id)"
   methodBody: 	"      try {
          Object modelObject = mapOfModelObjects.get(id);
@@ -259,14 +275,14 @@
   modified: 	false
 
 - f2: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public Object getModelObject(String id)"
   methodBody: 	"   return mapOfModelObjects.get(id);
 "
   modified: 	false
 
 - f3: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public Object removeModelObject(String id)"
   methodBody: 	"      Object oldObject = mapOfModelObjects.remove(id);
 
@@ -279,7 +295,7 @@
   modified: 	false
 
 - f4: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -300,7 +316,7 @@
   modified: 	false
 
 - f5: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -311,8 +327,8 @@
   modified: 	false
 
 - f6: 	FMethod
-  clazz: 	m2Editor
-  declaration: 	"public M2Editor addCommandListener(String commandName, CommandStream stream)"
+  clazz: 	javaDocEditor
+  declaration: 	"public JavaDocEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
@@ -320,9 +336,9 @@
   modified: 	false
 
 - f7: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public void loadYaml(String yamlString)"
-  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"de.hub.mse.ttc2020.solution.M2\").decode(yamlString);
+  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"javaPackagesToJavaDoc.JavaDoc\").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -331,7 +347,7 @@
   modified: 	false
 
 - f8: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   declaration: 	"public void execute(ModelCommand command)"
   methodBody: 	"      String id = command.getId();
       if (id == null) {
@@ -366,7 +382,7 @@
 - service: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	m2Editor
+  clazz: 	javaDocEditor
   modified: 	false
   name: 	service
   other: 	modelEditor
@@ -389,7 +405,7 @@
 
 - f9: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public Object run(M2Editor editor)"
+  declaration: 	"public Object run(JavaDocEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -438,7 +454,7 @@
 
 - f10: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public void undo(M2Editor editor)"
+  declaration: 	"public void undo(JavaDocEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -502,7 +518,7 @@
 
 - f13: 	FMethod
   clazz: 	removeCommand
-  declaration: 	"public Object run(M2Editor editor)"
+  declaration: 	"public Object run(JavaDocEditor editor)"
   methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
       java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
 
@@ -650,50 +666,50 @@
   roleType: 	"java.util.ArrayList<%s>"
 
 - myPort: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
 - reflectorMap: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
 - currentSession: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
 - executor: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
 - spark: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
 - sessionToAppMap: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaDocService
   initialization: 	"new LinkedHashMap()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	POJO
-  type: 	"LinkedHashMap<String, M2App>"
+  type: 	"LinkedHashMap<String, JavaDocApp>"
 
 - f15: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaDocService
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
          myPort = 4571;
@@ -703,14 +719,14 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      setModelEditor(new M2Editor());
+      setModelEditor(new JavaDocEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
       spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      spark.get(\"/M2\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get(\"/JavaDoc\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      spark.post(\"/M2cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/JavaDoccmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // there are no streams
 
@@ -718,12 +734,12 @@
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"M2 Service is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"JavaDoc Service is listening on port \" + myPort);
 "
   modified: 	false
 
 - f16: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaDocService
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
       return root(req, res);
@@ -731,13 +747,13 @@
   modified: 	false
 
 - f17: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaDocService
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
       {
-         M2App myApp = this.sessionToAppMap.get(currentSession);
+         JavaDocApp myApp = this.sessionToAppMap.get(currentSession);
          if (myApp == null) {
-            myApp = new M2App().init(this.modelEditor);
+            myApp = new JavaDocApp().init(this.modelEditor);
             sessionToAppMap.put(currentSession, myApp);
          }
 
@@ -760,7 +776,7 @@
          String sessionParam = String.format(\"_session: '%s', \", currentSession);
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf(\"'/cmd'\");
-         page.insert(cmdUrlPos + 2, \"M2\");
+         page.insert(cmdUrlPos + 2, \"JavaDoc\");
          String sessionPage = page.toString();
          return sessionPage;
       }
@@ -773,14 +789,14 @@
   modified: 	false
 
 - f18: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaDocService
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
 
       this.currentSession = jsonObject.getString(\"_session\");
 
-      M2App app = sessionToAppMap.get(currentSession);
+      JavaDocApp app = sessionToAppMap.get(currentSession);
 
       if (app == null) {
          return \"404 could not find session \" + currentSession;
@@ -821,7 +837,7 @@
          }
          // call command
          try {
-            Method runMethod = cmdObject.getClass().getMethod(\"run\", M2Editor.class);
+            Method runMethod = cmdObject.getClass().getMethod(\"run\", JavaDocEditor.class);
             runMethod.invoke(cmdObject, modelEditor);
 
          }
@@ -846,7 +862,7 @@
   modified: 	false
 
 - f19: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaDocService
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
       LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
@@ -859,7 +875,7 @@
   modified: 	false
 
 - f20: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaDocService
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
          if (stream.getName().equals(streamName)) {
@@ -877,7 +893,7 @@
 - modelEditor: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	modelEditor
   other: 	service
@@ -887,7 +903,7 @@
 - streams: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	m2Service
+  clazz: 	javaDocService
   modified: 	false
   name: 	streams
   other: 	service28
@@ -1047,7 +1063,7 @@
 
 - f29: 	FMethod
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(M2Editor editor)"
+  declaration: 	"public Object run(JavaDocEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;
@@ -1055,32 +1071,32 @@
   modified: 	false
 
 - modelEditor30: 	Attribute
-  clazz: 	m2App
+  clazz: 	javaDocApp
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
-  type: 	M2Editor
+  type: 	JavaDocEditor
 
 - id31: 	Attribute
-  clazz: 	m2App
+  clazz: 	javaDocApp
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
 - description: 	Attribute
-  clazz: 	m2App
+  clazz: 	javaDocApp
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
 - f32: 	FMethod
-  clazz: 	m2App
-  declaration: 	"public M2App init(M2Editor editor)"
+  clazz: 	javaDocApp
+  declaration: 	"public JavaDocApp init(JavaDocEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
-      this.setDescription(\"M2 App\");
+      this.setDescription(\"JavaDoc App\");
       return this;
 "
   modified: 	false
@@ -1088,7 +1104,7 @@
 - content: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	m2App
+  clazz: 	javaDocApp
   modified: 	false
   name: 	content
   other: 	app
@@ -1168,79 +1184,77 @@
   roleType: 	"java.util.ArrayList<%s>"
 
 - id39: 	Attribute
-  clazz: 	person
+  clazz: 	folder
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name40: 	Attribute
-  clazz: 	person
+- subFolders: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	folder
   modified: 	false
-  name: 	name
+  name: 	subFolders
+  other: 	up
   propertyStyle: 	POJO
-  type: 	String
+  roleType: 	"java.util.ArrayList<%s>"
 
-- ybirth: 	Attribute
-  clazz: 	person
+- up: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	folder
   modified: 	false
-  name: 	ybirth
+  name: 	up
+  other: 	subFolders
   propertyStyle: 	POJO
-  type: 	int
+  roleType: 	"java.util.ArrayList<%s>"
 
-- id41: 	Attribute
-  clazz: 	dog
+- files: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	folder
+  modified: 	false
+  name: 	files
+  other: 	folder42
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id40: 	Attribute
+  clazz: 	docFile
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name42: 	Attribute
-  clazz: 	dog
+- content41: 	Attribute
+  clazz: 	docFile
   modified: 	false
-  name: 	name
+  name: 	content
   propertyStyle: 	POJO
   type: 	String
 
-- owner: 	Attribute
-  clazz: 	dog
+- folder42: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	docFile
   modified: 	false
-  name: 	owner
+  name: 	folder
+  other: 	files
   propertyStyle: 	POJO
-  type: 	Person
+  roleType: 	"java.util.ArrayList<%s>"
 
-- name43: 	Attribute
-  clazz: 	havePerson
+- parent: 	Attribute
+  clazz: 	haveSubUnit
   modified: 	false
-  name: 	name
-  propertyStyle: 	POJO
-  type: 	String
-
-- age: 	Attribute
-  clazz: 	havePerson
-  modified: 	false
-  name: 	age
-  propertyStyle: 	POJO
-  type: 	int
-
-- name44: 	Attribute
-  clazz: 	haveDog
-  modified: 	false
-  name: 	name
+  name: 	parent
   propertyStyle: 	POJO
   type: 	String
 
-- age45: 	Attribute
-  clazz: 	haveDog
+- parent43: 	Attribute
+  clazz: 	haveLeaf
   modified: 	false
-  name: 	age
-  propertyStyle: 	POJO
-  type: 	int
-
-- owner46: 	Attribute
-  clazz: 	haveDog
-  modified: 	false
-  name: 	owner
+  name: 	parent
   propertyStyle: 	POJO
   type: 	String
 

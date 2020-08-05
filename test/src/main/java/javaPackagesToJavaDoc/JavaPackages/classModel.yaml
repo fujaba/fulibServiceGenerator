@@ -1,18 +1,18 @@
 - c: 	ClassModel
-  classes: 	m2Editor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	m2Service 	commandStream 	addStreamCommand 	m2App 	page 	line 	person 	dog 	havePerson 	haveDog 	
+  classes: 	javaPackagesEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaPackagesService 	commandStream 	addStreamCommand 	javaPackagesApp 	page 	line 	javaPackage 	javaClass 	haveRoot 	haveSubUnit 	haveLeaf 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"test/src/main/java"
-  packageName: 	de.hub.mse.ttc2020.solution.M2
-  packageSrcFolder: 	"test/src/main/java/de/hub/mse/ttc2020/solution/M2"
+  packageName: 	javaPackagesToJavaDoc.JavaPackages
+  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaPackages"
 
-- m2Editor: 	Clazz
+- javaPackagesEditor: 	Clazz
   attributes: 	activeCommands 	removeCommands 	commandListeners 	mapOfFrames 	mapOfModelObjects 	isoDateFormat 	lastTime 	timeDelta 	
   importList: 	null 	null 	null 	null 	null 	
   methods: 	f 	f1 	f2 	f3 	f4 	f5 	f6 	f7 	f8 	
   model: 	c
   modified: 	false
-  name: 	M2Editor
+  name: 	JavaPackagesEditor
   propertyStyle: 	POJO
   roles: 	service 	
 
@@ -24,7 +24,7 @@
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand 	addStreamCommand 	havePerson 	haveDog 	
+  subClasses: 	removeCommand 	addStreamCommand 	haveRoot 	haveSubUnit 	haveLeaf 	
 
 - removeCommand: 	Clazz
   importList: 	null 	null 	null 	
@@ -66,13 +66,13 @@
   propertyStyle: 	POJO
   roles: 	source 	target 	
 
-- m2Service: 	Clazz
+- javaPackagesService: 	Clazz
   attributes: 	myPort 	reflectorMap 	currentSession 	executor 	spark 	sessionToAppMap 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
   methods: 	f15 	f16 	f17 	f18 	f19 	f20 	
   model: 	c
   modified: 	false
-  name: 	M2Service
+  name: 	JavaPackagesService
   propertyStyle: 	POJO
   roles: 	modelEditor 	streams 	
 
@@ -95,12 +95,12 @@
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
-- m2App: 	Clazz
+- javaPackagesApp: 	Clazz
   attributes: 	modelEditor30 	id31 	description 	
   methods: 	f32 	
   model: 	c
   modified: 	false
-  name: 	M2App
+  name: 	JavaPackagesApp
   propertyStyle: 	POJO
   roles: 	content 	
 
@@ -120,38 +120,47 @@
   propertyStyle: 	POJO
   roles: 	page38 	
 
-- person: 	Clazz
-  attributes: 	id39 	name40 	ybirth 	
+- javaPackage: 	Clazz
+  attributes: 	id39 	
   model: 	c
   modified: 	false
-  name: 	Person
+  name: 	JavaPackage
   propertyStyle: 	POJO
+  roles: 	subPackages 	up 	classes 	
 
-- dog: 	Clazz
-  attributes: 	id41 	name42 	owner 	
+- javaClass: 	Clazz
+  attributes: 	id40 	
   model: 	c
   modified: 	false
-  name: 	Dog
+  name: 	JavaClass
   propertyStyle: 	POJO
+  roles: 	parent 	
 
-- havePerson: 	Clazz
-  attributes: 	name43 	age 	
+- haveRoot: 	Clazz
   model: 	c
   modified: 	false
-  name: 	HavePerson
+  name: 	HaveRoot
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
-- haveDog: 	Clazz
-  attributes: 	name44 	age45 	owner46 	
+- haveSubUnit: 	Clazz
+  attributes: 	parent41 	
   model: 	c
   modified: 	false
-  name: 	HaveDog
+  name: 	HaveSubUnit
+  propertyStyle: 	POJO
+  superClass: 	modelCommand
+
+- haveLeaf: 	Clazz
+  attributes: 	parent42 	
+  model: 	c
+  modified: 	false
+  name: 	HaveLeaf
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - activeCommands: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
@@ -159,7 +168,7 @@
   type: 	"java.util.Map<String, ModelCommand>"
 
 - removeCommands: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	removeCommands
@@ -167,7 +176,7 @@
   type: 	"java.util.Map<String, RemoveCommand>"
 
 - commandListeners: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
@@ -175,7 +184,7 @@
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
 - mapOfFrames: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
@@ -183,7 +192,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - mapOfModelObjects: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
@@ -191,7 +200,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - isoDateFormat: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
   name: 	isoDateFormat
@@ -199,7 +208,7 @@
   type: 	DateFormat
 
 - lastTime: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
   name: 	lastTime
@@ -207,7 +216,7 @@
   type: 	String
 
 - timeDelta: 	Attribute
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   initialization: 	1
   modified: 	false
   name: 	timeDelta
@@ -215,7 +224,7 @@
   type: 	long
 
 - f: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public Object getOrCreate(Class clazz, String id)"
   methodBody: 	"      Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
@@ -232,7 +241,7 @@
   modified: 	false
 
 - f1: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public Object getObjectFrame(Class clazz, String id)"
   methodBody: 	"      try {
          Object modelObject = mapOfModelObjects.get(id);
@@ -259,14 +268,14 @@
   modified: 	false
 
 - f2: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public Object getModelObject(String id)"
   methodBody: 	"   return mapOfModelObjects.get(id);
 "
   modified: 	false
 
 - f3: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public Object removeModelObject(String id)"
   methodBody: 	"      Object oldObject = mapOfModelObjects.remove(id);
 
@@ -279,7 +288,7 @@
   modified: 	false
 
 - f4: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -300,7 +309,7 @@
   modified: 	false
 
 - f5: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -311,8 +320,8 @@
   modified: 	false
 
 - f6: 	FMethod
-  clazz: 	m2Editor
-  declaration: 	"public M2Editor addCommandListener(String commandName, CommandStream stream)"
+  clazz: 	javaPackagesEditor
+  declaration: 	"public JavaPackagesEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
@@ -320,9 +329,9 @@
   modified: 	false
 
 - f7: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public void loadYaml(String yamlString)"
-  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"de.hub.mse.ttc2020.solution.M2\").decode(yamlString);
+  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"javaPackagesToJavaDoc.JavaPackages\").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -331,7 +340,7 @@
   modified: 	false
 
 - f8: 	FMethod
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   declaration: 	"public void execute(ModelCommand command)"
   methodBody: 	"      String id = command.getId();
       if (id == null) {
@@ -366,7 +375,7 @@
 - service: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	m2Editor
+  clazz: 	javaPackagesEditor
   modified: 	false
   name: 	service
   other: 	modelEditor
@@ -389,7 +398,7 @@
 
 - f9: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public Object run(M2Editor editor)"
+  declaration: 	"public Object run(JavaPackagesEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -438,7 +447,7 @@
 
 - f10: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public void undo(M2Editor editor)"
+  declaration: 	"public void undo(JavaPackagesEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -502,7 +511,7 @@
 
 - f13: 	FMethod
   clazz: 	removeCommand
-  declaration: 	"public Object run(M2Editor editor)"
+  declaration: 	"public Object run(JavaPackagesEditor editor)"
   methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
       java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
 
@@ -650,50 +659,50 @@
   roleType: 	"java.util.ArrayList<%s>"
 
 - myPort: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
 - reflectorMap: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
 - currentSession: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
 - executor: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
 - spark: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
 - sessionToAppMap: 	Attribute
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   initialization: 	"new LinkedHashMap()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	POJO
-  type: 	"LinkedHashMap<String, M2App>"
+  type: 	"LinkedHashMap<String, JavaPackagesApp>"
 
 - f15: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
          myPort = 4571;
@@ -703,14 +712,14 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      setModelEditor(new M2Editor());
+      setModelEditor(new JavaPackagesEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
       spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      spark.get(\"/M2\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get(\"/JavaPackages\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      spark.post(\"/M2cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/JavaPackagescmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // there are no streams
 
@@ -718,12 +727,12 @@
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"M2 Service is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"JavaPackages Service is listening on port \" + myPort);
 "
   modified: 	false
 
 - f16: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
       return root(req, res);
@@ -731,13 +740,13 @@
   modified: 	false
 
 - f17: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
       {
-         M2App myApp = this.sessionToAppMap.get(currentSession);
+         JavaPackagesApp myApp = this.sessionToAppMap.get(currentSession);
          if (myApp == null) {
-            myApp = new M2App().init(this.modelEditor);
+            myApp = new JavaPackagesApp().init(this.modelEditor);
             sessionToAppMap.put(currentSession, myApp);
          }
 
@@ -760,7 +769,7 @@
          String sessionParam = String.format(\"_session: '%s', \", currentSession);
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf(\"'/cmd'\");
-         page.insert(cmdUrlPos + 2, \"M2\");
+         page.insert(cmdUrlPos + 2, \"JavaPackages\");
          String sessionPage = page.toString();
          return sessionPage;
       }
@@ -773,14 +782,14 @@
   modified: 	false
 
 - f18: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
 
       this.currentSession = jsonObject.getString(\"_session\");
 
-      M2App app = sessionToAppMap.get(currentSession);
+      JavaPackagesApp app = sessionToAppMap.get(currentSession);
 
       if (app == null) {
          return \"404 could not find session \" + currentSession;
@@ -821,7 +830,7 @@
          }
          // call command
          try {
-            Method runMethod = cmdObject.getClass().getMethod(\"run\", M2Editor.class);
+            Method runMethod = cmdObject.getClass().getMethod(\"run\", JavaPackagesEditor.class);
             runMethod.invoke(cmdObject, modelEditor);
 
          }
@@ -846,7 +855,7 @@
   modified: 	false
 
 - f19: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
       LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
@@ -859,7 +868,7 @@
   modified: 	false
 
 - f20: 	FMethod
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
          if (stream.getName().equals(streamName)) {
@@ -877,7 +886,7 @@
 - modelEditor: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	modelEditor
   other: 	service
@@ -887,7 +896,7 @@
 - streams: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	m2Service
+  clazz: 	javaPackagesService
   modified: 	false
   name: 	streams
   other: 	service28
@@ -1047,7 +1056,7 @@
 
 - f29: 	FMethod
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(M2Editor editor)"
+  declaration: 	"public Object run(JavaPackagesEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;
@@ -1055,32 +1064,32 @@
   modified: 	false
 
 - modelEditor30: 	Attribute
-  clazz: 	m2App
+  clazz: 	javaPackagesApp
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
-  type: 	M2Editor
+  type: 	JavaPackagesEditor
 
 - id31: 	Attribute
-  clazz: 	m2App
+  clazz: 	javaPackagesApp
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
 - description: 	Attribute
-  clazz: 	m2App
+  clazz: 	javaPackagesApp
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
 - f32: 	FMethod
-  clazz: 	m2App
-  declaration: 	"public M2App init(M2Editor editor)"
+  clazz: 	javaPackagesApp
+  declaration: 	"public JavaPackagesApp init(JavaPackagesEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
-      this.setDescription(\"M2 App\");
+      this.setDescription(\"JavaPackages App\");
       return this;
 "
   modified: 	false
@@ -1088,7 +1097,7 @@
 - content: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	m2App
+  clazz: 	javaPackagesApp
   modified: 	false
   name: 	content
   other: 	app
@@ -1168,79 +1177,70 @@
   roleType: 	"java.util.ArrayList<%s>"
 
 - id39: 	Attribute
-  clazz: 	person
+  clazz: 	javaPackage
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name40: 	Attribute
-  clazz: 	person
+- subPackages: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	javaPackage
   modified: 	false
-  name: 	name
+  name: 	subPackages
+  other: 	up
   propertyStyle: 	POJO
-  type: 	String
+  roleType: 	"java.util.ArrayList<%s>"
 
-- ybirth: 	Attribute
-  clazz: 	person
+- up: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	javaPackage
   modified: 	false
-  name: 	ybirth
+  name: 	up
+  other: 	subPackages
   propertyStyle: 	POJO
-  type: 	int
+  roleType: 	"java.util.ArrayList<%s>"
 
-- id41: 	Attribute
-  clazz: 	dog
+- classes: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	javaPackage
+  modified: 	false
+  name: 	classes
+  other: 	parent
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- id40: 	Attribute
+  clazz: 	javaClass
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- name42: 	Attribute
-  clazz: 	dog
+- parent: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	javaClass
   modified: 	false
-  name: 	name
+  name: 	parent
+  other: 	classes
+  propertyStyle: 	POJO
+  roleType: 	"java.util.ArrayList<%s>"
+
+- parent41: 	Attribute
+  clazz: 	haveSubUnit
+  modified: 	false
+  name: 	parent
   propertyStyle: 	POJO
   type: 	String
 
-- owner: 	Attribute
-  clazz: 	dog
+- parent42: 	Attribute
+  clazz: 	haveLeaf
   modified: 	false
-  name: 	owner
-  propertyStyle: 	POJO
-  type: 	Person
-
-- name43: 	Attribute
-  clazz: 	havePerson
-  modified: 	false
-  name: 	name
-  propertyStyle: 	POJO
-  type: 	String
-
-- age: 	Attribute
-  clazz: 	havePerson
-  modified: 	false
-  name: 	age
-  propertyStyle: 	POJO
-  type: 	int
-
-- name44: 	Attribute
-  clazz: 	haveDog
-  modified: 	false
-  name: 	name
-  propertyStyle: 	POJO
-  type: 	String
-
-- age45: 	Attribute
-  clazz: 	haveDog
-  modified: 	false
-  name: 	age
-  propertyStyle: 	POJO
-  type: 	int
-
-- owner46: 	Attribute
-  clazz: 	haveDog
-  modified: 	false
-  name: 	owner
+  name: 	parent
   propertyStyle: 	POJO
   type: 	String
 
