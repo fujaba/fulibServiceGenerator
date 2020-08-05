@@ -17,7 +17,64 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestPackageToDoc
 {
    @Test
-   public void testMultiRootScenario()
+   public void testOneWaySync()
+   {
+      JavaPackagesEditor javaPackagesEditor = new JavaPackagesEditor();
+
+      ModelCommand cmd = new HaveRoot().setId("root");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveSubUnit().setParent("root").setId("sub");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveLeaf().setParent("sub").setId("c");
+      javaPackagesEditor.execute(cmd);
+
+      Object root = javaPackagesEditor.getModelObject("root");
+      assertThat(root, notNullValue());
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncStart.svg",
+            root,
+            javaPackagesEditor.getActiveCommands().values());
+
+      String yaml = Yaml.encode(javaPackagesEditor.getActiveCommands().values());
+
+      JavaDocEditor javaDocEditor = new JavaDocEditor();
+      javaDocEditor.loadYaml(yaml);
+
+      Folder rootFolder = (Folder) javaDocEditor.getModelObject("root");
+      assertThat(rootFolder, notNullValue());
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncFirstForward.svg",
+            javaDocEditor.getActiveCommands().values(),
+            rootFolder);
+
+      cmd = new HaveRoot().setId("nRoot");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveSubUnit().setParent("nRoot").setId("root");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveRoot().setId("sub");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveLeaf().setParent("sub").setId("c2");
+      javaPackagesEditor.execute(cmd);
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncTwoRoots.svg",
+            javaPackagesEditor.getMapOfModelObjects().values(),
+            javaPackagesEditor.getActiveCommands().values());
+
+      yaml = Yaml.encode(javaPackagesEditor.getActiveCommands().values());
+      javaDocEditor.loadYaml(yaml);
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncTwoRootsForward.svg",
+            javaDocEditor.getActiveCommands().values(),
+            javaDocEditor.getMapOfModelObjects().values());
+   }
+
+   @Test
+   public void testFirstForwardExample()
    {
       JavaPackagesEditor javaPackagesEditor = new JavaPackagesEditor();
 
