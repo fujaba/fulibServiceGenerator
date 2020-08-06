@@ -32,12 +32,14 @@ public class GenModel
 
       Clazz javaClass = javaPackagesManager.haveClass("JavaClass");
       javaPackagesManager.haveAttribute(javaClass, "id", STRING);
+      javaPackagesManager.haveAttribute(javaClass, "vTag", STRING);
 
       javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
       javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "up", ONE);
 
       ServiceEditor javaDocEditor = sysEdit.haveService("JavaDoc");
       Clazz haveContent = javaDocEditor.haveCommand("HaveContent");
+      javaDocEditor.getClassModelManager().haveAttribute(haveContent, "content", STRING);
 
       ClassModelManager javaDocManager = javaDocEditor.getClassModelManager();
 
@@ -46,6 +48,7 @@ public class GenModel
 
       Clazz docFile = javaDocManager.haveClass("DocFile");
       javaDocManager.haveAttribute(docFile, "id", STRING);
+      javaDocManager.haveAttribute(docFile, "version", STRING);
       javaDocManager.haveAttribute(docFile, "content", STRING);
 
       javaDocManager.haveRole(folder, "subFolders", folder, MANY, "up", ONE);
@@ -58,6 +61,7 @@ public class GenModel
 
       Clazz haveLeaf = sysEdit.haveSharedCommand("HaveLeaf");
       sysEdit.haveParameter(haveLeaf, "parent", STRING);
+      sysEdit.haveParameter(haveLeaf, "vTag", STRING);
 
       sysEdit.generate();
    }

@@ -10,6 +10,7 @@ public class HaveLeaf extends ModelCommand
       JavaClass obj = (JavaClass) editor.getOrCreate(JavaClass.class, getId());
       JavaPackage parent = (JavaPackage) editor.getObjectFrame(JavaPackage.class, this.parent);
       obj.setUp(parent);
+      obj.setVTag(vTag);
       return obj;
    }
 
@@ -89,9 +90,30 @@ public class HaveLeaf extends ModelCommand
       StringBuilder result = new StringBuilder();
 
       result.append(" ").append(this.getParent());
+      result.append(" ").append(this.getVTag());
 
 
       return result.substring(1);
+   }
+
+   public static final String PROPERTY_vTag = "vTag";
+
+   private String vTag;
+
+   public String getVTag()
+   {
+      return vTag;
+   }
+
+   public HaveLeaf setVTag(String value)
+   {
+      if (value == null ? this.vTag != null : ! value.equals(this.vTag))
+      {
+         String oldValue = this.vTag;
+         this.vTag = value;
+         firePropertyChange("vTag", oldValue, value);
+      }
+      return this;
    }
 
 }

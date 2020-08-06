@@ -121,6 +121,7 @@
   roles: 	page38 	
 
 - haveContent: 	Clazz
+  attributes: 	content39 	
   model: 	c
   modified: 	false
   name: 	HaveContent
@@ -128,7 +129,7 @@
   superClass: 	modelCommand
 
 - folder: 	Clazz
-  attributes: 	id39 	
+  attributes: 	id40 	
   model: 	c
   modified: 	false
   name: 	Folder
@@ -136,12 +137,12 @@
   roles: 	subFolders 	up 	files 	
 
 - docFile: 	Clazz
-  attributes: 	id40 	content41 	
+  attributes: 	id41 	version 	content42 	
   model: 	c
   modified: 	false
   name: 	DocFile
   propertyStyle: 	POJO
-  roles: 	up42 	
+  roles: 	up43 	
 
 - haveRoot: 	Clazz
   model: 	c
@@ -159,7 +160,7 @@
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
-  attributes: 	parent43 	
+  attributes: 	parent44 	vTag 	
   model: 	c
   modified: 	false
   name: 	HaveLeaf
@@ -1183,7 +1184,14 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id39: 	Attribute
+- content39: 	Attribute
+  clazz: 	haveContent
+  modified: 	false
+  name: 	content
+  propertyStyle: 	POJO
+  type: 	String
+
+- id40: 	Attribute
   clazz: 	folder
   modified: 	false
   name: 	id
@@ -1216,25 +1224,32 @@
   clazz: 	folder
   modified: 	false
   name: 	files
-  other: 	up42
+  other: 	up43
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id40: 	Attribute
+- id41: 	Attribute
   clazz: 	docFile
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- content41: 	Attribute
+- version: 	Attribute
+  clazz: 	docFile
+  modified: 	false
+  name: 	version
+  propertyStyle: 	POJO
+  type: 	String
+
+- content42: 	Attribute
   clazz: 	docFile
   modified: 	false
   name: 	content
   propertyStyle: 	POJO
   type: 	String
 
-- up42: 	AssocRole
+- up43: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	docFile
@@ -1251,10 +1266,17 @@
   propertyStyle: 	POJO
   type: 	String
 
-- parent43: 	Attribute
+- parent44: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	parent
+  propertyStyle: 	POJO
+  type: 	String
+
+- vTag: 	Attribute
+  clazz: 	haveLeaf
+  modified: 	false
+  name: 	vTag
   propertyStyle: 	POJO
   type: 	String
 

@@ -258,7 +258,6 @@ public class Folder
       return this;
    }
 
-
    public Folder withoutFiles(Object... value)
    {
       if (this.files == null || value==null) return this;

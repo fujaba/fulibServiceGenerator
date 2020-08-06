@@ -129,7 +129,7 @@
   roles: 	subPackages 	up 	classes 	
 
 - javaClass: 	Clazz
-  attributes: 	id40 	
+  attributes: 	id40 	vTag 	
   model: 	c
   modified: 	false
   name: 	JavaClass
@@ -152,7 +152,7 @@
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
-  attributes: 	parent42 	
+  attributes: 	parent42 	vTag43 	
   model: 	c
   modified: 	false
   name: 	HaveLeaf
@@ -1220,6 +1220,13 @@
   propertyStyle: 	POJO
   type: 	String
 
+- vTag: 	Attribute
+  clazz: 	javaClass
+  modified: 	false
+  name: 	vTag
+  propertyStyle: 	POJO
+  type: 	String
+
 - up41: 	AssocRole
   aggregation: 	false
   cardinality: 	1
@@ -1241,6 +1248,13 @@
   clazz: 	haveLeaf
   modified: 	false
   name: 	parent
+  propertyStyle: 	POJO
+  type: 	String
+
+- vTag43: 	Attribute
+  clazz: 	haveLeaf
+  modified: 	false
+  name: 	vTag
   propertyStyle: 	POJO
   type: 	String
 

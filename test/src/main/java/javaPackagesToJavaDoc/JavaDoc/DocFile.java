@@ -107,6 +107,7 @@ public class DocFile
       StringBuilder result = new StringBuilder();
 
       result.append(" ").append(this.getId());
+      result.append(" ").append(this.getVersion());
       result.append(" ").append(this.getContent());
 
 
@@ -142,5 +143,24 @@ public class DocFile
       return this;
    }
 
+   public static final String PROPERTY_version = "version";
+
+   private String version;
+
+   public String getVersion()
+   {
+      return version;
+   }
+
+   public DocFile setVersion(String value)
+   {
+      if (value == null ? this.version != null : ! value.equals(this.version))
+      {
+         String oldValue = this.version;
+         this.version = value;
+         firePropertyChange("version", oldValue, value);
+      }
+      return this;
+   }
 
 }
