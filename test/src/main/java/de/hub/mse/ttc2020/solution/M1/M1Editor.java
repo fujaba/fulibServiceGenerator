@@ -176,26 +176,6 @@ public void removeYou()
       return this;
    }
 
-   public static final String PROPERTY_removeCommands = "removeCommands";
-
-   private java.util.Map<String, RemoveCommand> removeCommands = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, RemoveCommand> getRemoveCommands()
-   {
-      return removeCommands;
-   }
-
-   public M1Editor setRemoveCommands(java.util.Map<String, RemoveCommand> value)
-   {
-      if (value != this.removeCommands)
-      {
-         java.util.Map<String, RemoveCommand> oldValue = this.removeCommands;
-         this.removeCommands = value;
-         firePropertyChange("removeCommands", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_commandListeners = "commandListeners";
 
    private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
@@ -256,20 +236,8 @@ public void removeYou()
       return this;
    }
 
-   @Override
-   public String toString()
+   public void parse(Collection allObjects)
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
-   }
-
-   public void parse(Object... startObjects)
-   {
-      LinkedHashSet allObjects = new Yaml(startObjects[0].getClass().getPackage().getName()).collectObjects(startObjects);
 
       // add parsed objects to model
       for (Object parsedObject : allObjects) {
@@ -345,6 +313,17 @@ public void removeYou()
       }
 
       return commandPrototypes;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
    }
 
    public Object getOrCreate(Class clazz, String id) { 

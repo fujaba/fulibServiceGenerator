@@ -127,7 +127,7 @@ public class ServiceEditor
       editor = this.mm.haveClass(modelName + "Editor");
 
       this.editorHaveMapFor("activeCommands", "ModelCommand");
-      this.editorHaveMapFor("RemoveCommand");
+      // this.editorHaveMapFor("RemoveCommand");
       this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
 
       this.editorHaveMapFor("mapOfFrames", "Object");
@@ -401,17 +401,6 @@ public class ServiceEditor
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
    }
 
-   private FMethod havePreCheck(String className)
-   {
-      Clazz commandClass = this.commandClasses.get(className);
-      String declaration = String.format("public boolean preCheck(%s editor)", this.editor.getName());
-      ST st = group.getInstanceOf("preCheck");
-      st.add("dataClazz", this.serviceName + className);
-      String body = st.render();
-      FMethod fMethod = mm.haveMethod(commandClass, declaration, body);
-
-      return fMethod;
-   }
 
    private FMethod haveGetOrCreate()
    {

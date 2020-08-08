@@ -107,22 +107,6 @@ public class AddStreamCommand extends ModelCommand
       return result.substring(1);
    }
 
-   public boolean preCheck(M2Editor editor) { 
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
-      }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("AddStreamCommand-" + this.getId());
-      if (oldRemove != null) {
-         return false;
-      }
-      ModelCommand oldCommand = editor.getActiveCommands().get("AddStreamCommand-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
-      }
-      editor.getActiveCommands().put("AddStreamCommand-" + this.getId(), this);
-      return true;
-   }
-
    public Object run(M2Editor editor) { 
       CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);

@@ -7,7 +7,7 @@
   packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaDoc"
 
 - javaDocEditor: 	Clazz
-  attributes: 	activeCommands 	removeCommands 	commandListeners 	mapOfFrames 	mapOfModelObjects 	isoDateFormat 	lastTime 	timeDelta 	
+  attributes: 	activeCommands 	commandListeners 	mapOfFrames 	mapOfModelObjects 	isoDateFormat 	lastTime 	timeDelta 	
   importList: 	null 	null 	null 	null 	null 	
   methods: 	f 	f1 	f2 	f3 	f4 	f5 	f6 	f7 	f8 	
   model: 	c
@@ -174,14 +174,6 @@
   name: 	activeCommands
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
-
-- removeCommands: 	Attribute
-  clazz: 	javaDocEditor
-  initialization: 	"new java.util.LinkedHashMap<>()"
-  modified: 	false
-  name: 	removeCommands
-  propertyStyle: 	POJO
-  type: 	"java.util.Map<String, RemoveCommand>"
 
 - commandListeners: 	Attribute
   clazz: 	javaDocEditor

@@ -25,6 +25,7 @@ public class SystemEditor
    private String packageName;
    private final ClassModelManager sharedModelManager;
    private ServiceEditor sharedEditor;
+   private boolean patternSupport;
 
    public SystemEditor()
    {
@@ -135,5 +136,13 @@ public class SystemEditor
       }
    }
 
+   public boolean isPatternSupport()
+   {
+      return patternSupport;
+   }
 
+   public void setPatternSupport(boolean patternSupport)
+   {
+      this.patternSupport = patternSupport;
+   }
 }

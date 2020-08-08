@@ -30,26 +30,6 @@ public class M2Editor
       return this;
    }
 
-   public static final String PROPERTY_removeCommands = "removeCommands";
-
-   private java.util.Map<String, RemoveCommand> removeCommands = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, RemoveCommand> getRemoveCommands()
-   {
-      return removeCommands;
-   }
-
-   public M2Editor setRemoveCommands(java.util.Map<String, RemoveCommand> value)
-   {
-      if (value != this.removeCommands)
-      {
-         java.util.Map<String, RemoveCommand> oldValue = this.removeCommands;
-         this.removeCommands = value;
-         firePropertyChange("removeCommands", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_commandListeners = "commandListeners";
 
    private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
@@ -249,6 +229,12 @@ public class M2Editor
       return true;
    }
 
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
+
    @Override
    public String toString()
    {
@@ -258,12 +244,6 @@ public class M2Editor
 
 
       return result.substring(1);
-   }
-
-   public void removeYou()
-   {
-      this.setService(null);
-
    }
 
    public Object getOrCreate(Class clazz, String id) { 

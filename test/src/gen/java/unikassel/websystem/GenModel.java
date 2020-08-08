@@ -22,6 +22,7 @@ public class GenModel
    private static void genTGGPackageToDocDir()
    {
       SystemEditor sysEdit = new SystemEditor();
+      sysEdit.setPatternSupport(true);
       sysEdit.haveMainJavaDir("test/src/main/java");
       sysEdit.havePackageName("javaPackagesToJavaDoc");
 

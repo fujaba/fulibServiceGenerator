@@ -8,16 +8,22 @@ import javaPackagesToJavaDoc.JavaDoc.JavaDocEditor;
 import org.fulib.FulibTools;
 import org.fulib.servicegenerator.FulibPatternDiagram;
 import org.fulib.tables.ObjectTable;
+import org.fulib.yaml.Reflector;
 import org.fulib.yaml.Yaml;
 import org.junit.Test;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings( {"unchecked", "deprecation"} )
-public class TestPackageToDoc
+public class TestPackageToDoc implements PropertyChangeListener
 {
    @Test
    public void testOneWaySync()
@@ -76,23 +82,64 @@ public class TestPackageToDoc
             javaDocEditor.getMapOfModelObjects().values());
    }
 
+   LinkedHashSet changedObjects = new LinkedHashSet();
+
+   @Override
+   public void propertyChange(PropertyChangeEvent evt)
+   {
+      changedObjects.add(evt.getSource());
+   }
+
+
+   @Test
+   public void testManualChangesAndParsing()
+   {
+      JavaPackagesEditor javaPackagesEditor = new JavaPackagesEditor();
+
+      buildJavaPackagesStartSituation(javaPackagesEditor);
+
+      JavaDocEditor javaDocEditor = new JavaDocEditor();
+      String yaml = Yaml.encode(javaPackagesEditor.getActiveCommands().values());
+      javaDocEditor.loadYaml(yaml);
+
+      addJavaDocComments(javaDocEditor);
+
+      // register listener for incremental parsing
+      changedObjects.clear();
+      for (Object modelObject : javaPackagesEditor.getMapOfModelObjects().values()) {
+         try {
+            Method addPropertyChangeListener = modelObject.getClass().getMethod("addPropertyChangeListener", PropertyChangeListener.class);
+            addPropertyChangeListener.invoke(modelObject, this);
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+
+
+      // some manual changes:
+      JavaPackage nRoot = new JavaPackage().setId("nRoot");
+      changedObjects.add(nRoot);
+      JavaPackage root = (JavaPackage) javaPackagesEditor.getModelObject("root");
+      nRoot.withSubPackages(root);
+      JavaPackage sub = (JavaPackage) javaPackagesEditor.getModelObject("sub");
+      sub.setUp(null);
+      JavaClass c2 = new JavaClass().setUp(sub).setVTag("1.1").setId("c2");
+      changedObjects.add(c2);
+      JavaClass c = (JavaClass) javaPackagesEditor.getModelObject("c");
+      c.setVTag("1.1");
+
+      // javaPackagesEditor.parse(changedObjects);
+
+   }
+
    @Test
    public void testFirstForwardExample()
    {
       JavaPackagesEditor javaPackagesEditor = new JavaPackagesEditor();
 
-      // create package model
-      ModelCommand cmd = new HaveRoot().setId("root");
-      javaPackagesEditor.execute(cmd);
-
-      cmd = new HaveSubUnit().setParent("root").setId("sub");
-      javaPackagesEditor.execute(cmd);
-
-      cmd = new HaveSubUnit().setParent("sub").setId("leaf");
-      javaPackagesEditor.execute(cmd);
-
-      cmd = new HaveLeaf().setParent("leaf").setVTag("1.0").setId("c");
-      javaPackagesEditor.execute(cmd);
+      buildJavaPackagesStartSituation(javaPackagesEditor);
+      ModelCommand cmd;
 
       JavaPackage root = (JavaPackage) javaPackagesEditor.getModelObject("root");
       assertThat(root, notNullValue());
@@ -115,15 +162,10 @@ public class TestPackageToDoc
       javaDocEditor.loadYaml(yaml);
 
       // add some docu content
-      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("sub docu")
-            .setOwner("subDoc").setId("subDoc");
-      javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("leaf docu").setOwner("leafDoc").setId("leafDoc");
-      javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("c docu").setOwner("c").setId("c.content"); // TODO: fix overwriting of haveLeaf
-      javaDocEditor.execute(docCmd);
-      DocFile leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
-      assertThat(leafDoc.getContent(), is("leaf docu"));
+      addJavaDocComments(javaDocEditor);
+
+      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd;
+      DocFile leafDoc;
 
       Folder rootFolder = (Folder) javaDocEditor.getModelObject("root");
       assertThat(rootFolder, notNullValue());
@@ -231,4 +273,35 @@ public class TestPackageToDoc
             javaPackagesEditor.getActiveCommands().values());
       assertThat(root.getUp(), nullValue());
    }
+
+   private void addJavaDocComments(JavaDocEditor javaDocEditor)
+   {
+      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("sub docu")
+            .setOwner("subDoc").setId("subDoc");
+      javaDocEditor.execute(docCmd);
+      docCmd = new HaveContent().setContent("leaf docu").setOwner("leafDoc").setId("leafDoc");
+      javaDocEditor.execute(docCmd);
+      docCmd = new HaveContent().setContent("c docu").setOwner("c").setId("c.content"); // TODO: fix overwriting of haveLeaf
+      javaDocEditor.execute(docCmd);
+      DocFile leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
+      assertThat(leafDoc.getContent(), is("leaf docu"));
+   }
+
+   private void buildJavaPackagesStartSituation(JavaPackagesEditor javaPackagesEditor)
+   {
+      // create package model
+      ModelCommand cmd = new HaveRoot().setId("root");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveSubUnit().setParent("root").setId("sub");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveSubUnit().setParent("sub").setId("leaf");
+      javaPackagesEditor.execute(cmd);
+
+      cmd = new HaveLeaf().setParent("leaf").setVTag("1.0").setId("c");
+      javaPackagesEditor.execute(cmd);
+   }
+
+
 }

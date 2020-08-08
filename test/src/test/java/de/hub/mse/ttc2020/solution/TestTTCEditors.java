@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -52,7 +53,8 @@ public class TestTTCEditors
       Person carli = new Person().setId("carli").setName("Carli").setAge(42);
       bob2.setOwner(carli);
 
-      m1Editor.parse(bob2);
+      LinkedHashSet allObjects = new Yaml(bob2.getClass().getPackage().getName()).collectObjects(bob2);
+      m1Editor.parse(allObjects);
 
       assertThat(m1Editor.getActiveCommands().size(), is(3));
       ModelCommand alice1Command = m1Editor.getActiveCommands().get("alice1");
