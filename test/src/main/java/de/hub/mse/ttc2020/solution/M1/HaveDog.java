@@ -12,7 +12,6 @@ import java.util.*;
 
 public class HaveDog extends ModelCommand  
 {
-   private static Pattern pattern = null;
 
    protected PropertyChangeSupport listeners = null;
 
@@ -27,6 +26,8 @@ public class HaveDog extends ModelCommand
    public static final String PROPERTY_owner = "owner";
 
    private String owner;
+
+   private static Pattern pattern = null;
 
    @Override
    public Pattern havePattern() {

@@ -19,6 +19,17 @@ public class HaveSubUnit extends ModelCommand
       return obj;
    }
 
+   @Override
+   public void undo(JavaDocEditor editor)
+   {
+      Folder obj = (Folder) editor.removeModelObject(getId());
+      obj.setUp(null);
+
+      String docId = getId() + "Doc";
+      DocFile file = (DocFile) editor.removeModelObject(docId);
+      file.setUp(null);
+   }
+
    public static final String PROPERTY_parent = "parent";
 
    private String parent;

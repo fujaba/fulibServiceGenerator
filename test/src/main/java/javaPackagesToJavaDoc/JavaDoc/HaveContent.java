@@ -7,7 +7,7 @@ public class HaveContent extends ModelCommand
    @Override
    public Object run(JavaDocEditor editor)
    {
-      DocFile obj = (DocFile) editor.getObjectFrame(DocFile.class, getId());
+      DocFile obj = (DocFile) editor.getObjectFrame(DocFile.class, owner);
       obj.setContent(content);
 
       return obj;
@@ -88,10 +88,31 @@ public class HaveContent extends ModelCommand
    {
       StringBuilder result = new StringBuilder();
 
+      result.append(" ").append(this.getOwner());
       result.append(" ").append(this.getContent());
 
 
       return result.substring(1);
+   }
+
+   public static final String PROPERTY_owner = "owner";
+
+   private String owner;
+
+   public String getOwner()
+   {
+      return owner;
+   }
+
+   public HaveContent setOwner(String value)
+   {
+      if (value == null ? this.owner != null : ! value.equals(this.owner))
+      {
+         String oldValue = this.owner;
+         this.owner = value;
+         firePropertyChange("owner", oldValue, value);
+      }
+      return this;
    }
 
 }

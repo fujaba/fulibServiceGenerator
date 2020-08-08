@@ -15,6 +15,13 @@ public class HaveLeaf extends ModelCommand
       return obj;
    }
 
+   @Override
+   public void undo(JavaDocEditor editor)
+   {
+      DocFile obj = (DocFile) editor.removeModelObject(getId());
+      obj.setUp(null);
+   }
+
    public static final String PROPERTY_parent = "parent";
 
    private String parent;

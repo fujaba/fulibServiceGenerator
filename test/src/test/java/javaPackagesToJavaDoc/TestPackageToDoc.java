@@ -94,7 +94,7 @@ public class TestPackageToDoc
       cmd = new HaveLeaf().setParent("leaf").setVTag("1.0").setId("c");
       javaPackagesEditor.execute(cmd);
 
-      Object root = javaPackagesEditor.getModelObject("root");
+      JavaPackage root = (JavaPackage) javaPackagesEditor.getModelObject("root");
       assertThat(root, notNullValue());
       JavaPackage sub = (JavaPackage) javaPackagesEditor.getModelObject("sub");
       assertThat(sub, notNullValue());
@@ -115,11 +115,12 @@ public class TestPackageToDoc
       javaDocEditor.loadYaml(yaml);
 
       // add some docu content
-      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("sub docu").setId("subDoc");
+      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("sub docu")
+            .setOwner("subDoc").setId("subDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("leaf docu").setId("leafDoc");
+      docCmd = new HaveContent().setContent("leaf docu").setOwner("leafDoc").setId("leafDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("c docu").setId("c");
+      docCmd = new HaveContent().setContent("c docu").setOwner("c").setId("c.content"); // TODO: fix overwriting of haveLeaf
       javaDocEditor.execute(docCmd);
       DocFile leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
       assertThat(leafDoc.getContent(), is("leaf docu"));
@@ -137,7 +138,7 @@ public class TestPackageToDoc
       ObjectTable tableFocusedOnLeaf = tableFocusedOnSubColumn.expandLink("leaf", Folder.PROPERTY_subFolders);
       tableFocusedOnLeaf.expandLink("leafDoc", Folder.PROPERTY_files);
       assertThat(tableFocusedOnSubColumn.getTable().size(), is(2));
-      assertThat(javaDocEditor.getActiveCommands().size(), is(javaPackagesEditor.getActiveCommands().size() + 2));
+      assertThat(javaDocEditor.getActiveCommands().size(), is(javaPackagesEditor.getActiveCommands().size() + 3));
 
       // some editing on packages
       assertThat(sub.getUp(), notNullValue());
@@ -151,6 +152,10 @@ public class TestPackageToDoc
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
+      cmd = new HaveRoot().setId("sub");
+      javaPackagesEditor.execute(cmd);
+      newCommands.add(cmd);
+
       cmd = new HaveLeaf().setParent("sub").setVTag("1.1").setId("c2");
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
@@ -159,13 +164,11 @@ public class TestPackageToDoc
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
-      cmd = new HaveRoot().setId("sub");
-      javaPackagesEditor.execute(cmd);
-      newCommands.add(cmd);
-
       assertThat(sub.getUp(), nullValue());
+      JavaPackage nRoot = (JavaPackage) javaPackagesEditor.getModelObject("nRoot");
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesSecondRoot.svg",
+            nRoot,
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
 
@@ -189,8 +192,11 @@ public class TestPackageToDoc
       leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
       assertThat(leafDoc.getContent(), is("leaf docu"));
 
+      Folder nRootFolder = (Folder) javaDocEditor.getModelObject("nRoot");
+
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesSecondRootForward.svg",
             javaDocEditor.getActiveCommands().values(),
+            nRootFolder,
             javaDocEditor.getMapOfModelObjects().values());
 
       // sync backward
@@ -200,5 +206,29 @@ public class TestPackageToDoc
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesSyncVersionBackward.svg",
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
+
+      // remove nRoot
+      newDocCommands.clear();
+
+      docCmd = new javaPackagesToJavaDoc.JavaDoc.RemoveCommand().setId("nRoot");
+      javaDocEditor.execute(docCmd);
+      newDocCommands.add(docCmd);
+
+      docCmd = new javaPackagesToJavaDoc.JavaDoc.RemoveCommand().setId("root");
+      javaDocEditor.execute(docCmd);
+      newDocCommands.add(docCmd);
+
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaDocRootRemoved.svg",
+            javaDocEditor.getActiveCommands().values(),
+            javaDocEditor.getMapOfModelObjects().values());
+      assertThat(nRootFolder.getSubFolders().isEmpty(), is(true));
+
+      // sync remove
+      yaml = Yaml.encode(newDocCommands);
+      javaPackagesEditor.loadYaml(yaml);
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesRootRemoved.svg",
+            javaPackagesEditor.getMapOfModelObjects().values(),
+            javaPackagesEditor.getActiveCommands().values());
+      assertThat(root.getUp(), nullValue());
    }
 }

@@ -1,5 +1,5 @@
 - c: 	ClassModel
-  classes: 	javaDocEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	haveContent 	folder 	docFile 	haveRoot 	haveSubUnit 	haveLeaf 	
+  classes: 	javaDocEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	folder 	docFile 	haveRoot 	haveSubUnit 	haveLeaf 	haveContent 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"test/src/main/java"
@@ -24,7 +24,7 @@
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand 	addStreamCommand 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf 	
+  subClasses: 	removeCommand 	addStreamCommand 	haveRoot 	haveSubUnit 	haveLeaf 	haveContent 	
 
 - removeCommand: 	Clazz
   importList: 	null 	null 	null 	
@@ -120,16 +120,8 @@
   propertyStyle: 	POJO
   roles: 	page38 	
 
-- haveContent: 	Clazz
-  attributes: 	content39 	
-  model: 	c
-  modified: 	false
-  name: 	HaveContent
-  propertyStyle: 	POJO
-  superClass: 	modelCommand
-
 - folder: 	Clazz
-  attributes: 	id40 	
+  attributes: 	id39 	
   model: 	c
   modified: 	false
   name: 	Folder
@@ -137,12 +129,12 @@
   roles: 	subFolders 	up 	files 	
 
 - docFile: 	Clazz
-  attributes: 	id41 	version 	content42 	
+  attributes: 	id40 	version 	content41 	
   model: 	c
   modified: 	false
   name: 	DocFile
   propertyStyle: 	POJO
-  roles: 	up43 	
+  roles: 	up42 	
 
 - haveRoot: 	Clazz
   model: 	c
@@ -160,10 +152,18 @@
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
-  attributes: 	parent44 	vTag 	
+  attributes: 	parent43 	vTag 	
   model: 	c
   modified: 	false
   name: 	HaveLeaf
+  propertyStyle: 	POJO
+  superClass: 	modelCommand
+
+- haveContent: 	Clazz
+  attributes: 	owner 	content44 	
+  model: 	c
+  modified: 	false
+  name: 	HaveContent
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
@@ -1184,14 +1184,7 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content39: 	Attribute
-  clazz: 	haveContent
-  modified: 	false
-  name: 	content
-  propertyStyle: 	POJO
-  type: 	String
-
-- id40: 	Attribute
+- id39: 	Attribute
   clazz: 	folder
   modified: 	false
   name: 	id
@@ -1224,11 +1217,11 @@
   clazz: 	folder
   modified: 	false
   name: 	files
-  other: 	up43
+  other: 	up42
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id41: 	Attribute
+- id40: 	Attribute
   clazz: 	docFile
   modified: 	false
   name: 	id
@@ -1242,14 +1235,14 @@
   propertyStyle: 	POJO
   type: 	String
 
-- content42: 	Attribute
+- content41: 	Attribute
   clazz: 	docFile
   modified: 	false
   name: 	content
   propertyStyle: 	POJO
   type: 	String
 
-- up43: 	AssocRole
+- up42: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	docFile
@@ -1266,7 +1259,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- parent44: 	Attribute
+- parent43: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	parent
@@ -1277,6 +1270,20 @@
   clazz: 	haveLeaf
   modified: 	false
   name: 	vTag
+  propertyStyle: 	POJO
+  type: 	String
+
+- owner: 	Attribute
+  clazz: 	haveContent
+  modified: 	false
+  name: 	owner
+  propertyStyle: 	POJO
+  type: 	String
+
+- content44: 	Attribute
+  clazz: 	haveContent
+  modified: 	false
+  name: 	content
   propertyStyle: 	POJO
   type: 	String
 
