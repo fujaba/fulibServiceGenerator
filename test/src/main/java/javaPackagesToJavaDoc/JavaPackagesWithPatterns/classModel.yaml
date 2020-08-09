@@ -1,34 +1,34 @@
 - c: 	ClassModel
-  classes: 	javaDocEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	folder 	docFile 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf 	
+  classes: 	javaPackagesWithPatternsEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaPackagesWithPatternsService 	commandStream 	addStreamCommand 	javaPackagesWithPatternsApp 	page 	line 	javaPackage 	javaClass 	haveRoot 	haveSubUnit 	haveLeaf 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"test/src/main/java"
-  packageName: 	javaPackagesToJavaDoc.JavaDoc
-  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaDoc"
+  packageName: 	javaPackagesToJavaDoc.JavaPackagesWithPatterns
+  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaPackagesWithPatterns"
 
-- javaDocEditor: 	Clazz
+- javaPackagesWithPatternsEditor: 	Clazz
   attributes: 	activeCommands 	commandListeners 	mapOfFrames 	mapOfModelObjects 	isoDateFormat 	lastTime 	timeDelta 	commandPrototypes 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f 	f1 	f2 	f3 	f4 	f5 	f6 	f7 	f8 	f9 	f10 	f11 	f12 	f13 	f14 	f15 	f16 	f17 	f18 	f19 	
+  methods: 	f 	f1 	f2 	f3 	f4 	f5 	f6 	f7 	f8 	f9 	f10 	f11 	f12 	f13 	f14 	f15 	f16 	f17 	f18 	
   model: 	c
   modified: 	false
-  name: 	JavaDocEditor
+  name: 	JavaPackagesWithPatternsEditor
   propertyStyle: 	POJO
   roles: 	service 	
 
 - modelCommand: 	Clazz
   attributes: 	id 	time 	
   importList: 	null 	
-  methods: 	f20 	f21 	f22 	f23 	f24 	
+  methods: 	f19 	f20 	f21 	f22 	f23 	
   model: 	c
   modified: 	false
   name: 	ModelCommand
   propertyStyle: 	POJO
-  subClasses: 	removeCommand 	addStreamCommand 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf 	
+  subClasses: 	removeCommand 	addStreamCommand 	haveRoot 	haveSubUnit 	haveLeaf 	
 
 - removeCommand: 	Clazz
   importList: 	null 	null 	null 	
-  methods: 	f25 	
+  methods: 	f24 	
   model: 	c
   modified: 	false
   name: 	RemoveCommand
@@ -48,7 +48,7 @@
   modified: 	false
   name: 	PatternObject
   propertyStyle: 	POJO
-  roles: 	pattern26 	attributes 	links 	incommingLinks 	
+  roles: 	pattern25 	attributes 	links 	incommingLinks 	
 
 - patternAttribute: 	Clazz
   attributes: 	handleAttrName 	commandParamName 	
@@ -66,83 +66,75 @@
   propertyStyle: 	POJO
   roles: 	source 	target 	
 
-- javaDocService: 	Clazz
+- javaPackagesWithPatternsService: 	Clazz
   attributes: 	myPort 	reflectorMap 	currentSession 	executor 	spark 	sessionToAppMap 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f27 	f28 	f29 	f30 	f31 	f32 	
+  methods: 	f26 	f27 	f28 	f29 	f30 	f31 	
   model: 	c
   modified: 	false
-  name: 	JavaDocService
+  name: 	JavaPackagesWithPatternsService
   propertyStyle: 	POJO
   roles: 	modelEditor 	streams 	
 
 - commandStream: 	Clazz
-  attributes: 	name 	targetUrlList 	oldCommands 	activeCommands33 	
+  attributes: 	name 	targetUrlList 	oldCommands 	activeCommands32 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f34 	f35 	f36 	f37 	f38 	f39 	
+  methods: 	f33 	f34 	f35 	f36 	f37 	f38 	
   model: 	c
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service40 	
+  roles: 	service39 	
 
 - addStreamCommand: 	Clazz
   attributes: 	incommingRoute 	outgoingUrl 	
-  methods: 	f41 	
+  methods: 	f40 	
   model: 	c
   modified: 	false
   name: 	AddStreamCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
-- javaDocApp: 	Clazz
-  attributes: 	modelEditor42 	id43 	description 	
-  methods: 	f44 	
+- javaPackagesWithPatternsApp: 	Clazz
+  attributes: 	modelEditor41 	id42 	description 	
+  methods: 	f43 	
   model: 	c
   modified: 	false
-  name: 	JavaDocApp
+  name: 	JavaPackagesWithPatternsApp
   propertyStyle: 	POJO
   roles: 	content 	
 
 - page: 	Clazz
-  attributes: 	id45 	description46 	
+  attributes: 	id44 	description45 	
   model: 	c
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app 	content47 	
+  roles: 	app 	content46 	
 
 - line: 	Clazz
-  attributes: 	id48 	description49 	action 	value 	
+  attributes: 	id47 	description48 	action 	value 	
   model: 	c
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page50 	
+  roles: 	page49 	
 
-- folder: 	Clazz
-  attributes: 	id51 	
+- javaPackage: 	Clazz
+  attributes: 	id50 	
   model: 	c
   modified: 	false
-  name: 	Folder
+  name: 	JavaPackage
   propertyStyle: 	POJO
-  roles: 	subFolders 	up 	files 	
+  roles: 	subPackages 	up 	classes 	
 
-- docFile: 	Clazz
-  attributes: 	id52 	version 	content53 	
+- javaClass: 	Clazz
+  attributes: 	id51 	vTag 	
   model: 	c
   modified: 	false
-  name: 	DocFile
+  name: 	JavaClass
   propertyStyle: 	POJO
-  roles: 	up54 	
-
-- haveContent: 	Clazz
-  attributes: 	owner 	content55 	
-  model: 	c
-  modified: 	false
-  name: 	HaveContent
-  propertyStyle: 	POJO
-  superClass: 	modelCommand
+  roles: 	up52 	
 
 - haveRoot: 	Clazz
   model: 	c
@@ -160,7 +152,7 @@
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
-  attributes: 	parent56 	vTag 	
+  attributes: 	parent53 	vTag54 	
   model: 	c
   modified: 	false
   name: 	HaveLeaf
@@ -168,7 +160,7 @@
   superClass: 	modelCommand
 
 - activeCommands: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
@@ -176,7 +168,7 @@
   type: 	"java.util.Map<String, ModelCommand>"
 
 - commandListeners: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
@@ -184,7 +176,7 @@
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
 - mapOfFrames: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
@@ -192,7 +184,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - mapOfModelObjects: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
@@ -200,7 +192,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - isoDateFormat: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
   name: 	isoDateFormat
@@ -208,7 +200,7 @@
   type: 	DateFormat
 
 - lastTime: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
   name: 	lastTime
@@ -216,7 +208,7 @@
   type: 	String
 
 - timeDelta: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   initialization: 	1
   modified: 	false
   name: 	timeDelta
@@ -224,14 +216,14 @@
   type: 	long
 
 - commandPrototypes: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   modified: 	false
   name: 	commandPrototypes
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
 - f: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public Object getOrCreate(Class clazz, String id)"
   methodBody: 	"      Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
@@ -248,7 +240,7 @@
   modified: 	false
 
 - f1: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public Object getObjectFrame(Class clazz, String id)"
   methodBody: 	"      try {
          Object modelObject = mapOfModelObjects.get(id);
@@ -275,14 +267,14 @@
   modified: 	false
 
 - f2: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public Object getModelObject(String id)"
   methodBody: 	"   return mapOfModelObjects.get(id);
 "
   modified: 	false
 
 - f3: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public Object removeModelObject(String id)"
   methodBody: 	"      Object oldObject = mapOfModelObjects.remove(id);
 
@@ -295,7 +287,7 @@
   modified: 	false
 
 - f4: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -316,7 +308,7 @@
   modified: 	false
 
 - f5: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -327,8 +319,8 @@
   modified: 	false
 
 - f6: 	FMethod
-  clazz: 	javaDocEditor
-  declaration: 	"public JavaDocEditor addCommandListener(String commandName, CommandStream stream)"
+  clazz: 	javaPackagesWithPatternsEditor
+  declaration: 	"public JavaPackagesWithPatternsEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
@@ -336,9 +328,9 @@
   modified: 	false
 
 - f7: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public void loadYaml(String yamlString)"
-  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"javaPackagesToJavaDoc.JavaDoc\").decode(yamlString);
+  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"javaPackagesToJavaDoc.JavaPackagesWithPatterns\").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -347,7 +339,7 @@
   modified: 	false
 
 - f8: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public void execute(ModelCommand command)"
   methodBody: 	"      String id = command.getId();
       if (id == null) {
@@ -380,7 +372,7 @@
   modified: 	false
 
 - f9: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public void parse(Collection allObjects)"
   methodBody: 	"      // add parsed objects to model
       for (Object parsedObject : allObjects) {
@@ -409,7 +401,7 @@
   modified: 	false
 
 - f10: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)"
   methodBody: 	"      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
@@ -424,7 +416,7 @@
   modified: 	false
 
 - f11: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)"
   methodBody: 	"      for (ModelCommand command : allCommands) {
          if (command.getId().equals(id)) {
@@ -436,7 +428,7 @@
   modified: 	false
 
 - f12: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)"
   methodBody: 	"      if (oldCommand.getClass() != newCommand.getClass()) {
          return false;
@@ -461,23 +453,10 @@
   modified: 	false
 
 - f13: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
-      }
-
-      return commandPrototypes;
-"
-  modified: 	false
-
-- f14: 	FMethod
-  clazz: 	javaDocEditor
-  declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
-  methodBody: 	"      if (commandPrototypes == null) {
-         commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
          commandPrototypes.add(new HaveRoot());
       }
 
@@ -485,12 +464,24 @@
 "
   modified: 	false
 
-- f15: 	FMethod
-  clazz: 	javaDocEditor
+- f14: 	FMethod
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
+         commandPrototypes.add(new HaveRoot());
+         commandPrototypes.add(new HaveSubUnit());
+      }
+
+      return commandPrototypes;
+"
+  modified: 	false
+
+- f15: 	FMethod
+  clazz: 	javaPackagesWithPatternsEditor
+  declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
+  methodBody: 	"      if (commandPrototypes == null) {
+         commandPrototypes = new ArrayList<>();
          commandPrototypes.add(new HaveRoot());
          commandPrototypes.add(new HaveSubUnit());
       }
@@ -500,13 +491,13 @@
   modified: 	false
 
 - f16: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
          commandPrototypes.add(new HaveRoot());
          commandPrototypes.add(new HaveSubUnit());
+         commandPrototypes.add(new HaveLeaf());
       }
 
       return commandPrototypes;
@@ -514,11 +505,10 @@
   modified: 	false
 
 - f17: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
          commandPrototypes.add(new HaveRoot());
          commandPrototypes.add(new HaveSubUnit());
          commandPrototypes.add(new HaveLeaf());
@@ -529,26 +519,10 @@
   modified: 	false
 
 - f18: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
-         commandPrototypes.add(new HaveRoot());
-         commandPrototypes.add(new HaveSubUnit());
-         commandPrototypes.add(new HaveLeaf());
-      }
-
-      return commandPrototypes;
-"
-  modified: 	false
-
-- f19: 	FMethod
-  clazz: 	javaDocEditor
-  declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
-  methodBody: 	"      if (commandPrototypes == null) {
-         commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HaveContent());
          commandPrototypes.add(new HaveRoot());
          commandPrototypes.add(new HaveSubUnit());
          commandPrototypes.add(new HaveLeaf());
@@ -561,7 +535,7 @@
 - service: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	javaDocEditor
+  clazz: 	javaPackagesWithPatternsEditor
   modified: 	false
   name: 	service
   other: 	modelEditor
@@ -582,9 +556,9 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f20: 	FMethod
+- f19: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public Object run(JavaDocEditor editor)"
+  declaration: 	"public Object run(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -631,9 +605,9 @@
 "
   modified: 	false
 
-- f21: 	FMethod
+- f20: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public void undo(JavaDocEditor editor)"
+  declaration: 	"public void undo(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -673,21 +647,21 @@
 "
   modified: 	false
 
-- f22: 	FMethod
+- f21: 	FMethod
   clazz: 	modelCommand
   declaration: 	"public ModelCommand parse(Object currentObject)"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- f23: 	FMethod
+- f22: 	FMethod
   clazz: 	modelCommand
   declaration: 	"public Pattern havePattern()"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- f24: 	FMethod
+- f23: 	FMethod
   clazz: 	modelCommand
   declaration: 	"public Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)"
   methodBody: 	"      Reflector reflector = new Reflector().setClassName(this.getClass().getName());
@@ -702,9 +676,9 @@
 "
   modified: 	false
 
-- f25: 	FMethod
+- f24: 	FMethod
   clazz: 	removeCommand
-  declaration: 	"public Object run(JavaDocEditor editor)"
+  declaration: 	"public Object run(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
       java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
 
@@ -728,7 +702,7 @@
   clazz: 	pattern
   modified: 	false
   name: 	objects
-  other: 	pattern26
+  other: 	pattern25
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -760,7 +734,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- pattern26: 	AssocRole
+- pattern25: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	patternObject
@@ -852,50 +826,50 @@
   roleType: 	"java.util.ArrayList<%s>"
 
 - myPort: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
 - reflectorMap: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
 - currentSession: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
 - executor: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
 - spark: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
 - sessionToAppMap: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   initialization: 	"new LinkedHashMap()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	POJO
-  type: 	"LinkedHashMap<String, JavaDocApp>"
+  type: 	"LinkedHashMap<String, JavaPackagesWithPatternsApp>"
 
-- f27: 	FMethod
-  clazz: 	javaDocService
+- f26: 	FMethod
+  clazz: 	javaPackagesWithPatternsService
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
          myPort = 4571;
@@ -905,14 +879,14 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      setModelEditor(new JavaDocEditor());
+      setModelEditor(new JavaPackagesWithPatternsEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
       spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      spark.get(\"/JavaDoc\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get(\"/JavaPackagesWithPatterns\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      spark.post(\"/JavaDoccmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/JavaPackagesWithPatternscmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // there are no streams
 
@@ -920,26 +894,26 @@
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"JavaDoc Service is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"JavaPackagesWithPatterns Service is listening on port \" + myPort);
 "
   modified: 	false
 
-- f28: 	FMethod
-  clazz: 	javaDocService
+- f27: 	FMethod
+  clazz: 	javaPackagesWithPatternsService
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
       return root(req, res);
 "
   modified: 	false
 
-- f29: 	FMethod
-  clazz: 	javaDocService
+- f28: 	FMethod
+  clazz: 	javaPackagesWithPatternsService
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
       {
-         JavaDocApp myApp = this.sessionToAppMap.get(currentSession);
+         JavaPackagesWithPatternsApp myApp = this.sessionToAppMap.get(currentSession);
          if (myApp == null) {
-            myApp = new JavaDocApp().init(this.modelEditor);
+            myApp = new JavaPackagesWithPatternsApp().init(this.modelEditor);
             sessionToAppMap.put(currentSession, myApp);
          }
 
@@ -962,7 +936,7 @@
          String sessionParam = String.format(\"_session: '%s', \", currentSession);
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf(\"'/cmd'\");
-         page.insert(cmdUrlPos + 2, \"JavaDoc\");
+         page.insert(cmdUrlPos + 2, \"JavaPackagesWithPatterns\");
          String sessionPage = page.toString();
          return sessionPage;
       }
@@ -974,15 +948,15 @@
 "
   modified: 	false
 
-- f30: 	FMethod
-  clazz: 	javaDocService
+- f29: 	FMethod
+  clazz: 	javaPackagesWithPatternsService
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
 
       this.currentSession = jsonObject.getString(\"_session\");
 
-      JavaDocApp app = sessionToAppMap.get(currentSession);
+      JavaPackagesWithPatternsApp app = sessionToAppMap.get(currentSession);
 
       if (app == null) {
          return \"404 could not find session \" + currentSession;
@@ -1023,7 +997,7 @@
          }
          // call command
          try {
-            Method runMethod = cmdObject.getClass().getMethod(\"run\", JavaDocEditor.class);
+            Method runMethod = cmdObject.getClass().getMethod(\"run\", JavaPackagesWithPatternsEditor.class);
             runMethod.invoke(cmdObject, modelEditor);
 
          }
@@ -1047,8 +1021,8 @@
 "
   modified: 	false
 
-- f31: 	FMethod
-  clazz: 	javaDocService
+- f30: 	FMethod
+  clazz: 	javaPackagesWithPatternsService
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
       LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
@@ -1060,8 +1034,8 @@
 "
   modified: 	false
 
-- f32: 	FMethod
-  clazz: 	javaDocService
+- f31: 	FMethod
+  clazz: 	javaPackagesWithPatternsService
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
          if (stream.getName().equals(streamName)) {
@@ -1079,7 +1053,7 @@
 - modelEditor: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	modelEditor
   other: 	service
@@ -1089,10 +1063,10 @@
 - streams: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	javaDocService
+  clazz: 	javaPackagesWithPatternsService
   modified: 	false
   name: 	streams
-  other: 	service40
+  other: 	service39
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1119,7 +1093,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands33: 	Attribute
+- activeCommands32: 	Attribute
   clazz: 	commandStream
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -1127,7 +1101,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f34: 	FMethod
+- f33: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -1137,7 +1111,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f34: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void send()"
   methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
@@ -1177,7 +1151,7 @@
 "
   modified: 	false
 
-- f36: 	FMethod
+- f35: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -1192,7 +1166,7 @@
 "
   modified: 	false
 
-- f37: 	FMethod
+- f36: 	FMethod
   clazz: 	commandStream
   declaration: 	"public CommandStream start()"
   methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
@@ -1200,7 +1174,7 @@
 "
   modified: 	false
 
-- f38: 	FMethod
+- f37: 	FMethod
   clazz: 	commandStream
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -1214,7 +1188,7 @@
 "
   modified: 	false
 
-- f39: 	FMethod
+- f38: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
   methodBody: 	"      for (String cmd : commandList) {
@@ -1223,7 +1197,7 @@
 "
   modified: 	false
 
-- service40: 	AssocRole
+- service39: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream
@@ -1247,42 +1221,42 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f41: 	FMethod
+- f40: 	FMethod
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(JavaDocEditor editor)"
+  declaration: 	"public Object run(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;
 "
   modified: 	false
 
-- modelEditor42: 	Attribute
-  clazz: 	javaDocApp
+- modelEditor41: 	Attribute
+  clazz: 	javaPackagesWithPatternsApp
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
-  type: 	JavaDocEditor
+  type: 	JavaPackagesWithPatternsEditor
 
-- id43: 	Attribute
-  clazz: 	javaDocApp
+- id42: 	Attribute
+  clazz: 	javaPackagesWithPatternsApp
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
 - description: 	Attribute
-  clazz: 	javaDocApp
+  clazz: 	javaPackagesWithPatternsApp
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
-- f44: 	FMethod
-  clazz: 	javaDocApp
-  declaration: 	"public JavaDocApp init(JavaDocEditor editor)"
+- f43: 	FMethod
+  clazz: 	javaPackagesWithPatternsApp
+  declaration: 	"public JavaPackagesWithPatternsApp init(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
-      this.setDescription(\"JavaDoc App\");
+      this.setDescription(\"JavaPackagesWithPatterns App\");
       return this;
 "
   modified: 	false
@@ -1290,21 +1264,21 @@
 - content: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	javaDocApp
+  clazz: 	javaPackagesWithPatternsApp
   modified: 	false
   name: 	content
   other: 	app
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id45: 	Attribute
+- id44: 	Attribute
   clazz: 	page
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description46: 	Attribute
+- description45: 	Attribute
   clazz: 	page
   modified: 	false
   name: 	description
@@ -1321,24 +1295,24 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content47: 	AssocRole
+- content46: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page
   modified: 	false
   name: 	content
-  other: 	page50
+  other: 	page49
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id48: 	Attribute
+- id47: 	Attribute
   clazz: 	line
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description49: 	Attribute
+- description48: 	Attribute
   clazz: 	line
   modified: 	false
   name: 	description
@@ -1359,29 +1333,29 @@
   propertyStyle: 	POJO
   type: 	String
 
-- page50: 	AssocRole
+- page49: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line
   modified: 	false
   name: 	page
-  other: 	content47
+  other: 	content46
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id51: 	Attribute
-  clazz: 	folder
+- id50: 	Attribute
+  clazz: 	javaPackage
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- subFolders: 	AssocRole
+- subPackages: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	folder
+  clazz: 	javaPackage
   modified: 	false
-  name: 	subFolders
+  name: 	subPackages
   other: 	up
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
@@ -1389,67 +1363,46 @@
 - up: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	folder
+  clazz: 	javaPackage
   modified: 	false
   name: 	up
-  other: 	subFolders
+  other: 	subPackages
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- files: 	AssocRole
+- classes: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	folder
+  clazz: 	javaPackage
   modified: 	false
-  name: 	files
-  other: 	up54
+  name: 	classes
+  other: 	up52
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id52: 	Attribute
-  clazz: 	docFile
+- id51: 	Attribute
+  clazz: 	javaClass
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- version: 	Attribute
-  clazz: 	docFile
+- vTag: 	Attribute
+  clazz: 	javaClass
   modified: 	false
-  name: 	version
+  name: 	vTag
   propertyStyle: 	POJO
   type: 	String
 
-- content53: 	Attribute
-  clazz: 	docFile
-  modified: 	false
-  name: 	content
-  propertyStyle: 	POJO
-  type: 	String
-
-- up54: 	AssocRole
+- up52: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	docFile
+  clazz: 	javaClass
   modified: 	false
   name: 	up
-  other: 	files
+  other: 	classes
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
-
-- owner: 	Attribute
-  clazz: 	haveContent
-  modified: 	false
-  name: 	owner
-  propertyStyle: 	POJO
-  type: 	String
-
-- content55: 	Attribute
-  clazz: 	haveContent
-  modified: 	false
-  name: 	content
-  propertyStyle: 	POJO
-  type: 	String
 
 - parent: 	Attribute
   clazz: 	haveSubUnit
@@ -1458,14 +1411,14 @@
   propertyStyle: 	POJO
   type: 	String
 
-- parent56: 	Attribute
+- parent53: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	parent
   propertyStyle: 	POJO
   type: 	String
 
-- vTag: 	Attribute
+- vTag54: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	vTag

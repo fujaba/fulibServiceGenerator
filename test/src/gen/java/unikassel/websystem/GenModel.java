@@ -27,18 +27,32 @@ public class GenModel
       sysEdit.havePackageName("javaPackagesToJavaDoc");
 
       ServiceEditor javaPackagesEditor = sysEdit.haveService("JavaPackages");
-      ClassModelManager javaPackagesManager = javaPackagesEditor.getClassModelManager();
-      Clazz javaPackage = javaPackagesManager.haveClass("JavaPackage");
-      javaPackagesManager.haveAttribute(javaPackage, "id", STRING);
+      haveJavaPackageService(javaPackagesEditor);
 
-      Clazz javaClass = javaPackagesManager.haveClass("JavaClass");
-      javaPackagesManager.haveAttribute(javaClass, "id", STRING);
-      javaPackagesManager.haveAttribute(javaClass, "vTag", STRING);
-
-      javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
-      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "up", ONE);
+      ServiceEditor javaPackagesWithPatternsEditor = sysEdit.haveService("JavaPackagesWithPatterns");
+      haveJavaPackageService(javaPackagesWithPatternsEditor);
 
       ServiceEditor javaDocEditor = sysEdit.haveService("JavaDoc");
+      haveJavaDocService(javaDocEditor);
+
+      ServiceEditor javaDocWithPatternsEditor = sysEdit.haveService("JavaDocWithPatterns");
+      haveJavaDocService(javaDocWithPatternsEditor);
+
+      sysEdit.haveSharedCommand("HaveRoot");
+
+      Clazz haveSubUnit = sysEdit.haveSharedCommand("HaveSubUnit");
+      sysEdit.haveParameter(haveSubUnit, "parent", STRING);
+
+      Clazz haveLeaf = sysEdit.haveSharedCommand("HaveLeaf");
+      sysEdit.haveParameter(haveLeaf, "parent", STRING);
+      sysEdit.haveParameter(haveLeaf, "vTag", STRING);
+
+      sysEdit.generate();
+   }
+
+
+   private static ClassModelManager haveJavaDocService(ServiceEditor javaDocEditor)
+   {
       ClassModelManager javaDocManager = javaDocEditor.getClassModelManager();
 
       Clazz folder = javaDocManager.haveClass("Folder");
@@ -52,21 +66,25 @@ public class GenModel
       javaDocManager.haveRole(folder, "subFolders", folder, MANY, "up", ONE);
       javaDocManager.haveRole(folder, "files", docFile, MANY, "up", ONE);
 
-      sysEdit.haveSharedCommand("HaveRoot");
-
-      Clazz haveSubUnit = sysEdit.haveSharedCommand("HaveSubUnit");
-      sysEdit.haveParameter(haveSubUnit, "parent", STRING);
-
-      Clazz haveLeaf = sysEdit.haveSharedCommand("HaveLeaf");
-      sysEdit.haveParameter(haveLeaf, "parent", STRING);
-      sysEdit.haveParameter(haveLeaf, "vTag", STRING);
-
       Clazz haveContent = javaDocEditor.haveCommand("HaveContent");
       javaDocManager.haveAttribute(haveContent, "owner", STRING);
       javaDocManager.haveAttribute(haveContent, "content", STRING);
 
+      return javaDocManager;
+   }
 
-      sysEdit.generate();
+   private static void haveJavaPackageService(ServiceEditor javaPackagesEditor)
+   {
+      ClassModelManager javaPackagesManager = javaPackagesEditor.getClassModelManager();
+      Clazz javaPackage = javaPackagesManager.haveClass("JavaPackage");
+      javaPackagesManager.haveAttribute(javaPackage, "id", STRING);
+
+      Clazz javaClass = javaPackagesManager.haveClass("JavaClass");
+      javaPackagesManager.haveAttribute(javaClass, "id", STRING);
+      javaPackagesManager.haveAttribute(javaClass, "vTag", STRING);
+
+      javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
+      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "up", ONE);
    }
 
    private static void genTTC2020Model()

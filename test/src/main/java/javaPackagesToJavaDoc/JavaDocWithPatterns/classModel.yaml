@@ -1,18 +1,18 @@
 - c: 	ClassModel
-  classes: 	javaDocEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	folder 	docFile 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf 	
+  classes: 	javaDocWithPatternsEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocWithPatternsService 	commandStream 	addStreamCommand 	javaDocWithPatternsApp 	page 	line 	folder 	docFile 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf 	
   defaultPropertyStyle: 	POJO
   defaultRoleType: 	"java.util.ArrayList<%s>"
   mainJavaDir: 	"test/src/main/java"
-  packageName: 	javaPackagesToJavaDoc.JavaDoc
-  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaDoc"
+  packageName: 	javaPackagesToJavaDoc.JavaDocWithPatterns
+  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaDocWithPatterns"
 
-- javaDocEditor: 	Clazz
+- javaDocWithPatternsEditor: 	Clazz
   attributes: 	activeCommands 	commandListeners 	mapOfFrames 	mapOfModelObjects 	isoDateFormat 	lastTime 	timeDelta 	commandPrototypes 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	
   methods: 	f 	f1 	f2 	f3 	f4 	f5 	f6 	f7 	f8 	f9 	f10 	f11 	f12 	f13 	f14 	f15 	f16 	f17 	f18 	f19 	
   model: 	c
   modified: 	false
-  name: 	JavaDocEditor
+  name: 	JavaDocWithPatternsEditor
   propertyStyle: 	POJO
   roles: 	service 	
 
@@ -66,13 +66,13 @@
   propertyStyle: 	POJO
   roles: 	source 	target 	
 
-- javaDocService: 	Clazz
+- javaDocWithPatternsService: 	Clazz
   attributes: 	myPort 	reflectorMap 	currentSession 	executor 	spark 	sessionToAppMap 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
   methods: 	f27 	f28 	f29 	f30 	f31 	f32 	
   model: 	c
   modified: 	false
-  name: 	JavaDocService
+  name: 	JavaDocWithPatternsService
   propertyStyle: 	POJO
   roles: 	modelEditor 	streams 	
 
@@ -95,12 +95,12 @@
   propertyStyle: 	POJO
   superClass: 	modelCommand
 
-- javaDocApp: 	Clazz
+- javaDocWithPatternsApp: 	Clazz
   attributes: 	modelEditor42 	id43 	description 	
   methods: 	f44 	
   model: 	c
   modified: 	false
-  name: 	JavaDocApp
+  name: 	JavaDocWithPatternsApp
   propertyStyle: 	POJO
   roles: 	content 	
 
@@ -168,7 +168,7 @@
   superClass: 	modelCommand
 
 - activeCommands: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
@@ -176,7 +176,7 @@
   type: 	"java.util.Map<String, ModelCommand>"
 
 - commandListeners: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
@@ -184,7 +184,7 @@
   type: 	"java.util.Map<String, ArrayList<CommandStream>>"
 
 - mapOfFrames: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
@@ -192,7 +192,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - mapOfModelObjects: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
@@ -200,7 +200,7 @@
   type: 	"java.util.Map<String, Object>"
 
 - isoDateFormat: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
   name: 	isoDateFormat
@@ -208,7 +208,7 @@
   type: 	DateFormat
 
 - lastTime: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	"isoDateFormat.format(new Date())"
   modified: 	false
   name: 	lastTime
@@ -216,7 +216,7 @@
   type: 	String
 
 - timeDelta: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   initialization: 	1
   modified: 	false
   name: 	timeDelta
@@ -224,14 +224,14 @@
   type: 	long
 
 - commandPrototypes: 	Attribute
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   modified: 	false
   name: 	commandPrototypes
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
 - f: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public Object getOrCreate(Class clazz, String id)"
   methodBody: 	"      Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
@@ -248,7 +248,7 @@
   modified: 	false
 
 - f1: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public Object getObjectFrame(Class clazz, String id)"
   methodBody: 	"      try {
          Object modelObject = mapOfModelObjects.get(id);
@@ -275,14 +275,14 @@
   modified: 	false
 
 - f2: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public Object getModelObject(String id)"
   methodBody: 	"   return mapOfModelObjects.get(id);
 "
   modified: 	false
 
 - f3: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public Object removeModelObject(String id)"
   methodBody: 	"      Object oldObject = mapOfModelObjects.remove(id);
 
@@ -295,7 +295,7 @@
   modified: 	false
 
 - f4: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public String getTime()"
   methodBody: 	"      String newTime = isoDateFormat.format(new Date());
       if (newTime.compareTo(lastTime) <= 0) {
@@ -316,7 +316,7 @@
   modified: 	false
 
 - f5: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
@@ -327,8 +327,8 @@
   modified: 	false
 
 - f6: 	FMethod
-  clazz: 	javaDocEditor
-  declaration: 	"public JavaDocEditor addCommandListener(String commandName, CommandStream stream)"
+  clazz: 	javaDocWithPatternsEditor
+  declaration: 	"public JavaDocWithPatternsEditor addCommandListener(String commandName, CommandStream stream)"
   methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
@@ -336,9 +336,9 @@
   modified: 	false
 
 - f7: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public void loadYaml(String yamlString)"
-  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"javaPackagesToJavaDoc.JavaDoc\").decode(yamlString);
+  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"javaPackagesToJavaDoc.JavaDocWithPatterns\").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -347,7 +347,7 @@
   modified: 	false
 
 - f8: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public void execute(ModelCommand command)"
   methodBody: 	"      String id = command.getId();
       if (id == null) {
@@ -380,7 +380,7 @@
   modified: 	false
 
 - f9: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public void parse(Collection allObjects)"
   methodBody: 	"      // add parsed objects to model
       for (Object parsedObject : allObjects) {
@@ -409,7 +409,7 @@
   modified: 	false
 
 - f10: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)"
   methodBody: 	"      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
@@ -424,7 +424,7 @@
   modified: 	false
 
 - f11: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)"
   methodBody: 	"      for (ModelCommand command : allCommands) {
          if (command.getId().equals(id)) {
@@ -436,7 +436,7 @@
   modified: 	false
 
 - f12: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)"
   methodBody: 	"      if (oldCommand.getClass() != newCommand.getClass()) {
          return false;
@@ -461,7 +461,7 @@
   modified: 	false
 
 - f13: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -473,7 +473,7 @@
   modified: 	false
 
 - f14: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -486,7 +486,7 @@
   modified: 	false
 
 - f15: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -500,7 +500,7 @@
   modified: 	false
 
 - f16: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -514,7 +514,7 @@
   modified: 	false
 
 - f17: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -529,7 +529,7 @@
   modified: 	false
 
 - f18: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -544,7 +544,7 @@
   modified: 	false
 
 - f19: 	FMethod
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   declaration: 	"public ArrayList<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -561,7 +561,7 @@
 - service: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	javaDocEditor
+  clazz: 	javaDocWithPatternsEditor
   modified: 	false
   name: 	service
   other: 	modelEditor
@@ -584,7 +584,7 @@
 
 - f20: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public Object run(JavaDocEditor editor)"
+  declaration: 	"public Object run(JavaDocWithPatternsEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -633,7 +633,7 @@
 
 - f21: 	FMethod
   clazz: 	modelCommand
-  declaration: 	"public void undo(JavaDocEditor editor)"
+  declaration: 	"public void undo(JavaDocWithPatternsEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -704,7 +704,7 @@
 
 - f25: 	FMethod
   clazz: 	removeCommand
-  declaration: 	"public Object run(JavaDocEditor editor)"
+  declaration: 	"public Object run(JavaDocWithPatternsEditor editor)"
   methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
       java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
 
@@ -852,50 +852,50 @@
   roleType: 	"java.util.ArrayList<%s>"
 
 - myPort: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	myPort
   propertyStyle: 	POJO
   type: 	int
 
 - reflectorMap: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	reflectorMap
   propertyStyle: 	POJO
   type: 	ReflectorMap
 
 - currentSession: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	currentSession
   propertyStyle: 	POJO
   type: 	String
 
 - executor: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	executor
   propertyStyle: 	POJO
   type: 	"ExecutorService "
 
 - spark: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	spark
   propertyStyle: 	POJO
   type: 	Service
 
 - sessionToAppMap: 	Attribute
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   initialization: 	"new LinkedHashMap()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	POJO
-  type: 	"LinkedHashMap<String, JavaDocApp>"
+  type: 	"LinkedHashMap<String, JavaDocWithPatternsApp>"
 
 - f27: 	FMethod
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
          myPort = 4571;
@@ -905,14 +905,14 @@
          myPort = Integer.parseInt(envPort);
       }
       executor = java.util.concurrent.Executors.newSingleThreadExecutor();
-      setModelEditor(new JavaDocEditor());
+      setModelEditor(new JavaDocWithPatternsEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
       try { spark.port(myPort);} catch (Exception e) {};
       spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
-      spark.get(\"/JavaDoc\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
+      spark.get(\"/JavaDocWithPatterns\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
-      spark.post(\"/JavaDoccmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
+      spark.post(\"/JavaDocWithPatternscmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // there are no streams
 
@@ -920,12 +920,12 @@
          return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
       });
 
-      java.util.logging.Logger.getGlobal().info(\"JavaDoc Service is listening on port \" + myPort);
+      java.util.logging.Logger.getGlobal().info(\"JavaDocWithPatterns Service is listening on port \" + myPort);
 "
   modified: 	false
 
 - f28: 	FMethod
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
       return root(req, res);
@@ -933,13 +933,13 @@
   modified: 	false
 
 - f29: 	FMethod
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
       {
-         JavaDocApp myApp = this.sessionToAppMap.get(currentSession);
+         JavaDocWithPatternsApp myApp = this.sessionToAppMap.get(currentSession);
          if (myApp == null) {
-            myApp = new JavaDocApp().init(this.modelEditor);
+            myApp = new JavaDocWithPatternsApp().init(this.modelEditor);
             sessionToAppMap.put(currentSession, myApp);
          }
 
@@ -962,7 +962,7 @@
          String sessionParam = String.format(\"_session: '%s', \", currentSession);
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf(\"'/cmd'\");
-         page.insert(cmdUrlPos + 2, \"JavaDoc\");
+         page.insert(cmdUrlPos + 2, \"JavaDocWithPatterns\");
          String sessionPage = page.toString();
          return sessionPage;
       }
@@ -975,14 +975,14 @@
   modified: 	false
 
 - f30: 	FMethod
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
 
       this.currentSession = jsonObject.getString(\"_session\");
 
-      JavaDocApp app = sessionToAppMap.get(currentSession);
+      JavaDocWithPatternsApp app = sessionToAppMap.get(currentSession);
 
       if (app == null) {
          return \"404 could not find session \" + currentSession;
@@ -1023,7 +1023,7 @@
          }
          // call command
          try {
-            Method runMethod = cmdObject.getClass().getMethod(\"run\", JavaDocEditor.class);
+            Method runMethod = cmdObject.getClass().getMethod(\"run\", JavaDocWithPatternsEditor.class);
             runMethod.invoke(cmdObject, modelEditor);
 
          }
@@ -1048,7 +1048,7 @@
   modified: 	false
 
 - f31: 	FMethod
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
       LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
@@ -1061,7 +1061,7 @@
   modified: 	false
 
 - f32: 	FMethod
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
          if (stream.getName().equals(streamName)) {
@@ -1079,7 +1079,7 @@
 - modelEditor: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	modelEditor
   other: 	service
@@ -1089,7 +1089,7 @@
 - streams: 	AssocRole
   aggregation: 	false
   cardinality: 	42
-  clazz: 	javaDocService
+  clazz: 	javaDocWithPatternsService
   modified: 	false
   name: 	streams
   other: 	service40
@@ -1249,7 +1249,7 @@
 
 - f41: 	FMethod
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(JavaDocEditor editor)"
+  declaration: 	"public Object run(JavaDocWithPatternsEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;
@@ -1257,32 +1257,32 @@
   modified: 	false
 
 - modelEditor42: 	Attribute
-  clazz: 	javaDocApp
+  clazz: 	javaDocWithPatternsApp
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
-  type: 	JavaDocEditor
+  type: 	JavaDocWithPatternsEditor
 
 - id43: 	Attribute
-  clazz: 	javaDocApp
+  clazz: 	javaDocWithPatternsApp
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
 - description: 	Attribute
-  clazz: 	javaDocApp
+  clazz: 	javaDocWithPatternsApp
   modified: 	false
   name: 	description
   propertyStyle: 	POJO
   type: 	String
 
 - f44: 	FMethod
-  clazz: 	javaDocApp
-  declaration: 	"public JavaDocApp init(JavaDocEditor editor)"
+  clazz: 	javaDocWithPatternsApp
+  declaration: 	"public JavaDocWithPatternsApp init(JavaDocWithPatternsEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
       this.setId(\"root\");
-      this.setDescription(\"JavaDoc App\");
+      this.setDescription(\"JavaDocWithPatterns App\");
       return this;
 "
   modified: 	false
@@ -1290,7 +1290,7 @@
 - content: 	AssocRole
   aggregation: 	false
   cardinality: 	1
-  clazz: 	javaDocApp
+  clazz: 	javaDocWithPatternsApp
   modified: 	false
   name: 	content
   other: 	app

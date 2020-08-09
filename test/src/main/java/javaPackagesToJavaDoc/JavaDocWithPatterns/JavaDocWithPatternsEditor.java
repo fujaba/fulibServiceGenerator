@@ -1,4 +1,4 @@
-package javaPackagesToJavaDoc.JavaDoc;
+package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
@@ -9,7 +9,7 @@ import org.fulib.yaml.Yaml;
 import java.util.*;
 import org.fulib.yaml.Reflector;
 
-public class JavaDocEditor  
+public class JavaDocWithPatternsEditor 
 {
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -21,7 +21,7 @@ public class JavaDocEditor
       return activeCommands;
    }
 
-   public JavaDocEditor setActiveCommands(java.util.Map<String, ModelCommand> value)
+   public JavaDocWithPatternsEditor setActiveCommands(java.util.Map<String, ModelCommand> value)
    {
       if (value != this.activeCommands)
       {
@@ -41,7 +41,7 @@ public class JavaDocEditor
       return commandListeners;
    }
 
-   public JavaDocEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
+   public JavaDocWithPatternsEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
    {
       if (value != this.commandListeners)
       {
@@ -61,7 +61,7 @@ public class JavaDocEditor
       return mapOfFrames;
    }
 
-   public JavaDocEditor setMapOfFrames(java.util.Map<String, Object> value)
+   public JavaDocWithPatternsEditor setMapOfFrames(java.util.Map<String, Object> value)
    {
       if (value != this.mapOfFrames)
       {
@@ -81,7 +81,7 @@ public class JavaDocEditor
       return mapOfModelObjects;
    }
 
-   public JavaDocEditor setMapOfModelObjects(java.util.Map<String, Object> value)
+   public JavaDocWithPatternsEditor setMapOfModelObjects(java.util.Map<String, Object> value)
    {
       if (value != this.mapOfModelObjects)
       {
@@ -101,7 +101,7 @@ public class JavaDocEditor
       return isoDateFormat;
    }
 
-   public JavaDocEditor setIsoDateFormat(DateFormat value)
+   public JavaDocWithPatternsEditor setIsoDateFormat(DateFormat value)
    {
       if (value != this.isoDateFormat)
       {
@@ -121,7 +121,7 @@ public class JavaDocEditor
       return lastTime;
    }
 
-   public JavaDocEditor setLastTime(String value)
+   public JavaDocWithPatternsEditor setLastTime(String value)
    {
       if (value == null ? this.lastTime != null : ! value.equals(this.lastTime))
       {
@@ -141,7 +141,7 @@ public class JavaDocEditor
       return timeDelta;
    }
 
-   public JavaDocEditor setTimeDelta(long value)
+   public JavaDocWithPatternsEditor setTimeDelta(long value)
    {
       if (value != this.timeDelta)
       {
@@ -152,20 +152,40 @@ public class JavaDocEditor
       return this;
    }
 
+   public static final String PROPERTY_commandPrototypes = "commandPrototypes";
+
+   private ArrayList<ModelCommand> commandPrototypes;
+
+   public ArrayList<ModelCommand> getCommandPrototypes()
+   {
+      return commandPrototypes;
+   }
+
+   public JavaDocWithPatternsEditor setCommandPrototypes(ArrayList<ModelCommand> value)
+   {
+      if (value != this.commandPrototypes)
+      {
+         ArrayList<ModelCommand> oldValue = this.commandPrototypes;
+         this.commandPrototypes = value;
+         firePropertyChange("commandPrototypes", oldValue, value);
+      }
+      return this;
+   }
+
    public static final String PROPERTY_service = "service";
 
-   private JavaDocService service = null;
+   private JavaDocWithPatternsService service = null;
 
-   public JavaDocService getService()
+   public JavaDocWithPatternsService getService()
    {
       return this.service;
    }
 
-   public JavaDocEditor setService(JavaDocService value)
+   public JavaDocWithPatternsEditor setService(JavaDocWithPatternsService value)
    {
       if (this.service != value)
       {
-         JavaDocService oldValue = this.service;
+         JavaDocWithPatternsService oldValue = this.service;
          if (this.service != null)
          {
             this.service = null;
@@ -181,92 +201,6 @@ public class JavaDocEditor
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (listeners != null)
-      {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
-   }
-
-   public void removeYou()
-   {
-      this.setService(null);
-
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
-   }
-
-   public static final String PROPERTY_commandPrototypes = "commandPrototypes";
-
-   private ArrayList<ModelCommand> commandPrototypes;
-
-   public ArrayList<ModelCommand> getCommandPrototypes()
-   {
-      return commandPrototypes;
-   }
-
-   public JavaDocEditor setCommandPrototypes(ArrayList<ModelCommand> value)
-   {
-      if (value != this.commandPrototypes)
-      {
-         ArrayList<ModelCommand> oldValue = this.commandPrototypes;
-         this.commandPrototypes = value;
-         firePropertyChange("commandPrototypes", oldValue, value);
-      }
-      return this;
-   }
 
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
@@ -346,14 +280,14 @@ public class JavaDocEditor
       }
    }
 
-   public JavaDocEditor addCommandListener(String commandName, CommandStream stream) { 
+   public JavaDocWithPatternsEditor addCommandListener(String commandName, CommandStream stream) { 
       ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
    }
 
    public void loadYaml(String yamlString) { 
-      java.util.Map map = Yaml.forPackage("javaPackagesToJavaDoc.JavaDoc").decode(yamlString);
+      java.util.Map map = Yaml.forPackage("javaPackagesToJavaDoc.JavaDocWithPatterns").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -469,6 +403,73 @@ public ArrayList<ModelCommand> haveCommandPrototypes() {
       }
 
       return commandPrototypes;
+   }
+
+   protected PropertyChangeSupport listeners = null;
+
+   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
+   {
+      if (listeners != null)
+      {
+         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         return true;
+      }
+      return false;
+   }
+
+   public boolean addPropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(listener);
+      return true;
+   }
+
+   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(propertyName, listener);
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(listener);
+      }
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(propertyName, listener);
+      }
+      return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
    }
 
 }
