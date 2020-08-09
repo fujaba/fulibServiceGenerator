@@ -94,6 +94,10 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(modelCommand, declaration, body);
 
+      declaration = "public ModelCommand parse(Object currentObject)";
+      body =  "      return null;\n";
+      mm.haveMethod(modelCommand, declaration, body);
+
       declaration = "public Pattern havePattern()";
       body =  "      return null;\n";
       mm.haveMethod(modelCommand, declaration, body);
@@ -127,9 +131,7 @@ public class ServiceEditor
       editor = this.mm.haveClass(modelName + "Editor");
 
       this.editorHaveMapFor("activeCommands", "ModelCommand");
-      // this.editorHaveMapFor("RemoveCommand");
       this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
-
       this.editorHaveMapFor("mapOfFrames", "Object");
       this.editorHaveMapFor("mapOfModelObjects", "Object");
       haveGetOrCreate();
@@ -166,18 +168,66 @@ public class ServiceEditor
       havePatterns();
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
 
-      haveExecuteMethod();
+      haveExecuteAndParsingMethods();
 
       return editor;
    }
 
-   private void haveExecuteMethod()
+   private void haveExecuteAndParsingMethods()
    {
       String declaration = "public void execute(ModelCommand command)";
       ST st = group.getInstanceOf("editorExecute");
       String body = st.render();
       this.getClassModelManager().haveMethod(editor, declaration, body);
+
+      declaration = "public void parse(Collection allObjects)";
+      st = group.getInstanceOf("editorParse");
+      body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
+      declaration = "private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)";
+      st = group.getInstanceOf("editorFindCommands");
+      body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
+      declaration = "private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)";
+      st = group.getInstanceOf("editorGetFromAllCommands");
+      body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
+      declaration = "public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)";
+      st = group.getInstanceOf("editorEqualsButTime");
+      body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
+      this.getClassModelManager().haveAttribute(editor, "commandPrototypes", "ArrayList<ModelCommand>");
+
+      editor.getImportList().add("import java.util.*;");
+      editor.getImportList().add("import org.fulib.yaml.Reflector;");
+
    }
+
+   private LinkedHashSet<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
+
+   private void haveCommandPrototypes(Clazz commandClass)
+   {
+      if (editor == null
+            || commandClass.getName().equals("RemoveCommand")
+            || commandClass.getName().equals("AddStreamCommand")) {
+         return;
+      }
+
+      commandPrototypeClasses.add(commandClass);
+
+      //
+      String declaration = "private ArrayList<ModelCommand> haveCommandPrototypes()";
+      ST st = group.getInstanceOf("editorHaveCommandPrototypes");
+      st.add("classes", commandPrototypeClasses);
+      String body = st.render();
+      this.getClassModelManager().haveMethod(editor, declaration, body);
+
+   }
+
 
    public void haveService(String serviceName)
    {
@@ -558,8 +608,11 @@ public class ServiceEditor
       commandClasses.put(className, commandClass);
       commandClass.setSuperClass(this.modelCommand);
 
+      haveCommandPrototypes(commandClass);
+
       return commandClass;
    }
+
 
 
 

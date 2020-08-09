@@ -21,6 +21,20 @@ public class HaveLeaf extends ModelCommand
       obj.setUp(null);
    }
 
+   @Override
+   public ModelCommand parse(Object currentObject)
+   {
+      if ( ! (currentObject instanceof JavaClass)) {
+         return null;
+      }
+
+      JavaClass currentClass = (JavaClass) currentObject;
+
+      ModelCommand modelCommand = new HaveLeaf().setParent(currentClass.getUp().getId()).setId(currentClass.getId());
+
+      return modelCommand;
+   }
+
    public static final String PROPERTY_parent = "parent";
 
    private String parent;

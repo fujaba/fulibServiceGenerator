@@ -129,8 +129,21 @@ public class TestPackageToDoc implements PropertyChangeListener
       JavaClass c = (JavaClass) javaPackagesEditor.getModelObject("c");
       c.setVTag("1.1");
 
-      // javaPackagesEditor.parse(changedObjects);
+      javaPackagesEditor.parse(changedObjects);
 
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesAfterParsing.svg",
+            nRoot,
+            javaPackagesEditor.getMapOfModelObjects().values(),
+            javaPackagesEditor.getActiveCommands().values());
+
+      ModelCommand nRootCmd = javaPackagesEditor.getActiveCommands().get("nRoot");
+      assertThat(nRootCmd, instanceOf(HaveRoot.class));
+
+      ModelCommand rootCmd = javaPackagesEditor.getActiveCommands().get("root");
+      assertThat(rootCmd, instanceOf(HaveSubUnit.class));
+
+      ModelCommand c2Cmd = javaPackagesEditor.getActiveCommands().get("c2");
+      assertThat(c2Cmd, instanceOf(HaveLeaf.class));
    }
 
    @Test

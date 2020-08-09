@@ -113,23 +113,92 @@ editorExecute() ::= <<
 
 >>
 
-preCheck(dataClazz) ::= <<
-      if (this.getTime() == null) {
-         this.setTime(editor.getTime());
+
+editorParse() ::= <<
+      // add parsed objects to model
+      for (Object parsedObject : allObjects) {
+         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
+         String id = (String) reflector.getValue(parsedObject, "id");
+         if (id != null) {
+            mapOfModelObjects.put(id, parsedObject);
+            mapOfFrames.remove(id);
+         }
       }
-      RemoveCommand oldRemove = editor.getRemoveCommands().get("<dataClazz>-" + this.getId());
-      if (oldRemove != null) {
+
+      ArrayList\<ModelCommand> allCommandsFromParsing = new ArrayList\<>();
+      for (Object currentObject : allObjects) {
+         findCommands(allCommandsFromParsing, currentObject);
+      }
+
+      // add parsed commands, if new
+      for (ModelCommand commandFromParsing : allCommandsFromParsing) {
+         String id = commandFromParsing.getId();
+         ModelCommand oldCommand = activeCommands.get(id);
+         if (oldCommand == null || ! equalsButTime(oldCommand, commandFromParsing)) {
+            execute(commandFromParsing);
+         }
+      }
+
+>>
+
+editorFindCommands() ::= <<
+      ArrayList\<ModelCommand> prototypes = haveCommandPrototypes();
+      for (ModelCommand prototype : prototypes) {
+         ModelCommand currentCommand = prototype.parse(currentObject);
+         if (currentCommand != null) {
+            allCommands.add(currentCommand);
+         }
+      }
+
+      return null;
+
+>>
+
+editorGetFromAllCommands() ::= <<
+      for (ModelCommand command : allCommands) {
+         if (command.getId().equals(id)) {
+            return command;
+         }
+      }
+      return null;
+
+>>
+
+editorEqualsButTime() ::= <<
+      if (oldCommand.getClass() != newCommand.getClass()) {
          return false;
       }
-      ModelCommand oldCommand = editor.getActiveCommands().get("<dataClazz>-" + this.getId());
-      if (oldCommand != null && java.util.Objects.compare(oldCommand.getTime(), this.getTime(), (a,b) -> a.compareTo(b)) >= 0) {
-         return false;
+
+      Reflector reflector = new Reflector().setClazz(oldCommand.getClass());
+
+      for (String property : reflector.getProperties()) {
+         if ("time".equals(property)) {
+            continue;
+         }
+         Object oldValue = reflector.getValue(oldCommand, property);
+         Object newValue = reflector.getValue(newCommand, property);
+
+         if ( ! Objects.equals(oldValue, newValue)) {
+            return false;
+         }
       }
-      editor.getActiveCommands().put("<dataClazz>-" + this.getId(), this);
+
       return true;
 
 >>
 
+
+editorHaveCommandPrototypes(classes) ::= <<
+      if (commandPrototypes == null) {
+         commandPrototypes = new ArrayList\<>();
+         <classes:editorAddOnePrototype(); separator="\n">
+      }
+
+      return commandPrototypes;
+
+>>
+
+editorAddOnePrototype(oneClass) ::= <<commandPrototypes.add(new <oneClass.name>());>>
 
 run(dataClazz, attributes) ::= <<
       if ( ! preCheck(editor)) {

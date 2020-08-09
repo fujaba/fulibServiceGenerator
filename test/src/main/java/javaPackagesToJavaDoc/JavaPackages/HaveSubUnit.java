@@ -21,6 +21,24 @@ public class HaveSubUnit extends ModelCommand
       obj.setUp(null);
    }
 
+   @Override
+   public ModelCommand parse(Object currentObject)
+   {
+      if ( ! (currentObject instanceof JavaPackage)) {
+         return null;
+      }
+
+      JavaPackage currentPackage = (JavaPackage) currentObject;
+
+      if (currentPackage.getUp() == null) {
+         return null;
+      }
+
+      ModelCommand modelCommand = new HaveSubUnit().setParent(currentPackage.getUp().getId()).setId(currentPackage.getId());
+
+      return modelCommand;
+   }
+
    public static final String PROPERTY_parent = "parent";
 
    private String parent;

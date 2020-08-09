@@ -58,7 +58,6 @@ public class TestTTCEditors
 
       assertThat(m1Editor.getActiveCommands().size(), is(3));
       ModelCommand alice1Command = m1Editor.getActiveCommands().get("alice1");
-      assertThat(alice1Command, CoreMatchers.instanceOf(RemoveCommand.class));
       assertThat(m1Editor.getActiveCommands().get("carli"), CoreMatchers.notNullValue());
       assertThat(m1Editor.getActiveCommands().get("bob2"), CoreMatchers.notNullValue());
       assertThat(bob2.getOwner(), is(carli));

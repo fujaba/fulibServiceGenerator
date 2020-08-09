@@ -236,85 +236,6 @@ public void removeYou()
       return this;
    }
 
-   public void parse(Collection allObjects)
-   {
-
-      // add parsed objects to model
-      for (Object parsedObject : allObjects) {
-         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
-         String id = (String) reflector.getValue(parsedObject, "id");
-         if (id != null) {
-            mapOfModelObjects.put(id, parsedObject);
-            mapOfFrames.remove(id);
-         }
-      }
-
-      ArrayList<ModelCommand> allCommands = new ArrayList<>();
-      for (Object currentObject : allObjects) {
-         findCommands(allCommands, currentObject);
-      }
-
-      // remove obsolete commands from history
-      for (Map.Entry<String, ModelCommand> entry : activeCommands.entrySet()) {
-         String id = entry.getKey();
-         ModelCommand oldCommand = entry.getValue();
-         if (oldCommand instanceof RemoveCommand) {
-            continue;
-         }
-
-         ModelCommand parsedCommand = getFromAllCommands(allCommands, id);
-         if (parsedCommand == null) {
-            ModelCommand removeCommand = new RemoveCommand().setId(id);
-            execute(removeCommand);
-         }
-      }
-
-      // add parsed commands, if new
-      for (ModelCommand parsedCommand : allCommands) {
-         String id = parsedCommand.getId();
-         ModelCommand oldCommand = activeCommands.get(id);
-         if (oldCommand == null || ! oldCommand.equalsButTime(parsedCommand)) {
-            execute(parsedCommand);
-         }
-      }
-   }
-
-   private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)
-   {
-      for (ModelCommand command : allCommands) {
-         if (command.getId().equals(id)) {
-            return command;
-         }
-      }
-      return null;
-   }
-
-   private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)
-   {
-      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
-      for (ModelCommand prototype : prototypes) {
-         ModelCommand currentCommand = prototype.parse(currentObject);
-         if (currentCommand != null) {
-            allCommands.add(currentCommand);
-         }
-      }
-
-      return null;
-   }
-
-   private ArrayList<ModelCommand> commandPrototypes = null;
-
-   private ArrayList<ModelCommand> haveCommandPrototypes()
-   {
-      if (commandPrototypes == null) {
-         commandPrototypes = new ArrayList<>();
-         commandPrototypes.add(new HavePerson());
-         commandPrototypes.add(new HaveDog());
-      }
-
-      return commandPrototypes;
-   }
-
    @Override
    public String toString()
    {
@@ -324,6 +245,26 @@ public void removeYou()
 
 
       return result.substring(1);
+   }
+
+   private ArrayList<ModelCommand> commandPrototypes;
+
+   public static final String PROPERTY_commandPrototypes = "commandPrototypes";
+
+   public ArrayList<ModelCommand> getCommandPrototypes()
+   {
+      return commandPrototypes;
+   }
+
+   public M1Editor setCommandPrototypes(ArrayList<ModelCommand> value)
+   {
+      if (value != this.commandPrototypes)
+      {
+         ArrayList<ModelCommand> oldValue = this.commandPrototypes;
+         this.commandPrototypes = value;
+         firePropertyChange("commandPrototypes", oldValue, value);
+      }
+      return this;
    }
 
    public Object getOrCreate(Class clazz, String id) { 
@@ -446,6 +387,85 @@ public void removeYou()
       command.run(this);
 
       activeCommands.put(id, command);
+   }
+
+   public void parse(Collection allObjects) { 
+      // add parsed objects to model
+      for (Object parsedObject : allObjects) {
+         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
+         String id = (String) reflector.getValue(parsedObject, "id");
+         if (id != null) {
+            mapOfModelObjects.put(id, parsedObject);
+            mapOfFrames.remove(id);
+         }
+      }
+
+      ArrayList<ModelCommand> allCommandsFromParsing = new ArrayList<>();
+      for (Object currentObject : allObjects) {
+         findCommands(allCommandsFromParsing, currentObject);
+      }
+
+      // add parsed commands, if new
+      for (ModelCommand commandFromParsing : allCommandsFromParsing) {
+         String id = commandFromParsing.getId();
+         ModelCommand oldCommand = activeCommands.get(id);
+         if (oldCommand == null || ! equalsButTime(oldCommand, commandFromParsing)) {
+            execute(commandFromParsing);
+         }
+      }
+   }
+
+   public ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject) { 
+      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
+      for (ModelCommand prototype : prototypes) {
+         ModelCommand currentCommand = prototype.parse(currentObject);
+         if (currentCommand != null) {
+            allCommands.add(currentCommand);
+         }
+      }
+
+      return null;
+   }
+
+   public ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id) { 
+      for (ModelCommand command : allCommands) {
+         if (command.getId().equals(id)) {
+            return command;
+         }
+      }
+      return null;
+   }
+
+   public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand) { 
+      if (oldCommand.getClass() != newCommand.getClass()) {
+         return false;
+      }
+
+      Reflector reflector = new Reflector().setClazz(oldCommand.getClass());
+
+      for (String property : reflector.getProperties()) {
+         if ("time".equals(property)) {
+            continue;
+         }
+         Object oldValue = reflector.getValue(oldCommand, property);
+         Object newValue = reflector.getValue(newCommand, property);
+
+         if ( ! Objects.equals(oldValue, newValue)) {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+public ArrayList<ModelCommand> haveCommandPrototypes() { 
+      if (commandPrototypes == null) {
+         commandPrototypes = new ArrayList<>();
+         commandPrototypes.add(new HavePerson());
+         commandPrototypes.add(new HaveDog());
+      }
+
+      return commandPrototypes;
    }
 
 }

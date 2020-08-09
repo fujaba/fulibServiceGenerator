@@ -5,7 +5,10 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.ArrayList;
+
+import org.fulib.yaml.Reflector;
 import org.fulib.yaml.Yaml;
+import java.util.*;
 
 public class M2Editor  
 {
@@ -246,6 +249,26 @@ public class M2Editor
       return result.substring(1);
    }
 
+   public static final String PROPERTY_commandPrototypes = "commandPrototypes";
+
+   private ArrayList<ModelCommand> commandPrototypes;
+
+   public ArrayList<ModelCommand> getCommandPrototypes()
+   {
+      return commandPrototypes;
+   }
+
+   public M2Editor setCommandPrototypes(ArrayList<ModelCommand> value)
+   {
+      if (value != this.commandPrototypes)
+      {
+         ArrayList<ModelCommand> oldValue = this.commandPrototypes;
+         this.commandPrototypes = value;
+         firePropertyChange("commandPrototypes", oldValue, value);
+      }
+      return this;
+   }
+
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
@@ -366,6 +389,85 @@ public class M2Editor
       command.run(this);
 
       activeCommands.put(id, command);
+   }
+
+   public void parse(Collection allObjects) { 
+      // add parsed objects to model
+      for (Object parsedObject : allObjects) {
+         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
+         String id = (String) reflector.getValue(parsedObject, "id");
+         if (id != null) {
+            mapOfModelObjects.put(id, parsedObject);
+            mapOfFrames.remove(id);
+         }
+      }
+
+      ArrayList<ModelCommand> allCommandsFromParsing = new ArrayList<>();
+      for (Object currentObject : allObjects) {
+         findCommands(allCommandsFromParsing, currentObject);
+      }
+
+      // add parsed commands, if new
+      for (ModelCommand commandFromParsing : allCommandsFromParsing) {
+         String id = commandFromParsing.getId();
+         ModelCommand oldCommand = activeCommands.get(id);
+         if (oldCommand == null || ! equalsButTime(oldCommand, commandFromParsing)) {
+            execute(commandFromParsing);
+         }
+      }
+   }
+
+   public ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject) { 
+      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
+      for (ModelCommand prototype : prototypes) {
+         ModelCommand currentCommand = prototype.parse(currentObject);
+         if (currentCommand != null) {
+            allCommands.add(currentCommand);
+         }
+      }
+
+      return null;
+   }
+
+   public ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id) { 
+      for (ModelCommand command : allCommands) {
+         if (command.getId().equals(id)) {
+            return command;
+         }
+      }
+      return null;
+   }
+
+   public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand) { 
+      if (oldCommand.getClass() != newCommand.getClass()) {
+         return false;
+      }
+
+      Reflector reflector = new Reflector().setClazz(oldCommand.getClass());
+
+      for (String property : reflector.getProperties()) {
+         if ("time".equals(property)) {
+            continue;
+         }
+         Object oldValue = reflector.getValue(oldCommand, property);
+         Object newValue = reflector.getValue(newCommand, property);
+
+         if ( ! Objects.equals(oldValue, newValue)) {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+public ArrayList<ModelCommand> haveCommandPrototypes() { 
+      if (commandPrototypes == null) {
+         commandPrototypes = new ArrayList<>();
+         commandPrototypes.add(new HavePerson());
+         commandPrototypes.add(new HaveDog());
+      }
+
+      return commandPrototypes;
    }
 
 }

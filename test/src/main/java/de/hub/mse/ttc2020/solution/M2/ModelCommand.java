@@ -195,6 +195,10 @@ public class ModelCommand
       }
    }
 
+   public ModelCommand parse(Object currentObject) { 
+      return null;
+   }
+
    public Pattern havePattern() { 
       return null;
    }
