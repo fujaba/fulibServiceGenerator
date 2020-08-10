@@ -1,9 +1,32 @@
 package javaPackagesToJavaDoc.JavaDocWithPatterns;
+import org.fulib.servicegenerator.FulibPatternDiagram;
+
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
 public class HaveLeaf extends ModelCommand
 {
+   private static Pattern pattern = null;
+
+   @Override
+   public Pattern havePattern()
+   {
+      if (pattern == null) {
+         pattern = new Pattern();
+
+         PatternObject d = new PatternObject().setPattern(pattern).setPoId("d").setHandleObjectClass(DocFile.class).setKind("core");
+         new PatternAttribute().setObject(d).setHandleAttrName(DocFile.PROPERTY_id).setCommandParamName(ModelCommand.PROPERTY_id);
+         new PatternAttribute().setObject(d).setHandleAttrName(DocFile.PROPERTY_version).setCommandParamName(HaveLeaf.PROPERTY_vTag);
+
+         PatternObject f = new PatternObject().setPattern(pattern).setPoId("f").setHandleObjectClass(Folder.class).setKind("context");
+         new PatternAttribute().setObject(f).setHandleAttrName(Folder.PROPERTY_id).setCommandParamName(HaveLeaf.PROPERTY_parent);
+
+         new PatternLink().setSource(d).setHandleLinkName(DocFile.PROPERTY_up).setTarget(f);
+
+         new FulibPatternDiagram().dump("tmp/HaveDocLeaf.svg", pattern);
+      }
+      return pattern;
+   }
 
    public static final String PROPERTY_parent = "parent";
 

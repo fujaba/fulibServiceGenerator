@@ -156,7 +156,7 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       JavaPackage sub = (JavaPackage) javaPackagesEditor.getModelObject("sub");
       assertThat(sub, notNullValue());
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesScenarioStart.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsScenarioStart.svg",
             root,
             javaPackagesEditor.getActiveCommands().values());
 
@@ -180,7 +180,7 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       Folder rootFolder = (Folder) javaDocEditor.getModelObject("root");
       assertThat(rootFolder, notNullValue());
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesScenarioFirstForward.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsScenarioFirstForward.svg",
             javaDocEditor.getActiveCommands().values(),
             rootFolder);
 
@@ -219,7 +219,7 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       assertThat(sub.getUp(), nullValue());
       JavaPackage nRoot = (JavaPackage) javaPackagesEditor.getModelObject("nRoot");
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesSecondRoot.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsSecondRoot.svg",
             nRoot,
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
