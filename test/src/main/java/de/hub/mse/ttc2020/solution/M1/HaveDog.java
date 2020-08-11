@@ -85,21 +85,6 @@ public class HaveDog extends ModelCommand
       }
 
       return newCommand;
-
-
-//      if (currentObject instanceof Dog) {
-//         // yes, its me
-//         Dog currentDog = (Dog) currentObject;
-//         HaveDog modelCommand = new HaveDog();
-//         modelCommand.setId(currentDog.getId());
-//         modelCommand.setName(currentDog.getName())
-//               .setAge(currentDog.getAge());
-//         modelCommand.setOwner(currentDog.getOwner().getId());
-//
-//         return modelCommand;
-//      }
-//
-//      return null;
    }
 
    private void matchAttributesAndLinks(Pattern pattern, LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable)

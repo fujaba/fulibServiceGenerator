@@ -128,7 +128,7 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
 
       javaPackagesEditor.parse(changedObjects);
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesAfterParsing.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsAfterParsing.svg",
             nRoot,
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());

@@ -97,6 +97,7 @@ public class ServiceEditor
       mm.haveMethod(modelCommand, declaration, body);
 
       declaration = "public ModelCommand parse(Object currentObject)";
+      st = group.getInstanceOf("modelCommandParse");
       body =  "      return null;\n";
       mm.haveMethod(modelCommand, declaration, body);
 
