@@ -18,8 +18,8 @@
 
 - modelCommand: 	Clazz
   attributes: 	id 	time 	
-  importList: 	null 	null 	null 	
-  methods: 	f19 	f20 	f21 	f22 	f23 	
+  importList: 	null 	null 	null 	null 	null 	
+  methods: 	f19 	f20 	f21 	f22 	f23 	f24 	f25 	
   model: 	c
   modified: 	false
   name: 	ModelCommand
@@ -28,7 +28,7 @@
 
 - removeCommand: 	Clazz
   importList: 	null 	null 	null 	
-  methods: 	f24 	
+  methods: 	f26 	
   model: 	c
   modified: 	false
   name: 	RemoveCommand
@@ -48,7 +48,7 @@
   modified: 	false
   name: 	PatternObject
   propertyStyle: 	POJO
-  roles: 	pattern25 	attributes 	links 	incommingLinks 	
+  roles: 	pattern27 	attributes 	links 	incommingLinks 	
 
 - patternAttribute: 	Clazz
   attributes: 	handleAttrName 	commandParamName 	
@@ -59,7 +59,7 @@
   roles: 	object 	
 
 - patternLink: 	Clazz
-  attributes: 	handleLinkName 	kind26 	
+  attributes: 	handleLinkName 	kind28 	
   model: 	c
   modified: 	false
   name: 	PatternLink
@@ -69,7 +69,7 @@
 - javaPackagesService: 	Clazz
   attributes: 	myPort 	reflectorMap 	currentSession 	executor 	spark 	sessionToAppMap 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f27 	f28 	f29 	f30 	f31 	f32 	
+  methods: 	f29 	f30 	f31 	f32 	f33 	f34 	
   model: 	c
   modified: 	false
   name: 	JavaPackagesService
@@ -77,18 +77,18 @@
   roles: 	modelEditor 	streams 	
 
 - commandStream: 	Clazz
-  attributes: 	name 	targetUrlList 	oldCommands 	activeCommands33 	
+  attributes: 	name 	targetUrlList 	oldCommands 	activeCommands35 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f34 	f35 	f36 	f37 	f38 	f39 	
+  methods: 	f36 	f37 	f38 	f39 	f40 	f41 	
   model: 	c
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service40 	
+  roles: 	service42 	
 
 - addStreamCommand: 	Clazz
   attributes: 	incommingRoute 	outgoingUrl 	
-  methods: 	f41 	
+  methods: 	f43 	
   model: 	c
   modified: 	false
   name: 	AddStreamCommand
@@ -96,8 +96,8 @@
   superClass: 	modelCommand
 
 - javaPackagesApp: 	Clazz
-  attributes: 	modelEditor42 	id43 	description 	
-  methods: 	f44 	
+  attributes: 	modelEditor44 	id45 	description 	
+  methods: 	f46 	
   model: 	c
   modified: 	false
   name: 	JavaPackagesApp
@@ -105,23 +105,23 @@
   roles: 	content 	
 
 - page: 	Clazz
-  attributes: 	id45 	description46 	
+  attributes: 	id47 	description48 	
   model: 	c
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app 	content47 	
+  roles: 	app 	content49 	
 
 - line: 	Clazz
-  attributes: 	id48 	description49 	action 	value 	
+  attributes: 	id50 	description51 	action 	value 	
   model: 	c
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page50 	
+  roles: 	page52 	
 
 - javaPackage: 	Clazz
-  attributes: 	id51 	
+  attributes: 	id53 	
   model: 	c
   modified: 	false
   name: 	JavaPackage
@@ -129,12 +129,12 @@
   roles: 	subPackages 	up 	classes 	
 
 - javaClass: 	Clazz
-  attributes: 	id52 	vTag 	
+  attributes: 	id54 	vTag 	
   model: 	c
   modified: 	false
   name: 	JavaClass
   propertyStyle: 	POJO
-  roles: 	up53 	
+  roles: 	up55 	
 
 - haveRoot: 	Clazz
   model: 	c
@@ -152,7 +152,7 @@
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
-  attributes: 	parent54 	vTag55 	
+  attributes: 	parent56 	vTag57 	
   model: 	c
   modified: 	false
   name: 	HaveLeaf
@@ -692,18 +692,113 @@
 - f21: 	FMethod
   clazz: 	modelCommand
   declaration: 	"public ModelCommand parse(Object currentObject)"
-  methodBody: 	"      return null;
+  methodBody: 	"      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return null;
+      }
+
+      PatternObject firstPatternObject = pattern.getObjects().get(0);
+      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
+         // not my business
+         return null;
+      }
+
+      ObjectTable objectTable = new ObjectTable(firstPatternObject.getPoId(), currentObject);
+      LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
+      mapPatternObject2Table.put(firstPatternObject, objectTable);
+
+      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable);
+
+      // retrieve command
+      ArrayList rows = new ArrayList();
+      objectTable.filterRows( m -> { rows.add(m); return true; });
+      if (rows.size() == 0) {
+         return null;
+      }
+
+      Map<String, Object> firstRow = (Map<String, Object>) rows.get(0);
+      ModelCommand newCommand = null;
+      try {
+         newCommand = this.getClass().getConstructor().newInstance();
+         Reflector commandReflector = new Reflector().setClazz(newCommand.getClass());
+         for (PatternObject patternObject : pattern.getObjects()) {
+            String poId = patternObject.getPoId();
+            for (PatternAttribute attribute : patternObject.getAttributes()) {
+               String commandParamName = attribute.getCommandParamName();
+               Object value = firstRow.get(poId + \".\" + attribute.getHandleAttrName());
+               commandReflector.setValue(newCommand, commandParamName, \"\" + value);
+            }
+         }
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+
+      return newCommand;
 "
   modified: 	false
 
 - f22: 	FMethod
+  clazz: 	modelCommand
+  declaration: 	"public void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable)"
+  methodBody: 	"      // match attributes
+      String poId = currentPatternObject.getPoId();
+      for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
+         String attrName = attribute.getHandleAttrName();
+         objectTable.expandAttribute(poId + \".\" +attrName, attrName);
+      }
+
+      // match links
+      for (PatternLink link : currentPatternObject.getLinks()) {
+         PatternObject target = link.getTarget();
+         ObjectTable targetTable = (ObjectTable) mapPatternObject2Table.get(target);
+
+         if (link.getKind().equals(\"core\")) {
+            if (targetTable != null) {
+               objectTable.hasLink(link.getHandleLinkName(), targetTable);
+            }
+            else {
+               targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
+               mapPatternObject2Table.put(target, targetTable);
+               matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable);
+            }
+         }
+         else if (link.getKind().equals(\"nac\")) {
+            if (targetTable != null) {
+               ObjectTable myTable = targetTable;
+               objectTable.filterRows(
+                     map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
+                           .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
+            }
+            else {
+               objectTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+            }
+         }
+      }
+"
+  modified: 	false
+
+- f23: 	FMethod
+  clazz: 	modelCommand
+  declaration: 	"public Set getSetOfTargetHandles(Map map, String poId, String linkName)"
+  methodBody: 	"      Object sourceHandleObject = map.get(poId);
+      ObjectTable tableFocusedOnSource = new ObjectTable(poId, sourceHandleObject);
+      ObjectTable tableFocusedOnLinkTarget = tableFocusedOnSource.expandLink(linkName, linkName);
+
+      return tableFocusedOnLinkTarget.toSet();
+
+"
+  modified: 	false
+
+- f24: 	FMethod
   clazz: 	modelCommand
   declaration: 	"public Pattern havePattern()"
   methodBody: 	"      return null;
 "
   modified: 	false
 
-- f23: 	FMethod
+- f25: 	FMethod
   clazz: 	modelCommand
   declaration: 	"public Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)"
   methodBody: 	"      Reflector reflector = new Reflector().setClassName(this.getClass().getName());
@@ -718,7 +813,7 @@
 "
   modified: 	false
 
-- f24: 	FMethod
+- f26: 	FMethod
   clazz: 	removeCommand
   declaration: 	"public Object run(JavaPackagesEditor editor)"
   methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
@@ -744,7 +839,7 @@
   clazz: 	pattern
   modified: 	false
   name: 	objects
-  other: 	pattern25
+  other: 	pattern27
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -776,7 +871,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- pattern25: 	AssocRole
+- pattern27: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	patternObject
@@ -847,7 +942,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- kind26: 	Attribute
+- kind28: 	Attribute
   clazz: 	patternLink
   initialization: 	"\"core\""
   modified: 	false
@@ -918,7 +1013,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, JavaPackagesApp>"
 
-- f27: 	FMethod
+- f29: 	FMethod
   clazz: 	javaPackagesService
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -948,7 +1043,7 @@
 "
   modified: 	false
 
-- f28: 	FMethod
+- f30: 	FMethod
   clazz: 	javaPackagesService
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -956,7 +1051,7 @@
 "
   modified: 	false
 
-- f29: 	FMethod
+- f31: 	FMethod
   clazz: 	javaPackagesService
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -998,7 +1093,7 @@
 "
   modified: 	false
 
-- f30: 	FMethod
+- f32: 	FMethod
   clazz: 	javaPackagesService
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -1071,7 +1166,7 @@
 "
   modified: 	false
 
-- f31: 	FMethod
+- f33: 	FMethod
   clazz: 	javaPackagesService
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -1084,7 +1179,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f34: 	FMethod
   clazz: 	javaPackagesService
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
@@ -1116,7 +1211,7 @@
   clazz: 	javaPackagesService
   modified: 	false
   name: 	streams
-  other: 	service40
+  other: 	service42
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1143,7 +1238,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands33: 	Attribute
+- activeCommands35: 	Attribute
   clazz: 	commandStream
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -1151,7 +1246,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f34: 	FMethod
+- f36: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -1161,7 +1256,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f37: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void send()"
   methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
@@ -1201,7 +1296,7 @@
 "
   modified: 	false
 
-- f36: 	FMethod
+- f38: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -1216,7 +1311,7 @@
 "
   modified: 	false
 
-- f37: 	FMethod
+- f39: 	FMethod
   clazz: 	commandStream
   declaration: 	"public CommandStream start()"
   methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
@@ -1224,7 +1319,7 @@
 "
   modified: 	false
 
-- f38: 	FMethod
+- f40: 	FMethod
   clazz: 	commandStream
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -1238,7 +1333,7 @@
 "
   modified: 	false
 
-- f39: 	FMethod
+- f41: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
   methodBody: 	"      for (String cmd : commandList) {
@@ -1247,7 +1342,7 @@
 "
   modified: 	false
 
-- service40: 	AssocRole
+- service42: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream
@@ -1271,7 +1366,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f41: 	FMethod
+- f43: 	FMethod
   clazz: 	addStreamCommand
   declaration: 	"public Object run(JavaPackagesEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
@@ -1280,14 +1375,14 @@
 "
   modified: 	false
 
-- modelEditor42: 	Attribute
+- modelEditor44: 	Attribute
   clazz: 	javaPackagesApp
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	JavaPackagesEditor
 
-- id43: 	Attribute
+- id45: 	Attribute
   clazz: 	javaPackagesApp
   modified: 	false
   name: 	id
@@ -1301,7 +1396,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f44: 	FMethod
+- f46: 	FMethod
   clazz: 	javaPackagesApp
   declaration: 	"public JavaPackagesApp init(JavaPackagesEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -1321,14 +1416,14 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id45: 	Attribute
+- id47: 	Attribute
   clazz: 	page
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description46: 	Attribute
+- description48: 	Attribute
   clazz: 	page
   modified: 	false
   name: 	description
@@ -1345,24 +1440,24 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content47: 	AssocRole
+- content49: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page
   modified: 	false
   name: 	content
-  other: 	page50
+  other: 	page52
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id48: 	Attribute
+- id50: 	Attribute
   clazz: 	line
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description49: 	Attribute
+- description51: 	Attribute
   clazz: 	line
   modified: 	false
   name: 	description
@@ -1383,17 +1478,17 @@
   propertyStyle: 	POJO
   type: 	String
 
-- page50: 	AssocRole
+- page52: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line
   modified: 	false
   name: 	page
-  other: 	content47
+  other: 	content49
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id51: 	Attribute
+- id53: 	Attribute
   clazz: 	javaPackage
   modified: 	false
   name: 	id
@@ -1426,11 +1521,11 @@
   clazz: 	javaPackage
   modified: 	false
   name: 	classes
-  other: 	up53
+  other: 	up55
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id52: 	Attribute
+- id54: 	Attribute
   clazz: 	javaClass
   modified: 	false
   name: 	id
@@ -1444,7 +1539,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- up53: 	AssocRole
+- up55: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	javaClass
@@ -1461,14 +1556,14 @@
   propertyStyle: 	POJO
   type: 	String
 
-- parent54: 	Attribute
+- parent56: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	parent
   propertyStyle: 	POJO
   type: 	String
 
-- vTag55: 	Attribute
+- vTag57: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	vTag

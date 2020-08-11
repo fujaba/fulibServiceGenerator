@@ -5,6 +5,10 @@ import java.lang.reflect.Method;
 
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.StrUtil;
+import org.fulib.tables.ObjectTable;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.*;
 
 public class ModelCommand  
 {
@@ -109,6 +113,53 @@ public class ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public ModelCommand parse(Object currentObject) { 
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return null;
+      }
+
+      PatternObject firstPatternObject = pattern.getObjects().get(0);
+      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
+         // not my business
+         return null;
+      }
+
+      ObjectTable objectTable = new ObjectTable(firstPatternObject.getPoId(), currentObject);
+      LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
+      mapPatternObject2Table.put(firstPatternObject, objectTable);
+
+      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable);
+
+      // retrieve command
+      ArrayList rows = new ArrayList();
+      objectTable.filterRows( m -> { rows.add(m); return true; });
+      if (rows.size() == 0) {
+         return null;
+      }
+
+      Map<String, Object> firstRow = (Map<String, Object>) rows.get(0);
+      ModelCommand newCommand = null;
+      try {
+         newCommand = this.getClass().getConstructor().newInstance();
+         Reflector commandReflector = new Reflector().setClazz(newCommand.getClass());
+         for (PatternObject patternObject : pattern.getObjects()) {
+            String poId = patternObject.getPoId();
+            for (PatternAttribute attribute : patternObject.getAttributes()) {
+               String commandParamName = attribute.getCommandParamName();
+               Object value = firstRow.get(poId + "." + attribute.getHandleAttrName());
+               commandReflector.setValue(newCommand, commandParamName, "" + value);
+            }
+         }
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+
+      return newCommand;
    }
 
    public Object run(JavaPackagesEditor editor) { 
@@ -238,8 +289,50 @@ public class ModelCommand
       }
    }
 
-   public ModelCommand parse(Object currentObject) { 
-      return null;
+   public void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable) { 
+      // match attributes
+      String poId = currentPatternObject.getPoId();
+      for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
+         String attrName = attribute.getHandleAttrName();
+         objectTable.expandAttribute(poId + "." +attrName, attrName);
+      }
+
+      // match links
+      for (PatternLink link : currentPatternObject.getLinks()) {
+         PatternObject target = link.getTarget();
+         ObjectTable targetTable = (ObjectTable) mapPatternObject2Table.get(target);
+
+         if (link.getKind().equals("core")) {
+            if (targetTable != null) {
+               objectTable.hasLink(link.getHandleLinkName(), targetTable);
+            }
+            else {
+               targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
+               mapPatternObject2Table.put(target, targetTable);
+               matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable);
+            }
+         }
+         else if (link.getKind().equals("nac")) {
+            if (targetTable != null) {
+               ObjectTable myTable = targetTable;
+               objectTable.filterRows(
+                     map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
+                           .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
+            }
+            else {
+               objectTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+            }
+         }
+      }
+   }
+
+   public Set getSetOfTargetHandles(Map map, String poId, String linkName) { 
+      Object sourceHandleObject = map.get(poId);
+      ObjectTable tableFocusedOnSource = new ObjectTable(poId, sourceHandleObject);
+      ObjectTable tableFocusedOnLinkTarget = tableFocusedOnSource.expandLink(linkName, linkName);
+
+      return tableFocusedOnLinkTarget.toSet();
+
    }
 
    public Pattern havePattern() { 

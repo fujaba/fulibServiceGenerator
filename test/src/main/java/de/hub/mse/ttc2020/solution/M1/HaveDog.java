@@ -87,31 +87,6 @@ public class HaveDog extends ModelCommand
       return newCommand;
    }
 
-   private void matchAttributesAndLinks(Pattern pattern, LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable)
-   {
-      // match attributes
-      String poId = currentPatternObject.getPoId();
-      for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
-         String attrName = attribute.getHandleAttrName();
-         objectTable.expandAttribute(poId + "." +attrName, attrName);
-      }
-
-      // match links
-      for (PatternLink link : currentPatternObject.getLinks()) {
-         PatternObject target = link.getTarget();
-         ObjectTable targetTable = mapPatternObject2Table.get(target);
-
-         if (targetTable != null) {
-            objectTable.hasLink(link.getHandleLinkName(), targetTable);
-         }
-         else {
-            targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
-            mapPatternObject2Table.put(target, targetTable);
-            matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable);
-         }
-      }
-   }
-
    public String getName()
    {
       return name;
