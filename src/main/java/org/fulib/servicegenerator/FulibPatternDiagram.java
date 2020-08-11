@@ -15,21 +15,44 @@ public class FulibPatternDiagram
 {
    public void dump(String diagramFileName, Object pattern) {
       STGroupFile group = new STGroupFile(this.getClass().getResource("templates/patternDiagram.stg"));
-      ObjectTable patternTable = new ObjectTable(pattern);
-      ObjectTable objectTable = patternTable.expandLink("object", "objects");
-      objectTable.expandString("kind", "kind").filter(k -> k.equals("core"));
-      LinkedHashSet coreObjects = objectTable.toSet();
-      patternTable = new ObjectTable(pattern);
-      objectTable = patternTable.expandLink("object", "objects");
-      objectTable.expandString("kind", "kind").filter(k -> ! k.equals("core"));
-      LinkedHashSet contextObjects = objectTable.toSet();
-      objectTable = new ObjectTable(pattern).expandLink("object", "objects").expandLink("link", "links");
-      LinkedHashSet links = objectTable.toSet();
+
+      ObjectTable tableFocusedOnPattern = new ObjectTable(pattern);
+      ObjectTable tableFocusedOnObjects = tableFocusedOnPattern.expandLink("object", "objects");
+      tableFocusedOnObjects.expandString("kind", "kind").filter(k -> k.equals("core"));
+      LinkedHashSet coreObjects = tableFocusedOnObjects.toSet();
+
+      tableFocusedOnPattern = new ObjectTable(pattern);
+      tableFocusedOnObjects = tableFocusedOnPattern.expandLink("object", "objects");
+      tableFocusedOnObjects.expandString("kind", "kind").filter(k -> k.equals("context"));
+      LinkedHashSet contextObjects = tableFocusedOnObjects.toSet();
+
+      tableFocusedOnPattern = new ObjectTable(pattern);
+      tableFocusedOnObjects = tableFocusedOnPattern.expandLink("object", "objects");
+      tableFocusedOnObjects.expandString("kind", "kind").filter(k -> k.equals("nac"));
+      LinkedHashSet nacObjects = tableFocusedOnObjects.toSet();
+
+      tableFocusedOnObjects = new ObjectTable(pattern).expandLink("object", "objects");
+      ObjectTable tableFocusedOnLinks = tableFocusedOnObjects.expandLink("link", "links");
+      tableFocusedOnLinks.expandString("linkKind", "kind").filter(k -> k.equals("core"));
+      LinkedHashSet coreLinks = tableFocusedOnLinks.toSet();
+
+      tableFocusedOnObjects = new ObjectTable(pattern).expandLink("object", "objects");
+      tableFocusedOnLinks = tableFocusedOnObjects.expandLink("link", "links");
+      tableFocusedOnLinks.expandString("linkKind", "kind").filter(k -> k.equals("context"));
+      LinkedHashSet contextLinks = tableFocusedOnLinks.toSet();
+
+      tableFocusedOnObjects = new ObjectTable(pattern).expandLink("object", "objects");
+      tableFocusedOnLinks = tableFocusedOnObjects.expandLink("link", "links");
+      tableFocusedOnLinks.expandString("linkKind", "kind").filter(k -> k.equals("nac"));
+      LinkedHashSet nacLinks = tableFocusedOnLinks.toSet();
 
       ST st = group.getInstanceOf("patternDiagram");
       st.add("coreObjects", coreObjects);
       st.add("contextObjects", contextObjects);
-      st.add("links", links);
+      st.add("nacObjects", nacObjects);
+      st.add("coreLinks", coreLinks);
+      st.add("contextLinks", contextLinks);
+      st.add("nacLinks", nacLinks);
       String dotString = st.render();
 
       try {

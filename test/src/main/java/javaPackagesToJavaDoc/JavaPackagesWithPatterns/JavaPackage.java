@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class JavaPackage 
+public class JavaPackage  
 {
 
    public static final String PROPERTY_id = "id";
@@ -73,7 +73,6 @@ public class JavaPackage
       return this;
    }
 
-
    public JavaPackage withoutSubPackages(Object... value)
    {
       if (this.subPackages == null || value==null) return this;
@@ -129,7 +128,6 @@ public class JavaPackage
       return this;
    }
 
-
    public static final java.util.ArrayList<JavaClass> EMPTY_classes = new java.util.ArrayList<JavaClass>()
    { @Override public boolean add(JavaClass value){ throw new UnsupportedOperationException("No direct add! Use xy.withClasses(obj)"); }};
 
@@ -177,7 +175,6 @@ public class JavaPackage
       }
       return this;
    }
-
 
    public JavaPackage withoutClasses(Object... value)
    {

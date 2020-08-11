@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class Page 
+public class Page  
 {
 
    public static final String PROPERTY_id = "id";
@@ -74,7 +74,6 @@ public class Page
       return this;
    }
 
-
    public static final java.util.ArrayList<Line> EMPTY_content = new java.util.ArrayList<Line>()
    { @Override public boolean add(Line value){ throw new UnsupportedOperationException("No direct add! Use xy.withContent(obj)"); }};
 
@@ -122,7 +121,6 @@ public class Page
       }
       return this;
    }
-
 
    public Page withoutContent(Object... value)
    {

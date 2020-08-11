@@ -5,7 +5,7 @@ import org.fulib.servicegenerator.FulibPatternDiagram;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveSubUnit extends ModelCommand
+public class HaveSubUnit extends ModelCommand  
 {
    private static Pattern pattern = null;
 
@@ -28,7 +28,6 @@ public class HaveSubUnit extends ModelCommand
 
       return pattern;
    }
-
 
    public static final String PROPERTY_parent = "parent";
 

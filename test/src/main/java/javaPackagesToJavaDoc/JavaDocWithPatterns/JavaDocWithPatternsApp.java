@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class JavaDocWithPatternsApp 
+public class JavaDocWithPatternsApp  
 {
 
    public static final String PROPERTY_modelEditor = "modelEditor";
@@ -94,14 +94,6 @@ public class JavaDocWithPatternsApp
       return this;
    }
 
-
-   public JavaDocWithPatternsApp init(JavaDocWithPatternsEditor editor) { 
-      this.modelEditor = editor;
-      this.setId("root");
-      this.setDescription("JavaDocWithPatterns App");
-      return this;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -168,6 +160,13 @@ public class JavaDocWithPatternsApp
    {
       this.setContent(null);
 
+   }
+
+   public JavaDocWithPatternsApp init(JavaDocWithPatternsEditor editor) { 
+      this.modelEditor = editor;
+      this.setId("root");
+      this.setDescription("JavaDocWithPatterns App");
+      return this;
    }
 
 }

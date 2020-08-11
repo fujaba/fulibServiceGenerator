@@ -234,7 +234,7 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       javaDocEditor.execute(docCmd);
       newDocCommands.add(docCmd);
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesJavaDocAtVersion1.2.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsJavaDocAtVersion1.2.svg",
             javaDocEditor.getActiveCommands().values(),
             javaDocEditor.getMapOfModelObjects().values());
 
@@ -246,16 +246,22 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
 
       Folder nRootFolder = (Folder) javaDocEditor.getModelObject("nRoot");
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesSecondRootForward.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsSecondRootForward.svg",
             javaDocEditor.getActiveCommands().values(),
             nRootFolder,
             javaDocEditor.getMapOfModelObjects().values());
+
+      Folder docSub = (Folder) javaDocEditor.getModelObject("sub");
+      assertThat(docSub.getUp(), nullValue());
+      DocFile subDoc = (DocFile) javaDocEditor.getModelObject("subDoc");
+      assertThat(subDoc, nullValue());
+
 
       // sync backward
       yaml = Yaml.encode(newDocCommands);
       javaPackagesEditor.loadYaml(yaml);
 
-      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesSyncVersionBackward.svg",
+      FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsSyncVersionBackward.svg",
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
 

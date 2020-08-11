@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class PatternLink 
+public class PatternLink  
 {
 
    public static final String PROPERTY_handleLinkName = "handleLinkName";
@@ -54,7 +54,6 @@ public class PatternLink
       return this;
    }
 
-
    public static final String PROPERTY_target = "target";
 
    private PatternObject target = null;
@@ -83,7 +82,6 @@ public class PatternLink
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 
@@ -141,6 +139,7 @@ public class PatternLink
       StringBuilder result = new StringBuilder();
 
       result.append(" ").append(this.getHandleLinkName());
+      result.append(" ").append(this.getKind());
 
 
       return result.substring(1);
@@ -151,6 +150,26 @@ public class PatternLink
       this.setSource(null);
       this.setTarget(null);
 
+   }
+
+   public static final String PROPERTY_kind = "kind";
+
+   private String kind = "core";
+
+   public String getKind()
+   {
+      return kind;
+   }
+
+   public PatternLink setKind(String value)
+   {
+      if (value == null ? this.kind != null : ! value.equals(this.kind))
+      {
+         String oldValue = this.kind;
+         this.kind = value;
+         firePropertyChange("kind", oldValue, value);
+      }
+      return this;
    }
 
 }

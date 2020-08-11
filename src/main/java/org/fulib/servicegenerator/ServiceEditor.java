@@ -55,6 +55,8 @@ public class ServiceEditor
 
       Clazz patternLink = mm.haveClass("PatternLink");
       mm.haveAttribute(patternLink, "handleLinkName", STRING);
+      Attribute kind = mm.haveAttribute(patternLink, "kind", STRING);
+      kind.setInitialization("\"core\"");
 
       mm.haveRole(pattern, "objects", patternObject, MANY, "pattern", ONE);
       mm.haveRole(patternObject, "attributes", patternAttribute, MANY, "object", ONE);
@@ -108,6 +110,8 @@ public class ServiceEditor
       mm.haveMethod(modelCommand, declaration, body);
 
       modelCommand.getImportList().add("import org.fulib.yaml.Reflector;");
+      modelCommand.getImportList().add("import org.fulib.yaml.StrUtil;");
+      modelCommand.getImportList().add("import java.lang.reflect.Method;");
    }
 
    public ClassModelManager getClassModelManager()

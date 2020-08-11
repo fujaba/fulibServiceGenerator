@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class AddStreamCommand extends ModelCommand
+public class AddStreamCommand extends ModelCommand  
 {
 
    public static final String PROPERTY_incommingRoute = "incommingRoute";
@@ -43,12 +43,6 @@ public class AddStreamCommand extends ModelCommand
          firePropertyChange("outgoingUrl", oldValue, value);
       }
       return this;
-   }
-
-   public Object run(JavaPackagesWithPatternsEditor editor) { 
-      CommandStream stream = editor.getService().getStream(incommingRoute);
-      stream.getTargetUrlList().add(outgoingUrl);
-      return null;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -111,6 +105,12 @@ public class AddStreamCommand extends ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public Object run(JavaPackagesWithPatternsEditor editor) { 
+      CommandStream stream = editor.getService().getStream(incommingRoute);
+      stream.getTargetUrlList().add(outgoingUrl);
+      return null;
    }
 
 }

@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class Folder 
+public class Folder  
 {
 
    public static final String PROPERTY_id = "id";
@@ -73,7 +73,6 @@ public class Folder
       return this;
    }
 
-
    public Folder withoutSubFolders(Object... value)
    {
       if (this.subFolders == null || value==null) return this;
@@ -129,7 +128,6 @@ public class Folder
       return this;
    }
 
-
    public static final java.util.ArrayList<DocFile> EMPTY_files = new java.util.ArrayList<DocFile>()
    { @Override public boolean add(DocFile value){ throw new UnsupportedOperationException("No direct add! Use xy.withFiles(obj)"); }};
 
@@ -177,7 +175,6 @@ public class Folder
       }
       return this;
    }
-
 
    public Folder withoutFiles(Object... value)
    {

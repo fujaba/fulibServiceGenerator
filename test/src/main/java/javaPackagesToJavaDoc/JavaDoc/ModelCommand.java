@@ -2,6 +2,8 @@ package javaPackagesToJavaDoc.JavaDoc;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import org.fulib.yaml.Reflector;
+import org.fulib.yaml.StrUtil;
+import java.lang.reflect.Method;
 
 public class ModelCommand  
 {
@@ -118,19 +120,32 @@ public class ModelCommand
       // have handle objects
       for (PatternObject patternObject : pattern.getObjects()) {
          String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
+         if (handleObjectId == null) {
+            // do not handle
+            continue;
+         }
          Class handleObjectClass = patternObject.getHandleObjectClass();
          Object handleObject = null;
-         if (patternObject.getKind() == "core") {
+         if (patternObject.getKind().equals("core") ) {
             handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
          }
-         else {
+         else if (patternObject.getKind().equals("context")) {
             handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
          }
+         else { // nac
+            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
+            editor.removeModelObject(handleObjectId);
+         }
+
          patternObject.setHandleObject(handleObject);
       }
 
 
       for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getHandleObject() == null) {
+            continue;
+         }
+
          Reflector commandReflector = new Reflector().setClassName(this.getClass().getName());
          Reflector handleObjectReflector = new Reflector().setClassName(patternObject.getHandleObject().getClass().getName());
 
@@ -148,7 +163,36 @@ public class ModelCommand
          for (PatternLink patternLink : patternObject.getLinks()) {
             String linkName = patternLink.getHandleLinkName();
             Object targetHandleObject = patternLink.getTarget().getHandleObject();
-            handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+            if (patternLink.getKind().equals("core")) {
+               handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+            }
+            else if (patternLink.getKind().equals("nac")) {
+               // remove link
+               if (targetHandleObject != null) {
+                  try {
+                     Method withoutMethod = sourceHandleObject.getClass().getMethod("without" + StrUtil.cap(linkName), new Object[0].getClass());
+                     if (withoutMethod != null) {
+                        withoutMethod.invoke(sourceHandleObject, new Object[] {new Object[] {targetHandleObject}});
+                     }
+                     else {
+                        Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                        setMethod.invoke(sourceHandleObject, new Object[] {null});
+                     }
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+               else {
+                  try {
+                     Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                     setMethod.invoke(sourceHandleObject, new Object[] {null});
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+            }
          }
       }
       return null;

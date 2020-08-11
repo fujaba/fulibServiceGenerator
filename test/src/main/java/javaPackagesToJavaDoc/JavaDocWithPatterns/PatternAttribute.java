@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class PatternAttribute 
+public class PatternAttribute  
 {
 
    public static final String PROPERTY_handleAttrName = "handleAttrName";
@@ -73,7 +73,6 @@ public class PatternAttribute
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 

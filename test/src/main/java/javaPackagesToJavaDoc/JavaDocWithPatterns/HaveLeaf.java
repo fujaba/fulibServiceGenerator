@@ -4,7 +4,7 @@ import org.fulib.servicegenerator.FulibPatternDiagram;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class HaveLeaf extends ModelCommand
+public class HaveLeaf extends ModelCommand  
 {
    private static Pattern pattern = null;
 

@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class JavaClass 
+public class JavaClass  
 {
 
    public static final String PROPERTY_id = "id";
@@ -73,7 +73,6 @@ public class JavaClass
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 

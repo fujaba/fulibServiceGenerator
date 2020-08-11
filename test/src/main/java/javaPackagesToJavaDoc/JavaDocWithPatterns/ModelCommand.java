@@ -2,8 +2,10 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import org.fulib.yaml.Reflector;
+import org.fulib.yaml.StrUtil;
+import java.lang.reflect.Method;
 
-public class ModelCommand 
+public class ModelCommand  
 {
 
    public static final String PROPERTY_id = "id";
@@ -44,111 +46,6 @@ public class ModelCommand
          firePropertyChange("time", oldValue, value);
       }
       return this;
-   }
-
-   public Object run(JavaDocWithPatternsEditor editor) { 
-      Pattern pattern = havePattern();
-
-      if (pattern == null) {
-         return null;
-      }
-
-      // have handle objects
-      for (PatternObject patternObject : pattern.getObjects()) {
-         String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
-         Class handleObjectClass = patternObject.getHandleObjectClass();
-         Object handleObject = null;
-         if (patternObject.getKind() == "core") {
-            handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
-         }
-         else {
-            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
-         }
-         patternObject.setHandleObject(handleObject);
-      }
-
-
-      for (PatternObject patternObject : pattern.getObjects()) {
-         Reflector commandReflector = new Reflector().setClassName(this.getClass().getName());
-         Reflector handleObjectReflector = new Reflector().setClassName(patternObject.getHandleObject().getClass().getName());
-
-         for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
-            if ("id".equals(patternAttribute.getHandleAttrName())) {
-               continue;
-            }
-
-            Object paramValue = commandReflector.getValue(this, patternAttribute.getCommandParamName());
-            paramValue = paramValue.toString();
-            handleObjectReflector.setValue(patternObject.getHandleObject(), patternAttribute.getHandleAttrName(), paramValue, null);
-         }
-
-         Object sourceHandleObject = patternObject.getHandleObject();
-         for (PatternLink patternLink : patternObject.getLinks()) {
-            String linkName = patternLink.getHandleLinkName();
-            Object targetHandleObject = patternLink.getTarget().getHandleObject();
-            handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
-         }
-      }
-      return null;
-   }
-
-   public void undo(JavaDocWithPatternsEditor editor) { 
-      Pattern pattern = havePattern();
-
-      if (pattern == null) {
-         return;
-      }
-
-      for (PatternObject patternObject : pattern.getObjects()) {
-         if (patternObject.getKind() == "core") {
-            String id = (String) getHandleObjectAttributeValue(patternObject, "id");
-            Object handleObject = editor.getObjectFrame(null, id);
-            for (PatternLink link : patternObject.getLinks()) {
-               String linkName = link.getHandleLinkName();
-               Reflector handleObjectReflector = new Reflector().setClassName(handleObject.getClass().getName());
-               Object value = handleObjectReflector.getValue(handleObject, linkName);
-               if (value != null && value instanceof java.util.Collection) {
-                  try {
-                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     withoutMethod.invoke(handleObject, value);
-                  }
-                  catch (Exception e) {
-                     e.printStackTrace();
-                  }
-               }
-               else {
-                  try {
-                     java.lang.reflect.Method setMethod = handleObject.getClass().getMethod("set" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1),
-                           link.getTarget().getHandleObjectClass());
-                     setMethod.invoke(handleObject, new Object[]{null});
-                  }
-                  catch (Exception e) {
-                     e.printStackTrace();
-                  }
-               }
-            }
-         }
-      }
-   }
-
-   public ModelCommand parse(Object currentObject) { 
-      return null;
-   }
-
-   public Pattern havePattern() { 
-      return null;
-   }
-
-   public Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName) { 
-      Reflector reflector = new Reflector().setClassName(this.getClass().getName());
-      for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
-         if (patternAttribute.getHandleAttrName().equals(handleAttributeName)) {
-            String commandParamName = patternAttribute.getCommandParamName();
-            Object value = reflector.getValue(this, commandParamName);
-            return value;
-         }
-      }
-      return null;
    }
 
    protected PropertyChangeSupport listeners = null;
@@ -211,6 +108,153 @@ public class ModelCommand
 
 
       return result.substring(1);
+   }
+
+   public Object run(JavaDocWithPatternsEditor editor) { 
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return null;
+      }
+
+      // have handle objects
+      for (PatternObject patternObject : pattern.getObjects()) {
+         String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, "id");
+         if (handleObjectId == null) {
+            // do not handle
+            continue;
+         }
+         Class handleObjectClass = patternObject.getHandleObjectClass();
+         Object handleObject = null;
+         if (patternObject.getKind().equals("core") ) {
+            handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
+         }
+         else if (patternObject.getKind().equals("context")) {
+            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
+         }
+         else { // nac
+            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
+            editor.removeModelObject(handleObjectId);
+         }
+
+         patternObject.setHandleObject(handleObject);
+      }
+
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getHandleObject() == null) {
+            continue;
+         }
+
+         Reflector commandReflector = new Reflector().setClassName(this.getClass().getName());
+         Reflector handleObjectReflector = new Reflector().setClassName(patternObject.getHandleObject().getClass().getName());
+
+         for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
+            if ("id".equals(patternAttribute.getHandleAttrName())) {
+               continue;
+            }
+
+            Object paramValue = commandReflector.getValue(this, patternAttribute.getCommandParamName());
+            paramValue = paramValue.toString();
+            handleObjectReflector.setValue(patternObject.getHandleObject(), patternAttribute.getHandleAttrName(), paramValue, null);
+         }
+
+         Object sourceHandleObject = patternObject.getHandleObject();
+         for (PatternLink patternLink : patternObject.getLinks()) {
+            String linkName = patternLink.getHandleLinkName();
+            Object targetHandleObject = patternLink.getTarget().getHandleObject();
+            if (patternLink.getKind().equals("core")) {
+               handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+            }
+            else if (patternLink.getKind().equals("nac")) {
+               // remove link
+               if (targetHandleObject != null) {
+                  try {
+                     Method withoutMethod = sourceHandleObject.getClass().getMethod("without" + StrUtil.cap(linkName), new Object[0].getClass());
+                     if (withoutMethod != null) {
+                        withoutMethod.invoke(sourceHandleObject, new Object[] {new Object[] {targetHandleObject}});
+                     }
+                     else {
+                        Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                        setMethod.invoke(sourceHandleObject, new Object[] {null});
+                     }
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+               else {
+                  try {
+                     Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                     setMethod.invoke(sourceHandleObject, new Object[] {null});
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+            }
+         }
+      }
+      return null;
+   }
+
+   public void undo(JavaDocWithPatternsEditor editor) { 
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return;
+      }
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getKind() == "core") {
+            String id = (String) getHandleObjectAttributeValue(patternObject, "id");
+            Object handleObject = editor.getObjectFrame(null, id);
+            for (PatternLink link : patternObject.getLinks()) {
+               String linkName = link.getHandleLinkName();
+               Reflector handleObjectReflector = new Reflector().setClassName(handleObject.getClass().getName());
+               Object value = handleObjectReflector.getValue(handleObject, linkName);
+               if (value != null && value instanceof java.util.Collection) {
+                  try {
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
+                     withoutMethod.invoke(handleObject, value);
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+               else {
+                  try {
+                     java.lang.reflect.Method setMethod = handleObject.getClass().getMethod("set" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1),
+                           link.getTarget().getHandleObjectClass());
+                     setMethod.invoke(handleObject, new Object[]{null});
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   public ModelCommand parse(Object currentObject) { 
+      return null;
+   }
+
+   public Pattern havePattern() { 
+      return null;
+   }
+
+   public Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName) { 
+      Reflector reflector = new Reflector().setClassName(this.getClass().getName());
+      for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
+         if (patternAttribute.getHandleAttrName().equals(handleAttributeName)) {
+            String commandParamName = patternAttribute.getCommandParamName();
+            Object value = reflector.getValue(this, commandParamName);
+            return value;
+         }
+      }
+      return null;
    }
 
 }

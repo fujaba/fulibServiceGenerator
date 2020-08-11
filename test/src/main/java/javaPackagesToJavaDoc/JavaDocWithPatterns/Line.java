@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class Line 
+public class Line  
 {
 
    public static final String PROPERTY_id = "id";
@@ -113,7 +113,6 @@ public class Line
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 

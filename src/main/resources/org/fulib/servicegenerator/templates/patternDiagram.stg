@@ -1,6 +1,6 @@
 delimiters "{", "}"
 
-patternDiagram(coreObjects, contextObjects, links) ::= <<
+patternDiagram(coreObjects, contextObjects, nacObjects, coreLinks, contextLinks, nacLinks) ::= <<
 digraph "pattern" \{
    rankdir=BT
 
@@ -8,8 +8,27 @@ digraph "pattern" \{
 
    {coreObjects:greenObject(); separator="\n\n"}
 
-   {links:link();  separator="\n\n"}
+   {nacObjects:blueObject(); separator="\n\n"}
+
+   {coreLinks:greenLink();  separator="\n\n"}
+
+   {contextLinks:blackLink();  separator="\n\n"}
+
+   {nacLinks:blueLink();  separator="\n\n"}
 }
+>>
+
+blueObject(obj) ::= <<
+{obj.poId} [
+   shape=plaintext
+   color=blue
+   label=<
+     <table border='0' cellborder='1' cellspacing='0'>
+       <tr><td>{obj.poId} :{obj.handleObjectClass.simpleName}</td></tr>
+       <tr><td>{obj.attributes:attribute(); separator=""}</td></tr>
+     </table>
+   >
+];
 >>
 
 greenObject(obj) ::= <<
@@ -42,6 +61,7 @@ attribute(attr) ::= <<
 {attr.handleAttrName} = {attr.commandParamName}<br align='left'/>
 >>
 
+
 role(role) ::= <<
 {role.other.clazz.name} -> {role.clazz.name} [
    arrowhead=none
@@ -50,9 +70,28 @@ role(role) ::= <<
 ];
 >>
 
-link(l) ::= <<
+
+blackLink(l) ::= <<
 {l.source.poId} -> {l.target.poId} [
    arrowhead=none
+   headlabel="{l.handleLinkName}"
+];
+>>
+
+
+greenLink(l) ::= <<
+{l.source.poId} -> {l.target.poId} [
+   arrowhead=none
+   color=green
+   headlabel="{l.handleLinkName}"
+];
+>>
+
+
+blueLink(l) ::= <<
+{l.source.poId} -> {l.target.poId} [
+   arrowhead=none
+   color=blue
    headlabel="{l.handleLinkName}"
 ];
 >>

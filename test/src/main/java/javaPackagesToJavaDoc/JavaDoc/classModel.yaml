@@ -18,7 +18,7 @@
 
 - modelCommand: 	Clazz
   attributes: 	id 	time 	
-  importList: 	null 	
+  importList: 	null 	null 	null 	
   methods: 	f20 	f21 	f22 	f23 	f24 	
   model: 	c
   modified: 	false
@@ -59,7 +59,7 @@
   roles: 	object 	
 
 - patternLink: 	Clazz
-  attributes: 	handleLinkName 	
+  attributes: 	handleLinkName 	kind27 	
   model: 	c
   modified: 	false
   name: 	PatternLink
@@ -69,7 +69,7 @@
 - javaDocService: 	Clazz
   attributes: 	myPort 	reflectorMap 	currentSession 	executor 	spark 	sessionToAppMap 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f27 	f28 	f29 	f30 	f31 	f32 	
+  methods: 	f28 	f29 	f30 	f31 	f32 	f33 	
   model: 	c
   modified: 	false
   name: 	JavaDocService
@@ -77,18 +77,18 @@
   roles: 	modelEditor 	streams 	
 
 - commandStream: 	Clazz
-  attributes: 	name 	targetUrlList 	oldCommands 	activeCommands33 	
+  attributes: 	name 	targetUrlList 	oldCommands 	activeCommands34 	
   importList: 	null 	null 	null 	null 	null 	null 	null 	null 	
-  methods: 	f34 	f35 	f36 	f37 	f38 	f39 	
+  methods: 	f35 	f36 	f37 	f38 	f39 	f40 	
   model: 	c
   modified: 	false
   name: 	CommandStream
   propertyStyle: 	POJO
-  roles: 	service40 	
+  roles: 	service41 	
 
 - addStreamCommand: 	Clazz
   attributes: 	incommingRoute 	outgoingUrl 	
-  methods: 	f41 	
+  methods: 	f42 	
   model: 	c
   modified: 	false
   name: 	AddStreamCommand
@@ -96,8 +96,8 @@
   superClass: 	modelCommand
 
 - javaDocApp: 	Clazz
-  attributes: 	modelEditor42 	id43 	description 	
-  methods: 	f44 	
+  attributes: 	modelEditor43 	id44 	description 	
+  methods: 	f45 	
   model: 	c
   modified: 	false
   name: 	JavaDocApp
@@ -105,23 +105,23 @@
   roles: 	content 	
 
 - page: 	Clazz
-  attributes: 	id45 	description46 	
+  attributes: 	id46 	description47 	
   model: 	c
   modified: 	false
   name: 	Page
   propertyStyle: 	POJO
-  roles: 	app 	content47 	
+  roles: 	app 	content48 	
 
 - line: 	Clazz
-  attributes: 	id48 	description49 	action 	value 	
+  attributes: 	id49 	description50 	action 	value 	
   model: 	c
   modified: 	false
   name: 	Line
   propertyStyle: 	POJO
-  roles: 	page50 	
+  roles: 	page51 	
 
 - folder: 	Clazz
-  attributes: 	id51 	
+  attributes: 	id52 	
   model: 	c
   modified: 	false
   name: 	Folder
@@ -129,15 +129,15 @@
   roles: 	subFolders 	up 	files 	
 
 - docFile: 	Clazz
-  attributes: 	id52 	version 	content53 	
+  attributes: 	id53 	version 	content54 	
   model: 	c
   modified: 	false
   name: 	DocFile
   propertyStyle: 	POJO
-  roles: 	up54 	
+  roles: 	up55 	
 
 - haveContent: 	Clazz
-  attributes: 	owner 	content55 	
+  attributes: 	owner 	content56 	
   model: 	c
   modified: 	false
   name: 	HaveContent
@@ -160,7 +160,7 @@
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
-  attributes: 	parent56 	vTag 	
+  attributes: 	parent57 	vTag 	
   model: 	c
   modified: 	false
   name: 	HaveLeaf
@@ -594,19 +594,32 @@
       // have handle objects
       for (PatternObject patternObject : pattern.getObjects()) {
          String handleObjectId = (String) getHandleObjectAttributeValue(patternObject, \"id\");
+         if (handleObjectId == null) {
+            // do not handle
+            continue;
+         }
          Class handleObjectClass = patternObject.getHandleObjectClass();
          Object handleObject = null;
-         if (patternObject.getKind() == \"core\") {
+         if (patternObject.getKind().equals(\"core\") ) {
             handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
          }
-         else {
+         else if (patternObject.getKind().equals(\"context\")) {
             handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
          }
+         else { // nac
+            handleObject = editor.getObjectFrame(handleObjectClass, handleObjectId);
+            editor.removeModelObject(handleObjectId);
+         }
+
          patternObject.setHandleObject(handleObject);
       }
 
 
       for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getHandleObject() == null) {
+            continue;
+         }
+
          Reflector commandReflector = new Reflector().setClassName(this.getClass().getName());
          Reflector handleObjectReflector = new Reflector().setClassName(patternObject.getHandleObject().getClass().getName());
 
@@ -624,7 +637,36 @@
          for (PatternLink patternLink : patternObject.getLinks()) {
             String linkName = patternLink.getHandleLinkName();
             Object targetHandleObject = patternLink.getTarget().getHandleObject();
-            handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+            if (patternLink.getKind().equals(\"core\")) {
+               handleObjectReflector.setValue(sourceHandleObject, linkName, targetHandleObject, null);
+            }
+            else if (patternLink.getKind().equals(\"nac\")) {
+               // remove link
+               if (targetHandleObject != null) {
+                  try {
+                     Method withoutMethod = sourceHandleObject.getClass().getMethod(\"without\" + StrUtil.cap(linkName), new Object[0].getClass());
+                     if (withoutMethod != null) {
+                        withoutMethod.invoke(sourceHandleObject, new Object[] {new Object[] {targetHandleObject}});
+                     }
+                     else {
+                        Method setMethod = sourceHandleObject.getClass().getMethod(\"set\" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                        setMethod.invoke(sourceHandleObject, new Object[] {null});
+                     }
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+               else {
+                  try {
+                     Method setMethod = sourceHandleObject.getClass().getMethod(\"set\" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                     setMethod.invoke(sourceHandleObject, new Object[] {null});
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+            }
          }
       }
       return null;
@@ -831,6 +873,14 @@
   propertyStyle: 	POJO
   type: 	String
 
+- kind27: 	Attribute
+  clazz: 	patternLink
+  initialization: 	"\"core\""
+  modified: 	false
+  name: 	kind
+  propertyStyle: 	POJO
+  type: 	String
+
 - source: 	AssocRole
   aggregation: 	false
   cardinality: 	1
@@ -894,7 +944,7 @@
   propertyStyle: 	POJO
   type: 	"LinkedHashMap<String, JavaDocApp>"
 
-- f27: 	FMethod
+- f28: 	FMethod
   clazz: 	javaDocService
   declaration: 	"public void start()"
   methodBody: 	"      if (myPort <= 0) {
@@ -924,7 +974,7 @@
 "
   modified: 	false
 
-- f28: 	FMethod
+- f29: 	FMethod
   clazz: 	javaDocService
   declaration: 	"public String getFirstRoot(Request req, Response res)"
   methodBody: 	"      currentSession = \"\" + (sessionToAppMap.size() + 1);
@@ -932,7 +982,7 @@
 "
   modified: 	false
 
-- f29: 	FMethod
+- f30: 	FMethod
   clazz: 	javaDocService
   declaration: 	"public String root(Request req, Response res)"
   methodBody: 	"      try
@@ -974,7 +1024,7 @@
 "
   modified: 	false
 
-- f30: 	FMethod
+- f31: 	FMethod
   clazz: 	javaDocService
   declaration: 	"public String cmd(Request req, Response res)"
   methodBody: 	"      String cmd = req.body();
@@ -1047,7 +1097,7 @@
 "
   modified: 	false
 
-- f31: 	FMethod
+- f32: 	FMethod
   clazz: 	javaDocService
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -1060,7 +1110,7 @@
 "
   modified: 	false
 
-- f32: 	FMethod
+- f33: 	FMethod
   clazz: 	javaDocService
   declaration: 	"public CommandStream getStream(String streamName)"
   methodBody: 	"      for (CommandStream stream : this.getStreams()) {
@@ -1092,7 +1142,7 @@
   clazz: 	javaDocService
   modified: 	false
   name: 	streams
-  other: 	service40
+  other: 	service41
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1119,7 +1169,7 @@
   propertyStyle: 	POJO
   type: 	"ArrayList<ModelCommand>"
 
-- activeCommands33: 	Attribute
+- activeCommands34: 	Attribute
   clazz: 	commandStream
   initialization: 	"new java.util.LinkedHashMap<>()"
   modified: 	false
@@ -1127,7 +1177,7 @@
   propertyStyle: 	POJO
   type: 	"java.util.Map<String, ModelCommand>"
 
-- f34: 	FMethod
+- f35: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void publish(ModelCommand cmd)"
   methodBody: 	"      String yaml = Yaml.encode(cmd);
@@ -1137,7 +1187,7 @@
 "
   modified: 	false
 
-- f35: 	FMethod
+- f36: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void send()"
   methodBody: 	"      String yaml = Yaml.encode(activeCommands.values());
@@ -1177,7 +1227,7 @@
 "
   modified: 	false
 
-- f36: 	FMethod
+- f37: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void executeCommands(Collection values)"
   methodBody: 	"      for (Object value : values) {
@@ -1192,7 +1242,7 @@
 "
   modified: 	false
 
-- f37: 	FMethod
+- f38: 	FMethod
   clazz: 	commandStream
   declaration: 	"public CommandStream start()"
   methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
@@ -1200,7 +1250,7 @@
 "
   modified: 	false
 
-- f38: 	FMethod
+- f39: 	FMethod
   clazz: 	commandStream
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
@@ -1214,7 +1264,7 @@
 "
   modified: 	false
 
-- f39: 	FMethod
+- f40: 	FMethod
   clazz: 	commandStream
   declaration: 	"public void addCommandsToBeStreamed(String... commandList)"
   methodBody: 	"      for (String cmd : commandList) {
@@ -1223,7 +1273,7 @@
 "
   modified: 	false
 
-- service40: 	AssocRole
+- service41: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	commandStream
@@ -1247,7 +1297,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f41: 	FMethod
+- f42: 	FMethod
   clazz: 	addStreamCommand
   declaration: 	"public Object run(JavaDocEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
@@ -1256,14 +1306,14 @@
 "
   modified: 	false
 
-- modelEditor42: 	Attribute
+- modelEditor43: 	Attribute
   clazz: 	javaDocApp
   modified: 	false
   name: 	modelEditor
   propertyStyle: 	POJO
   type: 	JavaDocEditor
 
-- id43: 	Attribute
+- id44: 	Attribute
   clazz: 	javaDocApp
   modified: 	false
   name: 	id
@@ -1277,7 +1327,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- f44: 	FMethod
+- f45: 	FMethod
   clazz: 	javaDocApp
   declaration: 	"public JavaDocApp init(JavaDocEditor editor)"
   methodBody: 	"      this.modelEditor = editor;
@@ -1297,14 +1347,14 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id45: 	Attribute
+- id46: 	Attribute
   clazz: 	page
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description46: 	Attribute
+- description47: 	Attribute
   clazz: 	page
   modified: 	false
   name: 	description
@@ -1321,24 +1371,24 @@
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- content47: 	AssocRole
+- content48: 	AssocRole
   aggregation: 	false
   cardinality: 	42
   clazz: 	page
   modified: 	false
   name: 	content
-  other: 	page50
+  other: 	page51
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id48: 	Attribute
+- id49: 	Attribute
   clazz: 	line
   modified: 	false
   name: 	id
   propertyStyle: 	POJO
   type: 	String
 
-- description49: 	Attribute
+- description50: 	Attribute
   clazz: 	line
   modified: 	false
   name: 	description
@@ -1359,17 +1409,17 @@
   propertyStyle: 	POJO
   type: 	String
 
-- page50: 	AssocRole
+- page51: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	line
   modified: 	false
   name: 	page
-  other: 	content47
+  other: 	content48
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id51: 	Attribute
+- id52: 	Attribute
   clazz: 	folder
   modified: 	false
   name: 	id
@@ -1402,11 +1452,11 @@
   clazz: 	folder
   modified: 	false
   name: 	files
-  other: 	up54
+  other: 	up55
   propertyStyle: 	POJO
   roleType: 	"java.util.ArrayList<%s>"
 
-- id52: 	Attribute
+- id53: 	Attribute
   clazz: 	docFile
   modified: 	false
   name: 	id
@@ -1420,14 +1470,14 @@
   propertyStyle: 	POJO
   type: 	String
 
-- content53: 	Attribute
+- content54: 	Attribute
   clazz: 	docFile
   modified: 	false
   name: 	content
   propertyStyle: 	POJO
   type: 	String
 
-- up54: 	AssocRole
+- up55: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	docFile
@@ -1444,7 +1494,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- content55: 	Attribute
+- content56: 	Attribute
   clazz: 	haveContent
   modified: 	false
   name: 	content
@@ -1458,7 +1508,7 @@
   propertyStyle: 	POJO
   type: 	String
 
-- parent56: 	Attribute
+- parent57: 	Attribute
   clazz: 	haveLeaf
   modified: 	false
   name: 	parent

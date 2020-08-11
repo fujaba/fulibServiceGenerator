@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class Pattern 
+public class Pattern  
 {
 
    public static final java.util.ArrayList<PatternObject> EMPTY_objects = new java.util.ArrayList<PatternObject>()
@@ -52,7 +52,6 @@ public class Pattern
       }
       return this;
    }
-
 
    public Pattern withoutObjects(Object... value)
    {

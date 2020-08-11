@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class DocFile 
+public class DocFile  
 {
 
    public static final String PROPERTY_id = "id";
@@ -93,7 +93,6 @@ public class DocFile
       }
       return this;
    }
-
 
    protected PropertyChangeSupport listeners = null;
 

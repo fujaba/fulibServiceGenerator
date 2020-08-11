@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class PatternObject 
+public class PatternObject  
 {
 
    public static final String PROPERTY_poId = "poId";
@@ -114,7 +114,6 @@ public class PatternObject
       return this;
    }
 
-
    public static final java.util.ArrayList<PatternAttribute> EMPTY_attributes = new java.util.ArrayList<PatternAttribute>()
    { @Override public boolean add(PatternAttribute value){ throw new UnsupportedOperationException("No direct add! Use xy.withAttributes(obj)"); }};
 
@@ -162,7 +161,6 @@ public class PatternObject
       }
       return this;
    }
-
 
    public PatternObject withoutAttributes(Object... value)
    {
@@ -238,7 +236,6 @@ public class PatternObject
       return this;
    }
 
-
    public PatternObject withoutLinks(Object... value)
    {
       if (this.links == null || value==null) return this;
@@ -312,7 +309,6 @@ public class PatternObject
       }
       return this;
    }
-
 
    public PatternObject withoutIncommingLinks(Object... value)
    {

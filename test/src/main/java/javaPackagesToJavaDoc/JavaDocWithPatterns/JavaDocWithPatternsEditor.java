@@ -9,7 +9,7 @@ import org.fulib.yaml.Yaml;
 import java.util.*;
 import org.fulib.yaml.Reflector;
 
-public class JavaDocWithPatternsEditor 
+public class JavaDocWithPatternsEditor  
 {
 
    public static final String PROPERTY_activeCommands = "activeCommands";
@@ -201,6 +201,72 @@ public class JavaDocWithPatternsEditor
       return this;
    }
 
+   protected PropertyChangeSupport listeners = null;
+
+   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
+   {
+      if (listeners != null)
+      {
+         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         return true;
+      }
+      return false;
+   }
+
+   public boolean addPropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(listener);
+      return true;
+   }
+
+   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+   {
+      if (listeners == null)
+      {
+         listeners = new PropertyChangeSupport(this);
+      }
+      listeners.addPropertyChangeListener(propertyName, listener);
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(listener);
+      }
+      return true;
+   }
+
+   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   {
+      if (listeners != null)
+      {
+         listeners.removePropertyChangeListener(propertyName, listener);
+      }
+      return true;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
+   public void removeYou()
+   {
+      this.setService(null);
+
+   }
 
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
@@ -403,73 +469,6 @@ public ArrayList<ModelCommand> haveCommandPrototypes() {
       }
 
       return commandPrototypes;
-   }
-
-   protected PropertyChangeSupport listeners = null;
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (listeners != null)
-      {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (listeners == null)
-      {
-         listeners = new PropertyChangeSupport(this);
-      }
-      listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
-   {
-      if (listeners != null)
-      {
-         listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
-   }
-
-   public void removeYou()
-   {
-      this.setService(null);
-
    }
 
 }

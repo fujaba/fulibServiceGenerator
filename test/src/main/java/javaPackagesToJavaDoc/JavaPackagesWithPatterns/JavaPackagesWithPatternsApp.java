@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
-public class JavaPackagesWithPatternsApp 
+public class JavaPackagesWithPatternsApp  
 {
 
    public static final String PROPERTY_modelEditor = "modelEditor";
@@ -94,14 +94,6 @@ public class JavaPackagesWithPatternsApp
       return this;
    }
 
-
-   public JavaPackagesWithPatternsApp init(JavaPackagesWithPatternsEditor editor) { 
-      this.modelEditor = editor;
-      this.setId("root");
-      this.setDescription("JavaPackagesWithPatterns App");
-      return this;
-   }
-
    protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -168,6 +160,13 @@ public class JavaPackagesWithPatternsApp
    {
       this.setContent(null);
 
+   }
+
+   public JavaPackagesWithPatternsApp init(JavaPackagesWithPatternsEditor editor) { 
+      this.modelEditor = editor;
+      this.setId("root");
+      this.setDescription("JavaPackagesWithPatterns App");
+      return this;
    }
 
 }
