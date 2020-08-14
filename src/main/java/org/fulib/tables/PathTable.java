@@ -122,16 +122,10 @@ public class PathTable implements Iterable<List<Object>>
 
    // =============== Properties ===============
 
-   int getColumnIndex(String columnName)
+   public int getColumnIndex(String columnName)
    {
-      final int index = this.columns.indexOf(columnName);
-      if (index < 0)
-      {
-         throw new IllegalStateException(
-            "Column '" + columnName + "' is no longer part of table columns " + this.columns + ". "
-            + "It was likely evicted after a selectColumns or dropColumns operation. "
-            + "This Table instance is no longer valid");
-      }
+      int index = this.columns.indexOf(columnName);
+
       return index;
    }
 

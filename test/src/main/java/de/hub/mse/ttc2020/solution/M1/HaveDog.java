@@ -48,45 +48,6 @@ public class HaveDog extends ModelCommand
       return pattern;
    }
 
-   @Override
-   public ModelCommand parse(Object currentObject)
-   {
-      Pattern pattern = havePattern();
-
-      if (pattern == null) {
-         return null;
-      }
-
-      PatternObject firstPatternObject = pattern.getObjects().get(0);
-      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
-         // not my business
-         return null;
-      }
-
-      ObjectTable objectTable = new ObjectTable(firstPatternObject.getPoId(), currentObject);
-      LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
-      mapPatternObject2Table.put(firstPatternObject, objectTable);
-
-      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable);
-
-      // retrieve command
-      ArrayList rows = new ArrayList();
-      objectTable.filterRows( m -> { rows.add(m); return true; });
-      Map<String, Object> firstRow = (Map<String, Object>) rows.get(0);
-      HaveDog newCommand = new HaveDog();
-      Reflector commandReflector = new Reflector().setClazz(newCommand.getClass());
-      for (PatternObject patternObject : pattern.getObjects()) {
-         String poId = patternObject.getPoId();
-         for (PatternAttribute attribute : patternObject.getAttributes()) {
-            String commandParamName = attribute.getCommandParamName();
-            Object value = firstRow.get(poId + "." + attribute.getHandleAttrName());
-            commandReflector.setValue(newCommand, commandParamName, "" + value);
-         }
-      }
-
-      return newCommand;
-   }
-
    public String getName()
    {
       return name;

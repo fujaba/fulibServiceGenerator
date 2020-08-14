@@ -8,6 +8,7 @@ import org.fulib.tables.ObjectTable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.*;
+import org.fulib.tables.PathTable;
 
 public class ModelCommand  
 {
@@ -127,20 +128,16 @@ public class ModelCommand
          return null;
       }
 
-      ObjectTable objectTable = new ObjectTable(firstPatternObject.getPoId(), currentObject);
-      LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
-      mapPatternObject2Table.put(firstPatternObject, objectTable);
+      PathTable pathTable = new PathTable(firstPatternObject.getPoId(), currentObject);
 
-      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable);
+      matchAttributesAndLinks(pattern, firstPatternObject, pathTable);
 
       // retrieve command
-      ArrayList rows = new ArrayList();
-      objectTable.filterRows( m -> { rows.add(m); return true; });
-      if (rows.size() == 0) {
+      if (pathTable.rowCount() == 0) {
          return null;
       }
 
-      Map<String, Object> firstRow = (Map<String, Object>) rows.get(0);
+      Map<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
       ModelCommand newCommand = null;
       try {
          newCommand = this.getClass().getConstructor().newInstance();
@@ -293,38 +290,36 @@ public class ModelCommand
       }
    }
 
-   public void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable) { 
+   public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable) { 
       // match attributes
       String poId = currentPatternObject.getPoId();
+
       for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
          String attrName = attribute.getHandleAttrName();
-         objectTable.expandAttribute(poId + "." +attrName, attrName);
+         pathTable.expand(poId, attrName, poId + "." +attrName);
       }
 
       // match links
       for (PatternLink link : currentPatternObject.getLinks()) {
+         PatternObject source = link.getSource();
          PatternObject target = link.getTarget();
-         ObjectTable targetTable = (ObjectTable) mapPatternObject2Table.get(target);
 
          if (link.getKind().equals("core")) {
-            if (targetTable != null) {
-               objectTable.hasLink(link.getHandleLinkName(), targetTable);
+            if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
+               pathTable.hasLink(source.getPoId(), link.getHandleLinkName(), target.getPoId());
             }
             else {
-               targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
-               mapPatternObject2Table.put(target, targetTable);
-               matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable);
+               pathTable.expand(source.getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
+               matchAttributesAndLinks(pattern, target, pathTable);
             }
          }
          else if (link.getKind().equals("nac")) {
-            if (targetTable != null) {
-               ObjectTable myTable = targetTable;
-               objectTable.filterRows(
-                     map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
-                           .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
+            if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
+                     .contains(((Map<String, Object>) map).get(source.getPoId())));
             }
             else {
-               objectTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
             }
          }
       }

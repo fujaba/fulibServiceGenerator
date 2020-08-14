@@ -120,7 +120,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand parse(Object currentObject) { // no fulib
+   public ModelCommand parse(Object currentObject) {
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -133,13 +133,9 @@ public class ModelCommand
          return null;
       }
 
-      ObjectTable objectTable = new ObjectTable(firstPatternObject.getPoId(), currentObject);
-      LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
-      mapPatternObject2Table.put(firstPatternObject, objectTable);
-
       PathTable pathTable = new PathTable(firstPatternObject.getPoId(), currentObject);
 
-      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable, pathTable);
+      matchAttributesAndLinks(pattern, firstPatternObject, pathTable);
 
       // retrieve command
       if (pathTable.rowCount() == 0) {
@@ -272,8 +268,13 @@ public class ModelCommand
                Object value = handleObjectReflector.getValue(handleObject, linkName);
                if (value != null && value instanceof java.util.Collection) {
                   try {
+                     if (((Collection) value).isEmpty()) {
+                        continue;
+                     }
+
                      java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     withoutMethod.invoke(handleObject, value);
+                     Object[] valueArray = ((Collection)value).toArray();
+                     withoutMethod.invoke(handleObject, new Object[] {valueArray});
                   }
                   catch (Exception e) {
                      e.printStackTrace();
@@ -294,14 +295,9 @@ public class ModelCommand
       }
    }
 
-   public void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable,
-                                       PathTable pathTable) { // no fulib
+   public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable) { 
       // match attributes
       String poId = currentPatternObject.getPoId();
-      for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
-         String attrName = attribute.getHandleAttrName();
-         objectTable.expandAttribute(poId + "." +attrName, attrName);
-      }
 
       for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
          String attrName = attribute.getHandleAttrName();
@@ -310,32 +306,24 @@ public class ModelCommand
 
       // match links
       for (PatternLink link : currentPatternObject.getLinks()) {
+         PatternObject source = link.getSource();
          PatternObject target = link.getTarget();
-         ObjectTable targetTable = (ObjectTable) mapPatternObject2Table.get(target);
 
          if (link.getKind().equals("core")) {
-            if (targetTable != null) {
-               objectTable.hasLink(link.getHandleLinkName(), targetTable);
-               pathTable.hasLink(link.getSource().getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
+            if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
+               pathTable.hasLink(source.getPoId(), link.getHandleLinkName(), target.getPoId());
             }
             else {
-               targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
-               pathTable.expand(link.getSource().getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
-               mapPatternObject2Table.put(target, targetTable);
-               matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable, pathTable);
+               pathTable.expand(source.getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
+               matchAttributesAndLinks(pattern, target, pathTable);
             }
          }
          else if (link.getKind().equals("nac")) {
-            if (targetTable != null) {
-               ObjectTable myTable = targetTable;
-               objectTable.filterRows(
-                     map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
-                           .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
+            if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
                pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
-                     .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
+                     .contains(((Map<String, Object>) map).get(source.getPoId())));
             }
             else {
-               objectTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
                pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
             }
          }

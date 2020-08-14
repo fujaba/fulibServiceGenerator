@@ -101,7 +101,7 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(modelCommand, declaration, body);
 
-      declaration = "private void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable)";
+      declaration = "public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable)";
       st = group.getInstanceOf("modelCommandMatchAttributesAndLinks");
       body = st.render();
       mm.haveMethod(modelCommand, declaration, body);
@@ -123,7 +123,7 @@ public class ServiceEditor
       modelCommand.getImportList().add("import org.fulib.yaml.Reflector;");
       modelCommand.getImportList().add("import org.fulib.yaml.StrUtil;");
       modelCommand.getImportList().add("import java.lang.reflect.Method;");
-      modelCommand.getImportList().add("import org.fulib.tables.ObjectTable;");
+      modelCommand.getImportList().add("import org.fulib.tables.PathTable;");
       modelCommand.getImportList().add("import java.util.*;");
    }
 
