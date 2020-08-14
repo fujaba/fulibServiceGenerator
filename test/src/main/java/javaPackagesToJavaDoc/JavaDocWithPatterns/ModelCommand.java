@@ -266,8 +266,13 @@ public class ModelCommand
                Object value = handleObjectReflector.getValue(handleObject, linkName);
                if (value != null && value instanceof java.util.Collection) {
                   try {
+                     if (((Collection) value).isEmpty()) {
+                        continue;
+                     }
+
                      java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     withoutMethod.invoke(handleObject, value);
+                     Object[] valueArray = ((Collection)value).toArray();
+                     withoutMethod.invoke(handleObject, new Object[] {valueArray});
                   }
                   catch (Exception e) {
                      e.printStackTrace();

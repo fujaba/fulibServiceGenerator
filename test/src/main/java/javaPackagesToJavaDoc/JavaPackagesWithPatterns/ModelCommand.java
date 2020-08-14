@@ -10,6 +10,7 @@ import java.util.Set;
 
 import de.hub.mse.ttc2020.solution.M1.HaveDog;
 import org.fulib.tables.ObjectTable;
+import org.fulib.tables.PathTable;
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.StrUtil;
 import java.util.*;
@@ -119,7 +120,7 @@ public class ModelCommand
       return result.substring(1);
    }
 
-   public ModelCommand parse(Object currentObject) {
+   public ModelCommand parse(Object currentObject) { // no fulib
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -136,16 +137,16 @@ public class ModelCommand
       LinkedHashMap<PatternObject, ObjectTable> mapPatternObject2Table = new LinkedHashMap<>();
       mapPatternObject2Table.put(firstPatternObject, objectTable);
 
-      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable);
+      PathTable pathTable = new PathTable(firstPatternObject.getPoId(), currentObject);
+
+      matchAttributesAndLinks(pattern, mapPatternObject2Table, firstPatternObject, objectTable, pathTable);
 
       // retrieve command
-      ArrayList rows = new ArrayList();
-      objectTable.filterRows( m -> { rows.add(m); return true; });
-      if (rows.size() == 0) {
+      if (pathTable.rowCount() == 0) {
          return null;
       }
 
-      Map<String, Object> firstRow = (Map<String, Object>) rows.get(0);
+      Map<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
       ModelCommand newCommand = null;
       try {
          newCommand = this.getClass().getConstructor().newInstance();
@@ -293,12 +294,18 @@ public class ModelCommand
       }
    }
 
-   public void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable) { 
+   public void matchAttributesAndLinks(Pattern pattern, LinkedHashMap mapPatternObject2Table, PatternObject currentPatternObject, ObjectTable objectTable,
+                                       PathTable pathTable) { // no fulib
       // match attributes
       String poId = currentPatternObject.getPoId();
       for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
          String attrName = attribute.getHandleAttrName();
          objectTable.expandAttribute(poId + "." +attrName, attrName);
+      }
+
+      for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
+         String attrName = attribute.getHandleAttrName();
+         pathTable.expand(poId, attrName, poId + "." +attrName);
       }
 
       // match links
@@ -309,11 +316,13 @@ public class ModelCommand
          if (link.getKind().equals("core")) {
             if (targetTable != null) {
                objectTable.hasLink(link.getHandleLinkName(), targetTable);
+               pathTable.hasLink(link.getSource().getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
             }
             else {
                targetTable = objectTable.expandLink(target.getPoId(), link.getHandleLinkName());
+               pathTable.expand(link.getSource().getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
                mapPatternObject2Table.put(target, targetTable);
-               matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable);
+               matchAttributesAndLinks(pattern, mapPatternObject2Table, target, targetTable, pathTable);
             }
          }
          else if (link.getKind().equals("nac")) {
@@ -322,9 +331,12 @@ public class ModelCommand
                objectTable.filterRows(
                      map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
                            .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
+                     .contains(((Map<String, Object>) map).get(myTable.getColumnName())));
             }
             else {
                objectTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
             }
          }
       }
