@@ -2,24 +2,18 @@ package org.fulib.servicegenerator;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
-import org.fulib.tables.ObjectTable;
 import org.fulib.tables.PathTable;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class FulibPatternDiagram
 {
    public void dump(String diagramFileName, Object pattern) {
       STGroupFile group = new STGroupFile(this.getClass().getResource("templates/patternDiagram.stg"));
-
-      ObjectTable tableFocusedOnPattern;
-      ObjectTable tableFocusedOnObjects;
 
       PathTable pathTable = new PathTable("pattern", pattern)
             .expand("pattern", "objects", "object")

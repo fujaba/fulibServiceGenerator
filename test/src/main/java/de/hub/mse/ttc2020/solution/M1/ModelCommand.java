@@ -1,5 +1,4 @@
 package de.hub.mse.ttc2020.solution.M1;
-import org.fulib.tables.ObjectTable;
 import org.fulib.tables.PathTable;
 import org.fulib.yaml.Reflector;
 
@@ -330,11 +329,10 @@ public class ModelCommand
 
    public Set getSetOfTargetHandles(Map map, String poId, String linkName) { 
       Object sourceHandleObject = map.get(poId);
-      ObjectTable tableFocusedOnSource = new ObjectTable(poId, sourceHandleObject);
-      ObjectTable tableFocusedOnLinkTarget = tableFocusedOnSource.expandLink(linkName, linkName);
+      PathTable pathTable = new PathTable(poId, sourceHandleObject);
+      pathTable.expand(poId, linkName, linkName);
 
-      return tableFocusedOnLinkTarget.toSet();
-
+      return pathTable.toSet(linkName);
    }
 
    public Pattern havePattern() { 

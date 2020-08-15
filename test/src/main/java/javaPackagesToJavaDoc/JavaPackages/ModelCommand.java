@@ -116,6 +116,49 @@ public class ModelCommand
       return result.substring(1);
    }
 
+   public ModelCommand parse(Object currentObject) { 
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return null;
+      }
+
+      PatternObject firstPatternObject = pattern.getObjects().get(0);
+      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
+         // not my business
+         return null;
+      }
+
+      PathTable pathTable = new PathTable(firstPatternObject.getPoId(), currentObject);
+
+      matchAttributesAndLinks(pattern, firstPatternObject, pathTable);
+
+      // retrieve command
+      if (pathTable.rowCount() == 0) {
+         return null;
+      }
+
+      Map<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
+      ModelCommand newCommand = null;
+      try {
+         newCommand = this.getClass().getConstructor().newInstance();
+         Reflector commandReflector = new Reflector().setClazz(newCommand.getClass());
+         for (PatternObject patternObject : pattern.getObjects()) {
+            String poId = patternObject.getPoId();
+            for (PatternAttribute attribute : patternObject.getAttributes()) {
+               String commandParamName = attribute.getCommandParamName();
+               Object value = firstRow.get(poId + "." + attribute.getHandleAttrName());
+               commandReflector.setValue(newCommand, commandParamName, "" + value);
+            }
+         }
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+
+      return newCommand;
+   }
+
    public Object run(JavaPackagesEditor editor) { 
       Pattern pattern = havePattern();
 
@@ -248,49 +291,6 @@ public class ModelCommand
       }
    }
 
-   public ModelCommand parse(Object currentObject) { 
-      Pattern pattern = havePattern();
-
-      if (pattern == null) {
-         return null;
-      }
-
-      PatternObject firstPatternObject = pattern.getObjects().get(0);
-      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
-         // not my business
-         return null;
-      }
-
-      PathTable pathTable = new PathTable(firstPatternObject.getPoId(), currentObject);
-
-      matchAttributesAndLinks(pattern, firstPatternObject, pathTable);
-
-      // retrieve command
-      if (pathTable.rowCount() == 0) {
-         return null;
-      }
-
-      Map<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
-      ModelCommand newCommand = null;
-      try {
-         newCommand = this.getClass().getConstructor().newInstance();
-         Reflector commandReflector = new Reflector().setClazz(newCommand.getClass());
-         for (PatternObject patternObject : pattern.getObjects()) {
-            String poId = patternObject.getPoId();
-            for (PatternAttribute attribute : patternObject.getAttributes()) {
-               String commandParamName = attribute.getCommandParamName();
-               Object value = firstRow.get(poId + "." + attribute.getHandleAttrName());
-               commandReflector.setValue(newCommand, commandParamName, "" + value);
-            }
-         }
-      }
-      catch (Exception e) {
-         e.printStackTrace();
-      }
-
-      return newCommand;
-   }
-
    public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable) { 
       // match attributes
       String poId = currentPatternObject.getPoId();
@@ -328,11 +328,10 @@ public class ModelCommand
 
    public Set getSetOfTargetHandles(Map map, String poId, String linkName) { 
       Object sourceHandleObject = map.get(poId);
-      ObjectTable tableFocusedOnSource = new ObjectTable(poId, sourceHandleObject);
-      ObjectTable tableFocusedOnLinkTarget = tableFocusedOnSource.expandLink(linkName, linkName);
+      PathTable pathTable = new PathTable(poId, sourceHandleObject);
+      pathTable.expand(poId, linkName, linkName);
 
-      return tableFocusedOnLinkTarget.toSet();
-
+      return pathTable.toSet(linkName);
    }
 
    public Pattern havePattern() { 
