@@ -191,7 +191,7 @@ public class PathTable implements Iterable<List<Object>>
    }
 
 
-   public PathTable expand(String sourceColumn, String targetColumn, Function<Object, Object> function)
+   public PathTable expand(String sourceColumn, Function<Object, Object> function, String targetColumn)
    {
       this.expandImpl(sourceColumn, targetColumn, function);
       return this;
@@ -255,13 +255,13 @@ public class PathTable implements Iterable<List<Object>>
     *
     * @since 1.2
     */
-   public PathTable expandAll(String sourceColumn, String targetColumn, Function<Object, ? extends Collection<Object>> function)
+   public PathTable expandAll(String sourceColumn, Function<Object, ? extends Collection> function, String targetColumn)
    {
       this.expandAllImpl(sourceColumn, targetColumn, function);
       return this;
    }
 
-   void expandAllImpl(String sourceColumn, String targetColumn, Function<Object, ? extends Collection<Object>> function)
+   void expandAllImpl(String sourceColumn, String targetColumn, Function<Object, ? extends Collection> function)
    {
       final int column = this.getColumnIndex(sourceColumn);
       this.addColumn(targetColumn);
@@ -400,14 +400,14 @@ public class PathTable implements Iterable<List<Object>>
     * @since 1.2
     */
    public PathTable deriveAll(String columnName,
-      Function<? super Map<String, Object>, ? extends Collection<? extends Object>> function)
+                              Function<? super Map<String, Object>, ? extends Collection<? extends Object>> function)
    {
       this.deriveAllImpl(columnName, function);
       return this;
    }
 
    void deriveAllImpl(String columnName,
-      Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
+                      Function<? super LinkedHashMap<String, Object>, ? extends Collection<?>> function)
    {
       final List<List<Object>> oldTable = new ArrayList<>(this.table);
       this.table.clear();
@@ -948,5 +948,76 @@ public class PathTable implements Iterable<List<Object>>
       }
 
       this.columns = columns;
+   }
+
+   public double sum(String sourceColumn)
+   {
+      double sum = 0;
+      List list = toList(sourceColumn);
+      for (Object object : list) {
+         String string = object.toString();
+         Double d = Double.valueOf(string);
+         if (d != null) {
+            sum += d;
+         }
+      }
+      return sum;
+   }
+
+   public String join(String sourceColumn, String separator)
+   {
+      List list = toList(sourceColumn);
+      String join = String.join(separator, list);
+      return join;
+   }
+
+   public boolean all(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      return ! list.contains(false);
+   }
+
+   public boolean any(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      return list.contains(true);
+   }
+
+   public boolean none(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      return ! list.contains(true);
+   }
+
+   public double min(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      double min = Double.MAX_VALUE;
+      for (Object obj : list) {
+         Double other = Double.valueOf(obj.toString());
+         min = Double.min(min, (Double) other);
+      }
+      return min;
+   }
+
+   public double max(String sourceColumn)
+   {
+      List list = toList(sourceColumn);
+      double max = - Double.MAX_VALUE;
+      for (Object obj : list) {
+         Double other = Double.valueOf(obj.toString());
+         max = Double.max(max, (Double) other);
+      }
+      return max;
+   }
+
+   public double average(String sourceColumn)
+   {
+      if (rowCount() == 0) {
+         return Double.NaN;
+      }
+
+      double sum = sum(sourceColumn);
+      return sum / rowCount();
    }
 }
