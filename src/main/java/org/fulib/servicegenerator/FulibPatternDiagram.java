@@ -3,6 +3,7 @@ package org.fulib.servicegenerator;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import org.fulib.tables.ObjectTable;
+import org.fulib.tables.PathTable;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
@@ -10,41 +11,56 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class FulibPatternDiagram
 {
    public void dump(String diagramFileName, Object pattern) {
       STGroupFile group = new STGroupFile(this.getClass().getResource("templates/patternDiagram.stg"));
 
-      ObjectTable tableFocusedOnPattern = new ObjectTable(pattern);
-      ObjectTable tableFocusedOnObjects = tableFocusedOnPattern.expandLink("object", "objects");
-      tableFocusedOnObjects.expandString("kind", "kind").filter(k -> k.equals("core"));
-      LinkedHashSet coreObjects = tableFocusedOnObjects.toSet();
+      ObjectTable tableFocusedOnPattern;
+      ObjectTable tableFocusedOnObjects;
 
-      tableFocusedOnPattern = new ObjectTable(pattern);
-      tableFocusedOnObjects = tableFocusedOnPattern.expandLink("object", "objects");
-      tableFocusedOnObjects.expandString("kind", "kind").filter(k -> k.equals("context"));
-      LinkedHashSet contextObjects = tableFocusedOnObjects.toSet();
+      PathTable pathTable = new PathTable("pattern", pattern)
+            .expand("pattern", "objects", "object")
+            .expand("object", "kind", "kind")
+            .filter("kind", k -> k.equals("core"));
 
-      tableFocusedOnPattern = new ObjectTable(pattern);
-      tableFocusedOnObjects = tableFocusedOnPattern.expandLink("object", "objects");
-      tableFocusedOnObjects.expandString("kind", "kind").filter(k -> k.equals("nac"));
-      LinkedHashSet nacObjects = tableFocusedOnObjects.toSet();
+      Set coreObjects = pathTable.toSet("object");
 
-      tableFocusedOnObjects = new ObjectTable(pattern).expandLink("object", "objects");
-      ObjectTable tableFocusedOnLinks = tableFocusedOnObjects.expandLink("link", "links");
-      tableFocusedOnLinks.expandString("linkKind", "kind").filter(k -> k.equals("core"));
-      LinkedHashSet coreLinks = tableFocusedOnLinks.toSet();
+      pathTable = new PathTable("pattern", pattern)
+            .expand("pattern", "objects", "object")
+            .expand("object", "kind", "kind")
+            .filter("kind", k -> k.equals("context"));
 
-      tableFocusedOnObjects = new ObjectTable(pattern).expandLink("object", "objects");
-      tableFocusedOnLinks = tableFocusedOnObjects.expandLink("link", "links");
-      tableFocusedOnLinks.expandString("linkKind", "kind").filter(k -> k.equals("context"));
-      LinkedHashSet contextLinks = tableFocusedOnLinks.toSet();
+      Set contextObjects = pathTable.toSet("object");
 
-      tableFocusedOnObjects = new ObjectTable(pattern).expandLink("object", "objects");
-      tableFocusedOnLinks = tableFocusedOnObjects.expandLink("link", "links");
-      tableFocusedOnLinks.expandString("linkKind", "kind").filter(k -> k.equals("nac"));
-      LinkedHashSet nacLinks = tableFocusedOnLinks.toSet();
+      pathTable = new PathTable("pattern", pattern)
+            .expand("pattern", "objects", "object")
+            .expand("object", "kind", "kind")
+            .filter("kind", k -> k.equals("nac"));
+      Set nacObjects = pathTable.toSet("object");
+
+      pathTable = new PathTable("pattern", pattern);
+      pathTable.expand("pattern", "objects", "object");
+      pathTable.expand("object", "links", "link");
+      pathTable.expand("link", "kind", "kind");
+      pathTable.filter("kind", k -> k.equals("core"));
+      Set coreLinks = pathTable.toSet("link");
+
+      pathTable = new PathTable("pattern", pattern)
+            .expand("pattern", "objects", "object")
+            .expand("object", "links", "link")
+            .expand("link", "kind", "kind")
+            .filter("kind", k -> k.equals("context"));
+      Set contextLinks = pathTable.toSet("link");
+
+      pathTable = new PathTable("pattern", pattern)
+            .expand("pattern", "objects", "object")
+            .expand("object", "links", "link")
+            .expand("link", "kind", "kind")
+            .filter("kind", k -> k.equals("nac"));
+      Set nacLinks = pathTable.toSet("link");
 
       ST st = group.getInstanceOf("patternDiagram");
       st.add("coreObjects", coreObjects);
