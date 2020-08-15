@@ -1,14 +1,9 @@
 package de.hub.mse.ttc2020.solution.M1;
 
 import org.fulib.servicegenerator.FulibPatternDiagram;
-import org.fulib.tables.ObjectTable;
-import org.fulib.tables.Table;
-import org.fulib.yaml.Reflector;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-
-import java.util.*;
 
 public class HaveDog extends ModelCommand  
 {

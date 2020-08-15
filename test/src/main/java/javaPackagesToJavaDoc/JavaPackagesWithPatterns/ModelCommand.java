@@ -1,18 +1,15 @@
 package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
-import de.hub.mse.ttc2020.solution.M1.HaveDog;
-import org.fulib.tables.ObjectTable;
 import org.fulib.tables.PathTable;
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.StrUtil;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 import java.util.*;
 
 public class ModelCommand  

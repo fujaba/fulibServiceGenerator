@@ -6,8 +6,6 @@ import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import org.fulib.yaml.StrUtil;
 import java.lang.reflect.Method;
-import org.fulib.tables.ObjectTable;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.*;
 import org.fulib.tables.PathTable;

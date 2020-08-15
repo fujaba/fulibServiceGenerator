@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * <p>
  * Various subclasses exist for type-specific operations, e.g. primitive numbers ({@link intTable}, {@link longTable},
  * {@link floatTable}, {@link doubleTable}), other standard data types ({@link StringTable}, {@link BooleanTable}),
- * and model objects ({@link ObjectTable}).
+ * and model objects).
  *
  * @since 1.2
  */
