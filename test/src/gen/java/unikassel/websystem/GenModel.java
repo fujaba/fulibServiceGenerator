@@ -1,5 +1,6 @@
 package unikassel.websystem;
 
+import org.fulib.FulibTools;
 import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Clazz;
 import org.fulib.servicegenerator.ServiceEditor;
@@ -85,6 +86,8 @@ public class GenModel
 
       javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
       javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "up", ONE);
+
+      FulibTools.classDiagrams().dumpSVG(javaPackagesManager.getClassModel(), "tmp/JavaPackagesClassModel");
    }
 
    private static void genTTC2020Model()
@@ -129,6 +132,9 @@ public class GenModel
       sysEdit.haveParameter(haveDog, "owner", STRING);
 
       sysEdit.generate();
+
+
+
    }
 
    private static void genBPMNToWorkFlows()
