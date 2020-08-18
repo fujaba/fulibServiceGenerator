@@ -3,10 +3,11 @@ import org.fulib.yaml.Reflector;
 import org.fulib.yaml.ReflectorMap;
 import java.lang.reflect.Method;
 
-public class RemoveCommand extends ModelCommand  
+public class RemoveCommand extends ModelCommand
 {
 
-   public Object run(JavaPackagesWithPatternsEditor editor) { 
+   public Object run(JavaPackagesWithPatternsEditor editor)
+   {
       java.util.Map<String,Object> mapOfModelObjects = editor.getMapOfModelObjects();
       java.util.Map<String,Object> mapOfFrames = editor.getMapOfFrames();
 

@@ -2,7 +2,7 @@ package javaPackagesToJavaDoc.JavaDocWithPatterns;
 
 import org.fulib.servicegenerator.FulibPatternDiagram;
 
-public class HaveRoot extends ModelCommand  
+public class HaveRoot extends ModelCommand
 {
    private static Pattern pattern = null;
 

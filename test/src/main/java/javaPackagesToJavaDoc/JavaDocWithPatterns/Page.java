@@ -1,53 +1,31 @@
 package javaPackagesToJavaDoc.JavaDocWithPatterns;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.Objects;
 
-public class Page  
+public class Page
 {
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public Page setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_description = "description";
-
-   private String description;
-
-   public String getDescription()
-   {
-      return description;
-   }
-
-   public Page setDescription(String value)
-   {
-      if (value == null ? this.description != null : ! value.equals(this.description))
-      {
-         String oldValue = this.description;
-         this.description = value;
-         firePropertyChange("description", oldValue, value);
-      }
-      return this;
-   }
 
    public static final String PROPERTY_app = "app";
 
-   private JavaDocWithPatternsApp app = null;
+   private JavaDocWithPatternsApp app;
+
+   public static final java.util.ArrayList<Line> EMPTY_content = new java.util.ArrayList<Line>()
+   { @Override public boolean add(Line value){ throw new UnsupportedOperationException("No direct add! Use xy.withContent(obj)"); }};
+
+   public static final String PROPERTY_content = "content";
+
+   private List<Line> content;
+
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_id = "id";
+   private String id;
+   public static final String PROPERTY_description = "description";
+   private String description;
 
    public JavaDocWithPatternsApp getApp()
    {
@@ -56,39 +34,29 @@ public class Page
 
    public Page setApp(JavaDocWithPatternsApp value)
    {
-      if (this.app != value)
+      if (this.app == value)
       {
-         JavaDocWithPatternsApp oldValue = this.app;
-         if (this.app != null)
-         {
-            this.app = null;
-            oldValue.setContent(null);
-         }
-         this.app = value;
-         if (value != null)
-         {
-            value.setContent(this);
-         }
-         firePropertyChange("app", oldValue, value);
+         return this;
       }
+
+      final JavaDocWithPatternsApp oldValue = this.app;
+      if (this.app != null)
+      {
+         this.app = null;
+         oldValue.setContent(null);
+      }
+      this.app = value;
+      if (value != null)
+      {
+         value.setContent(this);
+      }
+      this.firePropertyChange(PROPERTY_app, oldValue, value);
       return this;
    }
 
-   public static final java.util.ArrayList<Line> EMPTY_content = new java.util.ArrayList<Line>()
-   { @Override public boolean add(Line value){ throw new UnsupportedOperationException("No direct add! Use xy.withContent(obj)"); }};
-
-   public static final String PROPERTY_content = "content";
-
-   private java.util.ArrayList<Line> content = null;
-
-   public java.util.ArrayList<Line> getContent()
+   public List<Line> getContent()
    {
-      if (this.content == null)
-      {
-         return EMPTY_content;
-      }
-
-      return this.content;
+      return this.content != null ? Collections.unmodifiableList(this.content) : Collections.emptyList();
    }
 
    public Page withContent(Object... value)
@@ -148,13 +116,11 @@ public class Page
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -162,38 +128,38 @@ public class Page
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -201,22 +167,113 @@ public class Page
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-      result.append(" ").append(this.getDescription());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getId());
+      result.append(' ').append(this.getDescription());
       return result.substring(1);
    }
 
    public void removeYou()
    {
       this.setApp(null);
+      this.withoutContent(new ArrayList<>(this.getContent()));
+   }
 
-      this.withoutContent(this.getContent().clone());
+public Page withContent(Line value)
+   {
+      if (this.content == null)
+      {
+         this.content = new ArrayList<>();
+      }
+      if (!this.content.contains(value))
+      {
+         this.content.add(value);
+         value.setPage(this);
+         this.firePropertyChange(PROPERTY_content, null, value);
+      }
+      return this;
+   }
 
+public Page withContent(Line... value)
+   {
+      for (final Line item : value)
+      {
+         this.withContent(item);
+      }
+      return this;
+   }
 
+public Page withContent(Collection<? extends Line> value)
+   {
+      for (final Line item : value)
+      {
+         this.withContent(item);
+      }
+      return this;
+   }
+
+public Page withoutContent(Line value)
+   {
+      if (this.content != null && this.content.remove(value))
+      {
+         value.setPage(null);
+         this.firePropertyChange(PROPERTY_content, value, null);
+      }
+      return this;
+   }
+
+public Page withoutContent(Line... value)
+   {
+      for (final Line item : value)
+      {
+         this.withoutContent(item);
+      }
+      return this;
+   }
+
+public Page withoutContent(Collection<? extends Line> value)
+   {
+      for (final Line item : value)
+      {
+         this.withoutContent(item);
+      }
+      return this;
+   }
+
+   public String getId()
+   {
+      return this.id;
+   }
+
+   public Page setId(String value)
+   {
+      if (Objects.equals(value, this.id))
+      {
+         return this;
+      }
+
+      final String oldValue = this.id;
+      this.id = value;
+      this.firePropertyChange(PROPERTY_id, oldValue, value);
+      return this;
+   }
+
+   public String getDescription()
+   {
+      return this.description;
+   }
+
+   public Page setDescription(String value)
+   {
+      if (Objects.equals(value, this.description))
+      {
+         return this;
+      }
+
+      final String oldValue = this.description;
+      this.description = value;
+      this.firePropertyChange(PROPERTY_description, oldValue, value);
+      return this;
    }
 
 }

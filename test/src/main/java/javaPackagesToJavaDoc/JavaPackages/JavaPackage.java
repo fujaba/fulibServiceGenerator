@@ -1,17 +1,42 @@
 package javaPackagesToJavaDoc.JavaPackages;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.Objects;
 
-public class JavaPackage  
+public class JavaPackage
 {
 
-   protected PropertyChangeSupport listeners = null;
+   protected PropertyChangeSupport listeners;
+
+   public static final String PROPERTY_up = "up";
+
+   private JavaPackage up;
+
+   public static final java.util.ArrayList<JavaPackage> EMPTY_subPackages = new java.util.ArrayList<JavaPackage>()
+   { @Override public boolean add(JavaPackage value){ throw new UnsupportedOperationException("No direct add! Use xy.withSubPackages(obj)"); }};
+
+   public static final String PROPERTY_subPackages = "subPackages";
+
+   private List<JavaPackage> subPackages;
+
+   public static final java.util.ArrayList<JavaClass> EMPTY_classes = new java.util.ArrayList<JavaClass>()
+   { @Override public boolean add(JavaClass value){ throw new UnsupportedOperationException("No direct add! Use xy.withClasses(obj)"); }};
+
+   public static final String PROPERTY_classes = "classes";
+
+   private List<JavaClass> classes;
+   public static final String PROPERTY_id = "id";
+   private String id;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -19,57 +44,48 @@ public class JavaPackage
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
 
    public void removeYou()
    {
+      this.withoutSubPackages(new ArrayList<>(this.getSubPackages()));
       this.setUp(null);
-
-      this.withoutSubPackages(this.getSubPackages().clone());
-
-
-      this.withoutClasses(this.getClasses().clone());
-
-
+      this.withoutClasses(new ArrayList<>(this.getClasses()));
    }
-
-   public static final String PROPERTY_up = "up";
-
-   private JavaPackage up = null;
 
    public JavaPackage getUp()
    {
@@ -78,39 +94,29 @@ public class JavaPackage
 
    public JavaPackage setUp(JavaPackage value)
    {
-      if (this.up != value)
+      if (this.up == value)
       {
-         JavaPackage oldValue = this.up;
-         if (this.up != null)
-         {
-            this.up = null;
-            oldValue.withoutSubPackages(this);
-         }
-         this.up = value;
-         if (value != null)
-         {
-            value.withSubPackages(this);
-         }
-         firePropertyChange("up", oldValue, value);
+         return this;
       }
+
+      final JavaPackage oldValue = this.up;
+      if (this.up != null)
+      {
+         this.up = null;
+         oldValue.withoutSubPackages(this);
+      }
+      this.up = value;
+      if (value != null)
+      {
+         value.withSubPackages(this);
+      }
+      this.firePropertyChange(PROPERTY_up, oldValue, value);
       return this;
    }
 
-   public static final java.util.ArrayList<JavaPackage> EMPTY_subPackages = new java.util.ArrayList<JavaPackage>()
-   { @Override public boolean add(JavaPackage value){ throw new UnsupportedOperationException("No direct add! Use xy.withSubPackages(obj)"); }};
-
-   public static final String PROPERTY_subPackages = "subPackages";
-
-   private java.util.ArrayList<JavaPackage> subPackages = null;
-
-   public java.util.ArrayList<JavaPackage> getSubPackages()
+   public List<JavaPackage> getSubPackages()
    {
-      if (this.subPackages == null)
-      {
-         return EMPTY_subPackages;
-      }
-
-      return this.subPackages;
+      return this.subPackages != null ? Collections.unmodifiableList(this.subPackages) : Collections.emptyList();
    }
 
    public JavaPackage withSubPackages(Object... value)
@@ -170,52 +176,17 @@ public class JavaPackage
       return this;
    }
 
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public JavaPackage setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getId());
       return result.substring(1);
    }
 
-   public static final java.util.ArrayList<JavaClass> EMPTY_classes = new java.util.ArrayList<JavaClass>()
-   { @Override public boolean add(JavaClass value){ throw new UnsupportedOperationException("No direct add! Use xy.withClasses(obj)"); }};
-
-   public static final String PROPERTY_classes = "classes";
-
-   private java.util.ArrayList<JavaClass> classes = null;
-
-   public java.util.ArrayList<JavaClass> getClasses()
+   public List<JavaClass> getClasses()
    {
-      if (this.classes == null)
-      {
-         return EMPTY_classes;
-      }
-
-      return this.classes;
+      return this.classes != null ? Collections.unmodifiableList(this.classes) : Collections.emptyList();
    }
 
    public JavaPackage withClasses(Object... value)
@@ -272,6 +243,146 @@ public class JavaPackage
             }
          }
       }
+      return this;
+   }
+
+public JavaPackage withSubPackages(JavaPackage value)
+   {
+      if (this.subPackages == null)
+      {
+         this.subPackages = new ArrayList<>();
+      }
+      if (!this.subPackages.contains(value))
+      {
+         this.subPackages.add(value);
+         value.setUp(this);
+         this.firePropertyChange(PROPERTY_subPackages, null, value);
+      }
+      return this;
+   }
+
+public JavaPackage withSubPackages(JavaPackage... value)
+   {
+      for (final JavaPackage item : value)
+      {
+         this.withSubPackages(item);
+      }
+      return this;
+   }
+
+public JavaPackage withSubPackages(Collection<? extends JavaPackage> value)
+   {
+      for (final JavaPackage item : value)
+      {
+         this.withSubPackages(item);
+      }
+      return this;
+   }
+
+public JavaPackage withoutSubPackages(JavaPackage value)
+   {
+      if (this.subPackages != null && this.subPackages.remove(value))
+      {
+         value.setUp(null);
+         this.firePropertyChange(PROPERTY_subPackages, value, null);
+      }
+      return this;
+   }
+
+public JavaPackage withoutSubPackages(JavaPackage... value)
+   {
+      for (final JavaPackage item : value)
+      {
+         this.withoutSubPackages(item);
+      }
+      return this;
+   }
+
+public JavaPackage withoutSubPackages(Collection<? extends JavaPackage> value)
+   {
+      for (final JavaPackage item : value)
+      {
+         this.withoutSubPackages(item);
+      }
+      return this;
+   }
+
+public JavaPackage withClasses(JavaClass value)
+   {
+      if (this.classes == null)
+      {
+         this.classes = new ArrayList<>();
+      }
+      if (!this.classes.contains(value))
+      {
+         this.classes.add(value);
+         value.setUp(this);
+         this.firePropertyChange(PROPERTY_classes, null, value);
+      }
+      return this;
+   }
+
+public JavaPackage withClasses(JavaClass... value)
+   {
+      for (final JavaClass item : value)
+      {
+         this.withClasses(item);
+      }
+      return this;
+   }
+
+public JavaPackage withClasses(Collection<? extends JavaClass> value)
+   {
+      for (final JavaClass item : value)
+      {
+         this.withClasses(item);
+      }
+      return this;
+   }
+
+public JavaPackage withoutClasses(JavaClass value)
+   {
+      if (this.classes != null && this.classes.remove(value))
+      {
+         value.setUp(null);
+         this.firePropertyChange(PROPERTY_classes, value, null);
+      }
+      return this;
+   }
+
+public JavaPackage withoutClasses(JavaClass... value)
+   {
+      for (final JavaClass item : value)
+      {
+         this.withoutClasses(item);
+      }
+      return this;
+   }
+
+public JavaPackage withoutClasses(Collection<? extends JavaClass> value)
+   {
+      for (final JavaClass item : value)
+      {
+         this.withoutClasses(item);
+      }
+      return this;
+   }
+
+   public String getId()
+   {
+      return this.id;
+   }
+
+   public JavaPackage setId(String value)
+   {
+      if (Objects.equals(value, this.id))
+      {
+         return this;
+      }
+
+      final String oldValue = this.id;
+      this.id = value;
+      this.firePropertyChange(PROPERTY_id, oldValue, value);
       return this;
    }
 

@@ -18,113 +18,51 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.util.List;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.Objects;
 
-public class JavaDocService  
+public class JavaDocService
 {
-
-   public static final String PROPERTY_myPort = "myPort";
-
-   private int myPort;
-
-   public int getMyPort()
-   {
-      return myPort;
-   }
-
-   public JavaDocService setMyPort(int value)
-   {
-      if (value != this.myPort)
-      {
-         int oldValue = this.myPort;
-         this.myPort = value;
-         firePropertyChange("myPort", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_reflectorMap = "reflectorMap";
-
-   private ReflectorMap reflectorMap;
-
-   public ReflectorMap getReflectorMap()
-   {
-      return reflectorMap;
-   }
-
-   public JavaDocService setReflectorMap(ReflectorMap value)
-   {
-      if (value != this.reflectorMap)
-      {
-         ReflectorMap oldValue = this.reflectorMap;
-         this.reflectorMap = value;
-         firePropertyChange("reflectorMap", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_currentSession = "currentSession";
-
-   private String currentSession;
-
-   public String getCurrentSession()
-   {
-      return currentSession;
-   }
-
-   public JavaDocService setCurrentSession(String value)
-   {
-      if (value == null ? this.currentSession != null : ! value.equals(this.currentSession))
-      {
-         String oldValue = this.currentSession;
-         this.currentSession = value;
-         firePropertyChange("currentSession", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_executor = "executor";
-
-   private ExecutorService  executor;
-
-   public ExecutorService  getExecutor()
-   {
-      return executor;
-   }
-
-   public JavaDocService setExecutor(ExecutorService  value)
-   {
-      if (value != this.executor)
-      {
-         ExecutorService  oldValue = this.executor;
-         this.executor = value;
-         firePropertyChange("executor", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_spark = "spark";
-
-   private Service spark;
-
-   public Service getSpark()
-   {
-      return spark;
-   }
-
-   public JavaDocService setSpark(Service value)
-   {
-      if (value != this.spark)
-      {
-         Service oldValue = this.spark;
-         this.spark = value;
-         firePropertyChange("spark", oldValue, value);
-      }
-      return this;
-   }
 
    public static final String PROPERTY_modelEditor = "modelEditor";
 
-   private JavaDocEditor modelEditor = null;
+   private JavaDocEditor modelEditor;
+
+   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
+   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
+
+   public static final String PROPERTY_streams = "streams";
+
+   private List<CommandStream> streams;
+
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_myPort = "myPort";
+   private int myPort;
+   public static final String PROPERTY_reflectorMap = "reflectorMap";
+   private ReflectorMap reflectorMap;
+   public static final String PROPERTY_currentSession = "currentSession";
+   private String currentSession;
+   public static final String PROPERTY_executor = "executor";
+   private ExecutorService executor;
+   public static final String PROPERTY_spark = "spark";
+   private Service spark;
+   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
+   private LinkedHashMap<String,JavaDocApp> sessionToAppMap = new LinkedHashMap();
+
+   public JavaDocService setExecutor(ExecutorService value)
+   {
+      if (Objects.equals(value, this.executor))
+      {
+         return this;
+      }
+
+      final ExecutorService oldValue = this.executor;
+      this.executor = value;
+      this.firePropertyChange(PROPERTY_executor, oldValue, value);
+      return this;
+   }
 
    public JavaDocEditor getModelEditor()
    {
@@ -133,39 +71,29 @@ public class JavaDocService
 
    public JavaDocService setModelEditor(JavaDocEditor value)
    {
-      if (this.modelEditor != value)
+      if (this.modelEditor == value)
       {
-         JavaDocEditor oldValue = this.modelEditor;
-         if (this.modelEditor != null)
-         {
-            this.modelEditor = null;
-            oldValue.setService(null);
-         }
-         this.modelEditor = value;
-         if (value != null)
-         {
-            value.setService(this);
-         }
-         firePropertyChange("modelEditor", oldValue, value);
+         return this;
       }
+
+      final JavaDocEditor oldValue = this.modelEditor;
+      if (this.modelEditor != null)
+      {
+         this.modelEditor = null;
+         oldValue.setService(null);
+      }
+      this.modelEditor = value;
+      if (value != null)
+      {
+         value.setService(this);
+      }
+      this.firePropertyChange(PROPERTY_modelEditor, oldValue, value);
       return this;
    }
 
-   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
-   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
-
-   public static final String PROPERTY_streams = "streams";
-
-   private java.util.ArrayList<CommandStream> streams = null;
-
-   public java.util.ArrayList<CommandStream> getStreams()
+   public List<CommandStream> getStreams()
    {
-      if (this.streams == null)
-      {
-         return EMPTY_streams;
-      }
-
-      return this.streams;
+      return this.streams != null ? Collections.unmodifiableList(this.streams) : Collections.emptyList();
    }
 
    public JavaDocService withStreams(Object... value)
@@ -225,13 +153,11 @@ public class JavaDocService
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -239,38 +165,38 @@ public class JavaDocService
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -278,44 +204,19 @@ public class JavaDocService
    public void removeYou()
    {
       this.setModelEditor(null);
-
-      this.withoutStreams(this.getStreams().clone());
-
-
-   }
-
-   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-
-   private LinkedHashMap<String,JavaDocApp> sessionToAppMap = new LinkedHashMap();
-
-   public LinkedHashMap<String,JavaDocApp> getSessionToAppMap()
-   {
-      return sessionToAppMap;
-   }
-
-   public JavaDocService setSessionToAppMap(LinkedHashMap<String,JavaDocApp> value)
-   {
-      if (value != this.sessionToAppMap)
-      {
-         LinkedHashMap<String,JavaDocApp> oldValue = this.sessionToAppMap;
-         this.sessionToAppMap = value;
-         firePropertyChange("sessionToAppMap", oldValue, value);
-      }
-      return this;
+      this.withoutStreams(new ArrayList<>(this.getStreams()));
    }
 
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getCurrentSession());
       return result.substring(1);
    }
 
-   public void start() { 
+   public void start()
+   {
       if (myPort <= 0) {
          myPort = 4571;
       }
@@ -342,12 +243,14 @@ public class JavaDocService
       java.util.logging.Logger.getGlobal().info("JavaDoc Service is listening on port " + myPort);
    }
 
-   public String getFirstRoot(Request req, Response res) { 
+   public String getFirstRoot(Request req, Response res)
+   {
       currentSession = "" + (sessionToAppMap.size() + 1);
       return root(req, res);
    }
 
-   public String root(Request req, Response res) { 
+   public String root(Request req, Response res)
+   {
       try
       {
          JavaDocApp myApp = this.sessionToAppMap.get(currentSession);
@@ -386,7 +289,8 @@ public class JavaDocService
       }
    }
 
-   public String cmd(Request req, Response res) { 
+   public String cmd(Request req, Response res)
+   {
       String cmd = req.body();
       JSONObject jsonObject = new JSONObject(cmd);
 
@@ -456,7 +360,8 @@ public class JavaDocService
       return root(req, res);
    }
 
-   public String connect(Request req, Response res) { 
+   public String connect(Request req, Response res)
+   {
       String body = req.body();
       LinkedHashMap<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
@@ -466,7 +371,8 @@ public class JavaDocService
       return "200";
    }
 
-   public CommandStream getStream(String streamName) { 
+   public CommandStream getStream(String streamName)
+   {
       for (CommandStream stream : this.getStreams()) {
          if (stream.getName().equals(streamName)) {
             return stream;
@@ -477,6 +383,162 @@ public class JavaDocService
       withStreams(newStream);
       newStream.start();
       return newStream;
+   }
+
+public JavaDocService withStreams(CommandStream value)
+   {
+      if (this.streams == null)
+      {
+         this.streams = new ArrayList<>();
+      }
+      if (!this.streams.contains(value))
+      {
+         this.streams.add(value);
+         value.setService(this);
+         this.firePropertyChange(PROPERTY_streams, null, value);
+      }
+      return this;
+   }
+
+public JavaDocService withStreams(CommandStream... value)
+   {
+      for (final CommandStream item : value)
+      {
+         this.withStreams(item);
+      }
+      return this;
+   }
+
+public JavaDocService withStreams(Collection<? extends CommandStream> value)
+   {
+      for (final CommandStream item : value)
+      {
+         this.withStreams(item);
+      }
+      return this;
+   }
+
+public JavaDocService withoutStreams(CommandStream value)
+   {
+      if (this.streams != null && this.streams.remove(value))
+      {
+         value.setService(null);
+         this.firePropertyChange(PROPERTY_streams, value, null);
+      }
+      return this;
+   }
+
+public JavaDocService withoutStreams(CommandStream... value)
+   {
+      for (final CommandStream item : value)
+      {
+         this.withoutStreams(item);
+      }
+      return this;
+   }
+
+public JavaDocService withoutStreams(Collection<? extends CommandStream> value)
+   {
+      for (final CommandStream item : value)
+      {
+         this.withoutStreams(item);
+      }
+      return this;
+   }
+
+   public int getMyPort()
+   {
+      return this.myPort;
+   }
+
+   public JavaDocService setMyPort(int value)
+   {
+      if (value == this.myPort)
+      {
+         return this;
+      }
+
+      final int oldValue = this.myPort;
+      this.myPort = value;
+      this.firePropertyChange(PROPERTY_myPort, oldValue, value);
+      return this;
+   }
+
+   public ReflectorMap getReflectorMap()
+   {
+      return this.reflectorMap;
+   }
+
+   public JavaDocService setReflectorMap(ReflectorMap value)
+   {
+      if (Objects.equals(value, this.reflectorMap))
+      {
+         return this;
+      }
+
+      final ReflectorMap oldValue = this.reflectorMap;
+      this.reflectorMap = value;
+      this.firePropertyChange(PROPERTY_reflectorMap, oldValue, value);
+      return this;
+   }
+
+   public String getCurrentSession()
+   {
+      return this.currentSession;
+   }
+
+   public JavaDocService setCurrentSession(String value)
+   {
+      if (Objects.equals(value, this.currentSession))
+      {
+         return this;
+      }
+
+      final String oldValue = this.currentSession;
+      this.currentSession = value;
+      this.firePropertyChange(PROPERTY_currentSession, oldValue, value);
+      return this;
+   }
+
+   public ExecutorService getExecutor()
+   {
+      return this.executor;
+   }
+
+   public Service getSpark()
+   {
+      return this.spark;
+   }
+
+   public JavaDocService setSpark(Service value)
+   {
+      if (Objects.equals(value, this.spark))
+      {
+         return this;
+      }
+
+      final Service oldValue = this.spark;
+      this.spark = value;
+      this.firePropertyChange(PROPERTY_spark, oldValue, value);
+      return this;
+   }
+
+   public LinkedHashMap<String,JavaDocApp> getSessionToAppMap()
+   {
+      return this.sessionToAppMap;
+   }
+
+   public JavaDocService setSessionToAppMap(LinkedHashMap<String,JavaDocApp> value)
+   {
+      if (Objects.equals(value, this.sessionToAppMap))
+      {
+         return this;
+      }
+
+      final LinkedHashMap<String,JavaDocApp> oldValue = this.sessionToAppMap;
+      this.sessionToAppMap = value;
+      this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
+      return this;
    }
 
 }

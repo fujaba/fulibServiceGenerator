@@ -7,57 +7,22 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.*;
 import org.fulib.tables.PathTable;
+import java.util.Objects;
 
-public class ModelCommand  
+public class ModelCommand
 {
 
+   protected PropertyChangeSupport listeners;
    public static final String PROPERTY_id = "id";
-
    private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public ModelCommand setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_time = "time";
-
    private String time;
-
-   public String getTime()
-   {
-      return time;
-   }
-
-   public ModelCommand setTime(String value)
-   {
-      if (value == null ? this.time != null : ! value.equals(this.time))
-      {
-         String oldValue = this.time;
-         this.time = value;
-         firePropertyChange("time", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -65,38 +30,38 @@ public class ModelCommand
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -104,16 +69,14 @@ public class ModelCommand
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-      result.append(" ").append(this.getTime());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getId());
+      result.append(' ').append(this.getTime());
       return result.substring(1);
    }
 
-   public ModelCommand parse(Object currentObject) { 
+   public ModelCommand parse(Object currentObject)
+   {
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -135,7 +98,7 @@ public class ModelCommand
          return null;
       }
 
-      Map<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
+      Map<String,Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
       ModelCommand newCommand = null;
       try {
          newCommand = this.getClass().getConstructor().newInstance();
@@ -156,7 +119,8 @@ public class ModelCommand
       return newCommand;
    }
 
-   public Object run(JavaDocEditor editor) { 
+   public Object run(JavaDocEditor editor)
+   {
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -244,7 +208,8 @@ public class ModelCommand
       return null;
    }
 
-   public void undo(JavaDocEditor editor) { 
+   public void undo(JavaDocEditor editor)
+   {
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -288,7 +253,8 @@ public class ModelCommand
       }
    }
 
-   public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable) { 
+   public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable)
+   {
       // match attributes
       String poId = currentPatternObject.getPoId();
 
@@ -323,7 +289,8 @@ public class ModelCommand
       }
    }
 
-   public Set getSetOfTargetHandles(Map map, String poId, String linkName) { 
+   public Set getSetOfTargetHandles(Map map, String poId, String linkName)
+   {
       Object sourceHandleObject = map.get(poId);
       PathTable pathTable = new PathTable(poId, sourceHandleObject);
       pathTable.expand(poId, linkName, linkName);
@@ -331,11 +298,13 @@ public class ModelCommand
       return pathTable.toSet(linkName);
    }
 
-   public Pattern havePattern() { 
+   public Pattern havePattern()
+   {
       return null;
    }
 
-   public Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName) { 
+   private Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)
+   {
       Reflector reflector = new Reflector().setClassName(this.getClass().getName());
       for (PatternAttribute patternAttribute : patternObject.getAttributes()) {
          if (patternAttribute.getHandleAttrName().equals(handleAttributeName)) {
@@ -345,6 +314,42 @@ public class ModelCommand
          }
       }
       return null;
+   }
+
+   public String getId()
+   {
+      return this.id;
+   }
+
+   public ModelCommand setId(String value)
+   {
+      if (Objects.equals(value, this.id))
+      {
+         return this;
+      }
+
+      final String oldValue = this.id;
+      this.id = value;
+      this.firePropertyChange(PROPERTY_id, oldValue, value);
+      return this;
+   }
+
+   public String getTime()
+   {
+      return this.time;
+   }
+
+   public ModelCommand setTime(String value)
+   {
+      if (Objects.equals(value, this.time))
+      {
+         return this;
+      }
+
+      final String oldValue = this.time;
+      this.time = value;
+      this.firePropertyChange(PROPERTY_time, oldValue, value);
+      return this;
    }
 
 }

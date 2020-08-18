@@ -1,8 +1,9 @@
 package javaPackagesToJavaDoc.JavaPackages;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
-public class HaveLeaf extends ModelCommand  
+public class HaveLeaf extends ModelCommand
 {
    @Override
    public Object run(JavaPackagesEditor editor)
@@ -35,33 +36,11 @@ public class HaveLeaf extends ModelCommand
       return modelCommand;
    }
 
-   public static final String PROPERTY_parent = "parent";
-
-   private String parent;
-
-   public String getParent()
-   {
-      return parent;
-   }
-
-   public HaveLeaf setParent(String value)
-   {
-      if (value == null ? this.parent != null : ! value.equals(this.parent))
-      {
-         String oldValue = this.parent;
-         this.parent = value;
-         firePropertyChange("parent", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -69,38 +48,38 @@ public class HaveLeaf extends ModelCommand
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -108,33 +87,52 @@ public class HaveLeaf extends ModelCommand
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getParent());
-      result.append(" ").append(this.getVTag());
-
-
-      return result.substring(1);
+      final StringBuilder result = new StringBuilder(super.toString());
+      result.append(' ').append(this.getParent());
+      result.append(' ').append(this.getVTag());
+      return result.toString();
    }
 
-   public static final String PROPERTY_vTag = "vTag";
+   public String getParent()
+   {
+      return this.parent;
+   }
 
-   private String vTag;
+   public HaveLeaf setParent(String value)
+   {
+      if (Objects.equals(value, this.parent))
+      {
+         return this;
+      }
+
+      final String oldValue = this.parent;
+      this.parent = value;
+      this.firePropertyChange(PROPERTY_parent, oldValue, value);
+      return this;
+   }
 
    public String getVTag()
    {
-      return vTag;
+      return this.vTag;
    }
 
    public HaveLeaf setVTag(String value)
    {
-      if (value == null ? this.vTag != null : ! value.equals(this.vTag))
+      if (Objects.equals(value, this.vTag))
       {
-         String oldValue = this.vTag;
-         this.vTag = value;
-         firePropertyChange("vTag", oldValue, value);
+         return this;
       }
+
+      final String oldValue = this.vTag;
+      this.vTag = value;
+      this.firePropertyChange(PROPERTY_vTag, oldValue, value);
       return this;
    }
+
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_parent = "parent";
+   private String parent;
+   public static final String PROPERTY_vTag = "vTag";
+   private String vTag;
 
 }

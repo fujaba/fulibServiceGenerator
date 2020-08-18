@@ -1,6 +1,6 @@
 package javaPackagesToJavaDoc.JavaPackages;
 
-public class HaveRoot extends ModelCommand  
+public class HaveRoot extends ModelCommand
 {
    @Override
    public Object run(JavaPackagesEditor editor)

@@ -1,8 +1,13 @@
 package javaPackagesToJavaDoc.JavaDoc;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Collection;
+import java.util.Objects;
 
-public class Folder  
+public class Folder
 {
 
    public static final java.util.ArrayList<Folder> EMPTY_subFolders = new java.util.ArrayList<Folder>()
@@ -10,16 +15,25 @@ public class Folder
 
    public static final String PROPERTY_subFolders = "subFolders";
 
-   private java.util.ArrayList<Folder> subFolders = null;
+   private List<Folder> subFolders;
 
-   public java.util.ArrayList<Folder> getSubFolders()
+   public static final String PROPERTY_up = "up";
+
+   private Folder up;
+
+   protected PropertyChangeSupport listeners;
+   public static final java.util.ArrayList<DocFile> EMPTY_files = new java.util.ArrayList<DocFile>()
+   { @Override public boolean add(DocFile value){ throw new UnsupportedOperationException("No direct add! Use xy.withFiles(obj)"); }};
+
+   public static final String PROPERTY_files = "files";
+
+   private List<DocFile> files;
+   public static final String PROPERTY_id = "id";
+   private String id;
+
+   public List<Folder> getSubFolders()
    {
-      if (this.subFolders == null)
-      {
-         return EMPTY_subFolders;
-      }
-
-      return this.subFolders;
+      return this.subFolders != null ? Collections.unmodifiableList(this.subFolders) : Collections.emptyList();
    }
 
    public Folder withSubFolders(Object... value)
@@ -79,10 +93,6 @@ public class Folder
       return this;
    }
 
-   public static final String PROPERTY_up = "up";
-
-   private Folder up = null;
-
    public Folder getUp()
    {
       return this.up;
@@ -90,31 +100,31 @@ public class Folder
 
    public Folder setUp(Folder value)
    {
-      if (this.up != value)
+      if (this.up == value)
       {
-         Folder oldValue = this.up;
-         if (this.up != null)
-         {
-            this.up = null;
-            oldValue.withoutSubFolders(this);
-         }
-         this.up = value;
-         if (value != null)
-         {
-            value.withSubFolders(this);
-         }
-         firePropertyChange("up", oldValue, value);
+         return this;
       }
+
+      final Folder oldValue = this.up;
+      if (this.up != null)
+      {
+         this.up = null;
+         oldValue.withoutSubFolders(this);
+      }
+      this.up = value;
+      if (value != null)
+      {
+         value.withSubFolders(this);
+      }
+      this.firePropertyChange(PROPERTY_up, oldValue, value);
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -122,82 +132,54 @@ public class Folder
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
 
    public void removeYou()
    {
+      this.withoutSubFolders(new ArrayList<>(this.getSubFolders()));
       this.setUp(null);
-
-      this.withoutSubFolders(this.getSubFolders().clone());
-
-
-      this.withoutFiles(this.getFiles().clone());
-
-
-   }
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public Folder setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
+      this.withoutFiles(new ArrayList<>(this.getFiles()));
    }
 
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getId());
       return result.substring(1);
    }
 
@@ -210,21 +192,10 @@ public class Folder
       }
       return null;
    }
-   public static final java.util.ArrayList<DocFile> EMPTY_files = new java.util.ArrayList<DocFile>()
-   { @Override public boolean add(DocFile value){ throw new UnsupportedOperationException("No direct add! Use xy.withFiles(obj)"); }};
 
-   public static final String PROPERTY_files = "files";
-
-   private java.util.ArrayList<DocFile> files = null;
-
-   public java.util.ArrayList<DocFile> getFiles()
+   public List<DocFile> getFiles()
    {
-      if (this.files == null)
-      {
-         return EMPTY_files;
-      }
-
-      return this.files;
+      return this.files != null ? Collections.unmodifiableList(this.files) : Collections.emptyList();
    }
 
    public Folder withFiles(Object... value)
@@ -281,6 +252,146 @@ public class Folder
             }
          }
       }
+      return this;
+   }
+
+public Folder withSubFolders(Folder value)
+   {
+      if (this.subFolders == null)
+      {
+         this.subFolders = new ArrayList<>();
+      }
+      if (!this.subFolders.contains(value))
+      {
+         this.subFolders.add(value);
+         value.setUp(this);
+         this.firePropertyChange(PROPERTY_subFolders, null, value);
+      }
+      return this;
+   }
+
+public Folder withSubFolders(Folder... value)
+   {
+      for (final Folder item : value)
+      {
+         this.withSubFolders(item);
+      }
+      return this;
+   }
+
+public Folder withSubFolders(Collection<? extends Folder> value)
+   {
+      for (final Folder item : value)
+      {
+         this.withSubFolders(item);
+      }
+      return this;
+   }
+
+public Folder withoutSubFolders(Folder value)
+   {
+      if (this.subFolders != null && this.subFolders.remove(value))
+      {
+         value.setUp(null);
+         this.firePropertyChange(PROPERTY_subFolders, value, null);
+      }
+      return this;
+   }
+
+public Folder withoutSubFolders(Folder... value)
+   {
+      for (final Folder item : value)
+      {
+         this.withoutSubFolders(item);
+      }
+      return this;
+   }
+
+public Folder withoutSubFolders(Collection<? extends Folder> value)
+   {
+      for (final Folder item : value)
+      {
+         this.withoutSubFolders(item);
+      }
+      return this;
+   }
+
+public Folder withFiles(DocFile value)
+   {
+      if (this.files == null)
+      {
+         this.files = new ArrayList<>();
+      }
+      if (!this.files.contains(value))
+      {
+         this.files.add(value);
+         value.setUp(this);
+         this.firePropertyChange(PROPERTY_files, null, value);
+      }
+      return this;
+   }
+
+public Folder withFiles(DocFile... value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withFiles(item);
+      }
+      return this;
+   }
+
+public Folder withFiles(Collection<? extends DocFile> value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withFiles(item);
+      }
+      return this;
+   }
+
+public Folder withoutFiles(DocFile value)
+   {
+      if (this.files != null && this.files.remove(value))
+      {
+         value.setUp(null);
+         this.firePropertyChange(PROPERTY_files, value, null);
+      }
+      return this;
+   }
+
+public Folder withoutFiles(DocFile... value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withoutFiles(item);
+      }
+      return this;
+   }
+
+public Folder withoutFiles(Collection<? extends DocFile> value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withoutFiles(item);
+      }
+      return this;
+   }
+
+   public String getId()
+   {
+      return this.id;
+   }
+
+   public Folder setId(String value)
+   {
+      if (Objects.equals(value, this.id))
+      {
+         return this;
+      }
+
+      final String oldValue = this.id;
+      this.id = value;
+      this.firePropertyChange(PROPERTY_id, oldValue, value);
       return this;
    }
 
