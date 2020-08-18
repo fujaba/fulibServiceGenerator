@@ -259,6 +259,7 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
 
       // sync backward
       yaml = Yaml.encode(newDocCommands);
+      yaml = Yaml.encode(javaDocEditor.getActiveCommands().values());
       javaPackagesEditor.loadYaml(yaml);
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsSyncVersionBackward.svg",

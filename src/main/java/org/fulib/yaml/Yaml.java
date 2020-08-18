@@ -1,8 +1,6 @@
 package org.fulib.yaml;
 
-import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -144,8 +142,15 @@ public class Yaml
 
    private void createObjects(ArrayList<LinkedHashMap<String, String>> hashMaps)
    {
-      for (LinkedHashMap<String, String> map : hashMaps) {
-         createOneObject(map);
+      ArrayList<LinkedHashMap<String, String>> clone = (ArrayList<LinkedHashMap<String, String>>) hashMaps.clone();
+      for (LinkedHashMap<String, String> map : clone) {
+         try {
+            createOneObject(map);
+         }
+         catch (Exception e) {
+            // ignore unkown object (types)
+            hashMaps.remove(map);
+         }
       }
    }
 
@@ -156,7 +161,7 @@ public class Yaml
 
       Reflector reflector = reflectorMap.getReflector(clazz);
       Object newObject = reflector.newInstance();
-      reflector.setValue(newObject, "id", id, "String");
+      reflector.setValue(newObject, "id", id);
 
       idToObjectMap.put(id, newObject);
    }
