@@ -74,7 +74,7 @@ public class Yaml
       return idToObjectMap;
    }
 
-   public ArrayList<LinkedHashMap<String, String>> decodeList()
+   private ArrayList<LinkedHashMap<String, String>> decodeList()
    {
       ArrayList<LinkedHashMap<String, String>> result = new ArrayList<>();
 
@@ -127,14 +127,22 @@ public class Yaml
 
    private void setValue(Reflector reflector, Object currentObject, String key, String value)
    {
-      Object returnValue = reflector.setValue(currentObject, key, value, null);
+      Object returnValue = null;
+      try {
+         returnValue = reflector.setValue(currentObject, key, value);
+      }
+      catch (Exception e) {
+         // handle like null
+      }
+
       if (returnValue == null) {
-         // maybe a list of ids
+         // simple setting did not work
+         // maybe an id or a list of ids?
          String[] split = value.split(" ");
          for (String s : split) {
             Object objectValue = idToObjectMap.get(s);
             if (objectValue != null) {
-               reflector.setValue(currentObject, key, objectValue, null);
+               reflector.setValue(currentObject, key, objectValue);
             }
          }
       }
@@ -154,6 +162,7 @@ public class Yaml
       }
    }
 
+
    private void createOneObject(LinkedHashMap<String, String> map)
    {
       String id = map.get("id");
@@ -171,8 +180,15 @@ public class Yaml
 
    public Reflector getReflector(Object obj)
    {
+      if (packageNames == null) {
+         packageNames = new ArrayList<>();
+      }
       if (reflectorMap == null) {
-         reflectorMap = new ReflectorMap(obj.getClass().getPackage().getName());
+         reflectorMap = new ReflectorMap(packageNames);
+      }
+      String packageName = obj.getClass().getPackage().getName();
+      if ( ! packageNames.contains(packageName)) {
+         packageNames.add(packageName);
       }
       return reflectorMap.getReflector(obj);
    }
@@ -194,6 +210,11 @@ public class Yaml
       for (Entry<String, Object> entry : idToObjectMap.entrySet()) {
          String key = entry.getKey();
          Object obj = entry.getValue();
+
+         if (obj instanceof Enum) {
+            continue;
+         }
+
          String className = obj.getClass().getSimpleName();
 
 
@@ -214,7 +235,14 @@ public class Yaml
                continue;
             }
 
-            if (value instanceof Collection) {
+            if (value instanceof Enum)
+            {
+               final Enum<?> enumValue = (Enum<?>) value;
+               buf.append("  ").append(prop).append(": \t")
+                     .append(enumValue.getDeclaringClass().getName()).append('.').append(enumValue.name());
+               buf.append("\n");
+            }
+            else if (value instanceof Collection) {
                if (((Collection) value).isEmpty()) {
                   continue;
                }
