@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg11084"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="ExampleObjectsStart.svg">
+  <defs
+     id="defs11078" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="326.89322"
+     inkscape:cy="860.05277"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="3832"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata11081">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="node1"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11236">root</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="93,-282.5 14,-282.5 14,-299.5 93,-299.5 "
+         id="polygon11238" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="17"
+         y="-289.5"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11240">root :JavaPackage</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="93,-265.5 14,-265.5 14,-282.5 93,-282.5 "
+         id="polygon11242" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="32"
+         y="-271.5"
+         font-size="10.00"
+         id="text11244">id = &quot;root&quot;</text>
+    </g>
+    <g
+       id="node6"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11247">sub2</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="15,-205 92,-205 92,-188 15,-188 "
+         id="polygon11249" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="18"
+         y="-195"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11251">sub :JavaPackage</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="15,-188 92,-188 92,-171 15,-171 "
+         id="polygon11253" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="32.5"
+         y="-177"
+         font-size="10.00"
+         id="text11255">id = &quot;sub&quot;</text>
+    </g>
+    <g
+       id="edge1"
+       class="edge"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11258">root-&gt;sub2</title>
+      <path
+         style="fill:none;stroke:#000000"
+         inkscape:connector-curvature="0"
+         d="m 53,-261.429 c 0,15.515 0,36.892 0,52.397"
+         id="path11260" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="26.5"
+         y="-212.032"
+         font-size="10.00"
+         id="text11262">subPackages</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="47.5"
+         y="-253.429"
+         font-size="10.00"
+         id="text11264">up</text>
+    </g>
+    <g
+       id="node2"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11267">root1</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="127,-304.5 270,-304.5 270,-287.5 127,-287.5 "
+         id="polygon11269" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="167.5"
+         y="-294.5"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11271">root :HaveRoot</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="127,-287.5 270,-287.5 270,-259.5 127,-259.5 "
+         id="polygon11273" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="130"
+         y="-276.5"
+         font-size="10.00"
+         id="text11275">id = &quot;root&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="130"
+         y="-265.5"
+         font-size="10.00"
+         id="text11277">time = &quot;2020-08-18T20:14:35.639Z&quot;</text>
+    </g>
+    <g
+       id="node3"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,-39.867034,117.27232)">
+      <title
+         id="title11280">sub</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="304,-310.5 447,-310.5 447,-293.5 304,-293.5 "
+         id="polygon11282" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="338.5"
+         y="-300.5"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11284">sub :HaveSubUnit</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="304,-293.5 447,-293.5 447,-254.5 304,-254.5 "
+         id="polygon11286" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="307"
+         y="-282.5"
+         font-size="10.00"
+         id="text11288">id = &quot;sub&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="307"
+         y="-271.5"
+         font-size="10.00"
+         id="text11290">parent = &quot;root&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="307"
+         y="-260.5"
+         font-size="10.00"
+         id="text11292">time = &quot;2020-08-18T20:14:35.640Z&quot;</text>
+    </g>
+    <g
+       id="node4"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,-87.114058,137.87202)">
+      <title
+         id="title11295">leaf</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="481,-293.5 481,-310.5 624,-310.5 624,-293.5 "
+         id="polygon11297" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="516"
+         y="-300.5"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11299">leaf :HaveSubUnit</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="481,-254.5 481,-293.5 624,-293.5 624,-254.5 "
+         id="polygon11301" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="484"
+         y="-282.5"
+         font-size="10.00"
+         id="text11303">id = &quot;leaf&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="484"
+         y="-271.5"
+         font-size="10.00"
+         id="text11305">parent = &quot;sub&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="484"
+         y="-260.5"
+         font-size="10.00"
+         id="text11307">time = &quot;2020-08-18T20:14:35.641Z&quot;</text>
+    </g>
+    <g
+       id="node5"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,-134.36108,160.73958)">
+      <title
+         id="title11310">c</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="801,-315.5 801,-298.5 658,-298.5 658,-315.5 "
+         id="polygon11312" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="705.5"
+         y="-305.5"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11314">c :HaveLeaf</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="801,-298.5 801,-248.5 658,-248.5 658,-298.5 "
+         id="polygon11316" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="661"
+         y="-287.5"
+         font-size="10.00"
+         id="text11318">id = &quot;c&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="661"
+         y="-276.5"
+         font-size="10.00"
+         id="text11320">parent = &quot;leaf&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="661"
+         y="-265.5"
+         font-size="10.00"
+         id="text11322">time = &quot;2020-08-18T20:14:35.642Z&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="661"
+         y="-254.5"
+         font-size="10.00"
+         id="text11324">vTag = &quot;1.0&quot;</text>
+    </g>
+    <g
+       id="node7"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11327">leaf3</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="15,-127 91,-127 91,-110 15,-110 "
+         id="polygon11329" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="18"
+         y="-117"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11331">leaf :JavaPackage</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="15,-110 91,-110 91,-93 15,-93 "
+         id="polygon11333" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="32.5"
+         y="-99"
+         font-size="10.00"
+         id="text11335">id = &quot;leaf&quot;</text>
+    </g>
+    <g
+       id="edge2"
+       class="edge"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11338">sub2-&gt;leaf3</title>
+      <path
+         style="fill:none;stroke:#000000"
+         inkscape:connector-curvature="0"
+         d="m 53,-166.633 c 0,10.992 0,24.514 0,35.474"
+         id="path11340" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="26.5"
+         y="-134.159"
+         font-size="10.00"
+         id="text11342">subPackages</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="47.5"
+         y="-158.633"
+         font-size="10.00"
+         id="text11344">up</text>
+    </g>
+    <g
+       id="node8"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11347">c4</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="24,-48.5 82,-48.5 82,-31.5 24,-31.5 "
+         id="polygon11349" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
+         x="28.5"
+         y="-38.5"
+         text-decoration="underline"
+         font-size="10.00"
+         id="text11351">c :JavaClass</text>
+      <polygon
+         style="fill:none;stroke:#000000"
+         points="24,-31.5 82,-31.5 82,-3.5 24,-3.5 "
+         id="polygon11353" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="27"
+         y="-20.5"
+         font-size="10.00"
+         id="text11355">id = &quot;c&quot;</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="27"
+         y="-9.5"
+         font-size="10.00"
+         id="text11357">vTag = &quot;1.0&quot;</text>
+    </g>
+    <g
+       id="edge3"
+       class="edge"
+       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
+      <title
+         id="title11360">leaf3-&gt;c4</title>
+      <path
+         style="fill:none;stroke:#000000"
+         inkscape:connector-curvature="0"
+         d="m 53,-88.8539 c 0,10.7474 0,24.0895 0,35.5843"
+         id="path11362" />
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="38"
+         y="-56.2696"
+         font-size="10.00"
+         id="text11364">classes</text>
+      <text
+         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="47.5"
+         y="-80.853897"
+         font-size="10.00"
+         id="text11366">up</text>
+    </g>
+  </g>
+</svg>
