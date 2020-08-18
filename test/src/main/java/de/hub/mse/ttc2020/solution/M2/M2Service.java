@@ -304,6 +304,17 @@ public class M2Service
       return this;
    }
 
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
+   }
+
    public void start() { 
       if (myPort <= 0) {
          myPort = 4571;
@@ -466,17 +477,6 @@ public class M2Service
       withStreams(newStream);
       newStream.start();
       return newStream;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
    }
 
 }

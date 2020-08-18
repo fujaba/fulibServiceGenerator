@@ -178,6 +178,17 @@ public class CommandStream
       return this;
    }
 
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getName());
+
+
+      return result.substring(1);
+   }
+
    public void publish(ModelCommand cmd) { 
       String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
@@ -254,17 +265,6 @@ public class CommandStream
       for (String cmd : commandList) {
          service.getModelEditor().addCommandListener(cmd, this);
       }
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getName());
-
-
-      return result.substring(1);
    }
 
 }

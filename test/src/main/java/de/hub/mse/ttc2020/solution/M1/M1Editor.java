@@ -256,6 +256,17 @@ public void removeYou()
       return this;
    }
 
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
+   }
+
    public Object getOrCreate(Class clazz, String id) { 
       Object modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
@@ -455,17 +466,6 @@ public ArrayList<ModelCommand> haveCommandPrototypes() {
       }
 
       return commandPrototypes;
-   }
-
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
    }
 
 }
