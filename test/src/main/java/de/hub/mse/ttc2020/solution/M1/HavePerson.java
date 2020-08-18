@@ -2,7 +2,7 @@ package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;import java.util.Objects;
 
-public class HavePerson extends ModelCommand  
+public class HavePerson extends ModelCommand
 {
    @Override
    public Object run(M1Editor editor)
@@ -27,53 +27,11 @@ public class HavePerson extends ModelCommand
       return null;
    }
 
-   public static final String PROPERTY_name = "name";
-
-   private String name;
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public HavePerson setName(String value)
-   {
-      if (value == null ? this.name != null : ! value.equals(this.name))
-      {
-         String oldValue = this.name;
-         this.name = value;
-         firePropertyChange("name", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_age = "age";
-
-   private int age;
-
-   public int getAge()
-   {
-      return age;
-   }
-
-   public HavePerson setAge(int value)
-   {
-      if (value != this.age)
-      {
-         int oldValue = this.age;
-         this.age = value;
-         firePropertyChange("age", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -81,38 +39,38 @@ public class HavePerson extends ModelCommand
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -120,12 +78,51 @@ public class HavePerson extends ModelCommand
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getName());
-
-
-      return result.substring(1);
+      final StringBuilder result = new StringBuilder(super.toString());
+      result.append(' ').append(this.getName());
+      return result.toString();
    }
+
+   public String getName()
+   {
+      return this.name;
+   }
+
+   public HavePerson setName(String value)
+   {
+      if (Objects.equals(value, this.name))
+      {
+         return this;
+      }
+
+      final String oldValue = this.name;
+      this.name = value;
+      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      return this;
+   }
+
+   public int getAge()
+   {
+      return this.age;
+   }
+
+   public HavePerson setAge(int value)
+   {
+      if (value == this.age)
+      {
+         return this;
+      }
+
+      final int oldValue = this.age;
+      this.age = value;
+      this.firePropertyChange(PROPERTY_age, oldValue, value);
+      return this;
+   }
+
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_name = "name";
+   private String name;
+   public static final String PROPERTY_age = "age";
+   private int age;
 
 }

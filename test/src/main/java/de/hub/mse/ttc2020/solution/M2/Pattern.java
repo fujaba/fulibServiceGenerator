@@ -1,8 +1,12 @@
 package de.hub.mse.ttc2020.solution.M2;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Collection;
 
-public class Pattern  
+public class Pattern
 {
 
    public static final java.util.ArrayList<PatternObject> EMPTY_objects = new java.util.ArrayList<PatternObject>()
@@ -10,16 +14,13 @@ public class Pattern
 
    public static final String PROPERTY_objects = "objects";
 
-   private java.util.ArrayList<PatternObject> objects = null;
+   private List<PatternObject> objects;
 
-   public java.util.ArrayList<PatternObject> getObjects()
+   protected PropertyChangeSupport listeners;
+
+   public List<PatternObject> getObjects()
    {
-      if (this.objects == null)
-      {
-         return EMPTY_objects;
-      }
-
-      return this.objects;
+      return this.objects != null ? Collections.unmodifiableList(this.objects) : Collections.emptyList();
    }
 
    public Pattern withObjects(Object... value)
@@ -79,13 +80,11 @@ public class Pattern
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -93,47 +92,106 @@ public class Pattern
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
 
    public void removeYou()
    {
-      this.withoutObjects(this.getObjects().clone());
+      this.withoutObjects(new ArrayList<>(this.getObjects()));
+   }
 
+public Pattern withObjects(PatternObject value)
+   {
+      if (this.objects == null)
+      {
+         this.objects = new ArrayList<>();
+      }
+      if (!this.objects.contains(value))
+      {
+         this.objects.add(value);
+         value.setPattern(this);
+         this.firePropertyChange(PROPERTY_objects, null, value);
+      }
+      return this;
+   }
 
+public Pattern withObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withoutObjects(PatternObject value)
+   {
+      if (this.objects != null && this.objects.remove(value))
+      {
+         value.setPattern(null);
+         this.firePropertyChange(PROPERTY_objects, value, null);
+      }
+      return this;
+   }
+
+public Pattern withoutObjects(PatternObject... value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
+   }
+
+public Pattern withoutObjects(Collection<? extends PatternObject> value)
+   {
+      for (final PatternObject item : value)
+      {
+         this.withoutObjects(item);
+      }
+      return this;
    }
 
 }

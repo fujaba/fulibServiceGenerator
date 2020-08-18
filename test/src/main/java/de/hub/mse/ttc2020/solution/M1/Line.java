@@ -1,93 +1,24 @@
 package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
-public class Line  
+public class Line
 {
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public Line setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_description = "description";
-
-   private String description;
-
-   public String getDescription()
-   {
-      return description;
-   }
-
-   public Line setDescription(String value)
-   {
-      if (value == null ? this.description != null : ! value.equals(this.description))
-      {
-         String oldValue = this.description;
-         this.description = value;
-         firePropertyChange("description", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_action = "action";
-
-   private String action;
-
-   public String getAction()
-   {
-      return action;
-   }
-
-   public Line setAction(String value)
-   {
-      if (value == null ? this.action != null : ! value.equals(this.action))
-      {
-         String oldValue = this.action;
-         this.action = value;
-         firePropertyChange("action", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_value = "value";
-
-   private String value;
-
-   public String getValue()
-   {
-      return value;
-   }
-
-   public Line setValue(String value)
-   {
-      if (value == null ? this.value != null : ! value.equals(this.value))
-      {
-         String oldValue = this.value;
-         this.value = value;
-         firePropertyChange("value", oldValue, value);
-      }
-      return this;
-   }
 
    public static final String PROPERTY_page = "page";
 
-   private Page page = null;
+   private Page page;
+
+   protected PropertyChangeSupport listeners;
+   public static final String PROPERTY_id = "id";
+   private String id;
+   public static final String PROPERTY_description = "description";
+   private String description;
+   public static final String PROPERTY_action = "action";
+   private String action;
+   public static final String PROPERTY_value = "value";
+   private String value;
 
    public Page getPage()
    {
@@ -96,31 +27,31 @@ public class Line
 
    public Line setPage(Page value)
    {
-      if (this.page != value)
+      if (this.page == value)
       {
-         Page oldValue = this.page;
-         if (this.page != null)
-         {
-            this.page = null;
-            oldValue.withoutContent(this);
-         }
-         this.page = value;
-         if (value != null)
-         {
-            value.withContent(this);
-         }
-         firePropertyChange("page", oldValue, value);
+         return this;
       }
+
+      final Page oldValue = this.page;
+      if (this.page != null)
+      {
+         this.page = null;
+         oldValue.withoutContent(this);
+      }
+      this.page = value;
+      if (value != null)
+      {
+         value.withContent(this);
+      }
+      this.firePropertyChange(PROPERTY_page, oldValue, value);
       return this;
    }
 
-   protected PropertyChangeSupport listeners = null;
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -128,38 +59,38 @@ public class Line
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -167,21 +98,89 @@ public class Line
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-      result.append(" ").append(this.getDescription());
-      result.append(" ").append(this.getAction());
-      result.append(" ").append(this.getValue());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getId());
+      result.append(' ').append(this.getDescription());
+      result.append(' ').append(this.getAction());
+      result.append(' ').append(this.getValue());
       return result.substring(1);
    }
 
    public void removeYou()
    {
       this.setPage(null);
+   }
 
+   public String getId()
+   {
+      return this.id;
+   }
+
+   public Line setId(String value)
+   {
+      if (Objects.equals(value, this.id))
+      {
+         return this;
+      }
+
+      final String oldValue = this.id;
+      this.id = value;
+      this.firePropertyChange(PROPERTY_id, oldValue, value);
+      return this;
+   }
+
+   public String getDescription()
+   {
+      return this.description;
+   }
+
+   public Line setDescription(String value)
+   {
+      if (Objects.equals(value, this.description))
+      {
+         return this;
+      }
+
+      final String oldValue = this.description;
+      this.description = value;
+      this.firePropertyChange(PROPERTY_description, oldValue, value);
+      return this;
+   }
+
+   public String getAction()
+   {
+      return this.action;
+   }
+
+   public Line setAction(String value)
+   {
+      if (Objects.equals(value, this.action))
+      {
+         return this;
+      }
+
+      final String oldValue = this.action;
+      this.action = value;
+      this.firePropertyChange(PROPERTY_action, oldValue, value);
+      return this;
+   }
+
+   public String getValue()
+   {
+      return this.value;
+   }
+
+   public Line setValue(String value)
+   {
+      if (Objects.equals(value, this.value))
+      {
+         return this;
+      }
+
+      final String oldValue = this.value;
+      this.value = value;
+      this.firePropertyChange(PROPERTY_value, oldValue, value);
+      return this;
    }
 
 }

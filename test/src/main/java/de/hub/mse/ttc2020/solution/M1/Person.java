@@ -1,57 +1,28 @@
 package de.hub.mse.ttc2020.solution.M1;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
-public class Person  
+public class Person
 {
 
+   protected PropertyChangeSupport listeners;
+
+   public static final String PROPERTY_dog = "dog";
+
+   private Dog dog;
+   public static final String PROPERTY_id = "id";
+   private String id;
    public static final String PROPERTY_name = "name";
-
    private String name;
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public Person setName(String value)
-   {
-      if (value == null ? this.name != null : ! value.equals(this.name))
-      {
-         String oldValue = this.name;
-         this.name = value;
-         firePropertyChange("name", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_age = "age";
-
    private int age;
-
-   public int getAge()
-   {
-      return age;
-   }
-
-   public Person setAge(int value)
-   {
-      if (value != this.age)
-      {
-         int oldValue = this.age;
-         this.age = value;
-         firePropertyChange("age", oldValue, value);
-      }
-      return this;
-   }
-
-   protected PropertyChangeSupport listeners = null;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.firePropertyChange(propertyName, oldValue, newValue);
+         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
          return true;
       }
       return false;
@@ -59,38 +30,38 @@ public class Person
 
    public boolean addPropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(listener);
+      this.listeners.addPropertyChangeListener(listener);
       return true;
    }
 
    public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners == null)
+      if (this.listeners == null)
       {
-         listeners = new PropertyChangeSupport(this);
+         this.listeners = new PropertyChangeSupport(this);
       }
-      listeners.addPropertyChangeListener(propertyName, listener);
+      this.listeners.addPropertyChangeListener(propertyName, listener);
       return true;
    }
 
    public boolean removePropertyChangeListener(PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(listener);
+         this.listeners.removePropertyChangeListener(listener);
       }
       return true;
    }
 
-   public boolean removePropertyChangeListener(String propertyName,PropertyChangeListener listener)
+   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
    {
-      if (listeners != null)
+      if (this.listeners != null)
       {
-         listeners.removePropertyChangeListener(propertyName, listener);
+         this.listeners.removePropertyChangeListener(propertyName, listener);
       }
       return true;
    }
@@ -98,38 +69,11 @@ public class Person
    @Override
    public String toString()
    {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getId());
-      result.append(" ").append(this.getName());
-
-
+      final StringBuilder result = new StringBuilder();
+      result.append(' ').append(this.getId());
+      result.append(' ').append(this.getName());
       return result.substring(1);
    }
-
-   public static final String PROPERTY_id = "id";
-
-   private String id;
-
-   public String getId()
-   {
-      return id;
-   }
-
-   public Person setId(String value)
-   {
-      if (value == null ? this.id != null : ! value.equals(this.id))
-      {
-         String oldValue = this.id;
-         this.id = value;
-         firePropertyChange("id", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_dog = "dog";
-
-   private Dog dog = null;
 
    public Dog getDog()
    {
@@ -138,28 +82,83 @@ public class Person
 
    public Person setDog(Dog value)
    {
-      if (this.dog != value)
+      if (this.dog == value)
       {
-         Dog oldValue = this.dog;
-         if (this.dog != null)
-         {
-            this.dog = null;
-            oldValue.setOwner(null);
-         }
-         this.dog = value;
-         if (value != null)
-         {
-            value.setOwner(this);
-         }
-         firePropertyChange("dog", oldValue, value);
+         return this;
       }
+
+      final Dog oldValue = this.dog;
+      if (this.dog != null)
+      {
+         this.dog = null;
+         oldValue.setOwner(null);
+      }
+      this.dog = value;
+      if (value != null)
+      {
+         value.setOwner(this);
+      }
+      this.firePropertyChange(PROPERTY_dog, oldValue, value);
       return this;
    }
 
    public void removeYou()
    {
       this.setDog(null);
+   }
 
+   public String getId()
+   {
+      return this.id;
+   }
+
+   public Person setId(String value)
+   {
+      if (Objects.equals(value, this.id))
+      {
+         return this;
+      }
+
+      final String oldValue = this.id;
+      this.id = value;
+      this.firePropertyChange(PROPERTY_id, oldValue, value);
+      return this;
+   }
+
+   public String getName()
+   {
+      return this.name;
+   }
+
+   public Person setName(String value)
+   {
+      if (Objects.equals(value, this.name))
+      {
+         return this;
+      }
+
+      final String oldValue = this.name;
+      this.name = value;
+      this.firePropertyChange(PROPERTY_name, oldValue, value);
+      return this;
+   }
+
+   public int getAge()
+   {
+      return this.age;
+   }
+
+   public Person setAge(int value)
+   {
+      if (value == this.age)
+      {
+         return this;
+      }
+
+      final int oldValue = this.age;
+      this.age = value;
+      this.firePropertyChange(PROPERTY_age, oldValue, value);
+      return this;
    }
 
 }

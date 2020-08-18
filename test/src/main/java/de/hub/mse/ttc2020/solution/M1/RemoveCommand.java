@@ -6,7 +6,7 @@ import org.fulib.yaml.ReflectorMap;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-public class RemoveCommand extends ModelCommand  
+public class RemoveCommand extends ModelCommand
 {
 
    protected PropertyChangeSupport listeners = null;
@@ -59,13 +59,8 @@ public class RemoveCommand extends ModelCommand
       return true;
    }
 
-@Override
-   public void removeYou()
+   public Object run(M1Editor editor)
    {
-      super.removeYou();
-   }
-
-   public Object run(M1Editor editor) { 
       java.util.Map<String,Object> mapOfModelObjects = editor.getMapOfModelObjects();
       java.util.Map<String,Object> mapOfFrames = editor.getMapOfFrames();
 
