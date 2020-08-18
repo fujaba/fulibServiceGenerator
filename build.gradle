@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-	api 'org.fulib:fulibTools:1.1.0'
+	api 'org.fulib:fulibTools:1.2.1'
 
 	implementation 'com.codeborne:selenide:5.9.0'
 	implementation 'org.antlr:ST4:4.3'
