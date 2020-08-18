@@ -254,7 +254,7 @@ public class ServiceEditor
       mm.haveRole(service, "modelEditor", editor, ONE, "service", ONE);
       mm.haveAttribute(service, "reflectorMap", "ReflectorMap");
       mm.haveAttribute(service, "currentSession", STRING);
-      mm.haveAttribute(service, "executor", "ExecutorService ");
+      mm.haveAttribute(service, "executor", "ExecutorService");
       mm.haveAttribute(service, "spark", "Service");
 
       Attribute sessionToAppMap = mm.haveAttribute(service, "sessionToAppMap",
@@ -372,10 +372,10 @@ public class ServiceEditor
       Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String,ModelCommand>");
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
 
-      declaration = "public void addCommandsToBeStreamed(String... commandList)";
-      st = group.getInstanceOf("CommandStreamAddCommandsToBeStreamed");
-      body = st.render();
-      mm.haveMethod(commandStream, declaration, body);
+//      declaration = "public void addCommandsToBeStreamed(String... commandList)";
+//      st = group.getInstanceOf("CommandStreamAddCommandsToBeStreamed");
+//      body = st.render();
+//      mm.haveMethod(commandStream, declaration, body);
 
       LinkedHashSet<String> importList = commandStream.getImportList();
       importList.add("import org.fulib.yaml.Yaml;");
