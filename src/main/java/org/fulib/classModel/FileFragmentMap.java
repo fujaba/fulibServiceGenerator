@@ -291,7 +291,13 @@ public class FileFragmentMap
             continue;
          }
 
-         final Fragment lastChild = children.get(children.size() - 1);
+         Fragment lastChild = children.get(children.size() - 1);
+         for (Fragment child : children) {
+            if (subKey.equals(child.getKey())) {
+               lastChild = child;
+               break;
+            }
+         }
          if (!subKey.equals(lastChild.getKey()))
          {
             next = new CompoundFragment().setKey(subKey).setParent(next);
