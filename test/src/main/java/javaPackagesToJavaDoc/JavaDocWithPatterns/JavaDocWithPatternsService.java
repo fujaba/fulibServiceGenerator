@@ -122,26 +122,6 @@ public class JavaDocWithPatternsService
       return this;
    }
 
-   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-
-   private LinkedHashMap<String, JavaDocWithPatternsApp> sessionToAppMap = new LinkedHashMap();
-
-   public LinkedHashMap<String, JavaDocWithPatternsApp> getSessionToAppMap()
-   {
-      return sessionToAppMap;
-   }
-
-   public JavaDocWithPatternsService setSessionToAppMap(LinkedHashMap<String, JavaDocWithPatternsApp> value)
-   {
-      if (value != this.sessionToAppMap)
-      {
-         LinkedHashMap<String, JavaDocWithPatternsApp> oldValue = this.sessionToAppMap;
-         this.sessionToAppMap = value;
-         firePropertyChange("sessionToAppMap", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_modelEditor = "modelEditor";
 
    private JavaDocWithPatternsEditor modelEditor = null;
@@ -295,17 +275,6 @@ public class JavaDocWithPatternsService
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getCurrentSession());
-
-
-      return result.substring(1);
-   }
-
    public void removeYou()
    {
       this.setModelEditor(null);
@@ -313,6 +282,26 @@ public class JavaDocWithPatternsService
       this.withoutStreams(this.getStreams().clone());
 
 
+   }
+
+   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
+
+   private LinkedHashMap<String,JavaDocWithPatternsApp> sessionToAppMap = new LinkedHashMap();
+
+   public LinkedHashMap<String,JavaDocWithPatternsApp> getSessionToAppMap()
+   {
+      return sessionToAppMap;
+   }
+
+   public JavaDocWithPatternsService setSessionToAppMap(LinkedHashMap<String,JavaDocWithPatternsApp> value)
+   {
+      if (value != this.sessionToAppMap)
+      {
+         LinkedHashMap<String,JavaDocWithPatternsApp> oldValue = this.sessionToAppMap;
+         this.sessionToAppMap = value;
+         firePropertyChange("sessionToAppMap", oldValue, value);
+      }
+      return this;
    }
 
    public void start() { 
@@ -356,7 +345,7 @@ public class JavaDocWithPatternsService
             sessionToAppMap.put(currentSession, myApp);
          }
 
-         java.util.Map<String, String> params = req.params();
+         java.util.Map<String,String> params = req.params();
          java.io.StringWriter stringWriter = new java.io.StringWriter();
          stringWriter.write(
                "<html>\n" +
@@ -458,7 +447,7 @@ public class JavaDocWithPatternsService
 
    public String connect(Request req, Response res) { 
       String body = req.body();
-      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      LinkedHashMap<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(modelEditor);
@@ -477,6 +466,17 @@ public class JavaDocWithPatternsService
       withStreams(newStream);
       newStream.start();
       return newStream;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getCurrentSession());
+
+
+      return result.substring(1);
    }
 
 }

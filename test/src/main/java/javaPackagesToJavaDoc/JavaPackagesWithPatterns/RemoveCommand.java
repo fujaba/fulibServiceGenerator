@@ -7,8 +7,8 @@ public class RemoveCommand extends ModelCommand
 {
 
    public Object run(JavaPackagesWithPatternsEditor editor) { 
-      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
-      java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
+      java.util.Map<String,Object> mapOfModelObjects = editor.getMapOfModelObjects();
+      java.util.Map<String,Object> mapOfFrames = editor.getMapOfFrames();
 
       Object oldObject = mapOfModelObjects.remove(getId());
 

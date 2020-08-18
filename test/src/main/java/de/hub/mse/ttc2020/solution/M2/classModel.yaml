@@ -156,7 +156,7 @@
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	POJO
-  type: 	"java.util.Map<String, ModelCommand>"
+  type: 	"java.util.Map<String,ModelCommand>"
 
 - commandListeners: 	Attribute
   clazz: 	m2Editor
@@ -164,7 +164,7 @@
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	POJO
-  type: 	"java.util.Map<String, ArrayList<CommandStream>>"
+  type: 	"java.util.Map<String,ArrayList<CommandStream>>"
 
 - mapOfFrames: 	Attribute
   clazz: 	m2Editor
@@ -172,7 +172,7 @@
   modified: 	false
   name: 	mapOfFrames
   propertyStyle: 	POJO
-  type: 	"java.util.Map<String, Object>"
+  type: 	"java.util.Map<String,Object>"
 
 - mapOfModelObjects: 	Attribute
   clazz: 	m2Editor
@@ -180,7 +180,7 @@
   modified: 	false
   name: 	mapOfModelObjects
   propertyStyle: 	POJO
-  type: 	"java.util.Map<String, Object>"
+  type: 	"java.util.Map<String,Object>"
 
 - isoDateFormat: 	Attribute
   clazz: 	m2Editor
@@ -717,7 +717,7 @@
          return null;
       }
 
-      Map<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
+      Map<String,Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
       ModelCommand newCommand = null;
       try {
          newCommand = this.getClass().getConstructor().newInstance();
@@ -766,11 +766,11 @@
          }
          else if (link.getKind().equals(\"nac\")) {
             if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
-                     .contains(((Map<String, Object>) map).get(source.getPoId())));
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String,Object>) map, poId, link.getHandleLinkName())
+                     .contains(((Map<String,Object>) map).get(source.getPoId())));
             }
             else {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String,Object>) map, poId, link.getHandleLinkName()).isEmpty());
             }
          }
       }
@@ -813,8 +813,8 @@
 - f27: 	FMethod
   clazz: 	removeCommand
   declaration: 	"public Object run(M2Editor editor)"
-  methodBody: 	"      java.util.Map<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
-      java.util.Map<String, Object> mapOfFrames = editor.getMapOfFrames();
+  methodBody: 	"      java.util.Map<String,Object> mapOfModelObjects = editor.getMapOfModelObjects();
+      java.util.Map<String,Object> mapOfFrames = editor.getMapOfFrames();
 
       Object oldObject = mapOfModelObjects.remove(getId());
 
@@ -1008,7 +1008,7 @@
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	POJO
-  type: 	"LinkedHashMap<String, M2App>"
+  type: 	"LinkedHashMap<String,M2App>"
 
 - f30: 	FMethod
   clazz: 	m2Service
@@ -1059,7 +1059,7 @@
             sessionToAppMap.put(currentSession, myApp);
          }
 
-         java.util.Map<String, String> params = req.params();
+         java.util.Map<String,String> params = req.params();
          java.io.StringWriter stringWriter = new java.io.StringWriter();
          stringWriter.write(
                \"<html>\n\" +
@@ -1167,7 +1167,7 @@
   clazz: 	m2Service
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
-      LinkedHashMap<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      LinkedHashMap<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(modelEditor);
@@ -1241,7 +1241,7 @@
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	POJO
-  type: 	"java.util.Map<String, ModelCommand>"
+  type: 	"java.util.Map<String,ModelCommand>"
 
 - f37: 	FMethod
   clazz: 	commandStream
@@ -1281,7 +1281,7 @@
 
             // got an answer, clear active commands
             activeCommands.clear();
-            LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+            LinkedHashMap<String,Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
                   .decode(content.toString());
             executeCommands(map.values());
 
@@ -1320,7 +1320,7 @@
   clazz: 	commandStream
   declaration: 	"public String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
-      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+      LinkedHashMap<String,Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
             .decode(body);
 
       Collection values = commandMap.values();

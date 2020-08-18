@@ -13,86 +13,6 @@ import java.util.*;
 public class M2Editor  
 {
 
-   public static final String PROPERTY_activeCommands = "activeCommands";
-
-   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, ModelCommand> getActiveCommands()
-   {
-      return activeCommands;
-   }
-
-   public M2Editor setActiveCommands(java.util.Map<String, ModelCommand> value)
-   {
-      if (value != this.activeCommands)
-      {
-         java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
-         this.activeCommands = value;
-         firePropertyChange("activeCommands", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_commandListeners = "commandListeners";
-
-   private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, ArrayList<CommandStream>> getCommandListeners()
-   {
-      return commandListeners;
-   }
-
-   public M2Editor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
-   {
-      if (value != this.commandListeners)
-      {
-         java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
-         this.commandListeners = value;
-         firePropertyChange("commandListeners", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
-
-   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getMapOfFrames()
-   {
-      return mapOfFrames;
-   }
-
-   public M2Editor setMapOfFrames(java.util.Map<String, Object> value)
-   {
-      if (value != this.mapOfFrames)
-      {
-         java.util.Map<String, Object> oldValue = this.mapOfFrames;
-         this.mapOfFrames = value;
-         firePropertyChange("mapOfFrames", oldValue, value);
-      }
-      return this;
-   }
-
-   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
-
-   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, Object> getMapOfModelObjects()
-   {
-      return mapOfModelObjects;
-   }
-
-   public M2Editor setMapOfModelObjects(java.util.Map<String, Object> value)
-   {
-      if (value != this.mapOfModelObjects)
-      {
-         java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
-         this.mapOfModelObjects = value;
-         firePropertyChange("mapOfModelObjects", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_isoDateFormat = "isoDateFormat";
 
    private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -238,17 +158,6 @@ public class M2Editor
 
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getLastTime());
-
-
-      return result.substring(1);
-   }
-
    public static final String PROPERTY_commandPrototypes = "commandPrototypes";
 
    private ArrayList<ModelCommand> commandPrototypes;
@@ -265,6 +174,86 @@ public class M2Editor
          ArrayList<ModelCommand> oldValue = this.commandPrototypes;
          this.commandPrototypes = value;
          firePropertyChange("commandPrototypes", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_activeCommands = "activeCommands";
+
+   private java.util.Map<String,ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String,ModelCommand> getActiveCommands()
+   {
+      return activeCommands;
+   }
+
+   public M2Editor setActiveCommands(java.util.Map<String,ModelCommand> value)
+   {
+      if (value != this.activeCommands)
+      {
+         java.util.Map<String,ModelCommand> oldValue = this.activeCommands;
+         this.activeCommands = value;
+         firePropertyChange("activeCommands", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_commandListeners = "commandListeners";
+
+   private java.util.Map<String,ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String,ArrayList<CommandStream>> getCommandListeners()
+   {
+      return commandListeners;
+   }
+
+   public M2Editor setCommandListeners(java.util.Map<String,ArrayList<CommandStream>> value)
+   {
+      if (value != this.commandListeners)
+      {
+         java.util.Map<String,ArrayList<CommandStream>> oldValue = this.commandListeners;
+         this.commandListeners = value;
+         firePropertyChange("commandListeners", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
+
+   private java.util.Map<String,Object> mapOfFrames = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String,Object> getMapOfFrames()
+   {
+      return mapOfFrames;
+   }
+
+   public M2Editor setMapOfFrames(java.util.Map<String,Object> value)
+   {
+      if (value != this.mapOfFrames)
+      {
+         java.util.Map<String,Object> oldValue = this.mapOfFrames;
+         this.mapOfFrames = value;
+         firePropertyChange("mapOfFrames", oldValue, value);
+      }
+      return this;
+   }
+
+   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
+
+   private java.util.Map<String,Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String,Object> getMapOfModelObjects()
+   {
+      return mapOfModelObjects;
+   }
+
+   public M2Editor setMapOfModelObjects(java.util.Map<String,Object> value)
+   {
+      if (value != this.mapOfModelObjects)
+      {
+         java.util.Map<String,Object> oldValue = this.mapOfModelObjects;
+         this.mapOfModelObjects = value;
+         firePropertyChange("mapOfModelObjects", oldValue, value);
       }
       return this;
    }
@@ -468,6 +457,17 @@ public ArrayList<ModelCommand> haveCommandPrototypes() {
       }
 
       return commandPrototypes;
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getLastTime());
+
+
+      return result.substring(1);
    }
 
 }

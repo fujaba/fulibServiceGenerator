@@ -314,11 +314,11 @@ public class ModelCommand
          }
          else if (link.getKind().equals("nac")) {
             if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName())
-                     .contains(((Map<String, Object>) map).get(source.getPoId())));
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String,Object>) map, poId, link.getHandleLinkName())
+                     .contains(((Map<String,Object>) map).get(source.getPoId())));
             }
             else {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map<String,Object>) map, poId, link.getHandleLinkName()).isEmpty());
             }
          }
       }

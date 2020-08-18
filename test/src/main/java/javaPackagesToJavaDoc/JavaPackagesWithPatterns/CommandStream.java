@@ -73,26 +73,6 @@ public class CommandStream
       return this;
    }
 
-   public static final String PROPERTY_activeCommands = "activeCommands";
-
-   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
-
-   public java.util.Map<String, ModelCommand> getActiveCommands()
-   {
-      return activeCommands;
-   }
-
-   public CommandStream setActiveCommands(java.util.Map<String, ModelCommand> value)
-   {
-      if (value != this.activeCommands)
-      {
-         java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
-         this.activeCommands = value;
-         firePropertyChange("activeCommands", oldValue, value);
-      }
-      return this;
-   }
-
    public static final String PROPERTY_service = "service";
 
    private JavaPackagesWithPatternsService service = null;
@@ -172,21 +152,30 @@ public class CommandStream
       return true;
    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder result = new StringBuilder();
-
-      result.append(" ").append(this.getName());
-
-
-      return result.substring(1);
-   }
-
    public void removeYou()
    {
       this.setService(null);
 
+   }
+
+   public static final String PROPERTY_activeCommands = "activeCommands";
+
+   private java.util.Map<String,ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+
+   public java.util.Map<String,ModelCommand> getActiveCommands()
+   {
+      return activeCommands;
+   }
+
+   public CommandStream setActiveCommands(java.util.Map<String,ModelCommand> value)
+   {
+      if (value != this.activeCommands)
+      {
+         java.util.Map<String,ModelCommand> oldValue = this.activeCommands;
+         this.activeCommands = value;
+         firePropertyChange("activeCommands", oldValue, value);
+      }
+      return this;
    }
 
    public void publish(ModelCommand cmd) { 
@@ -222,7 +211,7 @@ public class CommandStream
 
             // got an answer, clear active commands
             activeCommands.clear();
-            LinkedHashMap<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+            LinkedHashMap<String,Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
                   .decode(content.toString());
             executeCommands(map.values());
 
@@ -252,7 +241,7 @@ public class CommandStream
 
    public String handlePostRequest(Request req, Response res) { 
       String body = req.body();
-      LinkedHashMap<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+      LinkedHashMap<String,Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
             .decode(body);
 
       Collection values = commandMap.values();
@@ -265,6 +254,17 @@ public class CommandStream
       for (String cmd : commandList) {
          service.getModelEditor().addCommandListener(cmd, this);
       }
+   }
+
+   @Override
+   public String toString()
+   {
+      StringBuilder result = new StringBuilder();
+
+      result.append(" ").append(this.getName());
+
+
+      return result.substring(1);
    }
 
 }
