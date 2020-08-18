@@ -12,7 +12,8 @@ public class GenModel
 {
    public static void main(String[] args)
    {
-      genTGGPackageToDocDir();
+      // genTGGPackageToDocDir();
+
       genTTC2020Model();
 
 //      genBPMNToWorkFlows();
