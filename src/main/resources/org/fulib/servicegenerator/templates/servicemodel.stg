@@ -411,7 +411,7 @@ modelCommandParse() ::= <<
          return null;
       }
 
-      Map\<String, Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
+      Map\<String,Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
       ModelCommand newCommand = null;
       try {
          newCommand = this.getClass().getConstructor().newInstance();
@@ -459,11 +459,11 @@ modelCommandMatchAttributesAndLinks() ::= <<
          }
          else if (link.getKind().equals("nac")) {
             if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map\<String, Object>) map, poId, link.getHandleLinkName())
-                     .contains(((Map\<String, Object>) map).get(source.getPoId())));
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map\<String,Object>) map, poId, link.getHandleLinkName())
+                     .contains(((Map\<String,Object>) map).get(source.getPoId())));
             }
             else {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map\<String, Object>) map, poId, link.getHandleLinkName()).isEmpty());
+               pathTable.filterRows(map -> getSetOfTargetHandles((Map\<String,Object>) map, poId, link.getHandleLinkName()).isEmpty());
             }
          }
       }
@@ -494,8 +494,8 @@ modelCommandGetHandleValue() ::= <<
 
 
 removeCommandRun() ::= <<
-      java.util.Map\<String, Object> mapOfModelObjects = editor.getMapOfModelObjects();
-      java.util.Map\<String, Object> mapOfFrames = editor.getMapOfFrames();
+      java.util.Map\<String,Object> mapOfModelObjects = editor.getMapOfModelObjects();
+      java.util.Map\<String,Object> mapOfFrames = editor.getMapOfFrames();
 
       Object oldObject = mapOfModelObjects.remove(getId());
 
@@ -561,7 +561,7 @@ serviceAddStream() ::= <<
 
 serviceConnect() ::= <<
       String body = req.body();
-      LinkedHashMap\<String, Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      LinkedHashMap\<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(modelEditor);
@@ -634,7 +634,7 @@ rootBody(serviceName) ::= <<
             sessionToAppMap.put(currentSession, myApp);
          }
 
-         java.util.Map\<String, String> params = req.params();
+         java.util.Map\<String,String> params = req.params();
          java.io.StringWriter stringWriter = new java.io.StringWriter();
          stringWriter.write(
                "\<html>\n" +
@@ -804,7 +804,7 @@ CommandStreamSend() ::= <<
 
             // got an answer, clear active commands
             activeCommands.clear();
-            LinkedHashMap\<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
+            LinkedHashMap\<String,Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
                   .decode(content.toString());
             executeCommands(map.values());
 
@@ -837,7 +837,7 @@ CommandStreamStart() ::= <<
 
 CommandStreamHandlePostRequest() ::= <<
       String body = req.body();
-      LinkedHashMap\<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
+      LinkedHashMap\<String,Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
             .decode(body);
 
       Collection values = commandMap.values();

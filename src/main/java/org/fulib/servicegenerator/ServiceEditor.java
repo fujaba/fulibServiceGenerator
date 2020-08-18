@@ -20,8 +20,8 @@ public class ServiceEditor
    private ClassModelManager mm = new ClassModelManager();
    private Clazz modelCommand;
    private Clazz editor;
-   private LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
-   private LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
+   private LinkedHashMap<String,Clazz> dataClasses = new LinkedHashMap<>();
+   private LinkedHashMap<String,Clazz> commandClasses = new LinkedHashMap<>();
    private STGroupFile group;
    private Clazz removeCommand;
    private String serviceName;
@@ -258,7 +258,7 @@ public class ServiceEditor
       mm.haveAttribute(service, "spark", "Service");
 
       Attribute sessionToAppMap = mm.haveAttribute(service, "sessionToAppMap",
-            String.format("LinkedHashMap<String, %sApp>", serviceName));
+            String.format("LinkedHashMap<String,%sApp>", serviceName));
       sessionToAppMap.setInitialization("new LinkedHashMap()");
 
       haveCommandStream();
@@ -369,7 +369,7 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(commandStream, declaration, body);
 
-      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
+      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String,ModelCommand>");
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
 
       declaration = "public void addCommandsToBeStreamed(String... commandList)";
@@ -463,7 +463,7 @@ public class ServiceEditor
 
    private void editorHaveMapFor(String mapName, String entryClassName)
    {
-      String mapType = String.format("java.util.Map<String, %s>", entryClassName);
+      String mapType = String.format("java.util.Map<String,%s>", entryClassName);
       Attribute attribute = mm.haveAttribute(this.editor, mapName, mapType);
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
    }
@@ -563,7 +563,7 @@ public class ServiceEditor
    }
 
 
-   private Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
+   private Map<Clazz,Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
 
    public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {

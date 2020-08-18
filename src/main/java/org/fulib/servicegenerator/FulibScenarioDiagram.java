@@ -19,12 +19,12 @@ public class FulibScenarioDiagram
    private String htmlFileName;
    private String allLanes;
 
-   private LinkedHashMap<String, ArrayList<String>> laneMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, Integer> laneToIndentMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
+   private LinkedHashMap<String,ArrayList<String>> laneMap = new LinkedHashMap<>();
+   private LinkedHashMap<String,Integer> laneToIndentMap = new LinkedHashMap<>();
+   private LinkedHashMap<String,ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
+   private LinkedHashMap<String,Integer> msgLaneToIndentMap = new LinkedHashMap<>();
 
-   private LinkedHashMap<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
+   private LinkedHashMap<String,String> streamToLastCommandTimeMap = new LinkedHashMap<>();
    private ArrayList<String> lanes = new ArrayList<>();
    private Object currentService;
    private Object modelEditor;

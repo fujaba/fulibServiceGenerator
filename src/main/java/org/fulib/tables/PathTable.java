@@ -324,13 +324,13 @@ public class PathTable implements Iterable<List<Object>>
     *
     * @since 1.2
     */
-   public PathTable derive(String columnName, Function<? super Map<String, Object>, ? extends Object> function)
+   public PathTable derive(String columnName, Function<? super Map<String,Object>, ? extends Object> function)
    {
       this.deriveImpl(columnName, function);
       return this;
    }
 
-   void deriveImpl(String columnName, Function<? super LinkedHashMap<String, Object>, ?> function)
+   void deriveImpl(String columnName, Function<? super LinkedHashMap<String,Object>, ?> function)
    {
       for (List<Object> row : this.table)
       {
