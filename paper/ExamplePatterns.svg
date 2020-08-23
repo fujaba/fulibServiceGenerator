@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg13489"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="ExamplePatterns.svg">
+  <defs
+     id="defs13483">
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect10958"
+       is_visible="true"
+       offset_points="3,0.64276424"
+       sort_points="true"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       end_linecap_type="zerowidth" />
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect10958-6"
+       is_visible="true"
+       offset_points="3,0.64276425"
+       sort_points="true"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       end_linecap_type="zerowidth" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="206.5049"
+     inkscape:cy="724.07685"
+     inkscape:document-units="mm"
+     inkscape:current-layer="node1"
+     showgrid="false"
+     inkscape:window-width="1536"
+     inkscape:window-height="841"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata13486">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="node1"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,8.4855661,46.666373)">
+      <title
+         id="title13535">p</title>
+      <polygon
+         style="fill:none;stroke:#008000"
+         points="102.5,-25 11.5,-25 11.5,-46 102.5,-46 "
+         id="polygon13537" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="14.5"
+         y="-31.799999"
+         font-size="14.00"
+         id="text13539">p :JavaPackage</text>
+      <polygon
+         style="fill:none;stroke:#008000"
+         points="102.5,-4 11.5,-4 11.5,-25 102.5,-25 "
+         id="polygon13541" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="38.5"
+         y="-10.8"
+         font-size="14.00"
+         id="text13543">id = id</text>
+      <path
+         sodipodi:type="star"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#009000;stroke-width:1.37952757;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path13668"
+         sodipodi:sides="6"
+         sodipodi:cx="171.14285"
+         sodipodi:cy="-63.857166"
+         sodipodi:r1="29.902052"
+         sodipodi:r2="25.895935"
+         sodipodi:arg1="1.0590575"
+         sodipodi:arg2="1.5826563"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 185.78571,-37.785737 -29.89995,-0.354628 -14.64286,-26.07143 15.2571,-25.716801 29.89994,0.354629 14.64286,26.071429 z"
+         inkscape:transform-center-y="-1.812738e-006"
+         transform="matrix(1.5644653,0,0,1,-91.512434,-0.42857152)" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="149.86049"
+         y="-70.864693"
+         font-size="14.00"
+         id="text13539-7">HaveRoot</text>
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="167.94385"
+         y="-49.806797"
+         font-size="14.00"
+         id="text13543-2">id</text>
+      <g
+         id="node1-7"
+         class="node"
+         transform="translate(220.71429,7.3571223)">
+        <title
+           id="title14275">f</title>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="115.5,-25 60.5,-25 60.5,-46 115.5,-46 "
+           id="polygon14277" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="63.5"
+           y="-31.799999"
+           font-size="14.00"
+           id="text14279">f :Folder</text>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="115.5,-4 60.5,-4 60.5,-25 115.5,-25 "
+           id="polygon14281" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="69.5"
+           y="-10.8"
+           font-size="14.00"
+           id="text14283">id = id</text>
+      </g>
+      <g
+         id="node2-1"
+         class="node"
+         transform="translate(220.71429,7.3571223)">
+        <title
+           id="title14286">sf</title>
+        <polygon
+           style="fill:none;stroke:#0000ff"
+           points="69.5,-103 8.5,-103 8.5,-124 69.5,-124 "
+           id="polygon14288" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="11.5"
+           y="-109.8"
+           font-size="14.00"
+           id="text14290">sf :Folder</text>
+        <polygon
+           style="fill:none;stroke:#0000ff"
+           points="69.5,-97 8.5,-97 8.5,-103 69.5,-103 "
+           id="polygon14292" />
+      </g>
+      <g
+         id="edge1-6"
+         class="edge"
+         transform="translate(220.71429,7.3571223)">
+        <title
+           id="title14295">f-&gt;sf</title>
+        <path
+           style="fill:none;stroke:#0000ff"
+           inkscape:connector-curvature="0"
+           d="M 73.3272,-50.2963 C 65.3565,-63.9603 55.6009,-80.6842 48.4445,-92.9523"
+           id="path14297" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+           x="40.9445"
+           y="-81.752296"
+           font-size="14.00"
+           id="text14299">up</text>
+      </g>
+      <g
+         id="node3"
+         class="node"
+         transform="translate(220.71429,7.3571223)">
+        <title
+           id="title14302">d</title>
+        <polygon
+           style="fill:none;stroke:#0000ff"
+           points="170.5,-111 103.5,-111 103.5,-132 170.5,-132 "
+           id="polygon14304" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="107.5"
+           y="-117.8"
+           font-size="14.00"
+           id="text14306">d :DocFile</text>
+        <polygon
+           style="fill:none;stroke:#0000ff"
+           points="170.5,-90 103.5,-90 103.5,-111 170.5,-111 "
+           id="polygon14308" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="106.5"
+           y="-96.800003"
+           font-size="14.00"
+           id="text14310">id = docId</text>
+      </g>
+      <g
+         id="edge2"
+         class="edge"
+         transform="translate(220.71429,7.3571223)">
+        <title
+           id="title14313">f-&gt;d</title>
+        <path
+           style="fill:none;stroke:#0000ff"
+           inkscape:connector-curvature="0"
+           d="m 101.673,-50.2963 c 6.501,-11.1444 14.189,-24.3243 20.686,-35.462"
+           id="path14315" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+           x="110.859"
+           y="-74.558296"
+           font-size="14.00"
+           id="text14317">files</text>
+      </g>
+      <path
+         style="fill:#000000;fill-rule:nonzero;stroke:#0000ff;stroke-width:1.68431544;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:6.73726182, 13.47452364;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 394.31702,24.379399 c -82.70424,0 -224.83185,-0.08296 -383.686879,-0.189265 -1.6283471,-0.189607 -3.5624332,-0.453499 -4.4101606,-0.453499 0.4410095,0 1.7640378,0.642764 2.2050473,0.642764 -0.4410095,0 -1.7640378,0.642764 -2.2050473,0.642764 0.8477274,0 2.7818135,-0.263892 4.4100946,-0.453499 C 169.48517,24.462356 311.61278,24.379399 394.31702,24.379399 Z"
+         id="path10956"
+         inkscape:connector-curvature="0"
+         inkscape:path-effect="#path-effect10958"
+         inkscape:original-d="M 394.31702,24.379399 H 10.630075 v 0 H 8.4250277" />
+      <g
+         id="node1-0"
+         class="node"
+         transform="translate(1.332148,177.23146)">
+        <title
+           id="title14619">sp</title>
+        <polygon
+           style="fill:none;stroke:#000000"
+           points="105.5,-111 8.5,-111 8.5,-132 105.5,-132 "
+           id="polygon14621" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="11.5"
+           y="-117.8"
+           font-size="14.00"
+           id="text14623">sp :JavaPackage</text>
+        <polygon
+           style="fill:none;stroke:#000000"
+           points="105.5,-90 8.5,-90 8.5,-111 105.5,-111 "
+           id="polygon14625" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="26.5"
+           y="-96.800003"
+           font-size="14.00"
+           id="text14627">id = parent</text>
+      </g>
+      <g
+         id="node2-2"
+         class="node"
+         transform="translate(1.332148,177.23146)">
+        <title
+           id="title14630">p</title>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="102.5,-25 11.5,-25 11.5,-46 102.5,-46 "
+           id="polygon14632" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="14.5"
+           y="-31.799999"
+           font-size="14.00"
+           id="text14634">p :JavaPackage</text>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="102.5,-4 11.5,-4 11.5,-25 102.5,-25 "
+           id="polygon14636" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="38.5"
+           y="-10.8"
+           font-size="14.00"
+           id="text14638">id = id</text>
+      </g>
+      <g
+         id="edge1-8"
+         class="edge"
+         transform="translate(1.332148,177.23146)">
+        <title
+           id="title14641">p-&gt;sp</title>
+        <path
+           style="fill:none;stroke:#008000"
+           inkscape:connector-curvature="0"
+           d="m 56.5,-50.2963 c 0,-11.1444 0,-24.3243 0,-35.462"
+           id="path14643" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+           x="49"
+           y="-74.558296"
+           font-size="14.00"
+           id="text14645">up</text>
+      </g>
+      <path
+         sodipodi:type="star"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#009000;stroke-width:1.37952757;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path13668-2"
+         sodipodi:sides="6"
+         sodipodi:cx="171.14285"
+         sodipodi:cy="-63.857166"
+         sodipodi:r1="29.902052"
+         sodipodi:r2="25.895935"
+         sodipodi:arg1="1.0590575"
+         sodipodi:arg2="1.5826563"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 185.78571,-37.785737 -29.89995,-0.354628 -14.64286,-26.07143 15.2571,-25.716801 29.89994,0.354629 14.64286,26.071429 z"
+         inkscape:transform-center-y="-1.7977119e-006"
+         transform="matrix(1.7470694,0,0,1.2600625,-122.27287,195.48807)" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="138.35144"
+         y="109.00778"
+         font-size="14.00"
+         id="text13539-7-4">HaveSubUnit</text>
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="148.4348"
+         y="124.53015"
+         font-size="14.00"
+         id="text13543-2-0">id, parent</text>
+      <g
+         id="node1-78"
+         class="node"
+         transform="translate(220.43121,181.77714)">
+        <title
+           id="title14778">sf</title>
+        <polygon
+           style="fill:none;stroke:#000000"
+           points="8.5,-132 75.5,-132 75.5,-111 8.5,-111 "
+           id="polygon14780" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="14.5"
+           y="-117.8"
+           font-size="14.00"
+           id="text14782">sf :Folder</text>
+        <polygon
+           style="fill:none;stroke:#000000"
+           points="8.5,-111 75.5,-111 75.5,-90 8.5,-90 "
+           id="polygon14784" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="11.5"
+           y="-96.800003"
+           font-size="14.00"
+           id="text14786">id = parent</text>
+      </g>
+      <g
+         id="node2-24"
+         class="node"
+         transform="translate(220.43121,181.77714)">
+        <title
+           id="title14789">f</title>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="64.5,-46 119.5,-46 119.5,-25 64.5,-25 "
+           id="polygon14791" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="67.5"
+           y="-31.799999"
+           font-size="14.00"
+           id="text14793">f :Folder</text>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="64.5,-25 119.5,-25 119.5,-4 64.5,-4 "
+           id="polygon14795" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="73.5"
+           y="-10.8"
+           font-size="14.00"
+           id="text14797">id = id</text>
+      </g>
+      <g
+         id="edge2-2"
+         class="edge"
+         transform="translate(220.43121,181.77714)">
+        <title
+           id="title14800">f-&gt;sf</title>
+        <path
+           style="fill:none;stroke:#008000"
+           inkscape:connector-curvature="0"
+           d="M 77.0379,-50.2963 C 70.4044,-61.4407 62.5592,-74.6206 55.9296,-85.7583"
+           id="path14802" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+           x="48.4296"
+           y="-74.558296"
+           font-size="14.00"
+           id="text14804">up</text>
+      </g>
+      <g
+         id="node3-3"
+         class="node"
+         transform="translate(220.43121,181.77714)">
+        <title
+           id="title14807">d</title>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="109.5,-132 176.5,-132 176.5,-111 109.5,-111 "
+           id="polygon14809" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="113.5"
+           y="-117.8"
+           font-size="14.00"
+           id="text14811">d :DocFile</text>
+        <polygon
+           style="fill:none;stroke:#008000"
+           points="109.5,-111 176.5,-111 176.5,-90 109.5,-90 "
+           id="polygon14813" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+           x="112.5"
+           y="-96.800003"
+           font-size="14.00"
+           id="text14815">id = docId</text>
+      </g>
+      <g
+         id="edge1-67"
+         class="edge"
+         transform="translate(220.43121,181.77714)">
+        <title
+           id="title14818">f-&gt;d</title>
+        <path
+           style="fill:none;stroke:#008000"
+           inkscape:connector-curvature="0"
+           d="m 106.251,-50.2963 c 6.767,-11.1444 14.769,-24.3243 21.531,-35.462"
+           id="path14820" />
+        <text
+           style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+           x="116.282"
+           y="-74.558296"
+           font-size="14.00"
+           id="text14822">files</text>
+      </g>
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="153.9395"
+         y="138.73688"
+         font-size="14.00"
+         id="text13543-2-0-5">(docId)</text>
+      <path
+         style="fill:#000000;fill-rule:nonzero;stroke:#0000ff;stroke-width:1.68431544;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:6.73726182, 13.47452364;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 396.99189,201.85326 c -82.70424,0 -224.83186,-0.083 -383.68688,-0.18927 -1.628347,-0.1896 -3.5624327,-0.45349 -4.41016,-0.45349 0.4410094,0 1.764038,0.64276 2.205047,0.64276 -0.441009,0 -1.7640376,0.64276 -2.205047,0.64276 0.8477273,0 2.781813,-0.26389 4.410094,-0.45349 158.855086,-0.10631 300.982706,-0.18927 383.686946,-0.18927 z"
+         id="path10956-6"
+         inkscape:connector-curvature="0"
+         inkscape:path-effect="#path-effect10958-6"
+         inkscape:original-d="M 396.99189,201.85326 H 13.304944 v 0 h -2.205047" />
+      <g
+         transform="translate(5.8473705,369.0843)"
+         class="graph"
+         id="graph0">
+        <title
+           id="title14967">pattern</title>
+        <polygon
+           id="polygon14969"
+           points="111,4 -4,4 -4,-155 111,-155 "
+           style="fill:#ffffff;stroke:none" />
+        <!-- p -->
+        <g
+           class="node"
+           id="node1-1">
+          <title
+             id="title14971">p</title>
+          <polygon
+             id="polygon14973"
+             points="8.5,-126 8.5,-147 99.5,-147 99.5,-126 "
+             style="fill:none;stroke:#000000" />
+          <text
+             id="text14975"
+             font-size="14.00"
+             y="-132.8"
+             x="11.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">p :JavaPackage</text>
+          <polygon
+             id="polygon14977"
+             points="8.5,-105 8.5,-126 99.5,-126 99.5,-105 "
+             style="fill:none;stroke:#000000" />
+          <text
+             id="text14979"
+             font-size="14.00"
+             y="-111.8"
+             x="23.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">id = parent</text>
+        </g>
+        <!-- c -->
+        <g
+           class="node"
+           id="node2-7">
+          <title
+             id="title14982">c</title>
+          <polygon
+             id="polygon14984"
+             points="14.5,-39.5 14.5,-60.5 93.5,-60.5 93.5,-39.5 "
+             style="fill:none;stroke:#008000" />
+          <text
+             id="text14986"
+             font-size="14.00"
+             y="-46.299999"
+             x="19.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">c :JavaClass</text>
+          <polygon
+             id="polygon14988"
+             points="14.5,-3.5 14.5,-39.5 93.5,-39.5 93.5,-3.5 "
+             style="fill:none;stroke:#008000" />
+          <text
+             id="text14990"
+             font-size="14.00"
+             y="-25.299999"
+             x="17.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">id = id</text>
+          <text
+             id="text14992"
+             font-size="14.00"
+             y="-10.3"
+             x="17.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">vTag = vTag</text>
+        </g>
+        <!-- c&#45;&gt;p -->
+        <g
+           class="edge"
+           id="edge1-65">
+          <title
+             id="title14995">c-&gt;p</title>
+          <path
+             id="path14997"
+             d="m 53.5,-65.2455 c 0,-11.6652 0,-24.6747 0,-35.5685"
+             inkscape:connector-curvature="0"
+             style="fill:none;stroke:#008000" />
+          <text
+             id="text14999"
+             font-size="14.00"
+             y="-89.614502"
+             x="46"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">up</text>
+        </g>
+      </g>
+      <g
+         transform="translate(259.39567,371.60968)"
+         class="graph"
+         id="graph0-0">
+        <title
+           id="title15075">pattern</title>
+        <polygon
+           id="polygon15077"
+           points="-4,-155 111,-155 111,4 -4,4 "
+           style="fill:#ffffff;stroke:none" />
+        <!-- f -->
+        <g
+           class="node"
+           id="node1-6">
+          <title
+             id="title15079">f</title>
+          <polygon
+             id="polygon15081"
+             points="87.5,-147 87.5,-126 20.5,-126 20.5,-147 "
+             style="fill:none;stroke:#000000" />
+          <text
+             id="text15083"
+             font-size="14.00"
+             y="-132.8"
+             x="29.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">f :Folder</text>
+          <polygon
+             id="polygon15085"
+             points="87.5,-126 87.5,-105 20.5,-105 20.5,-126 "
+             style="fill:none;stroke:#000000" />
+          <text
+             id="text15087"
+             font-size="14.00"
+             y="-111.8"
+             x="23.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">id = parent</text>
+        </g>
+        <!-- d -->
+        <g
+           class="node"
+           id="node2-5">
+          <title
+             id="title15090">d</title>
+          <polygon
+             id="polygon15092"
+             points="99.5,-60.5 99.5,-39.5 8.5,-39.5 8.5,-60.5 "
+             style="fill:none;stroke:#008000" />
+          <text
+             id="text15094"
+             font-size="14.00"
+             y="-46.299999"
+             x="24.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">d :DocFile</text>
+          <polygon
+             id="polygon15096"
+             points="99.5,-39.5 99.5,-3.5 8.5,-3.5 8.5,-39.5 "
+             style="fill:none;stroke:#008000" />
+          <text
+             id="text15098"
+             font-size="14.00"
+             y="-25.299999"
+             x="11.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">id = id</text>
+          <text
+             id="text15100"
+             font-size="14.00"
+             y="-10.3"
+             x="11.5"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">version = vTag</text>
+        </g>
+        <!-- d&#45;&gt;f -->
+        <g
+           class="edge"
+           id="edge1-3">
+          <title
+             id="title15103">d-&gt;f</title>
+          <path
+             id="path15105"
+             d="m 53.5,-65.2455 c 0,-11.6652 0,-24.6747 0,-35.5685"
+             inkscape:connector-curvature="0"
+             style="fill:none;stroke:#008000" />
+          <text
+             id="text15107"
+             font-size="14.00"
+             y="-89.614502"
+             x="46"
+             style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">up</text>
+        </g>
+      </g>
+      <path
+         sodipodi:type="star"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#009000;stroke-width:1.37952757;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path13668-2-8"
+         sodipodi:sides="6"
+         sodipodi:cx="171.14285"
+         sodipodi:cy="-63.857166"
+         sodipodi:r1="29.902052"
+         sodipodi:r2="25.895935"
+         sodipodi:arg1="1.0590575"
+         sodipodi:arg2="1.5826563"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 185.78571,-37.785737 -29.89995,-0.354628 -14.64286,-26.07143 15.2571,-25.716801 29.89994,0.354629 14.64286,26.071429 z"
+         inkscape:transform-center-y="-1.7977119e-006"
+         transform="matrix(1.7470694,0,0,1.2600625,-123.08252,377.3706)" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="147.13824"
+         y="286.8497"
+         font-size="14.00"
+         id="text13539-7-4-4">HaveLeaf</text>
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="133.62514"
+         y="304.41269"
+         font-size="14.00"
+         id="text13543-2-0-6">id, parent, vTag</text>
+    </g>
+    <g
+       id="node2"
+       class="node"
+       transform="matrix(0.26458333,0,0,0.26458333,8.4855661,46.666373)">
+      <title
+         id="title13546">sp</title>
+      <polygon
+         style="fill:none;stroke:#0000ff"
+         points="105.5,-96 8.5,-96 8.5,-117 105.5,-117 "
+         id="polygon13548" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start"
+         x="11.5"
+         y="-102.8"
+         font-size="14.00"
+         id="text13550">sp :JavaPackage</text>
+      <polygon
+         style="fill:none;stroke:#0000ff"
+         points="105.5,-90 8.5,-90 8.5,-96 105.5,-96 "
+         id="polygon13552" />
+    </g>
+    <g
+       id="edge1"
+       class="edge"
+       transform="matrix(0.26458333,0,0,0.26458333,8.4855661,46.666373)">
+      <title
+         id="title13555">p-&gt;sp</title>
+      <path
+         style="fill:none;stroke:#0000ff"
+         inkscape:connector-curvature="0"
+         d="m 56.5,-50.3633 c 0,-11.4555 0,-24.8501 0,-35.2604"
+         id="path13557" />
+      <text
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+         x="49"
+         y="-74.423698"
+         font-size="14.00"
+         id="text13559">up</text>
+    </g>
+  </g>
+</svg>

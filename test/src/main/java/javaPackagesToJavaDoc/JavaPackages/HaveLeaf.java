@@ -31,6 +31,11 @@ public class HaveLeaf extends ModelCommand
 
       JavaClass currentClass = (JavaClass) currentObject;
 
+      if (currentClass.getUp() == null) {
+         ModelCommand modelCommand = new RemoveCommand().setId(currentClass.getId());
+         return modelCommand;
+      }
+
       ModelCommand modelCommand = new HaveLeaf().setParent(currentClass.getUp().getId()).setId(currentClass.getId());
 
       return modelCommand;

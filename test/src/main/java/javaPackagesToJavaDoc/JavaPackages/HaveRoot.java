@@ -12,6 +12,12 @@ public class HaveRoot extends ModelCommand
    }
 
    @Override
+   public void undo(JavaPackagesEditor editor)
+   {
+      editor.removeModelObject(getId());
+   }
+
+   @Override
    public ModelCommand parse(Object currentObject)
    {
       if (! (currentObject instanceof JavaPackage)) {

@@ -5,17 +5,17 @@ public class HaveRoot extends ModelCommand
    @Override
    public Object run(JavaDocEditor editor)
    {
-      Folder obj = (Folder) editor.getOrCreate(Folder.class, getId());
-      obj.setUp(null);
+      Folder f = (Folder) editor.getOrCreate(Folder.class, getId());
+      f.setUp(null);
 
       String docId = getId() + "Doc";
-      DocFile file = obj.getFromFiles(docId);
-      if (file != null) {
-         editor.removeModelObject(file.getId());
-         obj.withoutFiles(file);
+      DocFile d = f.getFromFiles(docId);
+      if (d != null) {
+         editor.removeModelObject(d.getId());
+         f.withoutFiles(d);
       }
 
-      return obj;
+      return f;
    }
 
 }

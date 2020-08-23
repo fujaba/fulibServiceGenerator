@@ -8,16 +8,16 @@ public class HaveSubUnit extends ModelCommand
    @Override
    public Object run(JavaDocEditor editor)
    {
-      Folder obj = (Folder) editor.getOrCreate(Folder.class, getId());
-      Folder up = (Folder) editor.getObjectFrame(Folder.class, parent);
-      obj.setUp(up);
+      Folder p = (Folder) editor.getOrCreate(Folder.class, getId());
+      Folder sp = (Folder) editor.getObjectFrame(Folder.class, parent);
+      p.setUp(sp);
 
       String docId = getId() + "Doc";
-      DocFile file = (DocFile) editor.getOrCreate(DocFile.class, docId);
-      file.setContent(getId());
-      obj.withFiles(file);
+      DocFile d = (DocFile) editor.getOrCreate(DocFile.class, docId);
+      d.setContent(getId());
+      p.withFiles(d);
 
-      return obj;
+      return p;
    }
 
    @Override
