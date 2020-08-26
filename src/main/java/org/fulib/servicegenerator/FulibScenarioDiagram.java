@@ -313,7 +313,7 @@ public class FulibScenarioDiagram
             else {
                lines.append("<p>-");
             }
-            for (String property : reflector.getProperties()) {
+            for (String property : reflector.getOwnProperties()) { // TODO maybe use getAllProperties?
                if ("id".equals(property) || "time".equals(property)) {
                   continue;
                }
@@ -413,7 +413,7 @@ public class FulibScenarioDiagram
          else {
             lines.append("<p>-");
          }
-         for (String property : reflector.getProperties()) {
+         for (String property : reflector.getOwnProperties()) { // TODO maybe use getAllProperties?
             if ("id".equals(property)) {
                continue;
             }
