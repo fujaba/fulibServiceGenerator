@@ -17,8 +17,8 @@ import java.util.*;
 public class SystemEditor
 {
    private String mainJavaDir;
-   private Map<String,ServiceEditor> serviceMap = new LinkedHashMap<>();
-   private Map<ServiceEditor,Map<ServiceEditor,LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
+   private Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
+   private Map<ServiceEditor, Map<ServiceEditor, LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
    private String packageName;
    private final ClassModelManager sharedModelManager;
    private ServiceEditor sharedEditor;
