@@ -49,7 +49,7 @@ public class JavaDocService
    public static final String PROPERTY_spark = "spark";
    private Service spark;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String,JavaDocApp> sessionToAppMap = new LinkedHashMap();
+   private LinkedHashMap<String, JavaDocApp> sessionToAppMap = new LinkedHashMap();
 
    public JavaDocService setExecutor(ExecutorService value)
    {
@@ -523,19 +523,19 @@ public JavaDocService withoutStreams(Collection<? extends CommandStream> value)
       return this;
    }
 
-   public LinkedHashMap<String,JavaDocApp> getSessionToAppMap()
+   public LinkedHashMap<String, JavaDocApp> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public JavaDocService setSessionToAppMap(LinkedHashMap<String,JavaDocApp> value)
+   public JavaDocService setSessionToAppMap(LinkedHashMap<String, JavaDocApp> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String,JavaDocApp> oldValue = this.sessionToAppMap;
+      final LinkedHashMap<String, JavaDocApp> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

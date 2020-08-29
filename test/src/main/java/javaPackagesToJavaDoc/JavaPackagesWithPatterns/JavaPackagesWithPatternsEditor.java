@@ -18,14 +18,6 @@ public class JavaPackagesWithPatternsEditor
    private JavaPackagesWithPatternsService service;
 
    protected PropertyChangeSupport listeners;
-   public static final String PROPERTY_activeCommands = "activeCommands";
-   private java.util.Map<String,ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_commandListeners = "commandListeners";
-   private java.util.Map<String,ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
-   private java.util.Map<String,Object> mapOfFrames = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
-   private java.util.Map<String,Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_isoDateFormat = "isoDateFormat";
    private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
    public static final String PROPERTY_lastTime = "lastTime";
@@ -34,6 +26,14 @@ public class JavaPackagesWithPatternsEditor
    private long timeDelta = 1;
    public static final String PROPERTY_commandPrototypes = "commandPrototypes";
    private ArrayList<ModelCommand> commandPrototypes;
+   public static final String PROPERTY_activeCommands = "activeCommands";
+   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+   public static final String PROPERTY_commandListeners = "commandListeners";
+   private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
+   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
+   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
+   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
+   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
 
    public JavaPackagesWithPatternsService getService()
    {
@@ -341,78 +341,6 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       return commandPrototypes;
    }
 
-   public java.util.Map<String,ModelCommand> getActiveCommands()
-   {
-      return this.activeCommands;
-   }
-
-   public JavaPackagesWithPatternsEditor setActiveCommands(java.util.Map<String,ModelCommand> value)
-   {
-      if (Objects.equals(value, this.activeCommands))
-      {
-         return this;
-      }
-
-      final java.util.Map<String,ModelCommand> oldValue = this.activeCommands;
-      this.activeCommands = value;
-      this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String,ArrayList<CommandStream>> getCommandListeners()
-   {
-      return this.commandListeners;
-   }
-
-   public JavaPackagesWithPatternsEditor setCommandListeners(java.util.Map<String,ArrayList<CommandStream>> value)
-   {
-      if (Objects.equals(value, this.commandListeners))
-      {
-         return this;
-      }
-
-      final java.util.Map<String,ArrayList<CommandStream>> oldValue = this.commandListeners;
-      this.commandListeners = value;
-      this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String,Object> getMapOfFrames()
-   {
-      return this.mapOfFrames;
-   }
-
-   public JavaPackagesWithPatternsEditor setMapOfFrames(java.util.Map<String,Object> value)
-   {
-      if (Objects.equals(value, this.mapOfFrames))
-      {
-         return this;
-      }
-
-      final java.util.Map<String,Object> oldValue = this.mapOfFrames;
-      this.mapOfFrames = value;
-      this.firePropertyChange(PROPERTY_mapOfFrames, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String,Object> getMapOfModelObjects()
-   {
-      return this.mapOfModelObjects;
-   }
-
-   public JavaPackagesWithPatternsEditor setMapOfModelObjects(java.util.Map<String,Object> value)
-   {
-      if (Objects.equals(value, this.mapOfModelObjects))
-      {
-         return this;
-      }
-
-      final java.util.Map<String,Object> oldValue = this.mapOfModelObjects;
-      this.mapOfModelObjects = value;
-      this.firePropertyChange(PROPERTY_mapOfModelObjects, oldValue, value);
-      return this;
-   }
-
    public DateFormat getIsoDateFormat()
    {
       return this.isoDateFormat;
@@ -482,6 +410,78 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       final ArrayList<ModelCommand> oldValue = this.commandPrototypes;
       this.commandPrototypes = value;
       this.firePropertyChange(PROPERTY_commandPrototypes, oldValue, value);
+      return this;
+   }
+
+   public java.util.Map<String, ModelCommand> getActiveCommands()
+   {
+      return this.activeCommands;
+   }
+
+   public JavaPackagesWithPatternsEditor setActiveCommands(java.util.Map<String, ModelCommand> value)
+   {
+      if (Objects.equals(value, this.activeCommands))
+      {
+         return this;
+      }
+
+      final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
+      this.activeCommands = value;
+      this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
+      return this;
+   }
+
+   public java.util.Map<String, ArrayList<CommandStream>> getCommandListeners()
+   {
+      return this.commandListeners;
+   }
+
+   public JavaPackagesWithPatternsEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
+   {
+      if (Objects.equals(value, this.commandListeners))
+      {
+         return this;
+      }
+
+      final java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
+      this.commandListeners = value;
+      this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
+      return this;
+   }
+
+   public java.util.Map<String, Object> getMapOfFrames()
+   {
+      return this.mapOfFrames;
+   }
+
+   public JavaPackagesWithPatternsEditor setMapOfFrames(java.util.Map<String, Object> value)
+   {
+      if (Objects.equals(value, this.mapOfFrames))
+      {
+         return this;
+      }
+
+      final java.util.Map<String, Object> oldValue = this.mapOfFrames;
+      this.mapOfFrames = value;
+      this.firePropertyChange(PROPERTY_mapOfFrames, oldValue, value);
+      return this;
+   }
+
+   public java.util.Map<String, Object> getMapOfModelObjects()
+   {
+      return this.mapOfModelObjects;
+   }
+
+   public JavaPackagesWithPatternsEditor setMapOfModelObjects(java.util.Map<String, Object> value)
+   {
+      if (Objects.equals(value, this.mapOfModelObjects))
+      {
+         return this;
+      }
+
+      final java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
+      this.mapOfModelObjects = value;
+      this.firePropertyChange(PROPERTY_mapOfModelObjects, oldValue, value);
       return this;
    }
 

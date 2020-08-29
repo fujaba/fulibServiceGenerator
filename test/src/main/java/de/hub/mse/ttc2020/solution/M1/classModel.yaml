@@ -9,8 +9,8 @@
 
 - m1Editor: 	Clazz
   attributes: 	m1Editor_activeCommands 	m1Editor_commandListeners 	m1Editor_mapOfFrames 	m1Editor_mapOfModelObjects 	m1Editor_isoDateFormat 	m1Editor_lastTime 	m1Editor_timeDelta 	m1Editor_commandPrototypes
-  importList: 	"import java.lang.reflect.Method;" 	"import java.text.DateFormat;" 	"import java.util.Date;" 	"import java.util.ArrayList;" 	"import org.fulib.yaml.Yaml;" 	"import java.util.*;" 	"import org.fulib.yaml.Reflector;"
-  imports: 	"import java.lang.reflect.Method;" 	"import java.text.DateFormat;" 	"import java.util.Date;" 	"import java.util.ArrayList;" 	"import org.fulib.yaml.Yaml;" 	"import java.util.*;" 	"import org.fulib.yaml.Reflector;"
+  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
   model: 	c
   modified: 	false
@@ -20,8 +20,8 @@
 
 - modelCommand: 	Clazz
   attributes: 	modelCommand_id 	modelCommand_time
-  importList: 	"import org.fulib.yaml.Reflector;" 	"import org.fulib.yaml.StrUtil;" 	"import java.lang.reflect.Method;" 	"import org.fulib.tables.PathTable;" 	"import java.util.*;"
-  imports: 	"import org.fulib.yaml.Reflector;" 	"import org.fulib.yaml.StrUtil;" 	"import java.lang.reflect.Method;" 	"import org.fulib.tables.PathTable;" 	"import java.util.*;"
+  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	java.lang.reflect.Method 	org.fulib.tables.PathTable 	"java.util.*"
+  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	java.lang.reflect.Method 	org.fulib.tables.PathTable 	"java.util.*"
   methods: 	run 	undo 	parse2 	matchAttributesAndLinks 	getSetOfTargetHandles 	havePattern 	getHandleObjectAttributeValue
   model: 	c
   modified: 	false
@@ -30,8 +30,8 @@
   subClasses: 	removeCommand 	addStreamCommand 	havePerson 	haveDog
 
 - removeCommand: 	Clazz
-  importList: 	"import org.fulib.yaml.Reflector;" 	"import org.fulib.yaml.ReflectorMap;" 	"import java.lang.reflect.Method;"
-  imports: 	"import org.fulib.yaml.Reflector;" 	"import org.fulib.yaml.ReflectorMap;" 	"import java.lang.reflect.Method;"
+  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
+  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
   methods: 	run3
   model: 	c
   modified: 	false
@@ -72,8 +72,8 @@
 
 - m1Service: 	Clazz
   attributes: 	m1Service_myPort 	m1Service_reflectorMap 	m1Service_currentSession 	m1Service_executor 	m1Service_spark 	m1Service_sessionToAppMap
-  importList: 	"import java.util.LinkedHashMap;" 	"import spark.Service;" 	"import org.fulib.yaml.ReflectorMap;" 	"import java.util.concurrent.ExecutorService;" 	"import spark.Request;" 	"import spark.Response;" 	"import org.fulib.scenarios.MockupTools;" 	"import org.json.JSONObject;" 	"import org.fulib.yaml.Reflector;" 	"import java.lang.reflect.Method;" 	"import java.util.ArrayList;" 	"import java.net.URL;" 	"import java.net.HttpURLConnection;" 	"import java.io.DataOutputStream;" 	"import java.io.InputStream;" 	"import java.io.InputStreamReader;" 	"import java.io.BufferedReader;"
-  imports: 	"import java.util.LinkedHashMap;" 	"import spark.Service;" 	"import org.fulib.yaml.ReflectorMap;" 	"import java.util.concurrent.ExecutorService;" 	"import spark.Request;" 	"import spark.Response;" 	"import org.fulib.scenarios.MockupTools;" 	"import org.json.JSONObject;" 	"import org.fulib.yaml.Reflector;" 	"import java.lang.reflect.Method;" 	"import java.util.ArrayList;" 	"import java.net.URL;" 	"import java.net.HttpURLConnection;" 	"import java.io.DataOutputStream;" 	"import java.io.InputStream;" 	"import java.io.InputStreamReader;" 	"import java.io.BufferedReader;"
+  importList: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  imports: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
   methods: 	start 	getFirstRoot 	root 	cmd 	connect 	getStream
   model: 	c
   modified: 	false
@@ -83,8 +83,8 @@
 
 - commandStream: 	Clazz
   attributes: 	commandStream_name 	commandStream_targetUrlList 	commandStream_oldCommands 	commandStream_activeCommands
-  importList: 	"import org.fulib.yaml.Yaml;" 	"import java.net.URL;" 	"import java.net.HttpURLConnection;" 	"import java.io.*;" 	"import java.util.*;" 	"import spark.Service;" 	"import spark.Request;" 	"import spark.Response;"
-  imports: 	"import org.fulib.yaml.Yaml;" 	"import java.net.URL;" 	"import java.net.HttpURLConnection;" 	"import java.io.*;" 	"import java.util.*;" 	"import spark.Service;" 	"import spark.Request;" 	"import spark.Response;"
+  importList: 	org.fulib.yaml.Yaml 	java.net.URL 	java.net.HttpURLConnection 	"java.io.*" 	"java.util.*" 	spark.Service 	spark.Request 	spark.Response
+  imports: 	org.fulib.yaml.Yaml 	java.net.URL 	java.net.HttpURLConnection 	"java.io.*" 	"java.util.*" 	spark.Service 	spark.Request 	spark.Response
   methods: 	publish 	send 	executeCommands 	start4 	handlePostRequest
   model: 	c
   modified: 	false
@@ -172,7 +172,8 @@
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String,ModelCommand>"
+  type: 	"java.util.Map<String, ModelCommand>"
+  typeSignature: 	"java.util.Map<String,ModelCommand>"
 
 - m1Editor_commandListeners: 	Attribute
   clazz: 	m1Editor
@@ -181,7 +182,8 @@
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String,ArrayList<CommandStream>>"
+  type: 	"java.util.Map<String, ArrayList<CommandStream>>"
+  typeSignature: 	"java.util.Map<String,ArrayList<CommandStream>>"
 
 - m1Editor_mapOfFrames: 	Attribute
   clazz: 	m1Editor
@@ -190,7 +192,8 @@
   modified: 	false
   name: 	mapOfFrames
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String,Object>"
+  type: 	"java.util.Map<String, Object>"
+  typeSignature: 	"java.util.Map<String,Object>"
 
 - m1Editor_mapOfModelObjects: 	Attribute
   clazz: 	m1Editor
@@ -199,7 +202,8 @@
   modified: 	false
   name: 	mapOfModelObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String,Object>"
+  type: 	"java.util.Map<String, Object>"
+  typeSignature: 	"java.util.Map<String,Object>"
 
 - m1Editor_isoDateFormat: 	Attribute
   clazz: 	m1Editor
@@ -209,6 +213,7 @@
   name: 	isoDateFormat
   propertyStyle: 	Bean
   type: 	DateFormat
+  typeSignature: 	DateFormat
 
 - m1Editor_lastTime: 	Attribute
   clazz: 	m1Editor
@@ -218,6 +223,7 @@
   name: 	lastTime
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - m1Editor_timeDelta: 	Attribute
   clazz: 	m1Editor
@@ -227,6 +233,7 @@
   name: 	timeDelta
   propertyStyle: 	Bean
   type: 	long
+  typeSignature: 	long
 
 - m1Editor_commandPrototypes: 	Attribute
   clazz: 	m1Editor
@@ -235,6 +242,7 @@
   name: 	commandPrototypes
   propertyStyle: 	Bean
   type: 	"ArrayList<ModelCommand>"
+  typeSignature: 	"ArrayList<ModelCommand>"
 
 - getOrCreate: 	FMethod
   annotations: 	""
@@ -584,6 +592,7 @@
   name: 	id
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - modelCommand_time: 	Attribute
   clazz: 	modelCommand
@@ -592,6 +601,7 @@
   name: 	time
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - run: 	FMethod
   annotations: 	""
@@ -935,6 +945,7 @@
   name: 	poId
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - patternObject_handleObjectClass: 	Attribute
   clazz: 	patternObject
@@ -943,6 +954,7 @@
   name: 	handleObjectClass
   propertyStyle: 	Bean
   type: 	Class
+  typeSignature: 	Class
 
 - patternObject_handleObject: 	Attribute
   clazz: 	patternObject
@@ -951,6 +963,7 @@
   name: 	handleObject
   propertyStyle: 	Bean
   type: 	Object
+  typeSignature: 	Object
 
 - patternObject_kind: 	Attribute
   clazz: 	patternObject
@@ -959,6 +972,7 @@
   name: 	kind
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - patternObject_pattern: 	AssocRole
   aggregation: 	false
@@ -1015,6 +1029,7 @@
   name: 	handleAttrName
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - patternAttribute_commandParamName: 	Attribute
   clazz: 	patternAttribute
@@ -1023,6 +1038,7 @@
   name: 	commandParamName
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - patternAttribute_object: 	AssocRole
   aggregation: 	false
@@ -1043,6 +1059,7 @@
   name: 	handleLinkName
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - patternLink_kind: 	Attribute
   clazz: 	patternLink
@@ -1052,6 +1069,7 @@
   name: 	kind
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - patternLink_source: 	AssocRole
   aggregation: 	false
@@ -1084,6 +1102,7 @@
   name: 	myPort
   propertyStyle: 	Bean
   type: 	int
+  typeSignature: 	int
 
 - m1Service_reflectorMap: 	Attribute
   clazz: 	m1Service
@@ -1092,6 +1111,7 @@
   name: 	reflectorMap
   propertyStyle: 	Bean
   type: 	ReflectorMap
+  typeSignature: 	ReflectorMap
 
 - m1Service_currentSession: 	Attribute
   clazz: 	m1Service
@@ -1100,6 +1120,7 @@
   name: 	currentSession
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - m1Service_executor: 	Attribute
   clazz: 	m1Service
@@ -1108,6 +1129,7 @@
   name: 	executor
   propertyStyle: 	Bean
   type: 	ExecutorService
+  typeSignature: 	ExecutorService
 
 - m1Service_spark: 	Attribute
   clazz: 	m1Service
@@ -1116,6 +1138,7 @@
   name: 	spark
   propertyStyle: 	Bean
   type: 	Service
+  typeSignature: 	Service
 
 - m1Service_sessionToAppMap: 	Attribute
   clazz: 	m1Service
@@ -1124,7 +1147,8 @@
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	Bean
-  type: 	"LinkedHashMap<String,M1App>"
+  type: 	"LinkedHashMap<String, M1App>"
+  typeSignature: 	"LinkedHashMap<String,M1App>"
 
 - start: 	FMethod
   annotations: 	""
@@ -1375,6 +1399,7 @@
   name: 	name
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - commandStream_targetUrlList: 	Attribute
   clazz: 	commandStream
@@ -1384,6 +1409,7 @@
   name: 	targetUrlList
   propertyStyle: 	Bean
   type: 	"ArrayList<String>"
+  typeSignature: 	"ArrayList<String>"
 
 - commandStream_oldCommands: 	Attribute
   clazz: 	commandStream
@@ -1393,6 +1419,7 @@
   name: 	oldCommands
   propertyStyle: 	Bean
   type: 	"ArrayList<ModelCommand>"
+  typeSignature: 	"ArrayList<ModelCommand>"
 
 - commandStream_activeCommands: 	Attribute
   clazz: 	commandStream
@@ -1401,7 +1428,8 @@
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String,ModelCommand>"
+  type: 	"java.util.Map<String, ModelCommand>"
+  typeSignature: 	"java.util.Map<String,ModelCommand>"
 
 - publish: 	FMethod
   annotations: 	""
@@ -1539,6 +1567,7 @@
   name: 	incommingRoute
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - addStreamCommand_outgoingUrl: 	Attribute
   clazz: 	addStreamCommand
@@ -1547,6 +1576,7 @@
   name: 	outgoingUrl
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - run5: 	FMethod
   annotations: 	""
@@ -1570,6 +1600,7 @@
   name: 	modelEditor
   propertyStyle: 	Bean
   type: 	M1Editor
+  typeSignature: 	M1Editor
 
 - m1App_id: 	Attribute
   clazz: 	m1App
@@ -1578,6 +1609,7 @@
   name: 	id
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - m1App_description: 	Attribute
   clazz: 	m1App
@@ -1586,6 +1618,7 @@
   name: 	description
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - init: 	FMethod
   annotations: 	""
@@ -1622,6 +1655,7 @@
   name: 	id
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - page_description: 	Attribute
   clazz: 	page
@@ -1630,6 +1664,7 @@
   name: 	description
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - page_app: 	AssocRole
   aggregation: 	false
@@ -1662,6 +1697,7 @@
   name: 	id
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - line_description: 	Attribute
   clazz: 	line
@@ -1670,6 +1706,7 @@
   name: 	description
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - line_action: 	Attribute
   clazz: 	line
@@ -1678,6 +1715,7 @@
   name: 	action
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - line_value: 	Attribute
   clazz: 	line
@@ -1686,6 +1724,7 @@
   name: 	value
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - line_page: 	AssocRole
   aggregation: 	false
@@ -1706,6 +1745,7 @@
   name: 	id
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - person_name: 	Attribute
   clazz: 	person
@@ -1714,6 +1754,7 @@
   name: 	name
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - person_age: 	Attribute
   clazz: 	person
@@ -1722,6 +1763,7 @@
   name: 	age
   propertyStyle: 	Bean
   type: 	int
+  typeSignature: 	int
 
 - person_dog: 	AssocRole
   aggregation: 	false
@@ -1742,6 +1784,7 @@
   name: 	id
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - dog_name: 	Attribute
   clazz: 	dog
@@ -1750,6 +1793,7 @@
   name: 	name
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - dog_age: 	Attribute
   clazz: 	dog
@@ -1758,6 +1802,7 @@
   name: 	age
   propertyStyle: 	Bean
   type: 	int
+  typeSignature: 	int
 
 - dog_owner: 	AssocRole
   aggregation: 	false
@@ -1778,6 +1823,7 @@
   name: 	name
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - havePerson_age: 	Attribute
   clazz: 	havePerson
@@ -1786,6 +1832,7 @@
   name: 	age
   propertyStyle: 	Bean
   type: 	int
+  typeSignature: 	int
 
 - haveDog_name: 	Attribute
   clazz: 	haveDog
@@ -1794,6 +1841,7 @@
   name: 	name
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 
 - haveDog_age: 	Attribute
   clazz: 	haveDog
@@ -1802,6 +1850,7 @@
   name: 	age
   propertyStyle: 	Bean
   type: 	int
+  typeSignature: 	int
 
 - haveDog_owner: 	Attribute
   clazz: 	haveDog
@@ -1810,4 +1859,5 @@
   name: 	owner
   propertyStyle: 	Bean
   type: 	String
+  typeSignature: 	String
 

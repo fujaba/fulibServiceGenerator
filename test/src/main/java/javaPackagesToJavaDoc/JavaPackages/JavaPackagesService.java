@@ -49,7 +49,7 @@ public class JavaPackagesService
    public static final String PROPERTY_spark = "spark";
    private Service spark;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String,JavaPackagesApp> sessionToAppMap = new LinkedHashMap();
+   private LinkedHashMap<String, JavaPackagesApp> sessionToAppMap = new LinkedHashMap();
 
    public JavaPackagesService setExecutor(ExecutorService value)
    {
@@ -523,19 +523,19 @@ public JavaPackagesService withoutStreams(Collection<? extends CommandStream> va
       return this;
    }
 
-   public LinkedHashMap<String,JavaPackagesApp> getSessionToAppMap()
+   public LinkedHashMap<String, JavaPackagesApp> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public JavaPackagesService setSessionToAppMap(LinkedHashMap<String,JavaPackagesApp> value)
+   public JavaPackagesService setSessionToAppMap(LinkedHashMap<String, JavaPackagesApp> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String,JavaPackagesApp> oldValue = this.sessionToAppMap;
+      final LinkedHashMap<String, JavaPackagesApp> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

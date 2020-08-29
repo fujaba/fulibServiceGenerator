@@ -49,7 +49,7 @@ public class JavaPackagesWithPatternsService
    public static final String PROPERTY_spark = "spark";
    private Service spark;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String,JavaPackagesWithPatternsApp> sessionToAppMap = new LinkedHashMap();
+   private LinkedHashMap<String, JavaPackagesWithPatternsApp> sessionToAppMap = new LinkedHashMap();
 
    public JavaPackagesWithPatternsService setExecutor(ExecutorService value)
    {
@@ -523,19 +523,19 @@ public JavaPackagesWithPatternsService withoutStreams(Collection<? extends Comma
       return this;
    }
 
-   public LinkedHashMap<String,JavaPackagesWithPatternsApp> getSessionToAppMap()
+   public LinkedHashMap<String, JavaPackagesWithPatternsApp> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public JavaPackagesWithPatternsService setSessionToAppMap(LinkedHashMap<String,JavaPackagesWithPatternsApp> value)
+   public JavaPackagesWithPatternsService setSessionToAppMap(LinkedHashMap<String, JavaPackagesWithPatternsApp> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String,JavaPackagesWithPatternsApp> oldValue = this.sessionToAppMap;
+      final LinkedHashMap<String, JavaPackagesWithPatternsApp> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

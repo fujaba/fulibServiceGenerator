@@ -46,10 +46,10 @@ public class M2Service
    private String currentSession;
    public static final String PROPERTY_spark = "spark";
    private Service spark;
-   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String,M2App> sessionToAppMap = new LinkedHashMap();
    public static final String PROPERTY_executor = "executor";
    private ExecutorService executor;
+   public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
+   private LinkedHashMap<String, M2App> sessionToAppMap = new LinkedHashMap();
 
    public M2Editor getModelEditor()
    {
@@ -505,24 +505,6 @@ public M2Service withoutStreams(Collection<? extends CommandStream> value)
       return this;
    }
 
-   public LinkedHashMap<String,M2App> getSessionToAppMap()
-   {
-      return this.sessionToAppMap;
-   }
-
-   public M2Service setSessionToAppMap(LinkedHashMap<String,M2App> value)
-   {
-      if (Objects.equals(value, this.sessionToAppMap))
-      {
-         return this;
-      }
-
-      final LinkedHashMap<String,M2App> oldValue = this.sessionToAppMap;
-      this.sessionToAppMap = value;
-      this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
-      return this;
-   }
-
    public ExecutorService getExecutor()
    {
       return this.executor;
@@ -538,6 +520,24 @@ public M2Service withoutStreams(Collection<? extends CommandStream> value)
       final ExecutorService oldValue = this.executor;
       this.executor = value;
       this.firePropertyChange(PROPERTY_executor, oldValue, value);
+      return this;
+   }
+
+   public LinkedHashMap<String, M2App> getSessionToAppMap()
+   {
+      return this.sessionToAppMap;
+   }
+
+   public M2Service setSessionToAppMap(LinkedHashMap<String, M2App> value)
+   {
+      if (Objects.equals(value, this.sessionToAppMap))
+      {
+         return this;
+      }
+
+      final LinkedHashMap<String, M2App> oldValue = this.sessionToAppMap;
+      this.sessionToAppMap = value;
+      this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;
    }
 

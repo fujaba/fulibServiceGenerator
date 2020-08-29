@@ -2,17 +2,13 @@ package org.fulib.servicegenerator;
 
 import org.fulib.Fulib;
 import org.fulib.FulibTools;
-import org.fulib.StrUtil;
 import org.fulib.builder.ClassModelManager;
-import org.fulib.classmodel.Attribute;
 import org.fulib.classmodel.ClassModel;
 import org.fulib.classmodel.Clazz;
-import org.fulib.classmodel.FMethod;
-import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroupFile;
-import org.stringtemplate.v4.StringRenderer;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 
 public class SystemEditor
 {

@@ -26,7 +26,7 @@ public class CommandStream
    public static final String PROPERTY_oldCommands = "oldCommands";
    private ArrayList<ModelCommand> oldCommands = new ArrayList<>();
    public static final String PROPERTY_activeCommands = "activeCommands";
-   private java.util.Map<String,ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
 
    public M1Service getService()
    {
@@ -253,19 +253,19 @@ public class CommandStream
       return this;
    }
 
-   public java.util.Map<String,ModelCommand> getActiveCommands()
+   public java.util.Map<String, ModelCommand> getActiveCommands()
    {
       return this.activeCommands;
    }
 
-   public CommandStream setActiveCommands(java.util.Map<String,ModelCommand> value)
+   public CommandStream setActiveCommands(java.util.Map<String, ModelCommand> value)
    {
       if (Objects.equals(value, this.activeCommands))
       {
          return this;
       }
 
-      final java.util.Map<String,ModelCommand> oldValue = this.activeCommands;
+      final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
       this.activeCommands = value;
       this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
       return this;
