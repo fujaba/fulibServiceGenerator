@@ -14,14 +14,11 @@ import org.stringtemplate.v4.StringRenderer;
 
 import java.util.*;
 
-import static org.fulib.builder.ClassModelBuilder.ONE;
-import static org.fulib.builder.ClassModelBuilder.STRING;
-
 public class SystemEditor
 {
    private String mainJavaDir;
-   private Map<String,ServiceEditor> serviceMap = new LinkedHashMap<>();
-   private Map<ServiceEditor,Map<ServiceEditor,LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
+   private Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
+   private Map<ServiceEditor, Map<ServiceEditor, LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
    private String packageName;
    private final ClassModelManager sharedModelManager;
    private ServiceEditor sharedEditor;
@@ -36,14 +33,14 @@ public class SystemEditor
    public SystemEditor haveMainJavaDir(String mainJavaDir)
    {
       this.mainJavaDir = mainJavaDir;
-      this.sharedModelManager.haveMainJavaDir(this.mainJavaDir);
+      this.sharedModelManager.setMainJavaDir(this.mainJavaDir);
       return this;
    }
 
    public SystemEditor havePackageName(String packageName)
    {
       this.packageName = packageName;
-      this.sharedModelManager.havePackageName(this.packageName);
+      this.sharedModelManager.setPackageName(this.packageName);
       return this;
    }
 
@@ -51,8 +48,8 @@ public class SystemEditor
    {
       ServiceEditor serviceEditor = new ServiceEditor();
       ClassModelManager classModel = serviceEditor.getClassModelManager();
-      classModel.haveMainJavaDir(this.mainJavaDir);
-      classModel.havePackageName(this.packageName + "." + serviceName);
+      classModel.setMainJavaDir(this.mainJavaDir);
+      classModel.setPackageName(this.packageName + "." + serviceName);
 
       serviceEditor.haveEditor(serviceName);
       serviceEditor.haveService(serviceName);
@@ -118,7 +115,7 @@ public class SystemEditor
 
    public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
-      this.sharedModelManager.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+      this.sharedModelManager.associate(sourceClass, sourceRoleName, sourceCard, targetClass, targetRoleName, targetCard);
       for (ServiceEditor serviceEditor : this.serviceMap.values()) {
          Clazz localSourceClass = serviceEditor.haveDataClass(sourceClass.getName());
          Clazz localTargetClass = serviceEditor.haveDataClass(targetClass.getName());
@@ -128,7 +125,7 @@ public class SystemEditor
 
    public void haveAssociationWithOwnCommands(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
-      this.sharedModelManager.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+      this.sharedModelManager.associate(sourceClass, sourceRoleName, sourceCard, targetClass, targetRoleName, targetCard);
       for (ServiceEditor serviceEditor : this.serviceMap.values()) {
          Clazz localSourceClass = serviceEditor.haveDataClass(sourceClass.getName());
          Clazz localTargetClass = serviceEditor.haveDataClass(targetClass.getName());

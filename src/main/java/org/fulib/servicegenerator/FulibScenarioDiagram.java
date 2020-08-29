@@ -19,12 +19,12 @@ public class FulibScenarioDiagram
    private String htmlFileName;
    private String allLanes;
 
-   private LinkedHashMap<String,ArrayList<String>> laneMap = new LinkedHashMap<>();
-   private LinkedHashMap<String,Integer> laneToIndentMap = new LinkedHashMap<>();
-   private LinkedHashMap<String,ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
-   private LinkedHashMap<String,Integer> msgLaneToIndentMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ArrayList<String>> laneMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, Integer> laneToIndentMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
 
-   private LinkedHashMap<String,String> streamToLastCommandTimeMap = new LinkedHashMap<>();
+   private LinkedHashMap<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
    private ArrayList<String> lanes = new ArrayList<>();
    private Object currentService;
    private Object modelEditor;
@@ -313,7 +313,7 @@ public class FulibScenarioDiagram
             else {
                lines.append("<p>-");
             }
-            for (String property : reflector.getProperties()) {
+            for (String property : reflector.getOwnProperties()) { // TODO maybe use getAllProperties?
                if ("id".equals(property) || "time".equals(property)) {
                   continue;
                }
@@ -413,7 +413,7 @@ public class FulibScenarioDiagram
          else {
             lines.append("<p>-");
          }
-         for (String property : reflector.getProperties()) {
+         for (String property : reflector.getOwnProperties()) { // TODO maybe use getAllProperties?
             if ("id".equals(property)) {
                continue;
             }

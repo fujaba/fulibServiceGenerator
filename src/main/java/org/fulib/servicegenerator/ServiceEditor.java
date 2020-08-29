@@ -13,15 +13,15 @@ import org.stringtemplate.v4.StringRenderer;
 
 import java.util.*;
 
-import static org.fulib.builder.ClassModelBuilder.*;
+import static org.fulib.builder.Type.*;
 
 public class ServiceEditor
 {
    private ClassModelManager mm = new ClassModelManager();
    private Clazz modelCommand;
    private Clazz editor;
-   private LinkedHashMap<String,Clazz> dataClasses = new LinkedHashMap<>();
-   private LinkedHashMap<String,Clazz> commandClasses = new LinkedHashMap<>();
+   private LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
+   private LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
    private STGroupFile group;
    private Clazz removeCommand;
    private String serviceName;
@@ -58,10 +58,10 @@ public class ServiceEditor
       Attribute kind = mm.haveAttribute(patternLink, "kind", STRING);
       kind.setInitialization("\"core\"");
 
-      mm.haveRole(pattern, "objects", patternObject, MANY, "pattern", ONE);
-      mm.haveRole(patternObject, "attributes", patternAttribute, MANY, "object", ONE);
-      mm.haveRole(patternObject, "links", patternLink, MANY, "source", ONE);
-      mm.haveRole(patternLink, "target", patternObject, ONE, "incommingLinks", MANY);
+      mm.associate(pattern, "objects", MANY, patternObject, "pattern", ONE);
+      mm.associate(patternObject, "attributes", MANY, patternAttribute, "object", ONE);
+      mm.associate(patternObject, "links", MANY, patternLink, "source", ONE);
+      mm.associate(patternLink, "target", ONE, patternObject, "incommingLinks", MANY);
 
    }
 
@@ -74,10 +74,9 @@ public class ServiceEditor
       String body = st.render();
       mm.haveMethod(removeCommand, declaration, body);
 
-      LinkedHashSet<String> importList = removeCommand.getImportList();
-      importList.add("import org.fulib.yaml.Reflector;");
-      importList.add("import org.fulib.yaml.ReflectorMap;");
-      importList.add("import java.lang.reflect.Method;");
+      removeCommand.withImports("org.fulib.yaml.Reflector");
+      removeCommand.withImports("org.fulib.yaml.ReflectorMap");
+      removeCommand.withImports("java.lang.reflect.Method");
    }
 
    private void haveModelCommand()
@@ -120,11 +119,11 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(modelCommand, declaration, body);
 
-      modelCommand.getImportList().add("import org.fulib.yaml.Reflector;");
-      modelCommand.getImportList().add("import org.fulib.yaml.StrUtil;");
-      modelCommand.getImportList().add("import java.lang.reflect.Method;");
-      modelCommand.getImportList().add("import org.fulib.tables.PathTable;");
-      modelCommand.getImportList().add("import java.util.*;");
+      modelCommand.withImports("org.fulib.yaml.Reflector");
+      modelCommand.withImports("org.fulib.yaml.StrUtil");
+      modelCommand.withImports("java.lang.reflect.Method");
+      modelCommand.withImports("org.fulib.tables.PathTable");
+      modelCommand.withImports("java.util.*");
    }
 
    public ClassModelManager getClassModelManager()
@@ -165,15 +164,15 @@ public class ServiceEditor
       String body = st.render();
       this.getClassModelManager().haveMethod(editor, declaration, body);
 
-      editor.getImportList().add("import java.text.DateFormat;");
-      editor.getImportList().add("import java.util.Date;");
+      editor.withImports("java.text.DateFormat");
+      editor.withImports("java.util.Date");
 
 
       declaration = "public void fireCommandExecuted(ModelCommand command)";
       st = group.getInstanceOf("editorFireCommandExecuted");
       body = st.render();
       this.getClassModelManager().haveMethod(editor, declaration, body);
-      editor.getImportList().add("import java.util.ArrayList;");
+      editor.withImports("java.util.ArrayList");
 
       declaration = String.format("public %sEditor addCommandListener(String commandName, CommandStream stream)", serviceName);
       st = group.getInstanceOf("editorAddCommandListener");
@@ -219,8 +218,8 @@ public class ServiceEditor
 
       this.getClassModelManager().haveAttribute(editor, "commandPrototypes", "ArrayList<ModelCommand>");
 
-      editor.getImportList().add("import java.util.*;");
-      editor.getImportList().add("import org.fulib.yaml.Reflector;");
+      editor.withImports("java.util.*");
+      editor.withImports("org.fulib.yaml.Reflector");
 
    }
 
@@ -251,24 +250,23 @@ public class ServiceEditor
       this.serviceName = serviceName;
       service = this.mm.haveClass(serviceName + "Service");
       mm.haveAttribute(service, "myPort", INT);
-      mm.haveRole(service, "modelEditor", editor, ONE, "service", ONE);
+      mm.associate(service, "modelEditor", ONE, editor, "service", ONE);
       mm.haveAttribute(service, "reflectorMap", "ReflectorMap");
       mm.haveAttribute(service, "currentSession", STRING);
       mm.haveAttribute(service, "executor", "ExecutorService");
       mm.haveAttribute(service, "spark", "Service");
 
       Attribute sessionToAppMap = mm.haveAttribute(service, "sessionToAppMap",
-            String.format("LinkedHashMap<String,%sApp>", serviceName));
+            String.format("LinkedHashMap<String, %sApp>", serviceName));
       sessionToAppMap.setInitialization("new LinkedHashMap()");
 
       haveCommandStream();
       haveAddStreamCommand();
 
-      LinkedHashSet<String> importList = service.getImportList();
-      importList.add("import java.util.LinkedHashMap;");
-      importList.add("import spark.Service;");
-      importList.add("import org.fulib.yaml.ReflectorMap;");
-      importList.add("import java.util.concurrent.ExecutorService;");
+      service.withImports("java.util.LinkedHashMap");
+      service.withImports("spark.Service");
+      service.withImports("org.fulib.yaml.ReflectorMap");
+      service.withImports("java.util.concurrent.ExecutorService");
 
       haveStartMethod(serviceName, "// there are no streams\n");
 
@@ -279,24 +277,24 @@ public class ServiceEditor
             "      return root(req, res);\n";
       String declaration = "public String getFirstRoot(Request req, Response res)";
       mm.haveMethod(service, declaration, body);
-      importList.add("import spark.Request;");
-      importList.add("import spark.Response;");
+      service.withImports("spark.Request");
+      service.withImports("spark.Response");
 
       declaration = "public String root(Request req, Response res)";
       st = group.getInstanceOf("rootBody");
       st.add("serviceName", serviceName);
       body = st.render();
       mm.haveMethod(service, declaration, body);
-      importList.add("import org.fulib.scenarios.MockupTools;");
+      service.withImports("org.fulib.scenarios.MockupTools");
 
       declaration = "public String cmd(Request req, Response res)";
       st = group.getInstanceOf("cmdBody");
       st.add("serviceName", serviceName);
       body = st.render();
       mm.haveMethod(service, declaration, body);
-      importList.add("import org.json.JSONObject;");
-      importList.add("import org.fulib.yaml.Reflector;");
-      importList.add("import java.lang.reflect.Method;");
+      service.withImports("org.json.JSONObject");
+      service.withImports("org.fulib.yaml.Reflector");
+      service.withImports("java.lang.reflect.Method");
 
       // connect
       declaration = "public String connect(Request req, Response res)";
@@ -311,13 +309,13 @@ public class ServiceEditor
       mm.haveMethod(service, declaration, body);
 
 
-      importList.add("import java.util.ArrayList;");
-      importList.add("import java.net.URL;");
-      importList.add("import java.net.HttpURLConnection;");
-      importList.add("import java.io.DataOutputStream;");
-      importList.add("import java.io.InputStream;");
-      importList.add("import java.io.InputStreamReader;");
-      importList.add("import java.io.BufferedReader;");
+      service.withImports("java.util.ArrayList");
+      service.withImports("java.net.URL");
+      service.withImports("java.net.HttpURLConnection");
+      service.withImports("java.io.DataOutputStream");
+      service.withImports("java.io.InputStream");
+      service.withImports("java.io.InputStreamReader");
+      service.withImports("java.io.BufferedReader");
    }
 
    private void haveAddStreamCommand()
@@ -340,7 +338,7 @@ public class ServiceEditor
       targetUrlList.setInitialization("new ArrayList<>()");
       Attribute oldCommands = mm.haveAttribute(commandStream, "oldCommands", "ArrayList<ModelCommand>");
       oldCommands.setInitialization("new ArrayList<>()");
-      mm.haveRole(service, "streams", commandStream, MANY, "service", ONE);
+      mm.associate(service, "streams", MANY, commandStream, "service", ONE);
 
       String declaration = "public void publish(ModelCommand cmd)";
       ST st = group.getInstanceOf("CommandStreamPublish");
@@ -369,7 +367,7 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(commandStream, declaration, body);
 
-      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String,ModelCommand>");
+      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
 
 //      declaration = "public void addCommandsToBeStreamed(String... commandList)";
@@ -377,15 +375,14 @@ public class ServiceEditor
 //      body = st.render();
 //      mm.haveMethod(commandStream, declaration, body);
 
-      LinkedHashSet<String> importList = commandStream.getImportList();
-      importList.add("import org.fulib.yaml.Yaml;");
-      importList.add("import java.net.URL;");
-      importList.add("import java.net.HttpURLConnection;");
-      importList.add("import java.io.*;");
-      importList.add("import java.util.*;");
-      importList.add("import spark.Service;");
-      importList.add("import spark.Request;");
-      importList.add("import spark.Response;");
+      commandStream.withImports("org.fulib.yaml.Yaml");
+      commandStream.withImports("java.net.URL");
+      commandStream.withImports("java.net.HttpURLConnection");
+      commandStream.withImports("java.io.*");
+      commandStream.withImports("java.util.*");
+      commandStream.withImports("spark.Service");
+      commandStream.withImports("spark.Request");
+      commandStream.withImports("spark.Response");
 
    }
 
@@ -423,8 +420,8 @@ public class ServiceEditor
       mm.haveAttribute(line, "action", STRING);
       mm.haveAttribute(line, "value", STRING);
 
-      mm.haveRole(appClass, "content", page, ONE,"app", ONE);
-      mm.haveRole(page, "content", line, ClassModelBuilder.MANY,"page", ONE);
+      mm.associate(appClass, "content", ONE, page,"app", ONE);
+      mm.associate(page, "content", MANY, line,"page", ONE);
 
 
    }
@@ -463,7 +460,7 @@ public class ServiceEditor
 
    private void editorHaveMapFor(String mapName, String entryClassName)
    {
-      String mapType = String.format("java.util.Map<String,%s>", entryClassName);
+      String mapType = String.format("java.util.Map<String, %s>", entryClassName);
       Attribute attribute = mm.haveAttribute(this.editor, mapName, mapType);
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
    }
@@ -481,7 +478,7 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(editor, declaration, body);
 
-      editor.getImportList().add("import java.lang.reflect.Method;");
+      editor.withImports("java.lang.reflect.Method");
 
       // and
       declaration = "public Object getModelObject(String id)";
@@ -504,8 +501,7 @@ public class ServiceEditor
       st.add("packageName", modelPackageName);
       String body = st.render();
       FMethod fMethod = mm.haveMethod(this.editor, declaration, body);
-      LinkedHashSet<String> importList = this.editor.getImportList();
-      importList.add("import " + Yaml.class.getName() + ";");
+      this.editor.withImports(Yaml.class.getName());
       return fMethod;
    }
 
@@ -527,7 +523,7 @@ public class ServiceEditor
    public void haveAssociationWithOwnCommands(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
       // have assoc
-      mm.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+      mm.associate(sourceClass, sourceRoleName, sourceCard, targetClass, targetRoleName, targetCard);
 
       // HaveLinkCommand
       String sourceClassName = sourceClass.getName();
@@ -563,14 +559,14 @@ public class ServiceEditor
    }
 
 
-   private Map<Clazz,Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
+   private Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
 
    public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
       if (sourceCard != ONE) {
          throw new RuntimeException("haveAssociationOwnedByDataClass requires to-one cardinality for source role");
       }
-      this.mm.haveRole(sourceClass, sourceRoleName, targetClass, sourceCard, targetRoleName, targetCard);
+      this.mm.associate(sourceClass, sourceRoleName, sourceCard, targetClass, targetRoleName, targetCard);
       String dataClassName = sourceClass.getName();
       Collection<String> roleNames = dataclassAttachedRoles.get(sourceClass);
       if (roleNames == null) {
