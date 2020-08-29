@@ -418,14 +418,16 @@
 
       ModelCommand oldCommand = activeCommands.get(id);
 
-      if (oldCommand != null && oldCommand.getTime().compareTo(time) >= 0) {
-         // already updated
-         return;
-      }
-
-      if (oldCommand != null && oldCommand instanceof RemoveCommand) {
-         // object is dead, do not recreate
-         return;
+      if (oldCommand != null) {
+         if (oldCommand.getTime().compareTo(time) > 0) {
+            return;
+         } else if (oldCommand.getTime().equals(time)) {
+            String oldYaml = Yaml.encode(oldCommand);
+            String newYaml = Yaml.encode(command);
+            if (oldYaml.compareTo(newYaml) >= 0) {
+               return;
+            }
+         }
       }
 
       command.run(this);

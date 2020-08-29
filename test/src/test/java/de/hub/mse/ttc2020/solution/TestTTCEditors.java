@@ -124,12 +124,6 @@ public class TestTTCEditors
       Person alice1Zombie = (Person) m1Editor.getModelObject("alice1");
       assertThat(alice1Zombie, nullValue());
 
-      // reuse of alice1 should fail
-      ModelCommand haveZombie = new HavePerson().setName("Zombie Alice").setAge(24).setId("alice1");
-      m1Editor.execute(haveZombie);
-      alice1Zombie = (Person) m1Editor.getModelObject("alice1");
-      assertThat(alice1Zombie, nullValue());
-
       // re-adding Alice as alice2
       ModelCommand haveAlice3 = new HavePerson().setName("Alice").setAge(25).setId("alice2");
       m1Editor.execute(haveAlice3);
