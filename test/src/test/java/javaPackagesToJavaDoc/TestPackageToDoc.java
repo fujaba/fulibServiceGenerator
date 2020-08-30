@@ -8,6 +8,7 @@ import javaPackagesToJavaDoc.JavaPackages.*;
 import org.fulib.FulibTools;
 import org.fulib.tables.PathTable;
 import org.fulib.yaml.Yaml;
+import org.fulib.yaml.YamlIdMap;
 import org.junit.Test;
 
 import java.beans.PropertyChangeEvent;
@@ -85,6 +86,19 @@ public class TestPackageToDoc implements PropertyChangeListener
    public void propertyChange(PropertyChangeEvent evt)
    {
       changedObjects.add(evt.getSource());
+      if (evt.getNewValue() == null) {
+         return;
+      }
+
+      if (evt.getNewValue().getClass().isPrimitive()) {
+         return;
+      }
+
+      if (evt.getNewValue().getClass().getName().startsWith("java.lang")) {
+         return;
+      }
+
+      changedObjects.add(evt.getNewValue());
    }
 
 
@@ -116,16 +130,17 @@ public class TestPackageToDoc implements PropertyChangeListener
 
       // some manual changes:
       JavaPackage nRoot = new JavaPackage().setId("nRoot");
-      changedObjects.add(nRoot);
+      // changedObjects.add(nRoot);
       JavaPackage root = (JavaPackage) javaPackagesEditor.getModelObject("root");
       nRoot.withSubPackages(root);
       JavaPackage sub = (JavaPackage) javaPackagesEditor.getModelObject("sub");
       sub.setUp(null);
       JavaClass c2 = new JavaClass().setUp(sub).setVTag("1.1").setId("c2");
-      changedObjects.add(c2);
+      // changedObjects.add(c2);
       JavaClass c = (JavaClass) javaPackagesEditor.getModelObject("c");
       c.setVTag("1.1");
 
+      LinkedHashSet<Object> allObjects = Yaml.findAllObjects(nRoot, sub);
       javaPackagesEditor.parse(changedObjects);
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesAfterParsing.svg",

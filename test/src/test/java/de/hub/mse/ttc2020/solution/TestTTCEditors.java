@@ -53,7 +53,7 @@ public class TestTTCEditors
       Person carli = new Person().setId("carli").setName("Carli").setAge(42);
       bob2.setOwner(carli);
 
-      LinkedHashSet allObjects = new Yaml(bob2.getClass().getPackage().getName()).collectObjects(bob2);
+      LinkedHashSet allObjects = Yaml.findAllObjects(bob2);
       m1Editor.parse(allObjects);
 
       assertThat(m1Editor.getActiveCommands().size(), is(3));

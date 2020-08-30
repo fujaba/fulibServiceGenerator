@@ -8,7 +8,7 @@
   packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaDocWithPatterns"
 
 - javaDocWithPatternsEditor: 	Clazz
-  attributes: 	javaDocWithPatternsEditor_activeCommands 	javaDocWithPatternsEditor_commandListeners 	javaDocWithPatternsEditor_mapOfFrames 	javaDocWithPatternsEditor_mapOfModelObjects 	javaDocWithPatternsEditor_isoDateFormat 	javaDocWithPatternsEditor_lastTime 	javaDocWithPatternsEditor_timeDelta 	javaDocWithPatternsEditor_commandPrototypes
+  attributes: 	javaDocWithPatternsEditor_activeCommands 	javaDocWithPatternsEditor_commandListeners 	javaDocWithPatternsEditor_mapOfFrames 	javaDocWithPatternsEditor_mapOfModelObjects 	javaDocWithPatternsEditor_mapOfParsedObjects 	javaDocWithPatternsEditor_isoDateFormat 	javaDocWithPatternsEditor_lastTime 	javaDocWithPatternsEditor_timeDelta 	javaDocWithPatternsEditor_commandPrototypes
   importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
@@ -220,6 +220,16 @@
   type: 	"java.util.Map<String, Object>"
   typeSignature: 	"java.util.Map<String,Object>"
 
+- javaDocWithPatternsEditor_mapOfParsedObjects: 	Attribute
+  clazz: 	javaDocWithPatternsEditor
+  id: 	JavaDocWithPatternsEditor_mapOfParsedObjects
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	mapOfParsedObjects
+  propertyStyle: 	Bean
+  type: 	"java.util.Map<String, Object>"
+  typeSignature: 	"java.util.Map<String,Object>"
+
 - javaDocWithPatternsEditor_isoDateFormat: 	Attribute
   clazz: 	javaDocWithPatternsEditor
   id: 	JavaDocWithPatternsEditor_isoDateFormat
@@ -263,7 +273,13 @@
   annotations: 	""
   clazz: 	javaDocWithPatternsEditor
   declaration: 	"public Object getOrCreate(Class clazz, String id)"
-  methodBody: 	"      Object modelObject = mapOfModelObjects.get(id);
+  methodBody: 	"      Object modelObject = mapOfParsedObjects.get(id);
+      if (modelObject != null) {
+         mapOfModelObjects.put(id, modelObject);
+         return modelObject;
+      }
+
+      modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
          return modelObject;
       }
@@ -287,7 +303,12 @@
   clazz: 	javaDocWithPatternsEditor
   declaration: 	"public Object getObjectFrame(Class clazz, String id)"
   methodBody: 	"      try {
-         Object modelObject = mapOfModelObjects.get(id);
+         Object modelObject = mapOfParsedObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = mapOfModelObjects.get(id);
          if (modelObject != null) {
             return modelObject;
          }
@@ -468,13 +489,13 @@
   annotations: 	""
   clazz: 	javaDocWithPatternsEditor
   declaration: 	"public void parse(Collection allObjects)"
-  methodBody: 	"      // add parsed objects to model
+  methodBody: 	"      // register parsed objects
+      mapOfParsedObjects.clear();
       for (Object parsedObject : allObjects) {
          Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
          String id = (String) reflector.getValue(parsedObject, \"id\");
          if (id != null) {
-            mapOfModelObjects.put(id, parsedObject);
-            mapOfFrames.remove(id);
+            mapOfParsedObjects.put(id, parsedObject);
          }
       }
 

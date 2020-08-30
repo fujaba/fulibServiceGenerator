@@ -150,6 +150,7 @@ public class ServiceEditor
       this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
       this.editorHaveMapFor("mapOfFrames", "Object");
       this.editorHaveMapFor("mapOfModelObjects", "Object");
+      this.editorHaveMapFor("mapOfParsedObjects", "Object");
       haveGetOrCreate();
 
       Attribute dateFormat = this.getClassModelManager().haveAttribute(editor, "isoDateFormat", "DateFormat");
@@ -369,11 +370,6 @@ public class ServiceEditor
 
       Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
-
-//      declaration = "public void addCommandsToBeStreamed(String... commandList)";
-//      st = group.getInstanceOf("CommandStreamAddCommandsToBeStreamed");
-//      body = st.render();
-//      mm.haveMethod(commandStream, declaration, body);
 
       commandStream.withImports("org.fulib.yaml.Yaml");
       commandStream.withImports("java.net.URL");

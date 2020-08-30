@@ -14,7 +14,12 @@ getOrCreateBody(dataClazz) ::= <<
 
 editorGetFrameBody() ::= <<
       try {
-         Object modelObject = mapOfModelObjects.get(id);
+         Object modelObject = mapOfParsedObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = mapOfModelObjects.get(id);
          if (modelObject != null) {
             return modelObject;
          }
@@ -39,7 +44,13 @@ editorGetFrameBody() ::= <<
 
 
 editorGetOrCreateBody() ::= <<
-      Object modelObject = mapOfModelObjects.get(id);
+      Object modelObject = mapOfParsedObjects.get(id);
+      if (modelObject != null) {
+         mapOfModelObjects.put(id, modelObject);
+         return modelObject;
+      }
+
+      modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
          return modelObject;
       }
@@ -117,13 +128,13 @@ editorExecute() ::= <<
 
 
 editorParse() ::= <<
-      // add parsed objects to model
+      // register parsed objects
+      mapOfParsedObjects.clear();
       for (Object parsedObject : allObjects) {
          Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
          String id = (String) reflector.getValue(parsedObject, "id");
          if (id != null) {
-            mapOfModelObjects.put(id, parsedObject);
-            mapOfFrames.remove(id);
+            mapOfParsedObjects.put(id, parsedObject);
          }
       }
 

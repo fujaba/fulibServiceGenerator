@@ -34,6 +34,8 @@ public class JavaPackagesEditor
    private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
    private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
+   public static final String PROPERTY_mapOfParsedObjects = "mapOfParsedObjects";
+   private java.util.Map<String, Object> mapOfParsedObjects = new java.util.LinkedHashMap<>();
 
    public JavaPackagesService getService()
    {
@@ -125,7 +127,13 @@ public class JavaPackagesEditor
 
    public Object getOrCreate(Class clazz, String id)
    {
-      Object modelObject = mapOfModelObjects.get(id);
+      Object modelObject = mapOfParsedObjects.get(id);
+      if (modelObject != null) {
+         mapOfModelObjects.put(id, modelObject);
+         return modelObject;
+      }
+
+      modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
          return modelObject;
       }
@@ -141,7 +149,12 @@ public class JavaPackagesEditor
    public Object getObjectFrame(Class clazz, String id)
    {
       try {
-         Object modelObject = mapOfModelObjects.get(id);
+         Object modelObject = mapOfParsedObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = mapOfModelObjects.get(id);
          if (modelObject != null) {
             return modelObject;
          }
@@ -258,13 +271,13 @@ public class JavaPackagesEditor
 
    public void parse(Collection allObjects)
    {
-      // add parsed objects to model
+      // register parsed objects
+      mapOfParsedObjects.clear();
       for (Object parsedObject : allObjects) {
          Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
          String id = (String) reflector.getValue(parsedObject, "id");
          if (id != null) {
-            mapOfModelObjects.put(id, parsedObject);
-            mapOfFrames.remove(id);
+            mapOfParsedObjects.put(id, parsedObject);
          }
       }
 
@@ -482,6 +495,24 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       final java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
       this.mapOfModelObjects = value;
       this.firePropertyChange(PROPERTY_mapOfModelObjects, oldValue, value);
+      return this;
+   }
+
+   public java.util.Map<String, Object> getMapOfParsedObjects()
+   {
+      return this.mapOfParsedObjects;
+   }
+
+   public JavaPackagesEditor setMapOfParsedObjects(java.util.Map<String, Object> value)
+   {
+      if (Objects.equals(value, this.mapOfParsedObjects))
+      {
+         return this;
+      }
+
+      final java.util.Map<String, Object> oldValue = this.mapOfParsedObjects;
+      this.mapOfParsedObjects = value;
+      this.firePropertyChange(PROPERTY_mapOfParsedObjects, oldValue, value);
       return this;
    }
 

@@ -8,7 +8,7 @@
   packageSrcFolder: 	"test/src/main/java/de/hub/mse/ttc2020/solution/M2"
 
 - m2Editor: 	Clazz
-  attributes: 	m2Editor_activeCommands 	m2Editor_commandListeners 	m2Editor_mapOfFrames 	m2Editor_mapOfModelObjects 	m2Editor_isoDateFormat 	m2Editor_lastTime 	m2Editor_timeDelta 	m2Editor_commandPrototypes
+  attributes: 	m2Editor_activeCommands 	m2Editor_commandListeners 	m2Editor_mapOfFrames 	m2Editor_mapOfModelObjects 	m2Editor_mapOfParsedObjects 	m2Editor_isoDateFormat 	m2Editor_lastTime 	m2Editor_timeDelta 	m2Editor_commandPrototypes
   importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
@@ -203,6 +203,16 @@
   type: 	"java.util.Map<String, Object>"
   typeSignature: 	"java.util.Map<String,Object>"
 
+- m2Editor_mapOfParsedObjects: 	Attribute
+  clazz: 	m2Editor
+  id: 	M2Editor_mapOfParsedObjects
+  initialization: 	"new java.util.LinkedHashMap<>()"
+  modified: 	false
+  name: 	mapOfParsedObjects
+  propertyStyle: 	Bean
+  type: 	"java.util.Map<String, Object>"
+  typeSignature: 	"java.util.Map<String,Object>"
+
 - m2Editor_isoDateFormat: 	Attribute
   clazz: 	m2Editor
   id: 	M2Editor_isoDateFormat
@@ -246,7 +256,13 @@
   annotations: 	""
   clazz: 	m2Editor
   declaration: 	"public Object getOrCreate(Class clazz, String id)"
-  methodBody: 	"      Object modelObject = mapOfModelObjects.get(id);
+  methodBody: 	"      Object modelObject = mapOfParsedObjects.get(id);
+      if (modelObject != null) {
+         mapOfModelObjects.put(id, modelObject);
+         return modelObject;
+      }
+
+      modelObject = mapOfModelObjects.get(id);
       if (modelObject != null) {
          return modelObject;
       }
@@ -270,7 +286,12 @@
   clazz: 	m2Editor
   declaration: 	"public Object getObjectFrame(Class clazz, String id)"
   methodBody: 	"      try {
-         Object modelObject = mapOfModelObjects.get(id);
+         Object modelObject = mapOfParsedObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = mapOfModelObjects.get(id);
          if (modelObject != null) {
             return modelObject;
          }
@@ -451,13 +472,13 @@
   annotations: 	""
   clazz: 	m2Editor
   declaration: 	"public void parse(Collection allObjects)"
-  methodBody: 	"      // add parsed objects to model
+  methodBody: 	"      // register parsed objects
+      mapOfParsedObjects.clear();
       for (Object parsedObject : allObjects) {
          Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
          String id = (String) reflector.getValue(parsedObject, \"id\");
          if (id != null) {
-            mapOfModelObjects.put(id, parsedObject);
-            mapOfFrames.remove(id);
+            mapOfParsedObjects.put(id, parsedObject);
          }
       }
 

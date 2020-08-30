@@ -28,6 +28,11 @@ public class Yaml
    private Yamler yamler = new Yamler();
    private HashMap<String, String> attrTimeStamps = new HashMap<>();
 
+   public static LinkedHashSet<Object> findAllObjects(Object... roots)
+   {
+      return new Yaml(roots[0].getClass().getPackage().getName()).collectObjects(roots);
+   }
+
    public LinkedHashMap<String, Object> getIdToObjectMap()
    {
       return idToObjectMap;
