@@ -15,14 +15,21 @@ import static org.fulib.builder.Type.*;
 
 public class ServiceEditor
 {
+   // =============== Fields ===============
+
    private final ClassModelManager mm = new ClassModelManager();
-   private Clazz modelCommand;
-   private Clazz editor;
    private final Map<String, Clazz> dataClasses = new LinkedHashMap<>();
    private final Map<String, Clazz> commandClasses = new LinkedHashMap<>();
+   private final Set<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
+   private final Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
    private final STGroupFile group;
+
+   private Clazz modelCommand;
+   private Clazz editor;
    private String serviceName;
    private Clazz service;
+
+   // =============== Constructors ===============
 
    public ServiceEditor()
    {
@@ -30,10 +37,29 @@ public class ServiceEditor
       group.registerRenderer(String.class, new StringRenderer());
   }
 
+   // =============== Properties ===============
+
    public String getServiceName()
    {
       return serviceName;
    }
+
+   public ClassModelManager getClassModelManager()
+   {
+      return this.mm;
+   }
+
+   public Clazz getModelCommand()
+   {
+      return modelCommand;
+   }
+
+   public Clazz getEditor()
+   {
+      return editor;
+   }
+
+   // =============== Methods ===============
 
    private void havePatterns()
    {
@@ -106,21 +132,6 @@ public class ServiceEditor
       modelCommand.withImports("java.util.*");
    }
 
-   public ClassModelManager getClassModelManager()
-   {
-      return this.mm;
-   }
-
-   public Clazz getModelCommand()
-   {
-      return modelCommand;
-   }
-
-   public Clazz getEditor()
-   {
-      return editor;
-   }
-
    public Clazz haveEditor(String modelName)
    {
       this.serviceName = modelName;
@@ -184,8 +195,6 @@ public class ServiceEditor
       editor.withImports("org.fulib.yaml.Reflector");
 
    }
-
-   private final Set<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
 
    private void haveCommandPrototypes(Clazz commandClass)
    {
@@ -444,8 +453,6 @@ public class ServiceEditor
           .add("targetClassName", targetClass.getName())
           .render());
    }
-
-   private final Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
 
    public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
