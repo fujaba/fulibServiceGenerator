@@ -6,7 +6,6 @@ import org.fulib.classmodel.Attribute;
 import org.fulib.classmodel.Clazz;
 import org.fulib.classmodel.FMethod;
 import org.fulib.yaml.Yaml;
-import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 import org.stringtemplate.v4.StringRenderer;
 
@@ -67,10 +66,8 @@ public class ServiceEditor
    private void haveRemoveCommand()
    {
       final Clazz removeCommand = this.haveCommand("RemoveCommand");
-      String declaration = String.format("public Object run(%s editor)", this.editor.getName());
-      ST st = group.getInstanceOf("removeCommandRun");
-      String body = st.render();
-      mm.haveMethod(removeCommand, declaration, body);
+      mm.haveMethod(removeCommand, "public Object run(" + this.editor.getName() + " editor)",
+                    group.getInstanceOf("removeCommandRun").render());
 
       removeCommand.withImports("org.fulib.yaml.Reflector");
       removeCommand.withImports("org.fulib.yaml.ReflectorMap");
@@ -83,39 +80,27 @@ public class ServiceEditor
       mm.haveAttribute(modelCommand, "id", STRING);
       mm.haveAttribute(modelCommand, "time", STRING);
 
-      String declaration = String.format("public Object run(%s editor)", this.editor.getName());
-      ST st = group.getInstanceOf("modelCommandRun");
-      String body = st.render();
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand, "public Object run(" + this.editor.getName() + " editor)",
+                    group.getInstanceOf("modelCommandRun").render());
 
-      declaration = String.format("public void undo(%s editor)", this.editor.getName());
-      st = group.getInstanceOf("modelCommandUndo");
-      body = st.render();
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand, "public void undo(" + this.editor.getName() + " editor)",
+                    group.getInstanceOf("modelCommandUndo").render());
 
-      declaration = "public ModelCommand parse(Object currentObject)";
-      st = group.getInstanceOf("modelCommandParse");
-      body = st.render();
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand, "public ModelCommand parse(Object currentObject)",
+                    group.getInstanceOf("modelCommandParse").render());
 
-      declaration = "public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable)";
-      st = group.getInstanceOf("modelCommandMatchAttributesAndLinks");
-      body = st.render();
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand,
+                    "public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable)",
+                    group.getInstanceOf("modelCommandMatchAttributesAndLinks").render());
 
-      declaration = "public Set getSetOfTargetHandles(Map map, String poId, String linkName)";
-      st = group.getInstanceOf("modelCommandGetSetOfTargetHandles");
-      body = st.render();
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand, "public Set getSetOfTargetHandles(Map map, String poId, String linkName)",
+                    group.getInstanceOf("modelCommandGetSetOfTargetHandles").render());
 
-      declaration = "public Pattern havePattern()";
-      body =  "      return null;\n";
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand, "public Pattern havePattern()", "      return null;\n");
 
-      declaration = "private Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)";
-      st = group.getInstanceOf("modelCommandGetHandleValue");
-      body = st.render();
-      mm.haveMethod(modelCommand, declaration, body);
+      mm.haveMethod(modelCommand,
+                    "private Object getHandleObjectAttributeValue(PatternObject patternObject, String handleAttributeName)",
+                    group.getInstanceOf("modelCommandGetHandleValue").render());
 
       modelCommand.withImports("org.fulib.yaml.Reflector");
       modelCommand.withImports("org.fulib.yaml.StrUtil");
@@ -151,32 +136,24 @@ public class ServiceEditor
       this.editorHaveMapFor("mapOfParsedObjects", "Object");
       haveGetOrCreate();
 
-      Attribute dateFormat = this.getClassModelManager().haveAttribute(editor, "isoDateFormat", "DateFormat");
+      Attribute dateFormat = mm.haveAttribute(editor, "isoDateFormat", "DateFormat");
       dateFormat.setInitialization("new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
-      Attribute lastTime = this.getClassModelManager().haveAttribute(editor, "lastTime", STRING);
+      Attribute lastTime = mm.haveAttribute(editor, "lastTime", STRING);
       lastTime.setInitialization("isoDateFormat.format(new Date())");
-      Attribute timeDelta = this.getClassModelManager().haveAttribute(editor, "timeDelta", LONG);
+      Attribute timeDelta = mm.haveAttribute(editor, "timeDelta", LONG);
       timeDelta.setInitialization("1");
 
-      String declaration = "public String getTime()";
-      ST st = group.getInstanceOf("getTime");
-      String body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
-
+      mm.haveMethod(editor, "public String getTime()", group.getInstanceOf("getTime").render());
       editor.withImports("java.text.DateFormat");
       editor.withImports("java.util.Date");
 
-
-      declaration = "public void fireCommandExecuted(ModelCommand command)";
-      st = group.getInstanceOf("editorFireCommandExecuted");
-      body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public void fireCommandExecuted(ModelCommand command)",
+                    group.getInstanceOf("editorFireCommandExecuted").render());
       editor.withImports("java.util.ArrayList");
 
-      declaration = String.format("public %sEditor addCommandListener(String commandName, CommandStream stream)", serviceName);
-      st = group.getInstanceOf("editorAddCommandListener");
-      body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor,
+                    "public " + serviceName + "Editor addCommandListener(String commandName, CommandStream stream)",
+                    group.getInstanceOf("editorAddCommandListener").render());
 
       haveModelCommand();
       haveRemoveCommand();
@@ -190,32 +167,21 @@ public class ServiceEditor
 
    private void haveExecuteAndParsingMethods()
    {
-      String declaration = "public void execute(ModelCommand command)";
-      ST st = group.getInstanceOf("editorExecute");
-      String body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public void execute(ModelCommand command)", group.getInstanceOf("editorExecute").render());
 
-      declaration = "public void parse(Collection allObjects)";
-      st = group.getInstanceOf("editorParse");
-      body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public void parse(Collection allObjects)", group.getInstanceOf("editorParse").render());
 
-      declaration = "private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)";
-      st = group.getInstanceOf("editorFindCommands");
-      body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor,
+                    "private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)",
+                    group.getInstanceOf("editorFindCommands").render());
 
-      declaration = "private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)";
-      st = group.getInstanceOf("editorGetFromAllCommands");
-      body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)",
+                    group.getInstanceOf("editorGetFromAllCommands").render());
 
-      declaration = "public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)";
-      st = group.getInstanceOf("editorEqualsButTime");
-      body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)",
+                    group.getInstanceOf("editorEqualsButTime").render());
 
-      this.getClassModelManager().haveAttribute(editor, "commandPrototypes", "ArrayList<ModelCommand>");
+      mm.haveAttribute(editor, "commandPrototypes", "ArrayList<ModelCommand>");
 
       editor.withImports("java.util.*");
       editor.withImports("org.fulib.yaml.Reflector");
@@ -234,13 +200,10 @@ public class ServiceEditor
 
       commandPrototypeClasses.add(commandClass);
 
-      //
-      String declaration = "private ArrayList<ModelCommand> haveCommandPrototypes()";
-      ST st = group.getInstanceOf("editorHaveCommandPrototypes");
-      st.add("classes", commandPrototypeClasses);
-      String body = st.render();
-      this.getClassModelManager().haveMethod(editor, declaration, body);
-
+      mm.haveMethod(editor, "private ArrayList<ModelCommand> haveCommandPrototypes()", group
+          .getInstanceOf("editorHaveCommandPrototypes")
+          .add("classes", commandPrototypeClasses)
+          .render());
    }
 
 
@@ -269,44 +232,26 @@ public class ServiceEditor
 
       haveStartMethod(serviceName, "// there are no streams\n");
 
-      String body;
-      ST st;
-
-      body = "      currentSession = \"\" + (sessionToAppMap.size() + 1);\n" +
-            "      return root(req, res);\n";
-      String declaration = "public String getFirstRoot(Request req, Response res)";
-      mm.haveMethod(service, declaration, body);
+      mm.haveMethod(service, "public String getFirstRoot(Request req, Response res)",
+                    "      currentSession = \"\" + (sessionToAppMap.size() + 1);\n" + "      return root(req, res);\n");
       service.withImports("spark.Request");
       service.withImports("spark.Response");
 
-      declaration = "public String root(Request req, Response res)";
-      st = group.getInstanceOf("rootBody");
-      st.add("serviceName", serviceName);
-      body = st.render();
-      mm.haveMethod(service, declaration, body);
+      mm.haveMethod(service, "public String root(Request req, Response res)",
+                    group.getInstanceOf("rootBody").add("serviceName", serviceName).render());
       service.withImports("org.fulib.scenarios.MockupTools");
 
-      declaration = "public String cmd(Request req, Response res)";
-      st = group.getInstanceOf("cmdBody");
-      st.add("serviceName", serviceName);
-      body = st.render();
-      mm.haveMethod(service, declaration, body);
+      mm.haveMethod(service, "public String cmd(Request req, Response res)",
+                    group.getInstanceOf("cmdBody").add("serviceName", serviceName).render());
       service.withImports("org.json.JSONObject");
       service.withImports("org.fulib.yaml.Reflector");
       service.withImports("java.lang.reflect.Method");
 
-      // connect
-      declaration = "public String connect(Request req, Response res)";
-      st = group.getInstanceOf("serviceConnect");
-      body = st.render();
-      mm.haveMethod(service, declaration, body);
+      mm.haveMethod(service, "public String connect(Request req, Response res)",
+                    group.getInstanceOf("serviceConnect").render());
 
-      // getStream
-      declaration = "public CommandStream getStream(String streamName)";
-      st = group.getInstanceOf("serviceGetStream");
-      body = st.render();
-      mm.haveMethod(service, declaration, body);
-
+      mm.haveMethod(service, "public CommandStream getStream(String streamName)",
+                    group.getInstanceOf("serviceGetStream").render());
 
       service.withImports("java.util.ArrayList");
       service.withImports("java.net.URL");
@@ -323,10 +268,8 @@ public class ServiceEditor
       mm.haveAttribute(addStream, "incommingRoute", STRING);
       mm.haveAttribute(addStream, "outgoingUrl", STRING);
 
-      String declaration = String.format("public Object run(%sEditor editor)", serviceName);
-      ST st = group.getInstanceOf("AddStreamCommandRun");
-      String body = st.render();
-      mm.haveMethod(addStream, declaration, body);
+      mm.haveMethod(addStream, "public Object run(" + serviceName + "Editor editor)",
+                    group.getInstanceOf("AddStreamCommandRun").render());
    }
 
    public void haveCommandStream()
@@ -339,30 +282,18 @@ public class ServiceEditor
       oldCommands.setInitialization("new ArrayList<>()");
       mm.associate(service, "streams", MANY, commandStream, "service", ONE);
 
-      String declaration = "public void publish(ModelCommand cmd)";
-      ST st = group.getInstanceOf("CommandStreamPublish");
-      String body = st.render();
-      mm.haveMethod(commandStream, declaration, body);
+      mm.haveMethod(commandStream, "public void publish(ModelCommand cmd)",
+                    group.getInstanceOf("CommandStreamPublish").render());
 
-      declaration = "public void send()";
-      st = group.getInstanceOf("CommandStreamSend");
-      body = st.render();
-      mm.haveMethod(commandStream, declaration, body);
+      mm.haveMethod(commandStream, "public void send()", group.getInstanceOf("CommandStreamSend").render());
 
-      declaration = "public void executeCommands(Collection values)";
-      st = group.getInstanceOf("CommandStreamExecuteCommands");
-      body = st.render();
-      mm.haveMethod(commandStream, declaration, body);
+      mm.haveMethod(commandStream, "public void executeCommands(Collection values)",
+                    group.getInstanceOf("CommandStreamExecuteCommands").render());
 
-      declaration = "public CommandStream start()";
-      st = group.getInstanceOf("CommandStreamStart");
-      body = st.render();
-      mm.haveMethod(commandStream, declaration, body);
+      mm.haveMethod(commandStream, "public CommandStream start()", group.getInstanceOf("CommandStreamStart").render());
 
-      declaration = "private String handlePostRequest(Request req, Response res)";
-      st = group.getInstanceOf("CommandStreamHandlePostRequest");
-      body = st.render();
-      mm.haveMethod(commandStream, declaration, body);
+      mm.haveMethod(commandStream, "private String handlePostRequest(Request req, Response res)",
+                    group.getInstanceOf("CommandStreamHandlePostRequest").render());
 
       Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
@@ -380,11 +311,11 @@ public class ServiceEditor
 
    public void haveStartMethod(String serviceName, String streamInit)
    {
-      ST st = group.getInstanceOf("serviceInit");
-      st.add("serviceName", serviceName);
-      st.add("streamInit", streamInit);
-      String body = st.render();
-      mm.haveMethod(service, "public void start()", body);
+      mm.haveMethod(service, "public void start()", group
+          .getInstanceOf("serviceInit")
+          .add("serviceName", serviceName)
+          .add("streamInit", streamInit)
+          .render());
    }
 
 
@@ -437,11 +368,8 @@ public class ServiceEditor
    @Deprecated
    private void editorHaveGetOrCreateFor(String dataClassName)
    {
-      String declaration = String.format("public %1$s getOrCreate%1$s(String id)", dataClassName);
-      ST st = group.getInstanceOf("editorGetOrCreateBody");
-      st.add("dataClazz", dataClassName);
-      String body = st.render();
-      mm.haveMethod(this.editor, declaration, body);
+      mm.haveMethod(this.editor, String.format("public %1$s getOrCreate%1$s(String id)", dataClassName),
+                    group.getInstanceOf("editorGetOrCreateBody").add("dataClazz", dataClassName).render());
    }
 
    private void editorHaveMapFor(String entryClassName)
@@ -460,27 +388,18 @@ public class ServiceEditor
 
    private FMethod haveGetOrCreate()
    {
-      String declaration = "public Object getOrCreate(Class clazz, String id)";
-      ST st = group.getInstanceOf("editorGetOrCreateBody");
-      String body = st.render();
-      FMethod fMethod = mm.haveMethod(editor, declaration, body);
+      FMethod fMethod = mm.haveMethod(editor, "public Object getOrCreate(Class clazz, String id)",
+                                      group.getInstanceOf("editorGetOrCreateBody").render());
 
-      declaration = "public Object getObjectFrame(Class clazz, String id)";
-      st = group.getInstanceOf("editorGetFrameBody");
-      body = st.render();
-      mm.haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public Object getObjectFrame(Class clazz, String id)",
+                    group.getInstanceOf("editorGetFrameBody").render());
 
       editor.withImports("java.lang.reflect.Method");
 
-      // and
-      declaration = "public Object getModelObject(String id)";
-      body = "   return mapOfModelObjects.get(id);\n";
-      mm.haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public Object getModelObject(String id)", "   return mapOfModelObjects.get(id);\n");
 
-      declaration = "public Object removeModelObject(String id)";
-      st = group.getInstanceOf("editorRemoveModelObject");
-      body = st.render();
-      mm.haveMethod(editor, declaration, body);
+      mm.haveMethod(editor, "public Object removeModelObject(String id)",
+                    group.getInstanceOf("editorRemoveModelObject").render());
 
       return fMethod;
    }
@@ -488,11 +407,8 @@ public class ServiceEditor
 
 
    public FMethod haveLoadYaml(String modelPackageName) {
-      String declaration = "public void loadYaml(String yamlString)";
-      ST st = group.getInstanceOf("loadYaml");
-      st.add("packageName", modelPackageName);
-      String body = st.render();
-      FMethod fMethod = mm.haveMethod(this.editor, declaration, body);
+      FMethod fMethod = mm.haveMethod(this.editor, "public void loadYaml(String yamlString)",
+                                      group.getInstanceOf("loadYaml").add("packageName", modelPackageName).render());
       this.editor.withImports(Yaml.class.getName());
       return fMethod;
    }
@@ -524,30 +440,22 @@ public class ServiceEditor
       Clazz haveLinkCommand = this.haveCommand(commandName);
       mm.haveAttribute(haveLinkCommand, "source", STRING);
       mm.haveAttribute(haveLinkCommand, "target", STRING);
-      String declaration = String.format("public Object run(%s editor)", this.editor.getName());
-      // runHaveLink(sourceClassName, linkName, targetClassName)
-      ST st = group.getInstanceOf("runHaveLink");
-      st.add("sourceClassName", sourceClass.getName());
-      st.add("linkName", StrUtil.cap(sourceRoleName));
-      st.add("targetClassName", targetClass.getName());
-      String body = st.render();
-      FMethod fMethod = mm.haveMethod(haveLinkCommand, declaration, body);
-      fMethod.setAnnotations("@Override");
+      mm.haveMethod(haveLinkCommand, "@Override public Object run(" + this.editor.getName() + " editor)", group
+          .getInstanceOf("runHaveLink")
+          .add("sourceClassName", sourceClass.getName())
+          .add("linkName", StrUtil.cap(sourceRoleName))
+          .add("targetClassName", targetClass.getName())
+          .render());
 
-      // RemoveLinkCommand
-      commandName = String.format("Remove%s%sLink", commandKey, StrUtil.cap(sourceRoleName));
-      Clazz removeLinkCommand = this.haveCommand(commandName);
+      Clazz removeLinkCommand = this.haveCommand("Remove" + commandKey + StrUtil.cap(sourceRoleName) + "Link");
       mm.haveAttribute(removeLinkCommand, "source", STRING);
       mm.haveAttribute(removeLinkCommand, "target", STRING);
-      declaration = String.format("public Object run(%s editor)", this.editor.getName());
-      // runHaveLink(sourceClassName, linkName, targetClassName)
-      st = group.getInstanceOf("runRemoveLink");
-      st.add("sourceClassName", sourceClass.getName());
-      st.add("linkName", StrUtil.cap(sourceRoleName));
-      st.add("targetClassName", targetClass.getName());
-      body = st.render();
-      fMethod = mm.haveMethod(removeLinkCommand, declaration, body);
-      fMethod.setAnnotations("@Override");
+      mm.haveMethod(removeLinkCommand, "@Override public Object run(" + this.editor.getName() + " editor)", group
+          .getInstanceOf("runRemoveLink")
+          .add("sourceClassName", sourceClass.getName())
+          .add("linkName", StrUtil.cap(sourceRoleName))
+          .add("targetClassName", targetClass.getName())
+          .render());
    }
 
 
@@ -571,7 +479,7 @@ public class ServiceEditor
 
    private void haveDataCommandRunMethod(Clazz dataClass, String dataClassName, Clazz commandClass)
    {
-      String declaration = String.format("public %s run(%s editor)", dataClassName, this.editor.getName());
+      String declaration = String.format("@Override public %s run(%s editor)", dataClassName, this.editor.getName());
 
       StringBuilder attributes = new StringBuilder();
 
@@ -594,12 +502,11 @@ public class ServiceEditor
          }
       }
 
-      ST st = group.getInstanceOf("run");
-      st.add("dataClazz", dataClassName);
-      st.add("attributes", attributes.toString());
-      String body = st.render();
-      FMethod runMethod = mm.haveMethod(commandClass, declaration, body);
-      runMethod.setAnnotations("@Override");
+      mm.haveMethod(commandClass, declaration, group
+          .getInstanceOf("run")
+          .add("dataClazz", dataClassName)
+          .add("attributes", attributes.toString())
+          .render());
    }
 
 
