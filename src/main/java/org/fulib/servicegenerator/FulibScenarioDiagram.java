@@ -258,7 +258,7 @@ public class FulibScenarioDiagram
                entryList.add(entry);
             }
          }
-         if (entryList.size() > 0) {
+         if (!entryList.isEmpty()) {
             String entryText = String.join(" ", entryList);
             lines.append("<p align=\"center\">").append(entryText).append("</p>\n");
          }
@@ -291,7 +291,7 @@ public class FulibScenarioDiagram
       }
       StringBuilder lines = new StringBuilder();
 
-      if (objects.size() == 0) {
+      if (objects.isEmpty()) {
          lines.append("<p> no data </p>\n");
       }
       else {
@@ -409,7 +409,7 @@ public class FulibScenarioDiagram
                continue;
             }
             Object value = reflector.getValue(command, property);
-            if (property.equals("time")) {
+            if ("time".equals(property)) {
                streamToLastCommandTimeMap.put(streamName, value.toString());
                continue;
             }
