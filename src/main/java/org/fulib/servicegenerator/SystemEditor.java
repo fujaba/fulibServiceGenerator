@@ -7,17 +7,15 @@ import org.fulib.classmodel.ClassModel;
 import org.fulib.classmodel.Clazz;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 public class SystemEditor
 {
    private String mainJavaDir;
-   private Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
-   private Map<ServiceEditor, Map<ServiceEditor, LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
+   private final Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
    private String packageName;
    private final ClassModelManager sharedModelManager;
-   private ServiceEditor sharedEditor;
+   private final ServiceEditor sharedEditor;
    private boolean patternSupport;
 
    public SystemEditor()
@@ -82,7 +80,7 @@ public class SystemEditor
    {
       Clazz clazz = this.sharedEditor.haveCommand(commandName);
       for (ServiceEditor serviceEditor : this.serviceMap.values()) {
-         Clazz command = serviceEditor.haveCommand(commandName);
+         serviceEditor.haveCommand(commandName);
       }
       return clazz;
    }
