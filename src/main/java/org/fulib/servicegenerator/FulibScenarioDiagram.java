@@ -19,13 +19,13 @@ public class FulibScenarioDiagram
    private String htmlFileName;
    private String allLanes;
 
-   private final LinkedHashMap<String, ArrayList<String>> laneMap = new LinkedHashMap<>();
-   private final LinkedHashMap<String, Integer> laneToIndentMap = new LinkedHashMap<>();
-   private final LinkedHashMap<String, ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
-   private final LinkedHashMap<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
+   private final Map<String, List<String>> laneMap = new LinkedHashMap<>();
+   private final Map<String, Integer> laneToIndentMap = new LinkedHashMap<>();
+   private final Map<String, List<String>> msgLaneMap = new LinkedHashMap<>();
+   private final Map<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
 
-   private final LinkedHashMap<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
-   private final ArrayList<String> lanes = new ArrayList<>();
+   private final Map<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
+   private final List<String> lanes = new ArrayList<>();
 
    public FulibScenarioDiagram() {
       group = new STGroupFile(this.getClass().getResource("templates/scenariodiagram.stg"), "UTF-8", '$', '$');
@@ -71,7 +71,7 @@ public class FulibScenarioDiagram
 
       for (String laneName : lanes) {
 
-         ArrayList<String> entryList = laneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
+         List<String> entryList = laneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
          int maxNoOfLines = getMaxNoOfLines(entryList);
 
          int laneHeaderLines = 1;
@@ -90,7 +90,7 @@ public class FulibScenarioDiagram
          buf.append(body);
 
          // plus messagelane
-         ArrayList<String> messageList = msgLaneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
+         List<String> messageList = msgLaneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
          maxNoOfLines = getMaxNoOfLines(messageList);
          laneHeight = maxNoOfLines * lineHeight + paddingAndBorder * 2;
 
@@ -108,7 +108,7 @@ public class FulibScenarioDiagram
       allLanes = buf.toString();
    }
 
-   private int getMaxNoOfLines(ArrayList<String> entryList)
+   private int getMaxNoOfLines(List<String> entryList)
    {
       int maxNoOfLines = 1;
       int maxLength = "<p align=\"center\">- p1Rome 100.0 p1 ordered Rome</p>".length();
@@ -172,7 +172,7 @@ public class FulibScenarioDiagram
       catch (InterruptedException e) {
          // no problem
       }
-      ArrayList<String> entryList = laneMap.computeIfAbsent(lane, n -> new ArrayList<>());
+      List<String> entryList = laneMap.computeIfAbsent(lane, n -> new ArrayList<>());
 
       String title = lane;
       Reflector reflector = new Reflector().setClazz(app.getClass());
@@ -219,7 +219,7 @@ public class FulibScenarioDiagram
       // get description
       Reflector reflector = reflectorMap.getReflector(node);
       Object description = reflector.getValue(node, "description");
-      ArrayList<String> entryList = new ArrayList<>();
+      List<String> entryList = new ArrayList<>();
       if (description != null) {
          String line = (String) description;
          String[] split = line.split("\\|");
@@ -328,7 +328,7 @@ public class FulibScenarioDiagram
       st.add("data", lines.toString());
       String body = st.render();
 
-      ArrayList<String> entries = laneMap.computeIfAbsent(lane, l -> new ArrayList<>());
+      List<String> entries = laneMap.computeIfAbsent(lane, l -> new ArrayList<>());
       entries.add(body);
       dump();
       return this;
@@ -431,11 +431,11 @@ public class FulibScenarioDiagram
       st.add("data", lines.toString());
       String body = st.render();
 
-      ArrayList<String> msgEntryList = findMessageLaneName(streamName);
+      List<String> msgEntryList = findMessageLaneName(streamName);
       msgEntryList.add(body);
    }
 
-   private ArrayList<String> findMessageLaneName(String streamName)
+   private List<String> findMessageLaneName(String streamName)
    {
       String messageLaneName = null;
       for (String laneName : laneMap.keySet()) {

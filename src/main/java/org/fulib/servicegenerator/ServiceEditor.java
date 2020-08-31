@@ -19,8 +19,8 @@ public class ServiceEditor
    private final ClassModelManager mm = new ClassModelManager();
    private Clazz modelCommand;
    private Clazz editor;
-   private final LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
-   private final LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
+   private final Map<String, Clazz> dataClasses = new LinkedHashMap<>();
+   private final Map<String, Clazz> commandClasses = new LinkedHashMap<>();
    private final STGroupFile group;
    private String serviceName;
    private Clazz service;
@@ -222,7 +222,7 @@ public class ServiceEditor
 
    }
 
-   private final LinkedHashSet<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
+   private final Set<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
 
    private void haveCommandPrototypes(Clazz commandClass)
    {
