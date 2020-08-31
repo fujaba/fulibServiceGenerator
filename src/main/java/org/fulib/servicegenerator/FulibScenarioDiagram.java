@@ -14,9 +14,9 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class FulibScenarioDiagram
 {
+   // =============== Fields ===============
+
    private final STGroupFile group;
-   private String htmlFileName;
-   private String allLanes;
 
    private final Map<String, List<String>> laneMap = new LinkedHashMap<>();
    private final Map<String, Integer> laneToIndentMap = new LinkedHashMap<>();
@@ -26,15 +26,24 @@ public class FulibScenarioDiagram
    private final Map<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
    private final List<String> lanes = new ArrayList<>();
 
+   private String htmlFileName;
+   private String allLanes;
+
+   // =============== Constructors ===============
+
    public FulibScenarioDiagram() {
       group = new STGroupFile(this.getClass().getResource("templates/scenariodiagram.stg"), "UTF-8", '$', '$');
    }
+
+   // =============== Properties ===============
 
    public FulibScenarioDiagram setHtmlFileName(String htmlFileName)
    {
       this.htmlFileName = htmlFileName;
       return this;
    }
+
+   // =============== Methods ===============
 
    public FulibScenarioDiagram addServices(String... lanes)
    {
