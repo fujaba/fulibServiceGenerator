@@ -1,7 +1,6 @@
 package org.fulib.servicegenerator;
 
 import org.fulib.StrUtil;
-import org.fulib.builder.ClassModelBuilder;
 import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Attribute;
 import org.fulib.classmodel.Clazz;
@@ -17,13 +16,12 @@ import static org.fulib.builder.Type.*;
 
 public class ServiceEditor
 {
-   private ClassModelManager mm = new ClassModelManager();
+   private final ClassModelManager mm = new ClassModelManager();
    private Clazz modelCommand;
    private Clazz editor;
-   private LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
-   private LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
-   private STGroupFile group;
-   private Clazz removeCommand;
+   private final LinkedHashMap<String, Clazz> dataClasses = new LinkedHashMap<>();
+   private final LinkedHashMap<String, Clazz> commandClasses = new LinkedHashMap<>();
+   private final STGroupFile group;
    private String serviceName;
    private Clazz service;
 
@@ -68,7 +66,7 @@ public class ServiceEditor
 
    private void haveRemoveCommand()
    {
-      removeCommand = this.haveCommand("RemoveCommand");
+      final Clazz removeCommand = this.haveCommand("RemoveCommand");
       String declaration = String.format("public Object run(%s editor)", this.editor.getName());
       ST st = group.getInstanceOf("removeCommandRun");
       String body = st.render();
@@ -224,13 +222,13 @@ public class ServiceEditor
 
    }
 
-   private LinkedHashSet<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
+   private final LinkedHashSet<Clazz> commandPrototypeClasses = new LinkedHashSet<>();
 
    private void haveCommandPrototypes(Clazz commandClass)
    {
       if (editor == null
-            || commandClass.getName().equals("RemoveCommand")
-            || commandClass.getName().equals("AddStreamCommand")) {
+            || "RemoveCommand".equals(commandClass.getName())
+            || "AddStreamCommand".equals(commandClass.getName())) {
          return;
       }
 
@@ -356,14 +354,12 @@ public class ServiceEditor
       body = st.render();
       mm.haveMethod(commandStream, declaration, body);
 
-      declaration = String.format("public CommandStream start()",
-            serviceName);
+      declaration = "public CommandStream start()";
       st = group.getInstanceOf("CommandStreamStart");
       body = st.render();
       mm.haveMethod(commandStream, declaration, body);
 
-      declaration = String.format("private String handlePostRequest(Request req, Response res)",
-            serviceName);
+      declaration = "private String handlePostRequest(Request req, Response res)";
       st = group.getInstanceOf("CommandStreamHandlePostRequest");
       body = st.render();
       mm.haveMethod(commandStream, declaration, body);
@@ -555,7 +551,7 @@ public class ServiceEditor
    }
 
 
-   private Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
+   private final Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
 
    public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
@@ -564,11 +560,7 @@ public class ServiceEditor
       }
       this.mm.associate(sourceClass, sourceRoleName, sourceCard, targetClass, targetRoleName, targetCard);
       String dataClassName = sourceClass.getName();
-      Collection<String> roleNames = dataclassAttachedRoles.get(sourceClass);
-      if (roleNames == null) {
-         roleNames = new ArrayList<>();
-         dataclassAttachedRoles.put(sourceClass, roleNames);
-      }
+      Collection<String> roleNames = dataclassAttachedRoles.computeIfAbsent(sourceClass, k -> new ArrayList<>());
       roleNames.add(sourceRoleName);
       String commandClassName = dataClassName.substring(this.serviceName.length());
       Clazz commandClass = commandClasses.get(commandClassName);
@@ -581,14 +573,14 @@ public class ServiceEditor
    {
       String declaration = String.format("public %s run(%s editor)", dataClassName, this.editor.getName());
 
-      String attributes = "";
+      StringBuilder attributes = new StringBuilder();
 
       for (Attribute attr : dataClass.getAttributes()) {
-         if (attr.getName().equals("id")) {
+         if ("id".equals(attr.getName())) {
             continue;
          }
          String oneAttr = String.format("dataObject.set%1$s(this.get%1$s());\n", StrUtil.cap(attr.getName()));
-         attributes += oneAttr;
+         attributes.append(oneAttr);
       }
 
       Collection<String> roleNames = dataclassAttachedRoles.get(dataClass);
@@ -596,15 +588,15 @@ public class ServiceEditor
          for (String attr : roleNames) {
             String getObject = String.format("%2$s %1$s = editor.getOrCreate%2$s(this.get%3$s());\n", attr, this.serviceName + StrUtil.cap(attr), StrUtil.cap(attr));
             // Product product ;
-            attributes += getObject;
+            attributes.append(getObject);
             String oneAttr = String.format("dataObject.set%1$s(%2$s);\n", StrUtil.cap(attr), attr);
-            attributes += oneAttr;
+            attributes.append(oneAttr);
          }
       }
 
       ST st = group.getInstanceOf("run");
       st.add("dataClazz", dataClassName);
-      st.add("attributes", attributes);
+      st.add("attributes", attributes.toString());
       String body = st.render();
       FMethod runMethod = mm.haveMethod(commandClass, declaration, body);
       runMethod.setAnnotations("@Override");
