@@ -16,7 +16,6 @@ oneData(time, indent, data) ::= <<
 
 >>
 
-
 oneScreen(time, indent, title, lines) ::= <<
 <div id="Screen$time$" class="box" style="position: relative; left: $indent$px">
     <p align="left"><i class="fa fa-bars"></i> $time$ $title$</p>
@@ -31,7 +30,6 @@ oneMsgLane(name, height, entries) ::= <<
     $entries$
 </div>
 
-
 >>
 
 oneLane(name, height, entries) ::= <<
@@ -41,7 +39,6 @@ oneLane(name, height, entries) ::= <<
 
     $entries$
 </div>
-
 
 >>
 
@@ -108,7 +105,6 @@ overallFile(lanes) ::= <<
             float: left;
         }
 
-
         p{
             margin: 2px;
         }
@@ -120,7 +116,6 @@ overallFile(lanes) ::= <<
 <body>
 
 $lanes$
-
 
 <script>
     function scenarioLayout() {

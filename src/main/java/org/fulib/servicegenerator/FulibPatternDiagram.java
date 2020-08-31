@@ -71,7 +71,5 @@ public class FulibPatternDiagram
       catch (IOException e) {
          e.printStackTrace();
       }
-
-
    }
 }

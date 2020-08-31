@@ -51,7 +51,6 @@ public class SystemEditor
 
       serviceMap.put(serviceName, serviceEditor);
 
-
       return serviceEditor;
    }
 

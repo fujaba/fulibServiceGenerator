@@ -12,7 +12,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import static com.codeborne.selenide.Selenide.*;
 
-
 public class FulibScenarioDiagram
 {
    private final STGroupFile group;
@@ -37,7 +36,6 @@ public class FulibScenarioDiagram
       return this;
    }
 
-
    public FulibScenarioDiagram addServices(String... lanes)
    {
       this.lanes.addAll(Arrays.asList(lanes));
@@ -48,7 +46,6 @@ public class FulibScenarioDiagram
    public FulibScenarioDiagram dump()
    {
       computeLanes();
-
 
       // put all together
       ST st = group.getInstanceOf("overallFile");
@@ -70,7 +67,6 @@ public class FulibScenarioDiagram
       StringBuilder buf = new StringBuilder();
 
       for (String laneName : lanes) {
-
          List<String> entryList = laneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
          int maxNoOfLines = getMaxNoOfLines(entryList);
 
@@ -102,7 +98,6 @@ public class FulibScenarioDiagram
          body = st.render();
 
          buf.append(body);
-
       }
 
       allLanes = buf.toString();
@@ -130,7 +125,6 @@ public class FulibScenarioDiagram
             lines += newLines;
          }
          maxNoOfLines = Math.max(maxNoOfLines, lines);
-
       }
 
       // do not count <div>, \n, </div>
@@ -138,7 +132,6 @@ public class FulibScenarioDiagram
       maxNoOfLines = Math.max(maxNoOfLines, 0);
       return maxNoOfLines;
    }
-
 
    private String getServiceName(Object element)
    {
@@ -194,7 +187,6 @@ public class FulibScenarioDiagram
       int oldIndent = laneToIndentMap.computeIfAbsent(lane, s -> 0);
       indent += oldIndent;
       laneToIndentMap.put(lane, indent);
-
 
       ST st = group.getInstanceOf("oneScreen");
       st.add("time", time);
@@ -339,6 +331,7 @@ public class FulibScenarioDiagram
       addMessages(time, source, 0);
       return this;
    }
+
    public FulibScenarioDiagram addMessages(String time, Object source, int indent)
    {
       try {
@@ -395,7 +388,6 @@ public class FulibScenarioDiagram
       StringBuilder lines = new StringBuilder();
 
       for (Object command : newCommands) {
-
          Reflector reflector = reflectorMap.getReflector(command);
          String id = (String) reflector.getValue(command, "id");
          if (id != null) {

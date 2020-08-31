@@ -35,7 +35,6 @@ public class ServiceEditor
       return serviceName;
    }
 
-
    private void havePatterns()
    {
       Clazz pattern = mm.haveClass("Pattern");
@@ -59,9 +58,7 @@ public class ServiceEditor
       mm.associate(patternObject, "attributes", MANY, patternAttribute, "object", ONE);
       mm.associate(patternObject, "links", MANY, patternLink, "source", ONE);
       mm.associate(patternLink, "target", ONE, patternObject, "incommingLinks", MANY);
-
    }
-
 
    private void haveRemoveCommand()
    {
@@ -206,7 +203,6 @@ public class ServiceEditor
           .render());
    }
 
-
    public void haveService(String serviceName)
    {
       this.serviceName = serviceName;
@@ -306,7 +302,6 @@ public class ServiceEditor
       commandStream.withImports("spark.Service");
       commandStream.withImports("spark.Request");
       commandStream.withImports("spark.Response");
-
    }
 
    public void haveStartMethod(String serviceName, String streamInit)
@@ -317,7 +312,6 @@ public class ServiceEditor
           .add("streamInit", streamInit)
           .render());
    }
-
 
    public void haveMockupGUI()
    {
@@ -345,10 +339,7 @@ public class ServiceEditor
 
       mm.associate(appClass, "content", ONE, page,"app", ONE);
       mm.associate(page, "content", MANY, line,"page", ONE);
-
-
    }
-
 
    public Clazz haveDataClass(String dataClassName)
    {
@@ -385,7 +376,6 @@ public class ServiceEditor
       attribute.setInitialization("new java.util.LinkedHashMap<>()");
    }
 
-
    private FMethod haveGetOrCreate()
    {
       FMethod fMethod = mm.haveMethod(editor, "public Object getOrCreate(Class clazz, String id)",
@@ -403,8 +393,6 @@ public class ServiceEditor
 
       return fMethod;
    }
-
-
 
    public FMethod haveLoadYaml(String modelPackageName) {
       FMethod fMethod = mm.haveMethod(this.editor, "public void loadYaml(String yamlString)",
@@ -426,7 +414,6 @@ public class ServiceEditor
 
       return attribute;
    }
-
 
    public void haveAssociationWithOwnCommands(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
    {
@@ -458,7 +445,6 @@ public class ServiceEditor
           .render());
    }
 
-
    private final Map<Clazz, Collection<String>> dataclassAttachedRoles = new LinkedHashMap<>();
 
    public void haveAssociationOwnedByDataClass(Clazz sourceClass, String sourceRoleName, int sourceCard, String targetRoleName, int targetCard, Clazz targetClass)
@@ -475,7 +461,6 @@ public class ServiceEditor
       mm.haveAttribute(commandClass, sourceRoleName, STRING);
       haveDataCommandRunMethod(sourceClass, dataClassName, commandClass);
    }
-
 
    private void haveDataCommandRunMethod(Clazz dataClass, String dataClassName, Clazz commandClass)
    {
@@ -509,7 +494,6 @@ public class ServiceEditor
           .render());
    }
 
-
    public Clazz haveCommand(String className)
    {
       Clazz commandClass = mm.haveClass(className);
@@ -520,8 +504,4 @@ public class ServiceEditor
 
       return commandClass;
    }
-
-
-
-
 }
