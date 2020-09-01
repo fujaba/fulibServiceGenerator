@@ -138,7 +138,7 @@ public class ServiceEditor
       editor = this.mm.haveClass(modelName + "Editor");
 
       this.editorHaveMapFor("activeCommands", "ModelCommand");
-      this.editorHaveMapFor("commandListeners", "ArrayList<CommandStream>");
+      this.editorHaveMapFor("commandListeners", "List<CommandStream>");
       this.editorHaveMapFor("mapOfFrames", "Object");
       this.editorHaveMapFor("mapOfModelObjects", "Object");
       this.editorHaveMapFor("mapOfParsedObjects", "Object");
@@ -157,6 +157,7 @@ public class ServiceEditor
 
       mm.haveMethod(editor, "public void fireCommandExecuted(ModelCommand command)",
                     group.getInstanceOf("editorFireCommandExecuted").render());
+      editor.withImports("java.util.List");
       editor.withImports("java.util.ArrayList");
 
       mm.haveMethod(editor,
@@ -180,16 +181,16 @@ public class ServiceEditor
       mm.haveMethod(editor, "public void parse(Collection allObjects)", group.getInstanceOf("editorParse").render());
 
       mm.haveMethod(editor,
-                    "private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)",
+                    "private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)",
                     group.getInstanceOf("editorFindCommands").render());
 
-      mm.haveMethod(editor, "private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)",
+      mm.haveMethod(editor, "private ModelCommand getFromAllCommands(List<ModelCommand> allCommands, String id)",
                     group.getInstanceOf("editorGetFromAllCommands").render());
 
       mm.haveMethod(editor, "public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)",
                     group.getInstanceOf("editorEqualsButTime").render());
 
-      mm.haveAttribute(editor, "commandPrototypes", "ArrayList<ModelCommand>");
+      mm.haveAttribute(editor, "commandPrototypes", "List<ModelCommand>");
 
       editor.withImports("java.util.*");
       editor.withImports("org.fulib.yaml.Reflector");
@@ -206,7 +207,7 @@ public class ServiceEditor
 
       commandPrototypeClasses.add(commandClass);
 
-      mm.haveMethod(editor, "private ArrayList<ModelCommand> haveCommandPrototypes()", group
+      mm.haveMethod(editor, "private List<ModelCommand> haveCommandPrototypes()", group
           .getInstanceOf("editorHaveCommandPrototypes")
           .add("classes", commandPrototypeClasses)
           .render());
@@ -224,12 +225,13 @@ public class ServiceEditor
       mm.haveAttribute(service, "spark", "Service");
 
       Attribute sessionToAppMap = mm.haveAttribute(service, "sessionToAppMap",
-            String.format("LinkedHashMap<String, %sApp>", serviceName));
-      sessionToAppMap.setInitialization("new LinkedHashMap()");
+            String.format("Map<String, %sApp>", serviceName));
+      sessionToAppMap.setInitialization("new LinkedHashMap<>()");
 
       haveCommandStream();
       haveAddStreamCommand();
 
+      service.withImports("java.util.Map");
       service.withImports("java.util.LinkedHashMap");
       service.withImports("spark.Service");
       service.withImports("org.fulib.yaml.ReflectorMap");
@@ -281,9 +283,9 @@ public class ServiceEditor
    {
       Clazz commandStream = mm.haveClass("CommandStream");
       mm.haveAttribute(commandStream, "name", STRING);
-      Attribute targetUrlList = mm.haveAttribute(commandStream, "targetUrlList", "ArrayList<String>");
+      Attribute targetUrlList = mm.haveAttribute(commandStream, "targetUrlList", "List<String>");
       targetUrlList.setInitialization("new ArrayList<>()");
-      Attribute oldCommands = mm.haveAttribute(commandStream, "oldCommands", "ArrayList<ModelCommand>");
+      Attribute oldCommands = mm.haveAttribute(commandStream, "oldCommands", "List<ModelCommand>");
       oldCommands.setInitialization("new ArrayList<>()");
       mm.associate(service, "streams", MANY, commandStream, "service", ONE);
 

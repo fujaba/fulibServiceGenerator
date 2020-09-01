@@ -75,7 +75,7 @@ editorRemoveModelObject() ::= <<
 
 editorFireCommandExecuted() ::= <<
       String commandName = command.getClass().getSimpleName();
-      ArrayList\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
+      List\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -83,7 +83,7 @@ editorFireCommandExecuted() ::= <<
 >>
 
 editorAddCommandListener() ::= <<
-      ArrayList\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
+      List\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
       listeners.add(stream);
       return this;
 
@@ -150,7 +150,7 @@ editorParse() ::= <<
 >>
 
 editorFindCommands() ::= <<
-      ArrayList\<ModelCommand> prototypes = haveCommandPrototypes();
+      List\<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
          ModelCommand currentCommand = prototype.parse(currentObject);
          if (currentCommand != null) {
