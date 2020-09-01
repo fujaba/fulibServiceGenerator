@@ -9,6 +9,7 @@ import org.fulib.yaml.Yaml;
 import java.util.*;
 import org.fulib.yaml.Reflector;
 import java.util.Objects;
+import java.util.List;
 
 public class JavaDocWithPatternsEditor
 {
@@ -24,18 +25,18 @@ public class JavaDocWithPatternsEditor
    private String lastTime = isoDateFormat.format(new Date());
    public static final String PROPERTY_timeDelta = "timeDelta";
    private long timeDelta = 1;
-   public static final String PROPERTY_commandPrototypes = "commandPrototypes";
-   private ArrayList<ModelCommand> commandPrototypes;
    public static final String PROPERTY_activeCommands = "activeCommands";
    private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_commandListeners = "commandListeners";
-   private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_mapOfFrames = "mapOfFrames";
    private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
    private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_mapOfParsedObjects = "mapOfParsedObjects";
    private java.util.Map<String, Object> mapOfParsedObjects = new java.util.LinkedHashMap<>();
+   public static final String PROPERTY_commandListeners = "commandListeners";
+   private java.util.Map<String, List<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
+   public static final String PROPERTY_commandPrototypes = "commandPrototypes";
+   private List<ModelCommand> commandPrototypes;
 
    public JavaDocWithPatternsService getService()
    {
@@ -214,7 +215,7 @@ public class JavaDocWithPatternsEditor
    public void fireCommandExecuted(ModelCommand command)
    {
       String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -222,7 +223,7 @@ public class JavaDocWithPatternsEditor
 
    public JavaDocWithPatternsEditor addCommandListener(String commandName, CommandStream stream)
    {
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
    }
@@ -296,29 +297,6 @@ public class JavaDocWithPatternsEditor
       }
    }
 
-   private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)
-   {
-      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
-      for (ModelCommand prototype : prototypes) {
-         ModelCommand currentCommand = prototype.parse(currentObject);
-         if (currentCommand != null) {
-            allCommands.add(currentCommand);
-         }
-      }
-
-      return null;
-   }
-
-   private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)
-   {
-      for (ModelCommand command : allCommands) {
-         if (command.getId().equals(id)) {
-            return command;
-         }
-      }
-      return null;
-   }
-
    public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)
    {
       if (oldCommand.getClass() != newCommand.getClass()) {
@@ -342,7 +320,7 @@ public class JavaDocWithPatternsEditor
       return true;
    }
 
-private ArrayList<ModelCommand> haveCommandPrototypes()
+private List<ModelCommand> haveCommandPrototypes()
    {
       if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -409,24 +387,6 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       return this;
    }
 
-   public ArrayList<ModelCommand> getCommandPrototypes()
-   {
-      return this.commandPrototypes;
-   }
-
-   public JavaDocWithPatternsEditor setCommandPrototypes(ArrayList<ModelCommand> value)
-   {
-      if (Objects.equals(value, this.commandPrototypes))
-      {
-         return this;
-      }
-
-      final ArrayList<ModelCommand> oldValue = this.commandPrototypes;
-      this.commandPrototypes = value;
-      this.firePropertyChange(PROPERTY_commandPrototypes, oldValue, value);
-      return this;
-   }
-
    public java.util.Map<String, ModelCommand> getActiveCommands()
    {
       return this.activeCommands;
@@ -442,24 +402,6 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
       this.activeCommands = value;
       this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String, ArrayList<CommandStream>> getCommandListeners()
-   {
-      return this.commandListeners;
-   }
-
-   public JavaDocWithPatternsEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
-   {
-      if (Objects.equals(value, this.commandListeners))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
-      this.commandListeners = value;
-      this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
       return this;
    }
 
@@ -515,6 +457,65 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       this.mapOfParsedObjects = value;
       this.firePropertyChange(PROPERTY_mapOfParsedObjects, oldValue, value);
       return this;
+   }
+
+   public java.util.Map<String, List<CommandStream>> getCommandListeners()
+   {
+      return this.commandListeners;
+   }
+
+   public JavaDocWithPatternsEditor setCommandListeners(java.util.Map<String, List<CommandStream>> value)
+   {
+      if (Objects.equals(value, this.commandListeners))
+      {
+         return this;
+      }
+
+      final java.util.Map<String, List<CommandStream>> oldValue = this.commandListeners;
+      this.commandListeners = value;
+      this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
+      return this;
+   }
+
+   public List<ModelCommand> getCommandPrototypes()
+   {
+      return this.commandPrototypes;
+   }
+
+   public JavaDocWithPatternsEditor setCommandPrototypes(List<ModelCommand> value)
+   {
+      if (Objects.equals(value, this.commandPrototypes))
+      {
+         return this;
+      }
+
+      final List<ModelCommand> oldValue = this.commandPrototypes;
+      this.commandPrototypes = value;
+      this.firePropertyChange(PROPERTY_commandPrototypes, oldValue, value);
+      return this;
+   }
+
+   private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)
+   {
+      List<ModelCommand> prototypes = haveCommandPrototypes();
+      for (ModelCommand prototype : prototypes) {
+         ModelCommand currentCommand = prototype.parse(currentObject);
+         if (currentCommand != null) {
+            allCommands.add(currentCommand);
+         }
+      }
+
+      return null;
+   }
+
+   private ModelCommand getFromAllCommands(List<ModelCommand> allCommands, String id)
+   {
+      for (ModelCommand command : allCommands) {
+         if (command.getId().equals(id)) {
+            return command;
+         }
+      }
+      return null;
    }
 
 }

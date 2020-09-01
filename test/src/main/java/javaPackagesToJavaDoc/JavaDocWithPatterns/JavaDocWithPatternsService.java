@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Map;
 
 public class JavaDocWithPatternsService
 {
@@ -49,7 +50,7 @@ public class JavaDocWithPatternsService
    public static final String PROPERTY_spark = "spark";
    private Service spark;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String, JavaDocWithPatternsApp> sessionToAppMap = new LinkedHashMap();
+   private Map<String, JavaDocWithPatternsApp> sessionToAppMap = new LinkedHashMap<>();
 
    public JavaDocWithPatternsService setExecutor(ExecutorService value)
    {
@@ -523,19 +524,19 @@ public JavaDocWithPatternsService withoutStreams(Collection<? extends CommandStr
       return this;
    }
 
-   public LinkedHashMap<String, JavaDocWithPatternsApp> getSessionToAppMap()
+   public Map<String, JavaDocWithPatternsApp> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public JavaDocWithPatternsService setSessionToAppMap(LinkedHashMap<String, JavaDocWithPatternsApp> value)
+   public JavaDocWithPatternsService setSessionToAppMap(Map<String, JavaDocWithPatternsApp> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String, JavaDocWithPatternsApp> oldValue = this.sessionToAppMap;
+      final Map<String, JavaDocWithPatternsApp> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

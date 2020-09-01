@@ -9,8 +9,8 @@
 
 - m2Editor: 	Clazz
   attributes: 	m2Editor_activeCommands 	m2Editor_commandListeners 	m2Editor_mapOfFrames 	m2Editor_mapOfModelObjects 	m2Editor_mapOfParsedObjects 	m2Editor_isoDateFormat 	m2Editor_lastTime 	m2Editor_timeDelta 	m2Editor_commandPrototypes
-  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
-  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
   model: 	c
   modified: 	false
@@ -72,8 +72,8 @@
 
 - m2Service: 	Clazz
   attributes: 	m2Service_myPort 	m2Service_reflectorMap 	m2Service_currentSession 	m2Service_executor 	m2Service_spark 	m2Service_sessionToAppMap
-  importList: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
-  imports: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  importList: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  imports: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
   methods: 	start 	getFirstRoot 	root 	cmd 	connect 	getStream
   model: 	c
   modified: 	false
@@ -180,8 +180,8 @@
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ArrayList<CommandStream>>"
-  typeSignature: 	"java.util.Map<String,ArrayList<CommandStream>>"
+  type: 	"java.util.Map<String, List<CommandStream>>"
+  typeSignature: 	"java.util.Map<String,List<CommandStream>>"
 
 - m2Editor_mapOfFrames: 	Attribute
   clazz: 	m2Editor
@@ -249,8 +249,8 @@
   modified: 	false
   name: 	commandPrototypes
   propertyStyle: 	Bean
-  type: 	"ArrayList<ModelCommand>"
-  typeSignature: 	"ArrayList<ModelCommand>"
+  type: 	"List<ModelCommand>"
+  typeSignature: 	"List<ModelCommand>"
 
 - getOrCreate: 	FMethod
   annotations: 	""
@@ -383,7 +383,7 @@
   clazz: 	m2Editor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -399,7 +399,7 @@
   annotations: 	""
   clazz: 	m2Editor
   declaration: 	"public M2Editor addCommandListener(String commandName, CommandStream stream)"
-  methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+  methodBody: 	"      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
 "
@@ -506,8 +506,8 @@
 - findCommands: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
-  declaration: 	"private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)"
-  methodBody: 	"      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
+  declaration: 	"private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)"
+  methodBody: 	"      List<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
          ModelCommand currentCommand = prototype.parse(currentObject);
          if (currentCommand != null) {
@@ -520,14 +520,14 @@
   modified: 	false
   modifiers: 	private
   name: 	findCommands
-  paramsString: 	"ArrayList<ModelCommand> allCommands, Object currentObject"
+  paramsString: 	"List<ModelCommand> allCommands, Object currentObject"
   returnType: 	ModelCommand
-  signature: 	"class/M2Editor/method/findCommands(ArrayList<ModelCommand>,Object)"
+  signature: 	"class/M2Editor/method/findCommands(List<ModelCommand>,Object)"
 
 - getFromAllCommands: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
-  declaration: 	"private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)"
+  declaration: 	"private ModelCommand getFromAllCommands(List<ModelCommand> allCommands, String id)"
   methodBody: 	"      for (ModelCommand command : allCommands) {
          if (command.getId().equals(id)) {
             return command;
@@ -538,9 +538,9 @@
   modified: 	false
   modifiers: 	private
   name: 	getFromAllCommands
-  paramsString: 	"ArrayList<ModelCommand> allCommands, String id"
+  paramsString: 	"List<ModelCommand> allCommands, String id"
   returnType: 	ModelCommand
-  signature: 	"class/M2Editor/method/getFromAllCommands(ArrayList<ModelCommand>,String)"
+  signature: 	"class/M2Editor/method/getFromAllCommands(List<ModelCommand>,String)"
 
 - equalsButTime: 	FMethod
   annotations: 	""
@@ -576,7 +576,7 @@
 - haveCommandPrototypes: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
-  declaration: 	"private ArrayList<ModelCommand> haveCommandPrototypes()"
+  declaration: 	"private List<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
          commandPrototypes.add(new HavePerson());
@@ -589,7 +589,7 @@
   modifiers: 	private
   name: 	haveCommandPrototypes
   paramsString: 	""
-  returnType: 	"ArrayList<ModelCommand>"
+  returnType: 	"List<ModelCommand>"
   signature: 	"class/M2Editor/method/haveCommandPrototypes()"
 
 - m2Editor_service: 	AssocRole
@@ -1153,12 +1153,12 @@
 - m2Service_sessionToAppMap: 	Attribute
   clazz: 	m2Service
   id: 	M2Service_sessionToAppMap
-  initialization: 	"new LinkedHashMap()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	Bean
-  type: 	"LinkedHashMap<String, M2App>"
-  typeSignature: 	"LinkedHashMap<String,M2App>"
+  type: 	"Map<String, M2App>"
+  typeSignature: 	"Map<String,M2App>"
 
 - start: 	FMethod
   annotations: 	""
@@ -1418,8 +1418,8 @@
   modified: 	false
   name: 	targetUrlList
   propertyStyle: 	Bean
-  type: 	"ArrayList<String>"
-  typeSignature: 	"ArrayList<String>"
+  type: 	"List<String>"
+  typeSignature: 	"List<String>"
 
 - commandStream_oldCommands: 	Attribute
   clazz: 	commandStream
@@ -1428,8 +1428,8 @@
   modified: 	false
   name: 	oldCommands
   propertyStyle: 	Bean
-  type: 	"ArrayList<ModelCommand>"
-  typeSignature: 	"ArrayList<ModelCommand>"
+  type: 	"List<ModelCommand>"
+  typeSignature: 	"List<ModelCommand>"
 
 - commandStream_activeCommands: 	Attribute
   clazz: 	commandStream

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Map;
 
 public class M1Service
 {
@@ -49,7 +50,7 @@ public class M1Service
    public static final String PROPERTY_executor = "executor";
    private ExecutorService executor;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String, M1App> sessionToAppMap = new LinkedHashMap();
+   private Map<String, M1App> sessionToAppMap = new LinkedHashMap<>();
 
    public M1Editor getModelEditor()
    {
@@ -523,19 +524,19 @@ public M1Service setExecutor(ExecutorService value)
       return this.executor;
    }
 
-   public LinkedHashMap<String, M1App> getSessionToAppMap()
+   public Map<String, M1App> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public M1Service setSessionToAppMap(LinkedHashMap<String, M1App> value)
+   public M1Service setSessionToAppMap(Map<String, M1App> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String, M1App> oldValue = this.sessionToAppMap;
+      final Map<String, M1App> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;
