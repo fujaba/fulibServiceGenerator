@@ -14,22 +14,13 @@ public class PatternObject
 
    private Pattern pattern;
 
-   public static final java.util.ArrayList<PatternAttribute> EMPTY_attributes = new java.util.ArrayList<PatternAttribute>()
-   { @Override public boolean add(PatternAttribute value){ throw new UnsupportedOperationException("No direct add! Use xy.withAttributes(obj)"); }};
-
    public static final String PROPERTY_attributes = "attributes";
 
    private List<PatternAttribute> attributes;
 
-   public static final java.util.ArrayList<PatternLink> EMPTY_links = new java.util.ArrayList<PatternLink>()
-   { @Override public boolean add(PatternLink value){ throw new UnsupportedOperationException("No direct add! Use xy.withLinks(obj)"); }};
-
    public static final String PROPERTY_links = "links";
 
    private List<PatternLink> links;
-
-   public static final java.util.ArrayList<PatternLink> EMPTY_incommingLinks = new java.util.ArrayList<PatternLink>()
-   { @Override public boolean add(PatternLink value){ throw new UnsupportedOperationException("No direct add! Use xy.withIncommingLinks(obj)"); }};
 
    public static final String PROPERTY_incommingLinks = "incommingLinks";
 

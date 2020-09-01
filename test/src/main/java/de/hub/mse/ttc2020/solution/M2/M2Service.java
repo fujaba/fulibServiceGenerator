@@ -31,9 +31,6 @@ public class M2Service
 
    private M2Editor modelEditor;
 
-   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
-   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
-
    public static final String PROPERTY_streams = "streams";
 
    private List<CommandStream> streams;

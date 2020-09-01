@@ -16,15 +16,9 @@ public class JavaPackage
 
    private JavaPackage up;
 
-   public static final java.util.ArrayList<JavaPackage> EMPTY_subPackages = new java.util.ArrayList<JavaPackage>()
-   { @Override public boolean add(JavaPackage value){ throw new UnsupportedOperationException("No direct add! Use xy.withSubPackages(obj)"); }};
-
    public static final String PROPERTY_subPackages = "subPackages";
 
    private List<JavaPackage> subPackages;
-
-   public static final java.util.ArrayList<JavaClass> EMPTY_classes = new java.util.ArrayList<JavaClass>()
-   { @Override public boolean add(JavaClass value){ throw new UnsupportedOperationException("No direct add! Use xy.withClasses(obj)"); }};
 
    public static final String PROPERTY_classes = "classes";
 

@@ -10,10 +10,7 @@ import java.util.Objects;
 public class Folder
 {
 
-   public static final java.util.ArrayList<Folder> EMPTY_subFolders = new java.util.ArrayList<Folder>()
-   { @Override public boolean add(Folder value){ throw new UnsupportedOperationException("No direct add! Use xy.withSubFolders(obj)"); }};
-
-   public static final String PROPERTY_subFolders = "subFolders";
+    public static final String PROPERTY_subFolders = "subFolders";
 
    private List<Folder> subFolders;
 
@@ -22,8 +19,6 @@ public class Folder
    private Folder up;
 
    protected PropertyChangeSupport listeners;
-   public static final java.util.ArrayList<DocFile> EMPTY_files = new java.util.ArrayList<DocFile>()
-   { @Override public boolean add(DocFile value){ throw new UnsupportedOperationException("No direct add! Use xy.withFiles(obj)"); }};
 
    public static final String PROPERTY_files = "files";
 

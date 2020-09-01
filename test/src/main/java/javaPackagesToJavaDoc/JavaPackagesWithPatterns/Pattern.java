@@ -9,9 +9,6 @@ import java.util.Collection;
 public class Pattern
 {
 
-   public static final java.util.ArrayList<PatternObject> EMPTY_objects = new java.util.ArrayList<PatternObject>()
-   { @Override public boolean add(PatternObject value){ throw new UnsupportedOperationException("No direct add! Use xy.withObjects(obj)"); }};
-
    public static final String PROPERTY_objects = "objects";
 
    private List<PatternObject> objects;

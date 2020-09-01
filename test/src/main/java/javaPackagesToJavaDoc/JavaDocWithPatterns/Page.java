@@ -14,9 +14,6 @@ public class Page
 
    private JavaDocWithPatternsApp app;
 
-   public static final java.util.ArrayList<Line> EMPTY_content = new java.util.ArrayList<Line>()
-   { @Override public boolean add(Line value){ throw new UnsupportedOperationException("No direct add! Use xy.withContent(obj)"); }};
-
    public static final String PROPERTY_content = "content";
 
    private List<Line> content;
