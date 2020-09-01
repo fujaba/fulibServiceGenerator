@@ -3,6 +3,7 @@ package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 public class RemoveCommand extends ModelCommand
 {
 
+   @Override
    public Object run(JavaPackagesWithPatternsEditor editor)
    {
       editor.removeModelObject(getId());

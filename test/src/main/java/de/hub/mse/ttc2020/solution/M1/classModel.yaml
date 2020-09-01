@@ -30,8 +30,6 @@
   subClasses: 	removeCommand 	addStreamCommand 	havePerson 	haveDog
 
 - removeCommand: 	Clazz
-  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
-  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
   methods: 	run3
   model: 	c
   modified: 	false
@@ -921,9 +919,10 @@
   signature: 	"class/ModelCommand/method/getHandleObjectAttributeValue(PatternObject,String)"
 
 - run3: 	FMethod
-  annotations: 	""
+  annotations: 	"@Override"
   clazz: 	removeCommand
-  declaration: 	"public Object run(M1Editor editor)"
+  declaration: 	"@Override
+   public Object run(M1Editor editor)"
   methodBody: 	"      editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
       if (oldCommand != null) {
@@ -1591,9 +1590,10 @@
   typeSignature: 	String
 
 - run5: 	FMethod
-  annotations: 	""
+  annotations: 	"@Override"
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(M1Editor editor)"
+  declaration: 	"@Override
+   public Object run(M1Editor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;

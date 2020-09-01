@@ -89,7 +89,7 @@ public class ServiceEditor
    private void haveRemoveCommand()
    {
       final Clazz removeCommand = this.haveCommand("RemoveCommand");
-      mm.haveMethod(removeCommand, "public Object run(" + this.editor.getName() + " editor)",
+      mm.haveMethod(removeCommand, "@Override public Object run(" + this.editor.getName() + " editor)",
                     group.getInstanceOf("removeCommandRun").render());
    }
 
@@ -271,7 +271,7 @@ public class ServiceEditor
       mm.haveAttribute(addStream, "incommingRoute", STRING);
       mm.haveAttribute(addStream, "outgoingUrl", STRING);
 
-      mm.haveMethod(addStream, "public Object run(" + serviceName + "Editor editor)",
+      mm.haveMethod(addStream, "@Override public Object run(" + serviceName + "Editor editor)",
                     group.getInstanceOf("AddStreamCommandRun").render());
    }
 

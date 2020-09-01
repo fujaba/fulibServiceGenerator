@@ -69,6 +69,7 @@ public class AddStreamCommand extends ModelCommand
       return result.toString();
    }
 
+   @Override
    public Object run(M2Editor editor)
    {
       CommandStream stream = editor.getService().getStream(incommingRoute);

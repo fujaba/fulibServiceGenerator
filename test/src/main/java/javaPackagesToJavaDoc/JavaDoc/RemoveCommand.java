@@ -3,6 +3,7 @@ package javaPackagesToJavaDoc.JavaDoc;
 public class RemoveCommand extends ModelCommand
 {
 
+   @Override
    public Object run(JavaDocEditor editor)
    {
       editor.removeModelObject(getId());
