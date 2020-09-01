@@ -302,8 +302,8 @@ public class ServiceEditor
       mm.haveMethod(commandStream, "private String handlePostRequest(Request req, Response res)",
                     group.getInstanceOf("CommandStreamHandlePostRequest").render());
 
-      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "java.util.Map<String, ModelCommand>");
-      attribute.setInitialization("new java.util.LinkedHashMap<>()");
+      Attribute attribute = mm.haveAttribute(commandStream, "activeCommands", "Map<String, ModelCommand>");
+      attribute.setInitialization("new LinkedHashMap<>()");
 
       commandStream.withImports("org.fulib.yaml.Yaml");
       commandStream.withImports("java.net.URL");
@@ -382,9 +382,9 @@ public class ServiceEditor
 
    private void editorHaveMapFor(String mapName, String entryClassName)
    {
-      String mapType = String.format("java.util.Map<String, %s>", entryClassName);
+      String mapType = String.format("Map<String, %s>", entryClassName);
       Attribute attribute = mm.haveAttribute(this.editor, mapName, mapType);
-      attribute.setInitialization("new java.util.LinkedHashMap<>()");
+      attribute.setInitialization("new LinkedHashMap<>()");
    }
 
    private FMethod haveGetOrCreate()
