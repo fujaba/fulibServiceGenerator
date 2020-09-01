@@ -56,63 +56,6 @@ public class Page
       return this.content != null ? Collections.unmodifiableList(this.content) : Collections.emptyList();
    }
 
-   public Page withContent(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withContent(i);
-            }
-         }
-         else if (item instanceof Line)
-         {
-            if (this.content == null)
-            {
-               this.content = new java.util.ArrayList<Line>();
-            }
-            if ( ! this.content.contains(item))
-            {
-               this.content.add((Line)item);
-               ((Line)item).setPage(this);
-               firePropertyChange("content", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public Page withoutContent(Object... value)
-   {
-      if (this.content == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutContent(i);
-            }
-         }
-         else if (item instanceof Line)
-         {
-            if (this.content.contains(item))
-            {
-               this.content.remove((Line)item);
-               ((Line)item).setPage(null);
-               firePropertyChange("content", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
       if (this.listeners != null)

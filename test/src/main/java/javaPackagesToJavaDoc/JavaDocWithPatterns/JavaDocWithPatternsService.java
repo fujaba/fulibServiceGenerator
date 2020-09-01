@@ -94,63 +94,6 @@ public class JavaDocWithPatternsService
       return this.streams != null ? Collections.unmodifiableList(this.streams) : Collections.emptyList();
    }
 
-   public JavaDocWithPatternsService withStreams(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams == null)
-            {
-               this.streams = new java.util.ArrayList<CommandStream>();
-            }
-            if ( ! this.streams.contains(item))
-            {
-               this.streams.add((CommandStream)item);
-               ((CommandStream)item).setService(this);
-               firePropertyChange("streams", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaDocWithPatternsService withoutStreams(Object... value)
-   {
-      if (this.streams == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams.contains(item))
-            {
-               this.streams.remove((CommandStream)item);
-               ((CommandStream)item).setService(null);
-               firePropertyChange("streams", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
       if (this.listeners != null)

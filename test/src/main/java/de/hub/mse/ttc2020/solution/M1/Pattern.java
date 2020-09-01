@@ -20,63 +20,6 @@ public class Pattern
       return this.objects != null ? Collections.unmodifiableList(this.objects) : Collections.emptyList();
    }
 
-   public Pattern withObjects(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withObjects(i);
-            }
-         }
-         else if (item instanceof PatternObject)
-         {
-            if (this.objects == null)
-            {
-               this.objects = new java.util.ArrayList<PatternObject>();
-            }
-            if ( ! this.objects.contains(item))
-            {
-               this.objects.add((PatternObject)item);
-               ((PatternObject)item).setPattern(this);
-               firePropertyChange("objects", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public Pattern withoutObjects(Object... value)
-   {
-      if (this.objects == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutObjects(i);
-            }
-         }
-         else if (item instanceof PatternObject)
-         {
-            if (this.objects.contains(item))
-            {
-               this.objects.remove((PatternObject)item);
-               ((PatternObject)item).setPattern(null);
-               firePropertyChange("objects", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
       if (this.listeners != null)

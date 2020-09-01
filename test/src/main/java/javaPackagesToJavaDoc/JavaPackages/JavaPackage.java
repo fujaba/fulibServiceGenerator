@@ -113,63 +113,6 @@ public class JavaPackage
       return this.subPackages != null ? Collections.unmodifiableList(this.subPackages) : Collections.emptyList();
    }
 
-   public JavaPackage withSubPackages(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withSubPackages(i);
-            }
-         }
-         else if (item instanceof JavaPackage)
-         {
-            if (this.subPackages == null)
-            {
-               this.subPackages = new java.util.ArrayList<JavaPackage>();
-            }
-            if ( ! this.subPackages.contains(item))
-            {
-               this.subPackages.add((JavaPackage)item);
-               ((JavaPackage)item).setUp(this);
-               firePropertyChange("subPackages", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaPackage withoutSubPackages(Object... value)
-   {
-      if (this.subPackages == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutSubPackages(i);
-            }
-         }
-         else if (item instanceof JavaPackage)
-         {
-            if (this.subPackages.contains(item))
-            {
-               this.subPackages.remove((JavaPackage)item);
-               ((JavaPackage)item).setUp(null);
-               firePropertyChange("subPackages", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    @Override
    public String toString()
    {
@@ -181,63 +124,6 @@ public class JavaPackage
    public List<JavaClass> getClasses()
    {
       return this.classes != null ? Collections.unmodifiableList(this.classes) : Collections.emptyList();
-   }
-
-   public JavaPackage withClasses(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withClasses(i);
-            }
-         }
-         else if (item instanceof JavaClass)
-         {
-            if (this.classes == null)
-            {
-               this.classes = new java.util.ArrayList<JavaClass>();
-            }
-            if ( ! this.classes.contains(item))
-            {
-               this.classes.add((JavaClass)item);
-               ((JavaClass)item).setUp(this);
-               firePropertyChange("classes", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaPackage withoutClasses(Object... value)
-   {
-      if (this.classes == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutClasses(i);
-            }
-         }
-         else if (item instanceof JavaClass)
-         {
-            if (this.classes.contains(item))
-            {
-               this.classes.remove((JavaClass)item);
-               ((JavaClass)item).setUp(null);
-               firePropertyChange("classes", item, null);
-            }
-         }
-      }
-      return this;
    }
 
 public JavaPackage withSubPackages(JavaPackage value)
