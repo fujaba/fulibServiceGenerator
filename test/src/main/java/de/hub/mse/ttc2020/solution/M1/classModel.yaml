@@ -3,9 +3,9 @@
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
-  mainJavaDir: 	"test/src/main/java"
+  mainJavaDir: 	"src/main/java"
   packageName: 	de.hub.mse.ttc2020.solution.M1
-  packageSrcFolder: 	"test/src/main/java/de/hub/mse/ttc2020/solution/M1"
+  packageSrcFolder: 	"src/main/java/de/hub/mse/ttc2020/solution/M1"
 
 - m1Editor: 	Clazz
   attributes: 	m1Editor_activeCommands 	m1Editor_commandListeners 	m1Editor_mapOfFrames 	m1Editor_mapOfModelObjects 	m1Editor_mapOfParsedObjects 	m1Editor_isoDateFormat 	m1Editor_lastTime 	m1Editor_timeDelta 	m1Editor_commandPrototypes
@@ -656,7 +656,6 @@
 
          patternObject.setHandleObject(handleObject);
       }
-
 
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getHandleObject() == null) {

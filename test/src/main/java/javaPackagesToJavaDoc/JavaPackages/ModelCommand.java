@@ -151,7 +151,6 @@ public class ModelCommand
          patternObject.setHandleObject(handleObject);
       }
 
-
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getHandleObject() == null) {
             continue;

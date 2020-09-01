@@ -3,9 +3,9 @@
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
-  mainJavaDir: 	"test/src/main/java"
+  mainJavaDir: 	"src/main/java"
   packageName: 	javaPackagesToJavaDoc.JavaPackages
-  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaPackages"
+  packageSrcFolder: 	"src/main/java/javaPackagesToJavaDoc/JavaPackages"
 
 - javaPackagesEditor: 	Clazz
   attributes: 	javaPackagesEditor_activeCommands 	javaPackagesEditor_commandListeners 	javaPackagesEditor_mapOfFrames 	javaPackagesEditor_mapOfModelObjects 	javaPackagesEditor_mapOfParsedObjects 	javaPackagesEditor_isoDateFormat 	javaPackagesEditor_lastTime 	javaPackagesEditor_timeDelta 	javaPackagesEditor_commandPrototypes
@@ -664,7 +664,6 @@
 
          patternObject.setHandleObject(handleObject);
       }
-
 
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getHandleObject() == null) {
