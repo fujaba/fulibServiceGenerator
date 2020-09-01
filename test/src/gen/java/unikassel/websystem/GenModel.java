@@ -16,9 +16,9 @@ public class GenModel
 
       genTTC2020Model();
 
-//      genBPMNToWorkFlows();
-//      genQSExample();
-//      genStoreShop();
+      // genBPMNToWorkFlows();
+      // genQSExample();
+      // genStoreShop();
    }
 
    private static void genTGGPackageToDocDir()
@@ -51,7 +51,6 @@ public class GenModel
 
       sysEdit.generate();
    }
-
 
    private static ClassModelManager haveJavaDocService(ServiceEditor javaDocEditor)
    {
@@ -108,7 +107,7 @@ public class GenModel
       m1Manager.haveAttribute(dog, "id", STRING);
       m1Manager.haveAttribute(dog, "name", STRING);
       m1Manager.haveAttribute(dog, "age", INT);
-      //      m1Manager.haveAttribute(dog, "owner", "Person");
+      // m1Manager.haveAttribute(dog, "owner", "Person");
       m1Manager.haveRole(dog, "owner", person, ONE, "dog", ONE);
 
       ServiceEditor m2Service = sysEdit.haveService("M2");
@@ -133,9 +132,6 @@ public class GenModel
       sysEdit.haveParameter(haveDog, "owner", STRING);
 
       sysEdit.generate();
-
-
-
    }
 
    private static void genBPMNToWorkFlows()
@@ -228,7 +224,6 @@ public class GenModel
       Clazz rampApp = ramp.getClassModelManager().haveClass("RampApp");
       ramp.getClassModelManager().haveAttribute(rampApp, "supplyId", STRING);
 
-
       sysEdit.generate();
    }
 
@@ -289,5 +284,4 @@ public class GenModel
 
       sysEdit.generate();
    }
-
 }
