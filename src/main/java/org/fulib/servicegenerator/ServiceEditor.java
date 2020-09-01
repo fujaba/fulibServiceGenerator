@@ -91,10 +91,6 @@ public class ServiceEditor
       final Clazz removeCommand = this.haveCommand("RemoveCommand");
       mm.haveMethod(removeCommand, "public Object run(" + this.editor.getName() + " editor)",
                     group.getInstanceOf("removeCommandRun").render());
-
-      removeCommand.withImports("org.fulib.yaml.Reflector");
-      removeCommand.withImports("org.fulib.yaml.ReflectorMap");
-      removeCommand.withImports("java.lang.reflect.Method");
    }
 
    private void haveModelCommand()
