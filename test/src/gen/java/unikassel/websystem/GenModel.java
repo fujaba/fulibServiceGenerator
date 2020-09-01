@@ -25,7 +25,7 @@ public class GenModel
    {
       SystemEditor sysEdit = new SystemEditor();
       sysEdit.setPatternSupport(true);
-      sysEdit.haveMainJavaDir("test/src/main/java");
+      sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("javaPackagesToJavaDoc");
 
       ServiceEditor javaPackagesEditor = sysEdit.haveService("JavaPackages");
@@ -93,7 +93,7 @@ public class GenModel
    private static void genTTC2020Model()
    {
       SystemEditor sysEdit = new SystemEditor();
-      sysEdit.haveMainJavaDir("test/src/main/java");
+      sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("de.hub.mse.ttc2020.solution");
 
       ServiceEditor m1Service = sysEdit.haveService("M1");
