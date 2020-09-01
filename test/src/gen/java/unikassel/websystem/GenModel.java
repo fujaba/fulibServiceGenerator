@@ -6,7 +6,7 @@ import org.fulib.classmodel.Clazz;
 import org.fulib.servicegenerator.ServiceEditor;
 import org.fulib.servicegenerator.SystemEditor;
 
-import static org.fulib.builder.ClassModelBuilder.*;
+import static org.fulib.builder.Type.*;
 
 public class GenModel
 {
