@@ -26,18 +26,18 @@ public class M1Editor
    private String lastTime = isoDateFormat.format(new Date());
    public static final String PROPERTY_timeDelta = "timeDelta";
    private long timeDelta = 1;
-   public static final String PROPERTY_activeCommands = "activeCommands";
-   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
-   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
-   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
-   private java.util.Map<String, Object> mapOfParsedObjects = new java.util.LinkedHashMap<>();
-   public static final String PROPERTY_mapOfParsedObjects = "mapOfParsedObjects";
-   public static final String PROPERTY_commandListeners = "commandListeners";
-   private java.util.Map<String, List<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_commandPrototypes = "commandPrototypes";
    private List<ModelCommand> commandPrototypes;
+   public static final String PROPERTY_activeCommands = "activeCommands";
+   private Map<String, ModelCommand> activeCommands = new LinkedHashMap<>();
+   public static final String PROPERTY_commandListeners = "commandListeners";
+   private Map<String, List<CommandStream>> commandListeners = new LinkedHashMap<>();
+   public static final String PROPERTY_mapOfFrames = "mapOfFrames";
+   private Map<String, Object> mapOfFrames = new LinkedHashMap<>();
+   public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
+   private Map<String, Object> mapOfModelObjects = new LinkedHashMap<>();
+   public static final String PROPERTY_mapOfParsedObjects = "mapOfParsedObjects";
+   private Map<String, Object> mapOfParsedObjects = new LinkedHashMap<>();
 
 public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -384,96 +384,6 @@ private List<ModelCommand> haveCommandPrototypes()
       return this;
    }
 
-   public java.util.Map<String, ModelCommand> getActiveCommands()
-   {
-      return this.activeCommands;
-   }
-
-   public M1Editor setActiveCommands(java.util.Map<String, ModelCommand> value)
-   {
-      if (Objects.equals(value, this.activeCommands))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
-      this.activeCommands = value;
-      this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String, Object> getMapOfFrames()
-   {
-      return this.mapOfFrames;
-   }
-
-   public M1Editor setMapOfFrames(java.util.Map<String, Object> value)
-   {
-      if (Objects.equals(value, this.mapOfFrames))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, Object> oldValue = this.mapOfFrames;
-      this.mapOfFrames = value;
-      this.firePropertyChange(PROPERTY_mapOfFrames, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String, Object> getMapOfModelObjects()
-   {
-      return this.mapOfModelObjects;
-   }
-
-   public M1Editor setMapOfModelObjects(java.util.Map<String, Object> value)
-   {
-      if (Objects.equals(value, this.mapOfModelObjects))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
-      this.mapOfModelObjects = value;
-      this.firePropertyChange(PROPERTY_mapOfModelObjects, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String, Object> getMapOfParsedObjects()
-   {
-      return this.mapOfParsedObjects;
-   }
-
-   public M1Editor setMapOfParsedObjects(java.util.Map<String, Object> value)
-   {
-      if (Objects.equals(value, this.mapOfParsedObjects))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, Object> oldValue = this.mapOfParsedObjects;
-      this.mapOfParsedObjects = value;
-      this.firePropertyChange(PROPERTY_mapOfParsedObjects, oldValue, value);
-      return this;
-   }
-
-   public java.util.Map<String, List<CommandStream>> getCommandListeners()
-   {
-      return this.commandListeners;
-   }
-
-   public M1Editor setCommandListeners(java.util.Map<String, List<CommandStream>> value)
-   {
-      if (Objects.equals(value, this.commandListeners))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, List<CommandStream>> oldValue = this.commandListeners;
-      this.commandListeners = value;
-      this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
-      return this;
-   }
-
    public List<ModelCommand> getCommandPrototypes()
    {
       return this.commandPrototypes;
@@ -513,6 +423,96 @@ private List<ModelCommand> haveCommandPrototypes()
          }
       }
       return null;
+   }
+
+   public Map<String, ModelCommand> getActiveCommands()
+   {
+      return this.activeCommands;
+   }
+
+   public M1Editor setActiveCommands(Map<String, ModelCommand> value)
+   {
+      if (Objects.equals(value, this.activeCommands))
+      {
+         return this;
+      }
+
+      final Map<String, ModelCommand> oldValue = this.activeCommands;
+      this.activeCommands = value;
+      this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
+      return this;
+   }
+
+   public Map<String, List<CommandStream>> getCommandListeners()
+   {
+      return this.commandListeners;
+   }
+
+   public M1Editor setCommandListeners(Map<String, List<CommandStream>> value)
+   {
+      if (Objects.equals(value, this.commandListeners))
+      {
+         return this;
+      }
+
+      final Map<String, List<CommandStream>> oldValue = this.commandListeners;
+      this.commandListeners = value;
+      this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
+      return this;
+   }
+
+   public Map<String, Object> getMapOfFrames()
+   {
+      return this.mapOfFrames;
+   }
+
+   public M1Editor setMapOfFrames(Map<String, Object> value)
+   {
+      if (Objects.equals(value, this.mapOfFrames))
+      {
+         return this;
+      }
+
+      final Map<String, Object> oldValue = this.mapOfFrames;
+      this.mapOfFrames = value;
+      this.firePropertyChange(PROPERTY_mapOfFrames, oldValue, value);
+      return this;
+   }
+
+   public Map<String, Object> getMapOfModelObjects()
+   {
+      return this.mapOfModelObjects;
+   }
+
+   public M1Editor setMapOfModelObjects(Map<String, Object> value)
+   {
+      if (Objects.equals(value, this.mapOfModelObjects))
+      {
+         return this;
+      }
+
+      final Map<String, Object> oldValue = this.mapOfModelObjects;
+      this.mapOfModelObjects = value;
+      this.firePropertyChange(PROPERTY_mapOfModelObjects, oldValue, value);
+      return this;
+   }
+
+   public Map<String, Object> getMapOfParsedObjects()
+   {
+      return this.mapOfParsedObjects;
+   }
+
+   public M1Editor setMapOfParsedObjects(Map<String, Object> value)
+   {
+      if (Objects.equals(value, this.mapOfParsedObjects))
+      {
+         return this;
+      }
+
+      final Map<String, Object> oldValue = this.mapOfParsedObjects;
+      this.mapOfParsedObjects = value;
+      this.firePropertyChange(PROPERTY_mapOfParsedObjects, oldValue, value);
+      return this;
    }
 
 }

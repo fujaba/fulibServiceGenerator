@@ -175,52 +175,52 @@
 - javaPackagesWithPatternsEditor_activeCommands: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - javaPackagesWithPatternsEditor_commandListeners: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_commandListeners
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, List<CommandStream>>"
-  typeSignature: 	"java.util.Map<String,List<CommandStream>>"
+  type: 	"Map<String, List<CommandStream>>"
+  typeSignature: 	"Map<String,List<CommandStream>>"
 
 - javaPackagesWithPatternsEditor_mapOfFrames: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_mapOfFrames
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaPackagesWithPatternsEditor_mapOfModelObjects: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_mapOfModelObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaPackagesWithPatternsEditor_mapOfParsedObjects: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_mapOfParsedObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfParsedObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaPackagesWithPatternsEditor_isoDateFormat: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
@@ -1444,12 +1444,12 @@
 - commandStream_activeCommands: 	Attribute
   clazz: 	commandStream
   id: 	CommandStream_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - publish: 	FMethod
   annotations: 	""

@@ -183,52 +183,52 @@
 - javaDocEditor_activeCommands: 	Attribute
   clazz: 	javaDocEditor
   id: 	JavaDocEditor_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - javaDocEditor_commandListeners: 	Attribute
   clazz: 	javaDocEditor
   id: 	JavaDocEditor_commandListeners
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, List<CommandStream>>"
-  typeSignature: 	"java.util.Map<String,List<CommandStream>>"
+  type: 	"Map<String, List<CommandStream>>"
+  typeSignature: 	"Map<String,List<CommandStream>>"
 
 - javaDocEditor_mapOfFrames: 	Attribute
   clazz: 	javaDocEditor
   id: 	JavaDocEditor_mapOfFrames
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaDocEditor_mapOfModelObjects: 	Attribute
   clazz: 	javaDocEditor
   id: 	JavaDocEditor_mapOfModelObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaDocEditor_mapOfParsedObjects: 	Attribute
   clazz: 	javaDocEditor
   id: 	JavaDocEditor_mapOfParsedObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfParsedObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaDocEditor_isoDateFormat: 	Attribute
   clazz: 	javaDocEditor
@@ -1453,12 +1453,12 @@
 - commandStream_activeCommands: 	Attribute
   clazz: 	commandStream
   id: 	CommandStream_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - publish: 	FMethod
   annotations: 	""

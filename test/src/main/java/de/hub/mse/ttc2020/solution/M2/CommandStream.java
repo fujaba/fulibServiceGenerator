@@ -21,12 +21,12 @@ public class CommandStream
    protected PropertyChangeSupport listeners;
    public static final String PROPERTY_name = "name";
    private String name;
-   public static final String PROPERTY_activeCommands = "activeCommands";
-   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
    public static final String PROPERTY_targetUrlList = "targetUrlList";
    private List<String> targetUrlList = new ArrayList<>();
    public static final String PROPERTY_oldCommands = "oldCommands";
    private List<ModelCommand> oldCommands = new ArrayList<>();
+   public static final String PROPERTY_activeCommands = "activeCommands";
+   private Map<String, ModelCommand> activeCommands = new LinkedHashMap<>();
 
    public M2Service getService()
    {
@@ -217,24 +217,6 @@ public class CommandStream
       return this;
    }
 
-   public java.util.Map<String, ModelCommand> getActiveCommands()
-   {
-      return this.activeCommands;
-   }
-
-   public CommandStream setActiveCommands(java.util.Map<String, ModelCommand> value)
-   {
-      if (Objects.equals(value, this.activeCommands))
-      {
-         return this;
-      }
-
-      final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
-      this.activeCommands = value;
-      this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
-      return this;
-   }
-
    public List<String> getTargetUrlList()
    {
       return this.targetUrlList;
@@ -268,6 +250,24 @@ public class CommandStream
       final List<ModelCommand> oldValue = this.oldCommands;
       this.oldCommands = value;
       this.firePropertyChange(PROPERTY_oldCommands, oldValue, value);
+      return this;
+   }
+
+   public Map<String, ModelCommand> getActiveCommands()
+   {
+      return this.activeCommands;
+   }
+
+   public CommandStream setActiveCommands(Map<String, ModelCommand> value)
+   {
+      if (Objects.equals(value, this.activeCommands))
+      {
+         return this;
+      }
+
+      final Map<String, ModelCommand> oldValue = this.activeCommands;
+      this.activeCommands = value;
+      this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
       return this;
    }
 
