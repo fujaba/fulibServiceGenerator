@@ -1,6 +1,6 @@
 package de.hub.mse.ttc2020.solution.M1;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;import java.util.Objects;
+
+import java.util.Objects;
 
 public class HavePerson extends ModelCommand
 {
@@ -25,54 +25,6 @@ public class HavePerson extends ModelCommand
          return modelCommand;
       }
       return null;
-   }
-
-   public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
-   {
-      if (this.listeners != null)
-      {
-         this.listeners.firePropertyChange(propertyName, oldValue, newValue);
-         return true;
-      }
-      return false;
-   }
-
-   public boolean addPropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      this.listeners.addPropertyChangeListener(listener);
-      return true;
-   }
-
-   public boolean addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (this.listeners == null)
-      {
-         this.listeners = new PropertyChangeSupport(this);
-      }
-      this.listeners.addPropertyChangeListener(propertyName, listener);
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(PropertyChangeListener listener)
-   {
-      if (this.listeners != null)
-      {
-         this.listeners.removePropertyChangeListener(listener);
-      }
-      return true;
-   }
-
-   public boolean removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
-   {
-      if (this.listeners != null)
-      {
-         this.listeners.removePropertyChangeListener(propertyName, listener);
-      }
-      return true;
    }
 
    @Override
@@ -118,8 +70,6 @@ public class HavePerson extends ModelCommand
       this.firePropertyChange(PROPERTY_age, oldValue, value);
       return this;
    }
-
-   protected PropertyChangeSupport listeners;
    public static final String PROPERTY_name = "name";
    private String name;
    public static final String PROPERTY_age = "age";
