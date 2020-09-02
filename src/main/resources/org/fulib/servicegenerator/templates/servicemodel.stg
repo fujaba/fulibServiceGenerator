@@ -759,7 +759,6 @@ serviceGetStream() ::= <<
 >>
 
 CommandStreamPublish() ::= <<
-      String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
       oldCommands.add(cmd);
       send();
@@ -782,7 +781,7 @@ CommandStreamSend() ::= <<
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader in = new BufferedReader(inputStreamReader);
             String inputLine;
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                content.append(inputLine);
             }
@@ -792,8 +791,7 @@ CommandStreamSend() ::= <<
 
             // got an answer, clear active commands
             activeCommands.clear();
-            LinkedHashMap\<String,Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-                  .decode(content.toString());
+            Map\<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName()).decode(content.toString());
             executeCommands(map.values());
 
          }
@@ -818,17 +816,16 @@ CommandStreamExecuteCommands() ::= <<
 >>
 
 CommandStreamStart() ::= <<
-      service.getSpark().post("/" + name, (req, res) -> handlePostRequest(req, res));
+      service.getSpark().post("/" + name, this::handlePostRequest);
       return this;
 
 >>
 
 CommandStreamHandlePostRequest() ::= <<
       String body = req.body();
-      LinkedHashMap\<String,Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
-            .decode(body);
+      Map\<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName()).decode(body);
 
-      Collection values = commandMap.values();
+      Collection\<Object> values = commandMap.values();
       executeCommands(values);
 
       return "OK";

@@ -290,7 +290,7 @@ public class ServiceEditor
 
       mm.haveMethod(commandStream, "public void send()", group.getInstanceOf("CommandStreamSend").render());
 
-      mm.haveMethod(commandStream, "public void executeCommands(Collection values)",
+      mm.haveMethod(commandStream, "public void executeCommands(Collection<?> values)",
                     group.getInstanceOf("CommandStreamExecuteCommands").render());
 
       mm.haveMethod(commandStream, "public CommandStream start()", group.getInstanceOf("CommandStreamStart").render());
@@ -306,7 +306,6 @@ public class ServiceEditor
       commandStream.withImports("java.net.HttpURLConnection");
       commandStream.withImports("java.io.*");
       commandStream.withImports("java.util.*");
-      commandStream.withImports("spark.Service");
       commandStream.withImports("spark.Request");
       commandStream.withImports("spark.Response");
    }

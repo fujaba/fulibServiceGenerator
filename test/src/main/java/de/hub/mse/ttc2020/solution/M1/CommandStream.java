@@ -118,7 +118,6 @@ public class CommandStream
 
    public void publish(ModelCommand cmd)
    {
-      String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
       oldCommands.add(cmd);
       send();
@@ -141,7 +140,7 @@ public class CommandStream
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader in = new BufferedReader(inputStreamReader);
             String inputLine;
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                content.append(inputLine);
             }
@@ -151,8 +150,7 @@ public class CommandStream
 
             // got an answer, clear active commands
             activeCommands.clear();
-            LinkedHashMap<String,Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-                  .decode(content.toString());
+            Map<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName()).decode(content.toString());
             executeCommands(map.values());
 
          }
@@ -162,32 +160,18 @@ public class CommandStream
       }
    }
 
-   public void executeCommands(Collection values)
-   {
-      for (Object value : values) {
-         try {
-            ModelCommand cmd = (ModelCommand) value;
-            this.service.getExecutor().submit(() -> cmd.run(this.service.getModelEditor()));
-         }
-         catch (Exception e) {
-            e.printStackTrace();
-         }
-      }
-   }
-
    public CommandStream start()
    {
-      service.getSpark().post("/" + name, (req, res) -> handlePostRequest(req, res));
+      service.getSpark().post("/" + name, this::handlePostRequest);
       return this;
    }
 
    private String handlePostRequest(Request req, Response res)
    {
       String body = req.body();
-      LinkedHashMap<String,Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
-            .decode(body);
+      Map<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName()).decode(body);
 
-      Collection values = commandMap.values();
+      Collection<Object> values = commandMap.values();
       executeCommands(values);
 
       return "OK";
@@ -269,6 +253,19 @@ public class CommandStream
       this.activeCommands = value;
       this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
       return this;
+   }
+
+   public void executeCommands(Collection<?> values)
+   {
+      for (Object value : values) {
+         try {
+            ModelCommand cmd = (ModelCommand) value;
+            this.service.getExecutor().submit(() -> cmd.run(this.service.getModelEditor()));
+         }
+         catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
    }
 
 }

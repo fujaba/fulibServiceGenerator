@@ -81,8 +81,8 @@
 
 - commandStream: 	Clazz
   attributes: 	commandStream_name 	commandStream_targetUrlList 	commandStream_oldCommands 	commandStream_activeCommands
-  importList: 	org.fulib.yaml.Yaml 	java.net.URL 	java.net.HttpURLConnection 	"java.io.*" 	"java.util.*" 	spark.Service 	spark.Request 	spark.Response
-  imports: 	org.fulib.yaml.Yaml 	java.net.URL 	java.net.HttpURLConnection 	"java.io.*" 	"java.util.*" 	spark.Service 	spark.Request 	spark.Response
+  importList: 	org.fulib.yaml.Yaml 	java.net.URL 	java.net.HttpURLConnection 	"java.io.*" 	"java.util.*" 	spark.Request 	spark.Response
+  imports: 	org.fulib.yaml.Yaml 	java.net.URL 	java.net.HttpURLConnection 	"java.io.*" 	"java.util.*" 	spark.Request 	spark.Response
   methods: 	publish 	send 	executeCommands 	start4 	handlePostRequest
   model: 	c
   modified: 	false
@@ -1463,8 +1463,7 @@
   annotations: 	""
   clazz: 	commandStream
   declaration: 	"public void publish(ModelCommand cmd)"
-  methodBody: 	"      String yaml = Yaml.encode(cmd);
-      activeCommands.put(cmd.getId(), cmd);
+  methodBody: 	"      activeCommands.put(cmd.getId(), cmd);
       oldCommands.add(cmd);
       send();
 "
@@ -1494,7 +1493,7 @@
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader in = new BufferedReader(inputStreamReader);
             String inputLine;
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                content.append(inputLine);
             }
@@ -1504,8 +1503,7 @@
 
             // got an answer, clear active commands
             activeCommands.clear();
-            LinkedHashMap<String,Object> map = Yaml.forPackage(service.getClass().getPackage().getName())
-                  .decode(content.toString());
+            Map<String, Object> map = Yaml.forPackage(service.getClass().getPackage().getName()).decode(content.toString());
             executeCommands(map.values());
 
          }
@@ -1524,7 +1522,7 @@
 - executeCommands: 	FMethod
   annotations: 	""
   clazz: 	commandStream
-  declaration: 	"public void executeCommands(Collection values)"
+  declaration: 	"public void executeCommands(Collection<?> values)"
   methodBody: 	"      for (Object value : values) {
          try {
             ModelCommand cmd = (ModelCommand) value;
@@ -1538,15 +1536,15 @@
   modified: 	false
   modifiers: 	public
   name: 	executeCommands
-  paramsString: 	"Collection values"
+  paramsString: 	"Collection<?> values"
   returnType: 	void
-  signature: 	"class/CommandStream/method/executeCommands(Collection)"
+  signature: 	"class/CommandStream/method/executeCommands(Collection<?>)"
 
 - start4: 	FMethod
   annotations: 	""
   clazz: 	commandStream
   declaration: 	"public CommandStream start()"
-  methodBody: 	"      service.getSpark().post(\"/\" + name, (req, res) -> handlePostRequest(req, res));
+  methodBody: 	"      service.getSpark().post(\"/\" + name, this::handlePostRequest);
       return this;
 "
   modified: 	false
@@ -1561,10 +1559,9 @@
   clazz: 	commandStream
   declaration: 	"private String handlePostRequest(Request req, Response res)"
   methodBody: 	"      String body = req.body();
-      LinkedHashMap<String,Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName())
-            .decode(body);
+      Map<String, Object> commandMap = Yaml.forPackage(this.getClass().getPackage().getName()).decode(body);
 
-      Collection values = commandMap.values();
+      Collection<Object> values = commandMap.values();
       executeCommands(values);
 
       return \"OK\";
