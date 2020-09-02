@@ -9,398 +9,790 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
    version="1.1"
-   id="svg11084"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="ExampleObjectsStart.svg">
-  <defs
-     id="defs11078" />
-  <sodipodi:namedview
-     id="base"
+   id="svg164"
+   xml:space="preserve"
+   width="691.20947"
+   height="350.49817"
+   viewBox="0 0 691.20947 350.49817"
+   sodipodi:docname="ExampleObjectsStart.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"><metadata
+     id="metadata170"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs168" /><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="326.89322"
-     inkscape:cy="860.05277"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1057"
+     id="namedview166"
+     showgrid="false"
+     inkscape:zoom="2.0717309"
+     inkscape:cx="345.60474"
+     inkscape:cy="155.94156"
      inkscape:window-x="3832"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata11081">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g172" /><g
+     id="g172"
      inkscape:groupmode="layer"
-     id="layer1">
-    <g
-       id="node1"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11236">root</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="93,-282.5 14,-282.5 14,-299.5 93,-299.5 "
-         id="polygon11238" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="17"
-         y="-289.5"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11240">root :JavaPackage</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="93,-265.5 14,-265.5 14,-282.5 93,-282.5 "
-         id="polygon11242" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="32"
-         y="-271.5"
-         font-size="10.00"
-         id="text11244">id = &quot;root&quot;</text>
-    </g>
-    <g
-       id="node6"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11247">sub2</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="15,-205 92,-205 92,-188 15,-188 "
-         id="polygon11249" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="18"
-         y="-195"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11251">sub :JavaPackage</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="15,-188 92,-188 92,-171 15,-171 "
-         id="polygon11253" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="32.5"
-         y="-177"
-         font-size="10.00"
-         id="text11255">id = &quot;sub&quot;</text>
-    </g>
-    <g
-       id="edge1"
-       class="edge"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11258">root-&gt;sub2</title>
-      <path
-         style="fill:none;stroke:#000000"
-         inkscape:connector-curvature="0"
-         d="m 53,-261.429 c 0,15.515 0,36.892 0,52.397"
-         id="path11260" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
-         x="26.5"
-         y="-212.032"
-         font-size="10.00"
-         id="text11262">subPackages</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
-         x="47.5"
-         y="-253.429"
-         font-size="10.00"
-         id="text11264">up</text>
-    </g>
-    <g
-       id="node2"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11267">root1</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="127,-304.5 270,-304.5 270,-287.5 127,-287.5 "
-         id="polygon11269" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="167.5"
-         y="-294.5"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11271">root :HaveRoot</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="127,-287.5 270,-287.5 270,-259.5 127,-259.5 "
-         id="polygon11273" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="130"
-         y="-276.5"
-         font-size="10.00"
-         id="text11275">id = &quot;root&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="130"
-         y="-265.5"
-         font-size="10.00"
-         id="text11277">time = &quot;2020-08-18T20:14:35.639Z&quot;</text>
-    </g>
-    <g
-       id="node3"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,-39.867034,117.27232)">
-      <title
-         id="title11280">sub</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="304,-310.5 447,-310.5 447,-293.5 304,-293.5 "
-         id="polygon11282" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="338.5"
-         y="-300.5"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11284">sub :HaveSubUnit</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="304,-293.5 447,-293.5 447,-254.5 304,-254.5 "
-         id="polygon11286" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="307"
-         y="-282.5"
-         font-size="10.00"
-         id="text11288">id = &quot;sub&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="307"
-         y="-271.5"
-         font-size="10.00"
-         id="text11290">parent = &quot;root&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="307"
-         y="-260.5"
-         font-size="10.00"
-         id="text11292">time = &quot;2020-08-18T20:14:35.640Z&quot;</text>
-    </g>
-    <g
-       id="node4"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,-87.114058,137.87202)">
-      <title
-         id="title11295">leaf</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="481,-293.5 481,-310.5 624,-310.5 624,-293.5 "
-         id="polygon11297" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="516"
-         y="-300.5"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11299">leaf :HaveSubUnit</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="481,-254.5 481,-293.5 624,-293.5 624,-254.5 "
-         id="polygon11301" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="484"
-         y="-282.5"
-         font-size="10.00"
-         id="text11303">id = &quot;leaf&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="484"
-         y="-271.5"
-         font-size="10.00"
-         id="text11305">parent = &quot;sub&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="484"
-         y="-260.5"
-         font-size="10.00"
-         id="text11307">time = &quot;2020-08-18T20:14:35.641Z&quot;</text>
-    </g>
-    <g
-       id="node5"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,-134.36108,160.73958)">
-      <title
-         id="title11310">c</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="801,-315.5 801,-298.5 658,-298.5 658,-315.5 "
-         id="polygon11312" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="705.5"
-         y="-305.5"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11314">c :HaveLeaf</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="801,-298.5 801,-248.5 658,-248.5 658,-298.5 "
-         id="polygon11316" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="661"
-         y="-287.5"
-         font-size="10.00"
-         id="text11318">id = &quot;c&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="661"
-         y="-276.5"
-         font-size="10.00"
-         id="text11320">parent = &quot;leaf&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="661"
-         y="-265.5"
-         font-size="10.00"
-         id="text11322">time = &quot;2020-08-18T20:14:35.642Z&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="661"
-         y="-254.5"
-         font-size="10.00"
-         id="text11324">vTag = &quot;1.0&quot;</text>
-    </g>
-    <g
-       id="node7"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11327">leaf3</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="15,-127 91,-127 91,-110 15,-110 "
-         id="polygon11329" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="18"
-         y="-117"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11331">leaf :JavaPackage</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="15,-110 91,-110 91,-93 15,-93 "
-         id="polygon11333" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="32.5"
-         y="-99"
-         font-size="10.00"
-         id="text11335">id = &quot;leaf&quot;</text>
-    </g>
-    <g
-       id="edge2"
-       class="edge"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11338">sub2-&gt;leaf3</title>
-      <path
-         style="fill:none;stroke:#000000"
-         inkscape:connector-curvature="0"
-         d="m 53,-166.633 c 0,10.992 0,24.514 0,35.474"
-         id="path11340" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
-         x="26.5"
-         y="-134.159"
-         font-size="10.00"
-         id="text11342">subPackages</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
-         x="47.5"
-         y="-158.633"
-         font-size="10.00"
-         id="text11344">up</text>
-    </g>
-    <g
-       id="node8"
-       class="node"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11347">c4</title>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="24,-48.5 82,-48.5 82,-31.5 24,-31.5 "
-         id="polygon11349" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-decoration: underline;text-decoration-line: underline;text-anchor:start"
-         x="28.5"
-         y="-38.5"
-         text-decoration="underline"
-         font-size="10.00"
-         id="text11351">c :JavaClass</text>
-      <polygon
-         style="fill:none;stroke:#000000"
-         points="24,-31.5 82,-31.5 82,-3.5 24,-3.5 "
-         id="polygon11353" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="27"
-         y="-20.5"
-         font-size="10.00"
-         id="text11355">id = &quot;c&quot;</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:start"
-         x="27"
-         y="-9.5"
-         font-size="10.00"
-         id="text11357">vTag = &quot;1.0&quot;</text>
-    </g>
-    <g
-       id="edge3"
-       class="edge"
-       transform="matrix(0.26458333,0,0,0.26458333,7.5689776,92.892856)">
-      <title
-         id="title11360">leaf3-&gt;c4</title>
-      <path
-         style="fill:none;stroke:#000000"
-         inkscape:connector-curvature="0"
-         d="m 53,-88.8539 c 0,10.7474 0,24.0895 0,35.5843"
-         id="path11362" />
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
-         x="38"
-         y="-56.2696"
-         font-size="10.00"
-         id="text11364">classes</text>
-      <text
-         style="font-size:10px;font-family:'Times New Roman', serif;text-anchor:middle"
-         x="47.5"
-         y="-80.853897"
-         font-size="10.00"
-         id="text11366">up</text>
-    </g>
-  </g>
-</svg>
+     inkscape:label="ExampleObjectsStart"
+     transform="matrix(1.3333333,0,0,1.3333333,0,9.4291209e-6)"><g
+       id="g4715"><g
+         id="g176"><path
+           d="m 2.762,16.293 h 59.25 v 12.75 H 2.762 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path178"
+           inkscape:connector-curvature="0" /></g><text
+         y="23.791098"
+         x="5.0120139"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text182"><tspan
+           x="5.0120139 7.5095139 11.259514 15.009515 17.087013 18.962013 21.039515 23.957014 27.279514 31.029514 34.352013 38.522011 41.844513 45.167011 48.917011 52.239513 55.989513"
+           y="23.791098"
+           sodipodi:role="line"
+           id="tspan180">root :JavaPackage</tspan></text>
+<g
+         id="g184"><path
+           d="m 2.762,29.043 h 59.25 v 12.75 H 2.762 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path186"
+           inkscape:connector-curvature="0" /></g><text
+         y="37.291096"
+         x="16.262014"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text190"><tspan
+           x="16.262014 18.339514 22.089514 23.964514 28.187014 30.062014 33.122013 35.619514 39.369514 43.119514 45.197014"
+           y="37.291096"
+           sodipodi:role="line"
+           id="tspan188">id = &quot;root&quot;</tspan></text>
+<g
+         id="g192"><path
+           d="m 3.512,87.168 h 57.75 v 12.75 H 3.512 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path194"
+           inkscape:connector-curvature="0" /></g><text
+         y="94.6661"
+         x="5.7620139"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text198"><tspan
+           x="5.7620139 8.6795139 12.429514 16.179514 18.054514 20.132013 23.049515 26.372015 30.122015 33.444515 37.614513 40.937012 44.237011 47.987011 51.309513 55.059513"
+           y="94.6661"
+           sodipodi:role="line"
+           id="tspan196">sub :JavaPackage</tspan></text>
+<g
+         id="g200"><path
+           d="m 3.512,99.918 h 57.75 v 12.75 H 3.512 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path202"
+           inkscape:connector-curvature="0" /></g><text
+         y="108.1661"
+         x="16.637014"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text206"><tspan
+           x="16.637014 18.714514 22.464514 24.339514 28.562014 30.437014 33.497013 36.414513 40.164513 43.914513"
+           y="108.1661"
+           sodipodi:role="line"
+           id="tspan204">id = &quot;sub&quot;</tspan></text>
+<g
+         id="g208"><path
+           d="m 41.012,44.844 c 0,11.636 0,27.668 0,39.297"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path210"
+           inkscape:connector-curvature="0" /></g><text
+         y="81.892097"
+         x="1.984183"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text216"><tspan
+           x="1.984183 4.9016829 8.6516829 12.401683 16.571682 19.894182 23.216682 26.966682 30.289183 34.039185 37.361683"
+           y="81.892097"
+           sodipodi:role="line"
+           id="tspan212">subPackages</tspan><tspan
+           x="33.137016 36.887016"
+           y="50.844349"
+           sodipodi:role="line"
+           id="tspan214">up</tspan></text>
+<g
+         id="g218"><path
+           d="m 78.512,12.543 h 107.25 v 12.75 H 78.512 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path220"
+           inkscape:connector-curvature="0" /></g><text
+         y="20.041098"
+         x="108.88701"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text224"><tspan
+           x="108.88701 111.38451 115.13451 118.88451 120.96201 122.83701 124.91451 130.32951 133.65201 137.40201 140.7245 145.71951 149.46951 153.21951"
+           y="20.041098"
+           sodipodi:role="line"
+           id="tspan222">root :HaveRoot</tspan></text>
+<g
+         id="g226"><path
+           d="m 78.512,25.293 h 107.25 v 21 H 78.512 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path228"
+           inkscape:connector-curvature="0" /></g><text
+         y="33.541096"
+         x="80.762016"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text234"><tspan
+           x="80.762016 82.839516 86.589516 88.464516 92.687012 94.562012 97.622017 100.11951 103.86951 107.61951 109.69701"
+           y="33.541096"
+           sodipodi:role="line"
+           id="tspan230">id = &quot;root&quot;</tspan><tspan
+           x="80.762016 82.839516 84.917015 90.744514 94.067017 95.942017 100.16451 102.03951 105.09951 108.84951 112.59951 116.34952 120.09952 122.59702 126.34702 130.09702 132.59451 136.34451 140.09451 144.66951 148.41951 152.16951 154.24701 157.99701 161.74701 163.82451 167.57451 171.32451 173.19951 176.94951 180.69951 184.44951 189.02451"
+           y="41.791096"
+           sodipodi:role="line"
+           id="tspan232">time = &quot;2020-08-18T20:14:35.639Z&quot;</tspan></text>
+<g
+         id="g236"><path
+           d="m 76.797,77.148 h 107.25 v 12.75 H 76.797 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path238"
+           inkscape:connector-curvature="0" /></g><text
+         y="84.648232"
+         x="102.67273"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text242"><tspan
+           x="102.67273 105.59023 109.34023 113.09023 114.96523 117.04273 122.45773 125.78023 129.53023 132.85274 137.02274 140.77274 144.52274 149.93773 153.68773 155.76523"
+           y="84.648232"
+           sodipodi:role="line"
+           id="tspan240">sub :HaveSubUnit</tspan></text>
+<g
+         id="g244"><path
+           d="m 76.797,89.898 h 107.25 v 29.25 H 76.797 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path246"
+           inkscape:connector-curvature="0" /></g><text
+         y="98.148232"
+         x="79.047729"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text254"><tspan
+           x="79.047729 81.125229 84.875229 86.750229 90.972733 92.847733 95.90773 98.825233 102.57523 106.32523"
+           y="98.148232"
+           sodipodi:role="line"
+           id="tspan248">id = &quot;sub&quot;</tspan><tspan
+           x="79.047729 82.797729 86.120232 88.617729 91.940231 95.690231 97.767731 99.642731 103.86523 105.74023 108.80023 111.29773 115.04773 118.79773 120.87523"
+           y="106.39823"
+           sodipodi:role="line"
+           id="tspan250">parent = &quot;root&quot;</tspan><tspan
+           x="79.047729 81.125229 83.202728 89.030228 92.35273 94.22773 98.450233 100.32523 103.38523 107.13523 110.88523 114.63523 118.38523 120.88273 124.63273 128.38274 130.88023 134.63023 138.38023 142.95523 146.70523 150.45523 152.53273 156.28273 160.03273 162.11023 165.86023 169.61023 171.48523 175.23523 178.98523 182.73523 187.31023"
+           y="114.64823"
+           sodipodi:role="line"
+           id="tspan252">time = &quot;2020-08-18T20:14:35.640Z&quot;</tspan></text>
+<g
+         id="g256"><path
+           d="m 75.621,135.543 h 107.25 v 12.75 H 75.621 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path258"
+           inkscape:connector-curvature="0" /></g><text
+         y="143.04108"
+         x="101.86916"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text262"><tspan
+           x="101.86916 103.94666 107.26916 110.59166 113.08916 114.96416 117.04166 122.45666 125.77916 129.52916 132.85165 137.02167 140.77167 144.52167 149.93666 153.68666 155.76416"
+           y="143.04108"
+           sodipodi:role="line"
+           id="tspan260">leaf :HaveSubUnit</tspan></text>
+<g
+         id="g264"><path
+           d="m 75.621,148.293 h 107.25 v 29.25 H 75.621 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path266"
+           inkscape:connector-curvature="0" /></g><text
+         y="156.54108"
+         x="77.869156"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text274"><tspan
+           x="77.869156 79.946655 83.696655 85.571655 89.794159 91.669159 94.729156 96.806656 100.12916 103.45166 105.94916"
+           y="156.54108"
+           sodipodi:role="line"
+           id="tspan268">id = &quot;leaf&quot;</tspan><tspan
+           x="77.869156 81.619156 84.941658 87.439156 90.761658 94.511658 96.589157 98.464157 102.68665 104.56165 107.62166 110.53915 114.28915 118.03915"
+           y="164.79108"
+           sodipodi:role="line"
+           id="tspan270">parent = &quot;sub&quot;</tspan><tspan
+           x="77.869156 79.946655 82.024155 87.851654 91.174156 93.049156 97.27166 99.14666 102.20666 105.95666 109.70666 113.45666 117.20666 119.70415 123.45415 127.20415 129.70166 133.45166 137.20166 141.77666 145.52666 149.27666 151.35416 155.10416 158.85416 160.93166 164.68166 168.43166 170.30666 174.05666 177.80666 181.55666 186.13165"
+           y="173.04108"
+           sodipodi:role="line"
+           id="tspan272">time = &quot;2020-08-18T20:14:35.641Z&quot;</tspan></text>
+<g
+         id="g276"><path
+           d="m 74.441,196.613 h 107.25 v 12.75 H 74.441 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path278"
+           inkscape:connector-curvature="0" /></g><text
+         y="204.1125"
+         x="110.06561"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text282"><tspan
+           x="110.06561 113.38811 115.26311 117.34061 122.75561 126.07811 129.82811 133.1506 137.72562 141.04811 144.37061"
+           y="204.1125"
+           sodipodi:role="line"
+           id="tspan280">c :HaveLeaf</tspan></text>
+<g
+         id="g284"><path
+           d="m 74.441,209.363 h 107.25 v 37.5 H 74.441 Z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path286"
+           inkscape:connector-curvature="0" /></g><text
+         y="217.6125"
+         x="76.690605"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text296"><tspan
+           x="76.690605 78.768105 82.518105 84.393105 88.615608 90.490608 93.550606 96.873108"
+           y="217.6125"
+           sodipodi:role="line"
+           id="tspan288">id = &quot;c&quot;</tspan><tspan
+           x="76.690605 80.440605 83.763107 86.260605 89.583107 93.333107 95.410606 97.285606 101.50811 103.38311 106.44311 108.52061 111.84311 115.1656 117.66311"
+           y="225.8625"
+           sodipodi:role="line"
+           id="tspan290">parent = &quot;leaf&quot;</tspan><tspan
+           x="76.690605 78.768105 80.845612 86.673111 89.995605 91.870605 96.093109 97.968109 101.02811 104.77811 108.52811 112.27811 116.02811 118.5256 122.2756 126.0256 128.5231 132.2731 136.0231 140.59811 144.34811 148.09811 150.17561 153.92561 157.67561 159.75311 163.50311 167.25311 169.12811 172.87811 176.62811 180.37811 184.95311"
+           y="234.1125"
+           sodipodi:role="line"
+           id="tspan292">time = &quot;2020-08-18T20:14:35.642Z&quot;</tspan><tspan
+           x="76.690605 80.440605 84.490608 87.81311 91.56311 93.43811 97.660606 99.535606 102.59561 106.34561 108.22061 111.9706"
+           y="242.3625"
+           sodipodi:role="line"
+           id="tspan294">vTag = &quot;1.0&quot;</tspan></text>
+<g
+         id="g298"><path
+           d="m 3.512,145.668 h 57 v 12.75 h -57 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path300"
+           inkscape:connector-curvature="0" /></g><text
+         y="153.16611"
+         x="5.7620139"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text304"><tspan
+           x="5.7620139 7.8395143 11.162014 14.484514 16.982014 18.857014 20.934513 23.852015 27.174515 30.924515 34.247013 38.417011 41.739513 45.039513 48.789513 52.112011 55.862011"
+           y="153.16611"
+           sodipodi:role="line"
+           id="tspan302">leaf :JavaPackage</tspan></text>
+<g
+         id="g306"><path
+           d="m 3.512,158.418 h 57 v 12.75 h -57 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path308"
+           inkscape:connector-curvature="0" /></g><text
+         y="166.66611"
+         x="16.637014"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text312"><tspan
+           x="16.637014 18.714514 22.464514 24.339514 28.562014 30.437014 33.497013 35.574512 38.897015 42.219513 44.717014"
+           y="166.66611"
+           sodipodi:role="line"
+           id="tspan310">id = &quot;leaf&quot;</tspan></text>
+<g
+         id="g314"><path
+           d="m 39.512,115.941 c 0,8.243 0,18.387 0,26.606"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path316"
+           inkscape:connector-curvature="0" /></g><text
+         y="140.29684"
+         x="0.48418301"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text322"><tspan
+           x="0.48418301 3.4016831 7.1516829 10.901683 15.071683 18.394182 21.716682 25.466682 28.789183 32.539185 35.861683"
+           y="140.29684"
+           sodipodi:role="line"
+           id="tspan318">subPackages</tspan><tspan
+           x="31.637014 35.387016"
+           y="121.94135"
+           sodipodi:role="line"
+           id="tspan320">up</tspan></text>
+<g
+         id="g324"><path
+           d="m 10.262,204.543 h 43.5 v 12.75 h -43.5 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path326"
+           inkscape:connector-curvature="0" /></g><text
+         y="212.04109"
+         x="13.637014"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text330"><tspan
+           x="13.637014 16.959515 18.834515 20.912014 23.829514 27.152014 30.902014 34.224514 39.219513 41.297012 44.619514 47.514511"
+           y="212.04109"
+           sodipodi:role="line"
+           id="tspan328">c :JavaClass</tspan></text>
+<g
+         id="g332"><path
+           d="m 10.262,217.293 h 43.5 v 21 h -43.5 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path334"
+           inkscape:connector-curvature="0" /></g><text
+         y="225.54109"
+         x="12.512014"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text340"><tspan
+           x="12.512014 14.589514 18.339514 20.214514 24.437014 26.312014 29.372015 32.694515"
+           y="225.54109"
+           sodipodi:role="line"
+           id="tspan336">id = &quot;c&quot;</tspan><tspan
+           x="12.512014 16.262014 20.312014 23.634514 27.384514 29.259514 33.482014 35.357014 38.417015 42.167015 44.042015 47.792011"
+           y="233.79109"
+           sodipodi:role="line"
+           id="tspan338">vTag = &quot;1.0&quot;</tspan></text>
+<g
+         id="g342"><path
+           d="m 39.512,174.277 c 0,8.059 0,18.067 0,26.688"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path344"
+           inkscape:connector-curvature="0" /></g><text
+         y="198.71388"
+         x="17.861624"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text350"><tspan
+           x="17.861624 21.184124 23.261623 26.584124 29.501625 32.419125 35.719124"
+           y="198.71388"
+           sodipodi:role="line"
+           id="tspan346">classes</tspan><tspan
+           x="31.637016 35.387016"
+           y="180.27567"
+           sodipodi:role="line"
+           id="tspan348">up</tspan></text>
+<g
+         id="g352"><path
+           d="m 211.184,196.398 h 107.25 v 12.75 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path354"
+           inkscape:connector-curvature="0" /></g><text
+         y="203.89821"
+         x="246.80666"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text358"><tspan
+           x="246.80666 250.12917 252.00417 254.08167 259.49667 262.81915 266.56915 269.89166 274.46667 277.78915 281.11166"
+           y="203.89821"
+           sodipodi:role="line"
+           id="tspan356">c :HaveLeaf</tspan></text>
+<g
+         id="g360"><path
+           d="m 211.184,209.148 h 107.25 v 37.5 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path362"
+           inkscape:connector-curvature="0" /></g><text
+         y="217.39821"
+         x="213.43166"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text372"><tspan
+           x="213.43166 215.50916 219.25916 221.13416 225.35666 227.23166 230.29166 233.61417"
+           y="217.39821"
+           sodipodi:role="line"
+           id="tspan364">id = &quot;c&quot;</tspan><tspan
+           x="213.43166 217.18166 220.50417 223.00166 226.32416 230.07416 232.15166 234.02666 238.24916 240.12416 243.18416 245.26166 248.58417 251.90666 254.40416"
+           y="225.64821"
+           sodipodi:role="line"
+           id="tspan366">parent = &quot;leaf&quot;</tspan><tspan
+           x="213.43166 215.50916 217.58665 223.41415 226.73666 228.61166 232.83417 234.70917 237.76917 241.51917 245.26917 249.01917 252.76917 255.26666 259.01666 262.76666 265.26416 269.01416 272.76416 277.33917 281.08917 284.83917 286.91666 290.66666 294.41666 296.49417 300.24417 303.99417 305.86917 309.61917 313.36917 317.11917 321.69415"
+           y="233.89821"
+           sodipodi:role="line"
+           id="tspan368">time = &quot;2020-08-18T20:16:15.254Z&quot;</tspan><tspan
+           x="213.43166 217.18166 221.23166 224.55415 228.30415 230.17915 234.40166 236.27666 239.33665 243.08665 244.96165 248.71165"
+           y="242.14821"
+           sodipodi:role="line"
+           id="tspan370">vTag = &quot;1.0&quot;</tspan></text>
+<g
+         id="g374"><path
+           d="m 388.934,15.273 h 39.75 v 12.75 h -39.75 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path376"
+           inkscape:connector-curvature="0" /></g><text
+         y="22.773226"
+         x="391.1817"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text380"><tspan
+           x="391.1817 393.6792 397.4292 401.1792 403.25668 405.13168 407.2092 411.37918 415.12918 417.2067 420.9567 424.27917"
+           y="22.773226"
+           sodipodi:role="line"
+           id="tspan378">root :Folder</tspan></text>
+<g
+         id="g382"><path
+           d="m 388.934,28.023 h 39.75 v 12.75 h -39.75 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path384"
+           inkscape:connector-curvature="0" /></g><text
+         y="36.273224"
+         x="392.6817"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text388"><tspan
+           x="392.6817 394.75919 398.50919 400.38419 404.60669 406.48169 409.54169 412.03918 415.78918 419.53918 421.6167"
+           y="36.273224"
+           sodipodi:role="line"
+           id="tspan386">id = &quot;root&quot;</tspan></text>
+<g
+         id="g390"><path
+           d="m 388.934,86.148 h 39 v 12.75 h -39 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path392"
+           inkscape:connector-curvature="0" /></g><text
+         y="93.648224"
+         x="391.1817"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text396"><tspan
+           x="391.1817 394.09918 397.84918 401.59918 403.47418 405.5517 409.72168 413.47168 415.54919 419.29919 422.6217"
+           y="93.648224"
+           sodipodi:role="line"
+           id="tspan394">sub :Folder</tspan></text>
+<g
+         id="g398"><path
+           d="m 388.934,98.898 h 39 v 12.75 h -39 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path400"
+           inkscape:connector-curvature="0" /></g><text
+         y="107.14822"
+         x="392.6817"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text404"><tspan
+           x="392.6817 394.75919 398.50919 400.38419 404.60669 406.48169 409.54169 412.4592 416.2092 419.9592"
+           y="107.14822"
+           sodipodi:role="line"
+           id="tspan402">id = &quot;sub&quot;</tspan></text>
+<g
+         id="g406"><path
+           d="m 408.434,43.828 c 0,11.633 0,27.668 0,39.297"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path408"
+           inkscape:connector-curvature="0" /></g><text
+         y="80.874229"
+         x="374.72415"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text414"><tspan
+           x="374.72415 377.64166 381.39166 385.14166 389.31165 393.06165 395.13916 398.88916 402.21167 404.70917"
+           y="80.874229"
+           sodipodi:role="line"
+           id="tspan410">subFolders</tspan><tspan
+           x="400.55667 404.30667"
+           y="49.826485"
+           sodipodi:role="line"
+           id="tspan412">up</tspan></text>
+<g
+         id="g416"><path
+           d="m 333.434,144.648 h 70.5 v 12.75 h -70.5 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path418"
+           inkscape:connector-curvature="0" /></g><text
+         y="152.14822"
+         x="343.5567"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text422"><tspan
+           x="343.5567 346.47418 350.22418 353.97418 359.38919 363.13919 366.4617 368.3367 370.41418 375.82919 379.57919 382.9017 387.07169 389.1492 391.22668"
+           y="152.14822"
+           sodipodi:role="line"
+           id="tspan420">subDoc :DocFile</tspan></text>
+<g
+         id="g424"><path
+           d="m 333.434,157.398 h 70.5 v 29.25 h -70.5 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path426"
+           inkscape:connector-curvature="0" /></g><text
+         y="165.64822"
+         x="335.6817"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text434"><tspan
+           x="335.6817 339.00418 342.75418 346.50418 348.5817 351.90417 355.65417 357.73169 359.60669 363.82919 365.70419 368.76419 371.6817 375.4317 379.1817 381.0567 384.8067 388.5567 391.87918 395.62918"
+           y="165.64822"
+           sodipodi:role="line"
+           id="tspan428">content = &quot;sub docu&quot;</tspan><tspan
+           x="335.6817 337.75919 341.50919 343.38419 347.60669 349.48169 352.54169 355.4592 359.2092 362.9592 368.37418 372.12418 375.44669"
+           y="173.89822"
+           sodipodi:role="line"
+           id="tspan430">id = &quot;subDoc&quot;</tspan><tspan
+           x="335.6817 339.4317 342.75418 345.25168 348.16919 350.2467 353.9967 357.7467 359.6217 363.84418 365.71918 369.46918 373.21918 375.29669"
+           y="182.14822"
+           sodipodi:role="line"
+           id="tspan432">version = null</tspan></text>
+<g
+         id="g436"><path
+           d="m 399.215,114.781 c -4.817,7.907 -10.824,17.758 -16.223,26.629"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path438"
+           inkscape:connector-curvature="0" /></g><text
+         y="139.16048"
+         x="370.164"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text444"><tspan
+           x="370.164 372.6615 374.73901 376.8165 380.13901"
+           y="139.16048"
+           sodipodi:role="line"
+           id="tspan440">files</tspan><tspan
+           x="391.33914 395.08914"
+           y="120.78172"
+           sodipodi:role="line"
+           id="tspan442">up</tspan></text>
+<g
+         id="g446"><path
+           d="m 430.184,152.898 h 38.25 v 12.75 h -38.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path448"
+           inkscape:connector-curvature="0" /></g><text
+         y="160.39822"
+         x="432.43167"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text452"><tspan
+           x="432.43167 434.50919 437.83167 441.15417 443.65167 445.52667 447.60419 451.77417 455.52417 457.60168 461.35168 464.67419"
+           y="160.39822"
+           sodipodi:role="line"
+           id="tspan450">leaf :Folder</tspan></text>
+<g
+         id="g454"><path
+           d="m 430.184,165.648 h 38.25 v 12.75 h -38.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path456"
+           inkscape:connector-curvature="0" /></g><text
+         y="173.89822"
+         x="433.93167"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text460"><tspan
+           x="433.93167 436.00919 439.75919 441.63419 445.85669 447.73169 450.79169 452.86917 456.19168 459.51419 462.01169"
+           y="173.89822"
+           sodipodi:role="line"
+           id="tspan458">id = &quot;leaf&quot;</tspan></text>
+<g
+         id="g462"><path
+           d="m 417.82,114.781 c 6.551,10.543 15.235,24.543 21.766,35.067"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path464"
+           inkscape:connector-curvature="0" /></g><text
+         y="147.59647"
+         x="440.37918"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text470"><tspan
+           x="440.37918 443.29669 447.04669 450.79669 454.96667 458.71667 460.79419 464.54419 467.8667 470.3642"
+           y="147.59647"
+           sodipodi:role="line"
+           id="tspan466">subFolders</tspan><tspan
+           x="409.94669 413.69669"
+           y="120.78172"
+           sodipodi:role="line"
+           id="tspan468">up</tspan></text>
+<g
+         transform="translate(-39,-3)"
+         id="g472"><path
+           d="m 371.684,219.648 h 69.75 v 12.75 h -69.75 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path474"
+           inkscape:connector-curvature="0" /></g><text
+         y="224.14822"
+         x="342.43167"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text478"><tspan
+           x="342.43167 344.50919 347.83167 351.15417 353.65167 359.06668 362.81668 366.13919 368.01419 370.09167 375.50668 379.25668 382.57919 386.74918 388.82669 390.90417"
+           y="224.14822"
+           sodipodi:role="line"
+           id="tspan476">leafDoc :DocFile</tspan></text>
+<g
+         transform="translate(-39,-3)"
+         id="g480"><path
+           d="m 371.684,232.398 h 69.75 v 29.25 h -69.75 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path482"
+           inkscape:connector-curvature="0" /></g><text
+         y="237.64822"
+         x="334.93167"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text490"><tspan
+           x="334.93167 338.25418 342.00418 345.75418 347.83167 351.15417 354.90417 356.98169 358.85669 363.07919 364.95419 368.01419 370.09167 373.41418 376.71417 379.21167 381.08667 384.83667 388.58667 391.90918 395.65918"
+           y="237.64822"
+           sodipodi:role="line"
+           id="tspan484">content = &quot;leaf docu&quot;</tspan><tspan
+           x="334.93167 337.00919 340.75919 342.63419 346.85669 348.73169 351.79169 353.86917 357.19168 360.51419 363.01169 368.42667 372.17667 375.49918"
+           y="245.89822"
+           sodipodi:role="line"
+           id="tspan486">id = &quot;leafDoc&quot;</tspan><tspan
+           x="334.93167 338.68167 342.00418 344.50168 347.41919 349.49667 353.24667 356.99667 358.87167 363.09418 364.96918 368.71918 372.46918 374.54669"
+           y="254.14822"
+           sodipodi:role="line"
+           id="tspan488">version = null</tspan></text>
+<g
+         transform="matrix(1.1811414,0.648484,-0.54433657,1.4071281,14.936946,-360.83279)"
+         id="g492"><path
+           d="m 440.074,181.629 c -5.871,10.09 -13.687,23.523 -20.332,34.949"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path494"
+           inkscape:connector-curvature="0" /></g><text
+         y="212.51913"
+         x="407.27603"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text500"><tspan
+           x="407.27603 409.77353 411.85104 413.92853 417.25104"
+           y="212.51913"
+           sodipodi:role="line"
+           id="tspan496">files</tspan><tspan
+           x="432.56116 436.31116"
+           y="185.81763"
+           sodipodi:role="line"
+           id="tspan498">up</tspan></text>
+<g
+         transform="translate(-39,-3)"
+         id="g502"><path
+           d="m 466.934,219.648 h 50.25 v 12.75 h -50.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path504"
+           inkscape:connector-curvature="0" /></g><text
+         y="224.14822"
+         x="438.05667"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text508"><tspan
+           x="438.05667 441.37918 443.25418 445.33167 450.74667 454.49667 457.81918 461.98917 464.06668 466.14417"
+           y="224.14822"
+           sodipodi:role="line"
+           id="tspan506">c :DocFile</tspan></text>
+<g
+         transform="translate(-39,-3)"
+         id="g510"><path
+           d="m 466.934,232.398 h 50.25 v 29.25 h -50.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path512"
+           inkscape:connector-curvature="0" /></g><text
+         y="237.64822"
+         x="430.18167"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text520"><tspan
+           x="430.18167 433.50418 437.25418 441.00418 443.08167 446.40417 450.15417 452.23169 454.10669 458.32919 460.20419 463.95419 467.70419 469.78168"
+           y="237.64822"
+           sodipodi:role="line"
+           id="tspan514">content = null</tspan><tspan
+           x="430.18167 432.25919 436.00919 437.88419 442.10669 443.98169 447.04169 450.36417"
+           y="245.89822"
+           sodipodi:role="line"
+           id="tspan516">id = &quot;c&quot;</tspan><tspan
+           x="430.18167 433.93167 437.25418 439.75168 442.66919 444.74667 448.49667 452.24667 454.12167 458.34418 460.21918 463.27917 467.02917 468.90417 472.65417"
+           y="254.14822"
+           sodipodi:role="line"
+           id="tspan518">version = &quot;1.0&quot;</tspan></text>
+<g
+         transform="matrix(0.90400757,0.40369597,-0.43156788,0.84562414,121.84681,-159.44185)"
+         id="g522"><path
+           d="m 457.789,181.629 c 5.871,10.09 13.688,23.523 20.332,34.949"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path524"
+           inkscape:connector-curvature="0" /></g><text
+         y="212.82922"
+         x="463.79407"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text530"><tspan
+           x="463.79407 466.29156 468.36908 470.44659 473.76907"
+           y="212.82922"
+           sodipodi:role="line"
+           id="tspan526">files</tspan><tspan
+           x="448.41422 452.16422"
+           y="186.12772"
+           sodipodi:role="line"
+           id="tspan528">up</tspan></text>
+<g
+         id="g532"><path
+           d="m 211.801,12.594 h 107.25 v 12.75 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path534"
+           inkscape:connector-curvature="0" /></g><text
+         y="20.094719"
+         x="242.17488"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text538"><tspan
+           x="242.17488 244.67238 248.42238 252.17238 254.24988 256.12488 258.20239 263.61737 266.93988 270.68988 274.01239 279.00739 282.75739 286.50739"
+           y="20.094719"
+           sodipodi:role="line"
+           id="tspan536">root :HaveRoot</tspan></text>
+<g
+         id="g540"><path
+           d="m 211.801,25.344 h 107.25 v 21 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path542"
+           inkscape:connector-curvature="0" /></g><text
+         y="33.594715"
+         x="214.04988"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text548"><tspan
+           x="214.04988 216.12738 219.87738 221.75238 225.97488 227.84988 230.90988 233.40738 237.15738 240.90738 242.98488"
+           y="33.594715"
+           sodipodi:role="line"
+           id="tspan544">id = &quot;root&quot;</tspan><tspan
+           x="214.04988 216.12738 218.20488 224.03238 227.35487 229.22987 233.45238 235.32738 238.38737 242.13737 245.88737 249.63737 253.38737 255.88487 259.63489 263.38489 265.88239 269.63239 273.38239 277.95737 281.70737 285.45737 287.53488 291.28488 295.03488 297.11237 300.86237 304.61237 306.48737 310.23737 313.98737 317.73737 322.31238"
+           y="41.844715"
+           sodipodi:role="line"
+           id="tspan546">time = &quot;2020-08-18T20:16:15.251Z&quot;</tspan></text>
+<g
+         id="g550"><path
+           d="m 210.086,77.203 h 107.25 v 12.75 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path552"
+           inkscape:connector-curvature="0" /></g><text
+         y="84.702118"
+         x="235.96056"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text556"><tspan
+           x="235.96056 238.87807 242.62807 246.37807 248.25307 250.33057 255.74556 259.06805 262.81805 266.14056 270.31055 274.06055 277.81055 283.22556 286.97556 289.05307"
+           y="84.702118"
+           sodipodi:role="line"
+           id="tspan554">sub :HaveSubUnit</tspan></text>
+<g
+         id="g558"><path
+           d="m 210.086,89.953 h 107.25 v 29.25 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path560"
+           inkscape:connector-curvature="0" /></g><text
+         y="98.202118"
+         x="212.33556"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text568"><tspan
+           x="212.33556 214.41306 218.16306 220.03806 224.26056 226.13556 229.19556 232.11307 235.86307 239.61307"
+           y="98.202118"
+           sodipodi:role="line"
+           id="tspan562">id = &quot;sub&quot;</tspan><tspan
+           x="212.33556 216.08556 219.40807 221.90556 225.22806 228.97806 231.05556 232.93056 237.15306 239.02806 242.08806 244.58556 248.33556 252.08556 254.16306"
+           y="106.45212"
+           sodipodi:role="line"
+           id="tspan564">parent = &quot;root&quot;</tspan><tspan
+           x="212.33556 214.41306 216.49055 222.31805 225.64056 227.51556 231.73807 233.61307 236.67307 240.42307 244.17307 247.92307 251.67307 254.17056 257.92056 261.67056 264.16806 267.91806 271.66806 276.24307 279.99307 283.74307 285.82056 289.57056 293.32056 295.39807 299.14807 302.89807 304.77307 308.52307 312.27307 316.02307 320.59805"
+           y="114.70212"
+           sodipodi:role="line"
+           id="tspan566">time = &quot;2020-08-18T20:16:15.252Z&quot;</tspan></text>
+<g
+         id="g570"><path
+           d="m 208.906,135.594 h 107.25 v 12.75 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path572"
+           inkscape:connector-curvature="0" /></g><text
+         y="143.09508"
+         x="235.15703"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text576"><tspan
+           x="235.15703 237.23453 240.55704 243.87953 246.37703 248.25203 250.32953 255.74452 259.06702 262.81702 266.13953 270.30954 274.05954 277.80954 283.22452 286.97452 289.05203"
+           y="143.09508"
+           sodipodi:role="line"
+           id="tspan574">leaf :HaveSubUnit</tspan></text>
+<g
+         id="g578"><path
+           d="m 208.906,148.344 h 107.25 v 29.25 h -107.25 z"
+           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path580"
+           inkscape:connector-curvature="0" /></g><text
+         y="156.59508"
+         x="211.15703"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'Times New Roman';-inkscape-font-specification:TimesNewRomanPSMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="text588"><tspan
+           x="211.15703 213.23453 216.98453 218.85953 223.08203 224.95703 228.01703 230.09453 233.41702 236.73953 239.23703"
+           y="156.59508"
+           sodipodi:role="line"
+           id="tspan582">id = &quot;leaf&quot;</tspan><tspan
+           x="211.15703 214.90703 218.22952 220.72704 224.04953 227.79953 229.87703 231.75203 237.84953 240.90953 243.82703 247.57703 251.32703"
+           y="164.84508"
+           sodipodi:role="line"
+           id="tspan584">parent =&quot;sub&quot;</tspan><tspan
+           x="211.15703 213.23453 215.31203 221.13953 224.46204 226.33704 230.55952 232.43452 235.49452 239.24452 242.99452 246.74454 250.49454 252.99203 256.74203 260.49203 262.98953 266.73953 270.48953 275.06454 278.81454 282.56454 284.64203 288.39203 292.14203 294.21954 297.96954 301.71954 303.59454 307.34454 311.09454 314.84454 319.41953"
+           y="173.09508"
+           sodipodi:role="line"
+           id="tspan586">time = &quot;2020-08-18T20:16:15.253Z&quot;</tspan></text>
+<g
+         id="g590"><path
+           d="m 199.344,0.852 c 0,54.921 -0.059,149.308 -0.133,254.8 -0.137,1.082 -0.32,2.368 -0.32,2.93 0,-0.293 0.453,-1.172 0.453,-1.465 0,0.293 0.453,1.172 0.453,1.465 0,-0.562 -0.188,-1.848 -0.32,-2.93 -0.075,-105.492 -0.133,-199.879 -0.133,-254.8 z"
+           style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#0000ff;stroke-width:1.18868506;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4.75474, 9.50948;stroke-dashoffset:0;stroke-opacity:1"
+           id="path592"
+           inkscape:connector-curvature="0" /></g></g></g></svg>
