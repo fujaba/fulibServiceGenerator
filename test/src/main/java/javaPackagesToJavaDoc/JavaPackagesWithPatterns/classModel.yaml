@@ -3,14 +3,14 @@
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
-  mainJavaDir: 	"test/src/main/java"
+  mainJavaDir: 	"src/main/java"
   packageName: 	javaPackagesToJavaDoc.JavaPackagesWithPatterns
-  packageSrcFolder: 	"test/src/main/java/javaPackagesToJavaDoc/JavaPackagesWithPatterns"
+  packageSrcFolder: 	"src/main/java/javaPackagesToJavaDoc/JavaPackagesWithPatterns"
 
 - javaPackagesWithPatternsEditor: 	Clazz
   attributes: 	javaPackagesWithPatternsEditor_activeCommands 	javaPackagesWithPatternsEditor_commandListeners 	javaPackagesWithPatternsEditor_mapOfFrames 	javaPackagesWithPatternsEditor_mapOfModelObjects 	javaPackagesWithPatternsEditor_mapOfParsedObjects 	javaPackagesWithPatternsEditor_isoDateFormat 	javaPackagesWithPatternsEditor_lastTime 	javaPackagesWithPatternsEditor_timeDelta 	javaPackagesWithPatternsEditor_commandPrototypes
-  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
-  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
   model: 	c
   modified: 	false
@@ -30,8 +30,6 @@
   subClasses: 	removeCommand 	addStreamCommand 	haveRoot 	haveSubUnit 	haveLeaf
 
 - removeCommand: 	Clazz
-  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
-  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
   methods: 	run3
   model: 	c
   modified: 	false
@@ -72,8 +70,8 @@
 
 - javaPackagesWithPatternsService: 	Clazz
   attributes: 	javaPackagesWithPatternsService_myPort 	javaPackagesWithPatternsService_reflectorMap 	javaPackagesWithPatternsService_currentSession 	javaPackagesWithPatternsService_executor 	javaPackagesWithPatternsService_spark 	javaPackagesWithPatternsService_sessionToAppMap
-  importList: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
-  imports: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  importList: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  imports: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
   methods: 	start 	getFirstRoot 	root 	cmd 	connect 	getStream
   model: 	c
   modified: 	false
@@ -175,52 +173,52 @@
 - javaPackagesWithPatternsEditor_activeCommands: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - javaPackagesWithPatternsEditor_commandListeners: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_commandListeners
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ArrayList<CommandStream>>"
-  typeSignature: 	"java.util.Map<String,ArrayList<CommandStream>>"
+  type: 	"Map<String, List<CommandStream>>"
+  typeSignature: 	"Map<String,List<CommandStream>>"
 
 - javaPackagesWithPatternsEditor_mapOfFrames: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_mapOfFrames
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaPackagesWithPatternsEditor_mapOfModelObjects: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_mapOfModelObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaPackagesWithPatternsEditor_mapOfParsedObjects: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
   id: 	JavaPackagesWithPatternsEditor_mapOfParsedObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfParsedObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - javaPackagesWithPatternsEditor_isoDateFormat: 	Attribute
   clazz: 	javaPackagesWithPatternsEditor
@@ -258,8 +256,8 @@
   modified: 	false
   name: 	commandPrototypes
   propertyStyle: 	Bean
-  type: 	"ArrayList<ModelCommand>"
-  typeSignature: 	"ArrayList<ModelCommand>"
+  type: 	"List<ModelCommand>"
+  typeSignature: 	"List<ModelCommand>"
 
 - getOrCreate: 	FMethod
   annotations: 	""
@@ -392,7 +390,7 @@
   clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -408,7 +406,7 @@
   annotations: 	""
   clazz: 	javaPackagesWithPatternsEditor
   declaration: 	"public JavaPackagesWithPatternsEditor addCommandListener(String commandName, CommandStream stream)"
-  methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+  methodBody: 	"      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
 "
@@ -515,8 +513,8 @@
 - findCommands: 	FMethod
   annotations: 	""
   clazz: 	javaPackagesWithPatternsEditor
-  declaration: 	"private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)"
-  methodBody: 	"      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
+  declaration: 	"private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)"
+  methodBody: 	"      List<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
          ModelCommand currentCommand = prototype.parse(currentObject);
          if (currentCommand != null) {
@@ -529,14 +527,14 @@
   modified: 	false
   modifiers: 	private
   name: 	findCommands
-  paramsString: 	"ArrayList<ModelCommand> allCommands, Object currentObject"
+  paramsString: 	"List<ModelCommand> allCommands, Object currentObject"
   returnType: 	ModelCommand
-  signature: 	"class/JavaPackagesWithPatternsEditor/method/findCommands(ArrayList<ModelCommand>,Object)"
+  signature: 	"class/JavaPackagesWithPatternsEditor/method/findCommands(List<ModelCommand>,Object)"
 
 - getFromAllCommands: 	FMethod
   annotations: 	""
   clazz: 	javaPackagesWithPatternsEditor
-  declaration: 	"private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)"
+  declaration: 	"private ModelCommand getFromAllCommands(List<ModelCommand> allCommands, String id)"
   methodBody: 	"      for (ModelCommand command : allCommands) {
          if (command.getId().equals(id)) {
             return command;
@@ -547,9 +545,9 @@
   modified: 	false
   modifiers: 	private
   name: 	getFromAllCommands
-  paramsString: 	"ArrayList<ModelCommand> allCommands, String id"
+  paramsString: 	"List<ModelCommand> allCommands, String id"
   returnType: 	ModelCommand
-  signature: 	"class/JavaPackagesWithPatternsEditor/method/getFromAllCommands(ArrayList<ModelCommand>,String)"
+  signature: 	"class/JavaPackagesWithPatternsEditor/method/getFromAllCommands(List<ModelCommand>,String)"
 
 - equalsButTime: 	FMethod
   annotations: 	""
@@ -585,7 +583,7 @@
 - haveCommandPrototypes: 	FMethod
   annotations: 	""
   clazz: 	javaPackagesWithPatternsEditor
-  declaration: 	"private ArrayList<ModelCommand> haveCommandPrototypes()"
+  declaration: 	"private List<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
          commandPrototypes.add(new HaveRoot());
@@ -599,7 +597,7 @@
   modifiers: 	private
   name: 	haveCommandPrototypes
   paramsString: 	""
-  returnType: 	"ArrayList<ModelCommand>"
+  returnType: 	"List<ModelCommand>"
   signature: 	"class/JavaPackagesWithPatternsEditor/method/haveCommandPrototypes()"
 
 - javaPackagesWithPatternsEditor_service: 	AssocRole
@@ -664,7 +662,6 @@
 
          patternObject.setHandleObject(handleObject);
       }
-
 
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getHandleObject() == null) {
@@ -930,9 +927,10 @@
   signature: 	"class/ModelCommand/method/getHandleObjectAttributeValue(PatternObject,String)"
 
 - run3: 	FMethod
-  annotations: 	""
+  annotations: 	"@Override"
   clazz: 	removeCommand
-  declaration: 	"public Object run(JavaPackagesWithPatternsEditor editor)"
+  declaration: 	"@Override
+   public Object run(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
       if (oldCommand != null) {
@@ -1164,12 +1162,12 @@
 - javaPackagesWithPatternsService_sessionToAppMap: 	Attribute
   clazz: 	javaPackagesWithPatternsService
   id: 	JavaPackagesWithPatternsService_sessionToAppMap
-  initialization: 	"new LinkedHashMap()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	Bean
-  type: 	"LinkedHashMap<String, JavaPackagesWithPatternsApp>"
-  typeSignature: 	"LinkedHashMap<String,JavaPackagesWithPatternsApp>"
+  type: 	"Map<String, JavaPackagesWithPatternsApp>"
+  typeSignature: 	"Map<String,JavaPackagesWithPatternsApp>"
 
 - start: 	FMethod
   annotations: 	""
@@ -1429,8 +1427,8 @@
   modified: 	false
   name: 	targetUrlList
   propertyStyle: 	Bean
-  type: 	"ArrayList<String>"
-  typeSignature: 	"ArrayList<String>"
+  type: 	"List<String>"
+  typeSignature: 	"List<String>"
 
 - commandStream_oldCommands: 	Attribute
   clazz: 	commandStream
@@ -1439,18 +1437,18 @@
   modified: 	false
   name: 	oldCommands
   propertyStyle: 	Bean
-  type: 	"ArrayList<ModelCommand>"
-  typeSignature: 	"ArrayList<ModelCommand>"
+  type: 	"List<ModelCommand>"
+  typeSignature: 	"List<ModelCommand>"
 
 - commandStream_activeCommands: 	Attribute
   clazz: 	commandStream
   id: 	CommandStream_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - publish: 	FMethod
   annotations: 	""
@@ -1600,9 +1598,10 @@
   typeSignature: 	String
 
 - run5: 	FMethod
-  annotations: 	""
+  annotations: 	"@Override"
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(JavaPackagesWithPatternsEditor editor)"
+  declaration: 	"@Override
+   public Object run(JavaPackagesWithPatternsEditor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;

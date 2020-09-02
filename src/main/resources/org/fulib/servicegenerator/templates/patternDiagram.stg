@@ -56,11 +56,9 @@ blackObject(obj) ::= <<
 ];
 >>
 
-
 attribute(attr) ::= <<
 {attr.handleAttrName} = {attr.commandParamName}<br align='left'/>
 >>
-
 
 role(role) ::= <<
 {role.other.clazz.name} -> {role.clazz.name} [
@@ -70,14 +68,12 @@ role(role) ::= <<
 ];
 >>
 
-
 blackLink(l) ::= <<
 {l.source.poId} -> {l.target.poId} [
    arrowhead=none
    headlabel="{l.handleLinkName}"
 ];
 >>
-
 
 greenLink(l) ::= <<
 {l.source.poId} -> {l.target.poId} [
@@ -86,7 +82,6 @@ greenLink(l) ::= <<
    headlabel="{l.handleLinkName}"
 ];
 >>
-
 
 blueLink(l) ::= <<
 {l.source.poId} -> {l.target.poId} [

@@ -20,41 +20,41 @@ public class FulibPatternDiagram
             .expand("object", "kind", "kind")
             .filter("kind", k -> k.equals("core"));
 
-      Set coreObjects = pathTable.toSet("object");
+      Set<?> coreObjects = pathTable.toSet("object");
 
       pathTable = new PathTable("pattern", pattern)
             .expand("pattern", "objects", "object")
             .expand("object", "kind", "kind")
             .filter("kind", k -> k.equals("context"));
 
-      Set contextObjects = pathTable.toSet("object");
+      Set<?> contextObjects = pathTable.toSet("object");
 
       pathTable = new PathTable("pattern", pattern)
             .expand("pattern", "objects", "object")
             .expand("object", "kind", "kind")
             .filter("kind", k -> k.equals("nac"));
-      Set nacObjects = pathTable.toSet("object");
+      Set<?> nacObjects = pathTable.toSet("object");
 
       pathTable = new PathTable("pattern", pattern);
       pathTable.expand("pattern", "objects", "object");
       pathTable.expand("object", "links", "link");
       pathTable.expand("link", "kind", "kind");
       pathTable.filter("kind", k -> k.equals("core"));
-      Set coreLinks = pathTable.toSet("link");
+      Set<?> coreLinks = pathTable.toSet("link");
 
       pathTable = new PathTable("pattern", pattern)
             .expand("pattern", "objects", "object")
             .expand("object", "links", "link")
             .expand("link", "kind", "kind")
             .filter("kind", k -> k.equals("context"));
-      Set contextLinks = pathTable.toSet("link");
+      Set<?> contextLinks = pathTable.toSet("link");
 
       pathTable = new PathTable("pattern", pattern)
             .expand("pattern", "objects", "object")
             .expand("object", "links", "link")
             .expand("link", "kind", "kind")
             .filter("kind", k -> k.equals("nac"));
-      Set nacLinks = pathTable.toSet("link");
+      Set<?> nacLinks = pathTable.toSet("link");
 
       ST st = group.getInstanceOf("patternDiagram");
       st.add("coreObjects", coreObjects);
@@ -71,7 +71,5 @@ public class FulibPatternDiagram
       catch (IOException e) {
          e.printStackTrace();
       }
-
-
    }
 }

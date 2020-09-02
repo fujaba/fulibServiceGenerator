@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Map;
 
 public class M2Service
 {
@@ -29,9 +30,6 @@ public class M2Service
    public static final String PROPERTY_modelEditor = "modelEditor";
 
    private M2Editor modelEditor;
-
-   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
-   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
 
    public static final String PROPERTY_streams = "streams";
 
@@ -49,7 +47,7 @@ public class M2Service
    public static final String PROPERTY_executor = "executor";
    private ExecutorService executor;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String, M2App> sessionToAppMap = new LinkedHashMap();
+   private Map<String, M2App> sessionToAppMap = new LinkedHashMap<>();
 
    public M2Editor getModelEditor()
    {
@@ -81,63 +79,6 @@ public class M2Service
    public List<CommandStream> getStreams()
    {
       return this.streams != null ? Collections.unmodifiableList(this.streams) : Collections.emptyList();
-   }
-
-   public M2Service withStreams(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams == null)
-            {
-               this.streams = new java.util.ArrayList<CommandStream>();
-            }
-            if ( ! this.streams.contains(item))
-            {
-               this.streams.add((CommandStream)item);
-               ((CommandStream)item).setService(this);
-               firePropertyChange("streams", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public M2Service withoutStreams(Object... value)
-   {
-      if (this.streams == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams.contains(item))
-            {
-               this.streams.remove((CommandStream)item);
-               ((CommandStream)item).setService(null);
-               firePropertyChange("streams", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -523,19 +464,19 @@ public M2Service withoutStreams(Collection<? extends CommandStream> value)
       return this;
    }
 
-   public LinkedHashMap<String, M2App> getSessionToAppMap()
+   public Map<String, M2App> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public M2Service setSessionToAppMap(LinkedHashMap<String, M2App> value)
+   public M2Service setSessionToAppMap(Map<String, M2App> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String, M2App> oldValue = this.sessionToAppMap;
+      final Map<String, M2App> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

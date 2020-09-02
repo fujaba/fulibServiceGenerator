@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Map;
 
 public class JavaDocWithPatternsService
 {
@@ -29,9 +30,6 @@ public class JavaDocWithPatternsService
    public static final String PROPERTY_modelEditor = "modelEditor";
 
    private JavaDocWithPatternsEditor modelEditor;
-
-   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
-   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
 
    public static final String PROPERTY_streams = "streams";
 
@@ -49,7 +47,7 @@ public class JavaDocWithPatternsService
    public static final String PROPERTY_spark = "spark";
    private Service spark;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String, JavaDocWithPatternsApp> sessionToAppMap = new LinkedHashMap();
+   private Map<String, JavaDocWithPatternsApp> sessionToAppMap = new LinkedHashMap<>();
 
    public JavaDocWithPatternsService setExecutor(ExecutorService value)
    {
@@ -94,63 +92,6 @@ public class JavaDocWithPatternsService
    public List<CommandStream> getStreams()
    {
       return this.streams != null ? Collections.unmodifiableList(this.streams) : Collections.emptyList();
-   }
-
-   public JavaDocWithPatternsService withStreams(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams == null)
-            {
-               this.streams = new java.util.ArrayList<CommandStream>();
-            }
-            if ( ! this.streams.contains(item))
-            {
-               this.streams.add((CommandStream)item);
-               ((CommandStream)item).setService(this);
-               firePropertyChange("streams", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaDocWithPatternsService withoutStreams(Object... value)
-   {
-      if (this.streams == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams.contains(item))
-            {
-               this.streams.remove((CommandStream)item);
-               ((CommandStream)item).setService(null);
-               firePropertyChange("streams", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -523,19 +464,19 @@ public JavaDocWithPatternsService withoutStreams(Collection<? extends CommandStr
       return this;
    }
 
-   public LinkedHashMap<String, JavaDocWithPatternsApp> getSessionToAppMap()
+   public Map<String, JavaDocWithPatternsApp> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public JavaDocWithPatternsService setSessionToAppMap(LinkedHashMap<String, JavaDocWithPatternsApp> value)
+   public JavaDocWithPatternsService setSessionToAppMap(Map<String, JavaDocWithPatternsApp> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String, JavaDocWithPatternsApp> oldValue = this.sessionToAppMap;
+      final Map<String, JavaDocWithPatternsApp> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

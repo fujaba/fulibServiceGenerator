@@ -22,11 +22,11 @@ public class CommandStream
    public static final String PROPERTY_name = "name";
    private String name;
    public static final String PROPERTY_targetUrlList = "targetUrlList";
-   private ArrayList<String> targetUrlList = new ArrayList<>();
+   private List<String> targetUrlList = new ArrayList<>();
    public static final String PROPERTY_oldCommands = "oldCommands";
-   private ArrayList<ModelCommand> oldCommands = new ArrayList<>();
+   private List<ModelCommand> oldCommands = new ArrayList<>();
    public static final String PROPERTY_activeCommands = "activeCommands";
-   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+   private Map<String, ModelCommand> activeCommands = new LinkedHashMap<>();
 
    public JavaPackagesWithPatternsService getService()
    {
@@ -217,55 +217,55 @@ public class CommandStream
       return this;
    }
 
-   public ArrayList<String> getTargetUrlList()
+   public List<String> getTargetUrlList()
    {
       return this.targetUrlList;
    }
 
-   public CommandStream setTargetUrlList(ArrayList<String> value)
+   public CommandStream setTargetUrlList(List<String> value)
    {
       if (Objects.equals(value, this.targetUrlList))
       {
          return this;
       }
 
-      final ArrayList<String> oldValue = this.targetUrlList;
+      final List<String> oldValue = this.targetUrlList;
       this.targetUrlList = value;
       this.firePropertyChange(PROPERTY_targetUrlList, oldValue, value);
       return this;
    }
 
-   public ArrayList<ModelCommand> getOldCommands()
+   public List<ModelCommand> getOldCommands()
    {
       return this.oldCommands;
    }
 
-   public CommandStream setOldCommands(ArrayList<ModelCommand> value)
+   public CommandStream setOldCommands(List<ModelCommand> value)
    {
       if (Objects.equals(value, this.oldCommands))
       {
          return this;
       }
 
-      final ArrayList<ModelCommand> oldValue = this.oldCommands;
+      final List<ModelCommand> oldValue = this.oldCommands;
       this.oldCommands = value;
       this.firePropertyChange(PROPERTY_oldCommands, oldValue, value);
       return this;
    }
 
-   public java.util.Map<String, ModelCommand> getActiveCommands()
+   public Map<String, ModelCommand> getActiveCommands()
    {
       return this.activeCommands;
    }
 
-   public CommandStream setActiveCommands(java.util.Map<String, ModelCommand> value)
+   public CommandStream setActiveCommands(Map<String, ModelCommand> value)
    {
       if (Objects.equals(value, this.activeCommands))
       {
          return this;
       }
 
-      final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
+      final Map<String, ModelCommand> oldValue = this.activeCommands;
       this.activeCommands = value;
       this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
       return this;

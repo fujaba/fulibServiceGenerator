@@ -9,6 +9,7 @@ import org.fulib.yaml.Yaml;
 import java.util.*;
 import org.fulib.yaml.Reflector;
 import java.util.Objects;
+import java.util.List;
 
 public class JavaPackagesWithPatternsEditor
 {
@@ -25,17 +26,17 @@ public class JavaPackagesWithPatternsEditor
    public static final String PROPERTY_timeDelta = "timeDelta";
    private long timeDelta = 1;
    public static final String PROPERTY_commandPrototypes = "commandPrototypes";
-   private ArrayList<ModelCommand> commandPrototypes;
+   private List<ModelCommand> commandPrototypes;
    public static final String PROPERTY_activeCommands = "activeCommands";
-   private java.util.Map<String, ModelCommand> activeCommands = new java.util.LinkedHashMap<>();
+   private Map<String, ModelCommand> activeCommands = new LinkedHashMap<>();
    public static final String PROPERTY_commandListeners = "commandListeners";
-   private java.util.Map<String, ArrayList<CommandStream>> commandListeners = new java.util.LinkedHashMap<>();
+   private Map<String, List<CommandStream>> commandListeners = new LinkedHashMap<>();
    public static final String PROPERTY_mapOfFrames = "mapOfFrames";
-   private java.util.Map<String, Object> mapOfFrames = new java.util.LinkedHashMap<>();
+   private Map<String, Object> mapOfFrames = new LinkedHashMap<>();
    public static final String PROPERTY_mapOfModelObjects = "mapOfModelObjects";
-   private java.util.Map<String, Object> mapOfModelObjects = new java.util.LinkedHashMap<>();
+   private Map<String, Object> mapOfModelObjects = new LinkedHashMap<>();
    public static final String PROPERTY_mapOfParsedObjects = "mapOfParsedObjects";
-   private java.util.Map<String, Object> mapOfParsedObjects = new java.util.LinkedHashMap<>();
+   private Map<String, Object> mapOfParsedObjects = new LinkedHashMap<>();
 
    public JavaPackagesWithPatternsService getService()
    {
@@ -214,7 +215,7 @@ public class JavaPackagesWithPatternsEditor
    public void fireCommandExecuted(ModelCommand command)
    {
       String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -222,7 +223,7 @@ public class JavaPackagesWithPatternsEditor
 
    public JavaPackagesWithPatternsEditor addCommandListener(String commandName, CommandStream stream)
    {
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
    }
@@ -296,29 +297,6 @@ public class JavaPackagesWithPatternsEditor
       }
    }
 
-   private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)
-   {
-      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
-      for (ModelCommand prototype : prototypes) {
-         ModelCommand currentCommand = prototype.parse(currentObject);
-         if (currentCommand != null) {
-            allCommands.add(currentCommand);
-         }
-      }
-
-      return null;
-   }
-
-   private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)
-   {
-      for (ModelCommand command : allCommands) {
-         if (command.getId().equals(id)) {
-            return command;
-         }
-      }
-      return null;
-   }
-
    public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)
    {
       if (oldCommand.getClass() != newCommand.getClass()) {
@@ -342,7 +320,7 @@ public class JavaPackagesWithPatternsEditor
       return true;
    }
 
-private ArrayList<ModelCommand> haveCommandPrototypes()
+private List<ModelCommand> haveCommandPrototypes()
    {
       if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
@@ -408,109 +386,132 @@ private ArrayList<ModelCommand> haveCommandPrototypes()
       return this;
    }
 
-   public ArrayList<ModelCommand> getCommandPrototypes()
+   public List<ModelCommand> getCommandPrototypes()
    {
       return this.commandPrototypes;
    }
 
-   public JavaPackagesWithPatternsEditor setCommandPrototypes(ArrayList<ModelCommand> value)
+   public JavaPackagesWithPatternsEditor setCommandPrototypes(List<ModelCommand> value)
    {
       if (Objects.equals(value, this.commandPrototypes))
       {
          return this;
       }
 
-      final ArrayList<ModelCommand> oldValue = this.commandPrototypes;
+      final List<ModelCommand> oldValue = this.commandPrototypes;
       this.commandPrototypes = value;
       this.firePropertyChange(PROPERTY_commandPrototypes, oldValue, value);
       return this;
    }
 
-   public java.util.Map<String, ModelCommand> getActiveCommands()
+   private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)
+   {
+      List<ModelCommand> prototypes = haveCommandPrototypes();
+      for (ModelCommand prototype : prototypes) {
+         ModelCommand currentCommand = prototype.parse(currentObject);
+         if (currentCommand != null) {
+            allCommands.add(currentCommand);
+         }
+      }
+
+      return null;
+   }
+
+   private ModelCommand getFromAllCommands(List<ModelCommand> allCommands, String id)
+   {
+      for (ModelCommand command : allCommands) {
+         if (command.getId().equals(id)) {
+            return command;
+         }
+      }
+      return null;
+   }
+
+   public Map<String, ModelCommand> getActiveCommands()
    {
       return this.activeCommands;
    }
 
-   public JavaPackagesWithPatternsEditor setActiveCommands(java.util.Map<String, ModelCommand> value)
+   public JavaPackagesWithPatternsEditor setActiveCommands(Map<String, ModelCommand> value)
    {
       if (Objects.equals(value, this.activeCommands))
       {
          return this;
       }
 
-      final java.util.Map<String, ModelCommand> oldValue = this.activeCommands;
+      final Map<String, ModelCommand> oldValue = this.activeCommands;
       this.activeCommands = value;
       this.firePropertyChange(PROPERTY_activeCommands, oldValue, value);
       return this;
    }
 
-   public java.util.Map<String, ArrayList<CommandStream>> getCommandListeners()
+   public Map<String, List<CommandStream>> getCommandListeners()
    {
       return this.commandListeners;
    }
 
-   public JavaPackagesWithPatternsEditor setCommandListeners(java.util.Map<String, ArrayList<CommandStream>> value)
+   public JavaPackagesWithPatternsEditor setCommandListeners(Map<String, List<CommandStream>> value)
    {
       if (Objects.equals(value, this.commandListeners))
       {
          return this;
       }
 
-      final java.util.Map<String, ArrayList<CommandStream>> oldValue = this.commandListeners;
+      final Map<String, List<CommandStream>> oldValue = this.commandListeners;
       this.commandListeners = value;
       this.firePropertyChange(PROPERTY_commandListeners, oldValue, value);
       return this;
    }
 
-   public java.util.Map<String, Object> getMapOfFrames()
+   public Map<String, Object> getMapOfFrames()
    {
       return this.mapOfFrames;
    }
 
-   public JavaPackagesWithPatternsEditor setMapOfFrames(java.util.Map<String, Object> value)
+   public JavaPackagesWithPatternsEditor setMapOfFrames(Map<String, Object> value)
    {
       if (Objects.equals(value, this.mapOfFrames))
       {
          return this;
       }
 
-      final java.util.Map<String, Object> oldValue = this.mapOfFrames;
+      final Map<String, Object> oldValue = this.mapOfFrames;
       this.mapOfFrames = value;
       this.firePropertyChange(PROPERTY_mapOfFrames, oldValue, value);
       return this;
    }
 
-   public java.util.Map<String, Object> getMapOfModelObjects()
+   public Map<String, Object> getMapOfModelObjects()
    {
       return this.mapOfModelObjects;
    }
 
-   public JavaPackagesWithPatternsEditor setMapOfModelObjects(java.util.Map<String, Object> value)
+   public JavaPackagesWithPatternsEditor setMapOfModelObjects(Map<String, Object> value)
    {
       if (Objects.equals(value, this.mapOfModelObjects))
       {
          return this;
       }
 
-      final java.util.Map<String, Object> oldValue = this.mapOfModelObjects;
+      final Map<String, Object> oldValue = this.mapOfModelObjects;
       this.mapOfModelObjects = value;
       this.firePropertyChange(PROPERTY_mapOfModelObjects, oldValue, value);
       return this;
    }
 
-   public java.util.Map<String, Object> getMapOfParsedObjects()
+   public Map<String, Object> getMapOfParsedObjects()
    {
       return this.mapOfParsedObjects;
    }
 
-   public JavaPackagesWithPatternsEditor setMapOfParsedObjects(java.util.Map<String, Object> value)
+   public JavaPackagesWithPatternsEditor setMapOfParsedObjects(Map<String, Object> value)
    {
       if (Objects.equals(value, this.mapOfParsedObjects))
       {
          return this;
       }
 
-      final java.util.Map<String, Object> oldValue = this.mapOfParsedObjects;
+      final Map<String, Object> oldValue = this.mapOfParsedObjects;
       this.mapOfParsedObjects = value;
       this.firePropertyChange(PROPERTY_mapOfParsedObjects, oldValue, value);
       return this;

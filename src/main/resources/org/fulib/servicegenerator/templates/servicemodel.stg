@@ -11,7 +11,6 @@ getOrCreateBody(dataClazz) ::= <<
 
 >>
 
-
 editorGetFrameBody() ::= <<
       try {
          Object modelObject = mapOfParsedObjects.get(id);
@@ -42,7 +41,6 @@ editorGetFrameBody() ::= <<
 
 >>
 
-
 editorGetOrCreateBody() ::= <<
       Object modelObject = mapOfParsedObjects.get(id);
       if (modelObject != null) {
@@ -64,7 +62,6 @@ editorGetOrCreateBody() ::= <<
 
 >>
 
-
 editorRemoveModelObject() ::= <<
       Object oldObject = mapOfModelObjects.remove(id);
 
@@ -76,10 +73,9 @@ editorRemoveModelObject() ::= <<
 
 >>
 
-
 editorFireCommandExecuted() ::= <<
       String commandName = command.getClass().getSimpleName();
-      ArrayList\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
+      List\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -87,7 +83,7 @@ editorFireCommandExecuted() ::= <<
 >>
 
 editorAddCommandListener() ::= <<
-      ArrayList\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
+      List\<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList\<>());
       listeners.add(stream);
       return this;
 
@@ -126,7 +122,6 @@ editorExecute() ::= <<
 
 >>
 
-
 editorParse() ::= <<
       // register parsed objects
       mapOfParsedObjects.clear();
@@ -155,7 +150,7 @@ editorParse() ::= <<
 >>
 
 editorFindCommands() ::= <<
-      ArrayList\<ModelCommand> prototypes = haveCommandPrototypes();
+      List\<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
          ModelCommand currentCommand = prototype.parse(currentObject);
          if (currentCommand != null) {
@@ -200,7 +195,6 @@ editorEqualsButTime() ::= <<
 
 >>
 
-
 editorHaveCommandPrototypes(classes) ::= <<
       if (commandPrototypes == null) {
          commandPrototypes = new ArrayList\<>();
@@ -244,7 +238,6 @@ runHaveLink(sourceClassName, linkName, targetClassName) ::= <<
 
 >>
 
-
 runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
       java.util.Objects.requireNonNull(this.getTime());
       this.setId("" + this.getSource() + "-<linkName>-" + this.getTarget());
@@ -264,7 +257,6 @@ runRemoveLink(sourceClassName, linkName, targetClassName) ::= <<
       return null;
 
 >>
-
 
 modelCommandRun() ::= <<
       Pattern pattern = havePattern();
@@ -295,7 +287,6 @@ modelCommandRun() ::= <<
 
          patternObject.setHandleObject(handleObject);
       }
-
 
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getHandleObject() == null) {
@@ -355,7 +346,6 @@ modelCommandRun() ::= <<
 
 >>
 
-
 modelCommandUndo() ::= <<
       Pattern pattern = havePattern();
 
@@ -401,7 +391,6 @@ modelCommandUndo() ::= <<
 
 >>
 
-
 modelCommandParse() ::= <<
       Pattern pattern = havePattern();
 
@@ -445,7 +434,6 @@ modelCommandParse() ::= <<
       return newCommand;
 
 >>
-
 
 modelCommandMatchAttributesAndLinks() ::= <<
       // match attributes
@@ -505,7 +493,6 @@ modelCommandGetHandleValue() ::= <<
 
 >>
 
-
 removeCommandRun() ::= <<
       editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
@@ -516,7 +503,6 @@ removeCommandRun() ::= <<
 
 >>
 
-
 loadYaml(packageName) ::= <<
       java.util.Map map = Yaml.forPackage("<packageName>").decode(yamlString);
       for (Object value : map.values()) {
@@ -525,7 +511,6 @@ loadYaml(packageName) ::= <<
       }
 
 >>
-
 
 serviceInit(serviceName, streamInit) ::= <<
       if (myPort \<= 0) {
@@ -628,7 +613,6 @@ serviceConnectTo() ::= <<
       }
 
 >>
-
 
 rootBody(serviceName) ::= <<
       try
@@ -774,7 +758,6 @@ serviceGetStream() ::= <<
 
 >>
 
-
 CommandStreamPublish() ::= <<
       String yaml = Yaml.encode(cmd);
       activeCommands.put(cmd.getId(), cmd);
@@ -852,7 +835,6 @@ CommandStreamHandlePostRequest() ::= <<
 
 >>
 
-
 AddStreamCommandRun() ::= <<
       CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
@@ -866,4 +848,3 @@ CommandStreamAddCommandsToBeStreamed() ::= <<
       }
 
 >>
-

@@ -6,7 +6,7 @@ import org.fulib.classmodel.Clazz;
 import org.fulib.servicegenerator.ServiceEditor;
 import org.fulib.servicegenerator.SystemEditor;
 
-import static org.fulib.builder.ClassModelBuilder.*;
+import static org.fulib.builder.Type.*;
 
 public class GenModel
 {
@@ -16,16 +16,16 @@ public class GenModel
 
       genTTC2020Model();
 
-//      genBPMNToWorkFlows();
-//      genQSExample();
-//      genStoreShop();
+      // genBPMNToWorkFlows();
+      // genQSExample();
+      // genStoreShop();
    }
 
    private static void genTGGPackageToDocDir()
    {
       SystemEditor sysEdit = new SystemEditor();
       sysEdit.setPatternSupport(true);
-      sysEdit.haveMainJavaDir("test/src/main/java");
+      sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("javaPackagesToJavaDoc");
 
       ServiceEditor javaPackagesEditor = sysEdit.haveService("JavaPackages");
@@ -51,7 +51,6 @@ public class GenModel
 
       sysEdit.generate();
    }
-
 
    private static ClassModelManager haveJavaDocService(ServiceEditor javaDocEditor)
    {
@@ -94,7 +93,7 @@ public class GenModel
    private static void genTTC2020Model()
    {
       SystemEditor sysEdit = new SystemEditor();
-      sysEdit.haveMainJavaDir("test/src/main/java");
+      sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("de.hub.mse.ttc2020.solution");
 
       ServiceEditor m1Service = sysEdit.haveService("M1");
@@ -108,7 +107,7 @@ public class GenModel
       m1Manager.haveAttribute(dog, "id", STRING);
       m1Manager.haveAttribute(dog, "name", STRING);
       m1Manager.haveAttribute(dog, "age", INT);
-      //      m1Manager.haveAttribute(dog, "owner", "Person");
+      // m1Manager.haveAttribute(dog, "owner", "Person");
       m1Manager.haveRole(dog, "owner", person, ONE, "dog", ONE);
 
       ServiceEditor m2Service = sysEdit.haveService("M2");
@@ -133,9 +132,6 @@ public class GenModel
       sysEdit.haveParameter(haveDog, "owner", STRING);
 
       sysEdit.generate();
-
-
-
    }
 
    private static void genBPMNToWorkFlows()
@@ -228,7 +224,6 @@ public class GenModel
       Clazz rampApp = ramp.getClassModelManager().haveClass("RampApp");
       ramp.getClassModelManager().haveAttribute(rampApp, "supplyId", STRING);
 
-
       sysEdit.generate();
    }
 
@@ -289,5 +284,4 @@ public class GenModel
 
       sysEdit.generate();
    }
-
 }

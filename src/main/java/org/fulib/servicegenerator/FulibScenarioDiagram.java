@@ -12,26 +12,30 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import static com.codeborne.selenide.Selenide.*;
 
-
 public class FulibScenarioDiagram
 {
+   // =============== Fields ===============
+
    private final STGroupFile group;
+
+   private final Map<String, List<String>> laneMap = new LinkedHashMap<>();
+   private final Map<String, Integer> laneToIndentMap = new LinkedHashMap<>();
+   private final Map<String, List<String>> msgLaneMap = new LinkedHashMap<>();
+   private final Map<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
+
+   private final Map<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
+   private final List<String> lanes = new ArrayList<>();
+
    private String htmlFileName;
    private String allLanes;
 
-   private LinkedHashMap<String, ArrayList<String>> laneMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, Integer> laneToIndentMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, ArrayList<String>> msgLaneMap = new LinkedHashMap<>();
-   private LinkedHashMap<String, Integer> msgLaneToIndentMap = new LinkedHashMap<>();
-
-   private LinkedHashMap<String, String> streamToLastCommandTimeMap = new LinkedHashMap<>();
-   private ArrayList<String> lanes = new ArrayList<>();
-   private Object currentService;
-   private Object modelEditor;
+   // =============== Constructors ===============
 
    public FulibScenarioDiagram() {
       group = new STGroupFile(this.getClass().getResource("templates/scenariodiagram.stg"), "UTF-8", '$', '$');
    }
+
+   // =============== Properties ===============
 
    public FulibScenarioDiagram setHtmlFileName(String htmlFileName)
    {
@@ -39,6 +43,7 @@ public class FulibScenarioDiagram
       return this;
    }
 
+   // =============== Methods ===============
 
    public FulibScenarioDiagram addServices(String... lanes)
    {
@@ -50,7 +55,6 @@ public class FulibScenarioDiagram
    public FulibScenarioDiagram dump()
    {
       computeLanes();
-
 
       // put all together
       ST st = group.getInstanceOf("overallFile");
@@ -72,9 +76,7 @@ public class FulibScenarioDiagram
       StringBuilder buf = new StringBuilder();
 
       for (String laneName : lanes) {
-         String serviceName = laneName;
-
-         ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
+         List<String> entryList = laneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
          int maxNoOfLines = getMaxNoOfLines(entryList);
 
          int laneHeaderLines = 1;
@@ -85,7 +87,7 @@ public class FulibScenarioDiagram
          String laneEntries = String.join("\n",entryList);
 
          ST st = group.getInstanceOf("oneLane");
-         st.add("name", serviceName);
+         st.add("name", laneName);
          st.add("height", "" + laneHeight);
          st.add("entries", laneEntries);
          String body = st.render();
@@ -93,25 +95,24 @@ public class FulibScenarioDiagram
          buf.append(body);
 
          // plus messagelane
-         ArrayList<String> messageList = msgLaneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
+         List<String> messageList = msgLaneMap.computeIfAbsent(laneName, n -> new ArrayList<>());
          maxNoOfLines = getMaxNoOfLines(messageList);
          laneHeight = maxNoOfLines * lineHeight + paddingAndBorder * 2;
 
          String messageEntries =  String.join("\n", messageList);
          st = group.getInstanceOf("oneMsgLane");
-         st.add("name", serviceName);
+         st.add("name", laneName);
          st.add("height", "" + laneHeight);
          st.add("entries", messageEntries);
          body = st.render();
 
          buf.append(body);
-
       }
 
       allLanes = buf.toString();
    }
 
-   private int getMaxNoOfLines(ArrayList<String> entryList)
+   private int getMaxNoOfLines(List<String> entryList)
    {
       int maxNoOfLines = 1;
       int maxLength = "<p align=\"center\">- p1Rome 100.0 p1 ordered Rome</p>".length();
@@ -126,9 +127,6 @@ public class FulibScenarioDiagram
             if (s.startsWith("<p>-") && length >= maxDataLength) {
                newLines += length / maxDataLength;
             }
-            else if (s.indexOf("<i class") >= 0) {
-               newLines = 1;
-            }
             else if (s.startsWith("<p align=\"center\">") && length >= maxLength) {
                newLines += length / maxLength;
             }
@@ -136,7 +134,6 @@ public class FulibScenarioDiagram
             lines += newLines;
          }
          maxNoOfLines = Math.max(maxNoOfLines, lines);
-
       }
 
       // do not count <div>, \n, </div>
@@ -144,7 +141,6 @@ public class FulibScenarioDiagram
       maxNoOfLines = Math.max(maxNoOfLines, 0);
       return maxNoOfLines;
    }
-
 
    private String getServiceName(Object element)
    {
@@ -178,10 +174,9 @@ public class FulibScenarioDiagram
       catch (InterruptedException e) {
          // no problem
       }
-      String serviceName = lane;
-      ArrayList<String> entryList = laneMap.computeIfAbsent(serviceName, n -> new ArrayList<>());
+      List<String> entryList = laneMap.computeIfAbsent(lane, n -> new ArrayList<>());
 
-      String title = serviceName;
+      String title = lane;
       Reflector reflector = new Reflector().setClazz(app.getClass());
       Object description = reflector.getValue(app, "description");
       if (description != null) {
@@ -198,10 +193,9 @@ public class FulibScenarioDiagram
 
       computeLines(lines, app, reflectorMap, buttonWithMousePointer);
 
-      int oldIndent = laneToIndentMap.computeIfAbsent(serviceName, s -> 0);
+      int oldIndent = laneToIndentMap.computeIfAbsent(lane, s -> 0);
       indent += oldIndent;
-      laneToIndentMap.put(serviceName, indent);
-
+      laneToIndentMap.put(lane, indent);
 
       ST st = group.getInstanceOf("oneScreen");
       st.add("time", time);
@@ -226,7 +220,7 @@ public class FulibScenarioDiagram
       // get description
       Reflector reflector = reflectorMap.getReflector(node);
       Object description = reflector.getValue(node, "description");
-      ArrayList<String> entryList = new ArrayList<>();
+      List<String> entryList = new ArrayList<>();
       if (description != null) {
          String line = (String) description;
          String[] split = line.split("\\|");
@@ -235,7 +229,7 @@ public class FulibScenarioDiagram
             if (entry.startsWith("button")) {
                String text = entry.substring("button ".length());
                String buttonText = String.format("[%s]", text);
-               if (allButtonsWithMousePointer.indexOf(buttonText) >= 0) {
+               if (allButtonsWithMousePointer.contains(buttonText)) {
                   buttonText += "<i class=\"fa fa-hand-o-left\"></i>";
                }
                entryList.add(buttonText);
@@ -265,7 +259,7 @@ public class FulibScenarioDiagram
                entryList.add(entry);
             }
          }
-         if (entryList.size() > 0) {
+         if (!entryList.isEmpty()) {
             String entryText = String.join(" ", entryList);
             lines.append("<p align=\"center\">").append(entryText).append("</p>\n");
          }
@@ -274,8 +268,7 @@ public class FulibScenarioDiagram
       // get content
       Object content = reflector.getValue(node, "content");
       if (content != null & content instanceof Collection) {
-         Collection kids = (Collection) content;
-         for (Object kid : kids) {
+         for (Object kid : (Collection<?>) content) {
             computeLines(lines, kid, reflectorMap, buttonWithMousePointer);
          }
       }
@@ -284,12 +277,12 @@ public class FulibScenarioDiagram
       }
    }
 
-   public FulibScenarioDiagram addData(String time, String lane, Collection objects)
+   public FulibScenarioDiagram addData(String time, String lane, Collection<?> objects)
    {
       return addData(time, 0, lane, objects);
    }
 
-   public FulibScenarioDiagram addData(String time, int indent, String lane, Collection objects)
+   public FulibScenarioDiagram addData(String time, int indent, String lane, Collection<?> objects)
    {
       try {
          Thread.sleep(200);
@@ -299,7 +292,7 @@ public class FulibScenarioDiagram
       }
       StringBuilder lines = new StringBuilder();
 
-      if (objects.size() == 0) {
+      if (objects.isEmpty()) {
          lines.append("<p> no data </p>\n");
       }
       else {
@@ -336,7 +329,7 @@ public class FulibScenarioDiagram
       st.add("data", lines.toString());
       String body = st.render();
 
-      ArrayList<String> entries = laneMap.computeIfAbsent(lane, l -> new ArrayList<>());
+      List<String> entries = laneMap.computeIfAbsent(lane, l -> new ArrayList<>());
       entries.add(body);
       dump();
       return this;
@@ -347,6 +340,7 @@ public class FulibScenarioDiagram
       addMessages(time, source, 0);
       return this;
    }
+
    public FulibScenarioDiagram addMessages(String time, Object source, int indent)
    {
       try {
@@ -355,26 +349,25 @@ public class FulibScenarioDiagram
       catch (InterruptedException e) {
          // no problem
       }
-      String serviceName = getServiceName(source);
 
       // find streams and messages from source
       ReflectorMap reflectorMap = new ReflectorMap(source.getClass().getPackage().getName());
       Reflector sourceReflector = reflectorMap.getReflector(source);
-      Collection streams = (Collection) sourceReflector.getValue(source, "streams");
+      Collection<?> streams = (Collection<?>) sourceReflector.getValue(source, "streams");
       Reflector streamReflector = null;
       for (Object stream : streams) {
          if (streamReflector == null) {
             streamReflector = new Reflector().setClazz(stream.getClass());
          }
          String streamName = (String) streamReflector.getValue(stream, "name");
-         Collection oldCommands = (Collection) streamReflector.getValue(stream, "oldCommands");
+         Collection<?> oldCommands = (Collection<?>) streamReflector.getValue(stream, "oldCommands");
          doAddOneMessage(time, streamName, indent, oldCommands);
       }
       dump();
       return this;
    }
 
-   public void addOneMessage(String time, String streamName, int indent, Collection newCommands)
+   public void addOneMessage(String time, String streamName, int indent, Collection<?> newCommands)
    {
       try {
          Thread.sleep(200);
@@ -385,11 +378,11 @@ public class FulibScenarioDiagram
       doAddOneMessage(time, streamName, indent, newCommands);
    }
 
-   private void doAddOneMessage(String time, String streamName, int indent, Collection oldCommands)
+   private void doAddOneMessage(String time, String streamName, int indent, Collection<?> oldCommands)
    {
       ReflectorMap reflectorMap = null;
       String lastCmdTime = streamToLastCommandTimeMap.computeIfAbsent(streamName, t -> "0000");
-      Collection newCommands = new ArrayList();
+      Collection<Object> newCommands = new ArrayList<>();
       for (Object command : oldCommands) {
          if (reflectorMap == null) {
             reflectorMap = new ReflectorMap(command.getClass().getPackage().getName());
@@ -404,7 +397,6 @@ public class FulibScenarioDiagram
       StringBuilder lines = new StringBuilder();
 
       for (Object command : newCommands) {
-
          Reflector reflector = reflectorMap.getReflector(command);
          String id = (String) reflector.getValue(command, "id");
          if (id != null) {
@@ -418,7 +410,7 @@ public class FulibScenarioDiagram
                continue;
             }
             Object value = reflector.getValue(command, property);
-            if (property.equals("time")) {
+            if ("time".equals(property)) {
                streamToLastCommandTimeMap.put(streamName, value.toString());
                continue;
             }
@@ -440,11 +432,11 @@ public class FulibScenarioDiagram
       st.add("data", lines.toString());
       String body = st.render();
 
-      ArrayList<String> msgEntryList = findMessageLaneName(streamName);
+      List<String> msgEntryList = findMessageLaneName(streamName);
       msgEntryList.add(body);
    }
 
-   private ArrayList<String> findMessageLaneName(String streamName)
+   private List<String> findMessageLaneName(String streamName)
    {
       String messageLaneName = null;
       for (String laneName : laneMap.keySet()) {
@@ -454,7 +446,6 @@ public class FulibScenarioDiagram
          }
       }
 
-      ArrayList<String> msgLaneEntries = msgLaneMap.computeIfAbsent(messageLaneName, n -> new ArrayList<>());
-      return msgLaneEntries;
+      return msgLaneMap.computeIfAbsent(messageLaneName, n -> new ArrayList<>());
    }
 }

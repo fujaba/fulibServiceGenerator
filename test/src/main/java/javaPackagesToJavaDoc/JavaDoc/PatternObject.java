@@ -14,22 +14,13 @@ public class PatternObject
 
    private Pattern pattern;
 
-   public static final java.util.ArrayList<PatternAttribute> EMPTY_attributes = new java.util.ArrayList<PatternAttribute>()
-   { @Override public boolean add(PatternAttribute value){ throw new UnsupportedOperationException("No direct add! Use xy.withAttributes(obj)"); }};
-
    public static final String PROPERTY_attributes = "attributes";
 
    private List<PatternAttribute> attributes;
 
-   public static final java.util.ArrayList<PatternLink> EMPTY_links = new java.util.ArrayList<PatternLink>()
-   { @Override public boolean add(PatternLink value){ throw new UnsupportedOperationException("No direct add! Use xy.withLinks(obj)"); }};
-
    public static final String PROPERTY_links = "links";
 
    private List<PatternLink> links;
-
-   public static final java.util.ArrayList<PatternLink> EMPTY_incommingLinks = new java.util.ArrayList<PatternLink>()
-   { @Override public boolean add(PatternLink value){ throw new UnsupportedOperationException("No direct add! Use xy.withIncommingLinks(obj)"); }};
 
    public static final String PROPERTY_incommingLinks = "incommingLinks";
 
@@ -77,185 +68,14 @@ public class PatternObject
       return this.attributes != null ? Collections.unmodifiableList(this.attributes) : Collections.emptyList();
    }
 
-   public PatternObject withAttributes(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withAttributes(i);
-            }
-         }
-         else if (item instanceof PatternAttribute)
-         {
-            if (this.attributes == null)
-            {
-               this.attributes = new java.util.ArrayList<PatternAttribute>();
-            }
-            if ( ! this.attributes.contains(item))
-            {
-               this.attributes.add((PatternAttribute)item);
-               ((PatternAttribute)item).setObject(this);
-               firePropertyChange("attributes", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public PatternObject withoutAttributes(Object... value)
-   {
-      if (this.attributes == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutAttributes(i);
-            }
-         }
-         else if (item instanceof PatternAttribute)
-         {
-            if (this.attributes.contains(item))
-            {
-               this.attributes.remove((PatternAttribute)item);
-               ((PatternAttribute)item).setObject(null);
-               firePropertyChange("attributes", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    public List<PatternLink> getLinks()
    {
       return this.links != null ? Collections.unmodifiableList(this.links) : Collections.emptyList();
    }
 
-   public PatternObject withLinks(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withLinks(i);
-            }
-         }
-         else if (item instanceof PatternLink)
-         {
-            if (this.links == null)
-            {
-               this.links = new java.util.ArrayList<PatternLink>();
-            }
-            if ( ! this.links.contains(item))
-            {
-               this.links.add((PatternLink)item);
-               ((PatternLink)item).setSource(this);
-               firePropertyChange("links", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public PatternObject withoutLinks(Object... value)
-   {
-      if (this.links == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutLinks(i);
-            }
-         }
-         else if (item instanceof PatternLink)
-         {
-            if (this.links.contains(item))
-            {
-               this.links.remove((PatternLink)item);
-               ((PatternLink)item).setSource(null);
-               firePropertyChange("links", item, null);
-            }
-         }
-      }
-      return this;
-   }
-
    public List<PatternLink> getIncommingLinks()
    {
       return this.incommingLinks != null ? Collections.unmodifiableList(this.incommingLinks) : Collections.emptyList();
-   }
-
-   public PatternObject withIncommingLinks(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withIncommingLinks(i);
-            }
-         }
-         else if (item instanceof PatternLink)
-         {
-            if (this.incommingLinks == null)
-            {
-               this.incommingLinks = new java.util.ArrayList<PatternLink>();
-            }
-            if ( ! this.incommingLinks.contains(item))
-            {
-               this.incommingLinks.add((PatternLink)item);
-               ((PatternLink)item).setTarget(this);
-               firePropertyChange("incommingLinks", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public PatternObject withoutIncommingLinks(Object... value)
-   {
-      if (this.incommingLinks == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutIncommingLinks(i);
-            }
-         }
-         else if (item instanceof PatternLink)
-         {
-            if (this.incommingLinks.contains(item))
-            {
-               this.incommingLinks.remove((PatternLink)item);
-               ((PatternLink)item).setTarget(null);
-               firePropertyChange("incommingLinks", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)

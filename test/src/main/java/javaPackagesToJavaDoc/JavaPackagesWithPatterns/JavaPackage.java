@@ -10,9 +10,6 @@ import java.util.Objects;
 public class JavaPackage
 {
 
-   public static final java.util.ArrayList<JavaPackage> EMPTY_subPackages = new java.util.ArrayList<JavaPackage>()
-   { @Override public boolean add(JavaPackage value){ throw new UnsupportedOperationException("No direct add! Use xy.withSubPackages(obj)"); }};
-
    public static final String PROPERTY_subPackages = "subPackages";
 
    private List<JavaPackage> subPackages;
@@ -20,9 +17,6 @@ public class JavaPackage
    public static final String PROPERTY_up = "up";
 
    private JavaPackage up;
-
-   public static final java.util.ArrayList<JavaClass> EMPTY_classes = new java.util.ArrayList<JavaClass>()
-   { @Override public boolean add(JavaClass value){ throw new UnsupportedOperationException("No direct add! Use xy.withClasses(obj)"); }};
 
    public static final String PROPERTY_classes = "classes";
 
@@ -35,63 +29,6 @@ public class JavaPackage
    public List<JavaPackage> getSubPackages()
    {
       return this.subPackages != null ? Collections.unmodifiableList(this.subPackages) : Collections.emptyList();
-   }
-
-   public JavaPackage withSubPackages(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withSubPackages(i);
-            }
-         }
-         else if (item instanceof JavaPackage)
-         {
-            if (this.subPackages == null)
-            {
-               this.subPackages = new java.util.ArrayList<JavaPackage>();
-            }
-            if ( ! this.subPackages.contains(item))
-            {
-               this.subPackages.add((JavaPackage)item);
-               ((JavaPackage)item).setUp(this);
-               firePropertyChange("subPackages", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaPackage withoutSubPackages(Object... value)
-   {
-      if (this.subPackages == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutSubPackages(i);
-            }
-         }
-         else if (item instanceof JavaPackage)
-         {
-            if (this.subPackages.contains(item))
-            {
-               this.subPackages.remove((JavaPackage)item);
-               ((JavaPackage)item).setUp(null);
-               firePropertyChange("subPackages", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public JavaPackage getUp()
@@ -124,63 +61,6 @@ public class JavaPackage
    public List<JavaClass> getClasses()
    {
       return this.classes != null ? Collections.unmodifiableList(this.classes) : Collections.emptyList();
-   }
-
-   public JavaPackage withClasses(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withClasses(i);
-            }
-         }
-         else if (item instanceof JavaClass)
-         {
-            if (this.classes == null)
-            {
-               this.classes = new java.util.ArrayList<JavaClass>();
-            }
-            if ( ! this.classes.contains(item))
-            {
-               this.classes.add((JavaClass)item);
-               ((JavaClass)item).setUp(this);
-               firePropertyChange("classes", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaPackage withoutClasses(Object... value)
-   {
-      if (this.classes == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutClasses(i);
-            }
-         }
-         else if (item instanceof JavaClass)
-         {
-            if (this.classes.contains(item))
-            {
-               this.classes.remove((JavaClass)item);
-               ((JavaClass)item).setUp(null);
-               firePropertyChange("classes", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)

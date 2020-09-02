@@ -3,14 +3,14 @@
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
-  mainJavaDir: 	"test/src/main/java"
+  mainJavaDir: 	"src/main/java"
   packageName: 	de.hub.mse.ttc2020.solution.M1
-  packageSrcFolder: 	"test/src/main/java/de/hub/mse/ttc2020/solution/M1"
+  packageSrcFolder: 	"src/main/java/de/hub/mse/ttc2020/solution/M1"
 
 - m1Editor: 	Clazz
   attributes: 	m1Editor_activeCommands 	m1Editor_commandListeners 	m1Editor_mapOfFrames 	m1Editor_mapOfModelObjects 	m1Editor_mapOfParsedObjects 	m1Editor_isoDateFormat 	m1Editor_lastTime 	m1Editor_timeDelta 	m1Editor_commandPrototypes
-  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
-  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
   model: 	c
   modified: 	false
@@ -30,8 +30,6 @@
   subClasses: 	removeCommand 	addStreamCommand 	havePerson 	haveDog
 
 - removeCommand: 	Clazz
-  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
-  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.ReflectorMap 	java.lang.reflect.Method
   methods: 	run3
   model: 	c
   modified: 	false
@@ -72,8 +70,8 @@
 
 - m1Service: 	Clazz
   attributes: 	m1Service_myPort 	m1Service_reflectorMap 	m1Service_currentSession 	m1Service_executor 	m1Service_spark 	m1Service_sessionToAppMap
-  importList: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
-  imports: 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  importList: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  imports: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
   methods: 	start 	getFirstRoot 	root 	cmd 	connect 	getStream
   model: 	c
   modified: 	false
@@ -168,52 +166,52 @@
 - m1Editor_activeCommands: 	Attribute
   clazz: 	m1Editor
   id: 	M1Editor_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - m1Editor_commandListeners: 	Attribute
   clazz: 	m1Editor
   id: 	M1Editor_commandListeners
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	commandListeners
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ArrayList<CommandStream>>"
-  typeSignature: 	"java.util.Map<String,ArrayList<CommandStream>>"
+  type: 	"Map<String, List<CommandStream>>"
+  typeSignature: 	"Map<String,List<CommandStream>>"
 
 - m1Editor_mapOfFrames: 	Attribute
   clazz: 	m1Editor
   id: 	M1Editor_mapOfFrames
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfFrames
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - m1Editor_mapOfModelObjects: 	Attribute
   clazz: 	m1Editor
   id: 	M1Editor_mapOfModelObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfModelObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - m1Editor_mapOfParsedObjects: 	Attribute
   clazz: 	m1Editor
   id: 	M1Editor_mapOfParsedObjects
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	mapOfParsedObjects
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, Object>"
-  typeSignature: 	"java.util.Map<String,Object>"
+  type: 	"Map<String, Object>"
+  typeSignature: 	"Map<String,Object>"
 
 - m1Editor_isoDateFormat: 	Attribute
   clazz: 	m1Editor
@@ -251,8 +249,8 @@
   modified: 	false
   name: 	commandPrototypes
   propertyStyle: 	Bean
-  type: 	"ArrayList<ModelCommand>"
-  typeSignature: 	"ArrayList<ModelCommand>"
+  type: 	"List<ModelCommand>"
+  typeSignature: 	"List<ModelCommand>"
 
 - getOrCreate: 	FMethod
   annotations: 	""
@@ -385,7 +383,7 @@
   clazz: 	m1Editor
   declaration: 	"public void fireCommandExecuted(ModelCommand command)"
   methodBody: 	"      String commandName = command.getClass().getSimpleName();
-      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       for (CommandStream stream : listeners) {
          stream.publish(command);
       }
@@ -401,7 +399,7 @@
   annotations: 	""
   clazz: 	m1Editor
   declaration: 	"public M1Editor addCommandListener(String commandName, CommandStream stream)"
-  methodBody: 	"      ArrayList<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
+  methodBody: 	"      List<CommandStream> listeners = commandListeners.computeIfAbsent(commandName, s -> new ArrayList<>());
       listeners.add(stream);
       return this;
 "
@@ -508,8 +506,8 @@
 - findCommands: 	FMethod
   annotations: 	""
   clazz: 	m1Editor
-  declaration: 	"private ModelCommand findCommands(ArrayList<ModelCommand> allCommands, Object currentObject)"
-  methodBody: 	"      ArrayList<ModelCommand> prototypes = haveCommandPrototypes();
+  declaration: 	"private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)"
+  methodBody: 	"      List<ModelCommand> prototypes = haveCommandPrototypes();
       for (ModelCommand prototype : prototypes) {
          ModelCommand currentCommand = prototype.parse(currentObject);
          if (currentCommand != null) {
@@ -522,14 +520,14 @@
   modified: 	false
   modifiers: 	private
   name: 	findCommands
-  paramsString: 	"ArrayList<ModelCommand> allCommands, Object currentObject"
+  paramsString: 	"List<ModelCommand> allCommands, Object currentObject"
   returnType: 	ModelCommand
-  signature: 	"class/M1Editor/method/findCommands(ArrayList<ModelCommand>,Object)"
+  signature: 	"class/M1Editor/method/findCommands(List<ModelCommand>,Object)"
 
 - getFromAllCommands: 	FMethod
   annotations: 	""
   clazz: 	m1Editor
-  declaration: 	"private ModelCommand getFromAllCommands(ArrayList<ModelCommand> allCommands, String id)"
+  declaration: 	"private ModelCommand getFromAllCommands(List<ModelCommand> allCommands, String id)"
   methodBody: 	"      for (ModelCommand command : allCommands) {
          if (command.getId().equals(id)) {
             return command;
@@ -540,9 +538,9 @@
   modified: 	false
   modifiers: 	private
   name: 	getFromAllCommands
-  paramsString: 	"ArrayList<ModelCommand> allCommands, String id"
+  paramsString: 	"List<ModelCommand> allCommands, String id"
   returnType: 	ModelCommand
-  signature: 	"class/M1Editor/method/getFromAllCommands(ArrayList<ModelCommand>,String)"
+  signature: 	"class/M1Editor/method/getFromAllCommands(List<ModelCommand>,String)"
 
 - equalsButTime: 	FMethod
   annotations: 	""
@@ -578,7 +576,7 @@
 - haveCommandPrototypes: 	FMethod
   annotations: 	""
   clazz: 	m1Editor
-  declaration: 	"private ArrayList<ModelCommand> haveCommandPrototypes()"
+  declaration: 	"private List<ModelCommand> haveCommandPrototypes()"
   methodBody: 	"      if (commandPrototypes == null) {
          commandPrototypes = new ArrayList<>();
          commandPrototypes.add(new HavePerson());
@@ -591,7 +589,7 @@
   modifiers: 	private
   name: 	haveCommandPrototypes
   paramsString: 	""
-  returnType: 	"ArrayList<ModelCommand>"
+  returnType: 	"List<ModelCommand>"
   signature: 	"class/M1Editor/method/haveCommandPrototypes()"
 
 - m1Editor_service: 	AssocRole
@@ -656,7 +654,6 @@
 
          patternObject.setHandleObject(handleObject);
       }
-
 
       for (PatternObject patternObject : pattern.getObjects()) {
          if (patternObject.getHandleObject() == null) {
@@ -922,9 +919,10 @@
   signature: 	"class/ModelCommand/method/getHandleObjectAttributeValue(PatternObject,String)"
 
 - run3: 	FMethod
-  annotations: 	""
+  annotations: 	"@Override"
   clazz: 	removeCommand
-  declaration: 	"public Object run(M1Editor editor)"
+  declaration: 	"@Override
+   public Object run(M1Editor editor)"
   methodBody: 	"      editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
       if (oldCommand != null) {
@@ -1156,12 +1154,12 @@
 - m1Service_sessionToAppMap: 	Attribute
   clazz: 	m1Service
   id: 	M1Service_sessionToAppMap
-  initialization: 	"new LinkedHashMap()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	sessionToAppMap
   propertyStyle: 	Bean
-  type: 	"LinkedHashMap<String, M1App>"
-  typeSignature: 	"LinkedHashMap<String,M1App>"
+  type: 	"Map<String, M1App>"
+  typeSignature: 	"Map<String,M1App>"
 
 - start: 	FMethod
   annotations: 	""
@@ -1421,8 +1419,8 @@
   modified: 	false
   name: 	targetUrlList
   propertyStyle: 	Bean
-  type: 	"ArrayList<String>"
-  typeSignature: 	"ArrayList<String>"
+  type: 	"List<String>"
+  typeSignature: 	"List<String>"
 
 - commandStream_oldCommands: 	Attribute
   clazz: 	commandStream
@@ -1431,18 +1429,18 @@
   modified: 	false
   name: 	oldCommands
   propertyStyle: 	Bean
-  type: 	"ArrayList<ModelCommand>"
-  typeSignature: 	"ArrayList<ModelCommand>"
+  type: 	"List<ModelCommand>"
+  typeSignature: 	"List<ModelCommand>"
 
 - commandStream_activeCommands: 	Attribute
   clazz: 	commandStream
   id: 	CommandStream_activeCommands
-  initialization: 	"new java.util.LinkedHashMap<>()"
+  initialization: 	"new LinkedHashMap<>()"
   modified: 	false
   name: 	activeCommands
   propertyStyle: 	Bean
-  type: 	"java.util.Map<String, ModelCommand>"
-  typeSignature: 	"java.util.Map<String,ModelCommand>"
+  type: 	"Map<String, ModelCommand>"
+  typeSignature: 	"Map<String,ModelCommand>"
 
 - publish: 	FMethod
   annotations: 	""
@@ -1592,9 +1590,10 @@
   typeSignature: 	String
 
 - run5: 	FMethod
-  annotations: 	""
+  annotations: 	"@Override"
   clazz: 	addStreamCommand
-  declaration: 	"public Object run(M1Editor editor)"
+  declaration: 	"@Override
+   public Object run(M1Editor editor)"
   methodBody: 	"      CommandStream stream = editor.getService().getStream(incommingRoute);
       stream.getTargetUrlList().add(outgoingUrl);
       return null;

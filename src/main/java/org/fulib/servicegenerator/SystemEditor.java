@@ -7,23 +7,38 @@ import org.fulib.classmodel.ClassModel;
 import org.fulib.classmodel.Clazz;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 public class SystemEditor
 {
-   private String mainJavaDir;
-   private Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
-   private Map<ServiceEditor, Map<ServiceEditor, LinkedHashSet<Clazz>>> messagesMap = new LinkedHashMap<>();
-   private String packageName;
+   // =============== Fields ===============
+
+   private final Map<String, ServiceEditor> serviceMap = new LinkedHashMap<>();
    private final ClassModelManager sharedModelManager;
-   private ServiceEditor sharedEditor;
+   private final ServiceEditor sharedEditor;
+
+   private String mainJavaDir;
+   private String packageName;
    private boolean patternSupport;
+
+   // =============== Constructors ===============
 
    public SystemEditor()
    {
       sharedEditor = new ServiceEditor();
       sharedModelManager = sharedEditor.getClassModelManager();
+   }
+
+   // =============== Properties ===============
+
+   public boolean isPatternSupport()
+   {
+      return patternSupport;
+   }
+
+   public void setPatternSupport(boolean patternSupport)
+   {
+      this.patternSupport = patternSupport;
    }
 
    public SystemEditor haveMainJavaDir(String mainJavaDir)
@@ -40,6 +55,8 @@ public class SystemEditor
       return this;
    }
 
+   // =============== Methods ===============
+
    public ServiceEditor haveService(String serviceName)
    {
       ServiceEditor serviceEditor = new ServiceEditor();
@@ -53,20 +70,7 @@ public class SystemEditor
 
       serviceMap.put(serviceName, serviceEditor);
 
-
       return serviceEditor;
-   }
-
-   public void generate()
-   {
-      FulibTools.classDiagrams().dumpSVG(this.sharedModelManager.getClassModel(), "tmp/sharedClasses.svg");
-      for (Map.Entry<String, ServiceEditor> entry : this.serviceMap.entrySet()) {
-         String serviceName = entry.getKey();
-         ServiceEditor serviceEditor = entry.getValue();
-         ClassModel classModel = serviceEditor.getClassModelManager().getClassModel();
-         Fulib.generator().generate(classModel);
-         FulibTools.classDiagrams().dumpSVG(serviceEditor.getClassModelManager().getClassModel(), "tmp/" + serviceName + "ClassDiag.svg");
-      }
    }
 
    public Clazz haveSharedClass(String className)
@@ -82,7 +86,7 @@ public class SystemEditor
    {
       Clazz clazz = this.sharedEditor.haveCommand(commandName);
       for (ServiceEditor serviceEditor : this.serviceMap.values()) {
-         Clazz command = serviceEditor.haveCommand(commandName);
+         serviceEditor.haveCommand(commandName);
       }
       return clazz;
    }
@@ -129,13 +133,15 @@ public class SystemEditor
       }
    }
 
-   public boolean isPatternSupport()
+   public void generate()
    {
-      return patternSupport;
-   }
-
-   public void setPatternSupport(boolean patternSupport)
-   {
-      this.patternSupport = patternSupport;
+      FulibTools.classDiagrams().dumpSVG(this.sharedModelManager.getClassModel(), "tmp/sharedClasses.svg");
+      for (Map.Entry<String, ServiceEditor> entry : this.serviceMap.entrySet()) {
+         String serviceName = entry.getKey();
+         ServiceEditor serviceEditor = entry.getValue();
+         ClassModel classModel = serviceEditor.getClassModelManager().getClassModel();
+         Fulib.generator().generate(classModel);
+         FulibTools.classDiagrams().dumpSVG(serviceEditor.getClassModelManager().getClassModel(), "tmp/" + serviceName + "ClassDiag.svg");
+      }
    }
 }

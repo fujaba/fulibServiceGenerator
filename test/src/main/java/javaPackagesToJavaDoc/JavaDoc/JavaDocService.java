@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Map;
 
 public class JavaDocService
 {
@@ -29,9 +30,6 @@ public class JavaDocService
    public static final String PROPERTY_modelEditor = "modelEditor";
 
    private JavaDocEditor modelEditor;
-
-   public static final java.util.ArrayList<CommandStream> EMPTY_streams = new java.util.ArrayList<CommandStream>()
-   { @Override public boolean add(CommandStream value){ throw new UnsupportedOperationException("No direct add! Use xy.withStreams(obj)"); }};
 
    public static final String PROPERTY_streams = "streams";
 
@@ -49,7 +47,7 @@ public class JavaDocService
    public static final String PROPERTY_spark = "spark";
    private Service spark;
    public static final String PROPERTY_sessionToAppMap = "sessionToAppMap";
-   private LinkedHashMap<String, JavaDocApp> sessionToAppMap = new LinkedHashMap();
+   private Map<String, JavaDocApp> sessionToAppMap = new LinkedHashMap<>();
 
    public JavaDocService setExecutor(ExecutorService value)
    {
@@ -94,63 +92,6 @@ public class JavaDocService
    public List<CommandStream> getStreams()
    {
       return this.streams != null ? Collections.unmodifiableList(this.streams) : Collections.emptyList();
-   }
-
-   public JavaDocService withStreams(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams == null)
-            {
-               this.streams = new java.util.ArrayList<CommandStream>();
-            }
-            if ( ! this.streams.contains(item))
-            {
-               this.streams.add((CommandStream)item);
-               ((CommandStream)item).setService(this);
-               firePropertyChange("streams", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public JavaDocService withoutStreams(Object... value)
-   {
-      if (this.streams == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutStreams(i);
-            }
-         }
-         else if (item instanceof CommandStream)
-         {
-            if (this.streams.contains(item))
-            {
-               this.streams.remove((CommandStream)item);
-               ((CommandStream)item).setService(null);
-               firePropertyChange("streams", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
@@ -523,19 +464,19 @@ public JavaDocService withoutStreams(Collection<? extends CommandStream> value)
       return this;
    }
 
-   public LinkedHashMap<String, JavaDocApp> getSessionToAppMap()
+   public Map<String, JavaDocApp> getSessionToAppMap()
    {
       return this.sessionToAppMap;
    }
 
-   public JavaDocService setSessionToAppMap(LinkedHashMap<String, JavaDocApp> value)
+   public JavaDocService setSessionToAppMap(Map<String, JavaDocApp> value)
    {
       if (Objects.equals(value, this.sessionToAppMap))
       {
          return this;
       }
 
-      final LinkedHashMap<String, JavaDocApp> oldValue = this.sessionToAppMap;
+      final Map<String, JavaDocApp> oldValue = this.sessionToAppMap;
       this.sessionToAppMap = value;
       this.firePropertyChange(PROPERTY_sessionToAppMap, oldValue, value);
       return this;

@@ -10,9 +10,6 @@ import java.util.Objects;
 public class Folder
 {
 
-   public static final java.util.ArrayList<Folder> EMPTY_subFolders = new java.util.ArrayList<Folder>()
-   { @Override public boolean add(Folder value){ throw new UnsupportedOperationException("No direct add! Use xy.withSubFolders(obj)"); }};
-
    public static final String PROPERTY_subFolders = "subFolders";
 
    private List<Folder> subFolders;
@@ -20,9 +17,6 @@ public class Folder
    public static final String PROPERTY_up = "up";
 
    private Folder up;
-
-   public static final java.util.ArrayList<DocFile> EMPTY_files = new java.util.ArrayList<DocFile>()
-   { @Override public boolean add(DocFile value){ throw new UnsupportedOperationException("No direct add! Use xy.withFiles(obj)"); }};
 
    public static final String PROPERTY_files = "files";
 
@@ -35,63 +29,6 @@ public class Folder
    public List<Folder> getSubFolders()
    {
       return this.subFolders != null ? Collections.unmodifiableList(this.subFolders) : Collections.emptyList();
-   }
-
-   public Folder withSubFolders(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withSubFolders(i);
-            }
-         }
-         else if (item instanceof Folder)
-         {
-            if (this.subFolders == null)
-            {
-               this.subFolders = new java.util.ArrayList<Folder>();
-            }
-            if ( ! this.subFolders.contains(item))
-            {
-               this.subFolders.add((Folder)item);
-               ((Folder)item).setUp(this);
-               firePropertyChange("subFolders", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public Folder withoutSubFolders(Object... value)
-   {
-      if (this.subFolders == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutSubFolders(i);
-            }
-         }
-         else if (item instanceof Folder)
-         {
-            if (this.subFolders.contains(item))
-            {
-               this.subFolders.remove((Folder)item);
-               ((Folder)item).setUp(null);
-               firePropertyChange("subFolders", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public Folder getUp()
@@ -124,63 +61,6 @@ public class Folder
    public List<DocFile> getFiles()
    {
       return this.files != null ? Collections.unmodifiableList(this.files) : Collections.emptyList();
-   }
-
-   public Folder withFiles(Object... value)
-   {
-      if(value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withFiles(i);
-            }
-         }
-         else if (item instanceof DocFile)
-         {
-            if (this.files == null)
-            {
-               this.files = new java.util.ArrayList<DocFile>();
-            }
-            if ( ! this.files.contains(item))
-            {
-               this.files.add((DocFile)item);
-               ((DocFile)item).setUp(this);
-               firePropertyChange("files", null, item);
-            }
-         }
-         else throw new IllegalArgumentException();
-      }
-      return this;
-   }
-
-   public Folder withoutFiles(Object... value)
-   {
-      if (this.files == null || value==null) return this;
-      for (Object item : value)
-      {
-         if (item == null) continue;
-         if (item instanceof java.util.Collection)
-         {
-            for (Object i : (java.util.Collection) item)
-            {
-               this.withoutFiles(i);
-            }
-         }
-         else if (item instanceof DocFile)
-         {
-            if (this.files.contains(item))
-            {
-               this.files.remove((DocFile)item);
-               ((DocFile)item).setUp(null);
-               firePropertyChange("files", item, null);
-            }
-         }
-      }
-      return this;
    }
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
