@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
 	// https://mvnrepository.com/artifact/org.fulib/fulib
-	api group: 'org.fulib', name: 'fulib', version: '1.2.2'
+	api group: 'org.fulib', name: 'fulib', version: '1.2.3'
 
 	implementation 'com.codeborne:selenide:5.9.0'
 	implementation 'org.antlr:ST4:4.3'
