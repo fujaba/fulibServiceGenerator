@@ -67,7 +67,7 @@ public class ServiceEditor
 
       Clazz patternObject = mm.haveClass("PatternObject");
       mm.haveAttribute(patternObject, "poId", STRING);
-      mm.haveAttribute(patternObject, "handleObjectClass", "Class");
+      mm.haveAttribute(patternObject, "handleObjectClass", "Class<?>");
       mm.haveAttribute(patternObject, "handleObject", "Object");
       mm.haveAttribute(patternObject, "kind", STRING);
 

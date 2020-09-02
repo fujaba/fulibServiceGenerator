@@ -29,12 +29,12 @@ public class PatternObject
    protected PropertyChangeSupport listeners;
    public static final String PROPERTY_poId = "poId";
    private String poId;
-   public static final String PROPERTY_handleObjectClass = "handleObjectClass";
-   private Class handleObjectClass;
    public static final String PROPERTY_handleObject = "handleObject";
    private Object handleObject;
    public static final String PROPERTY_kind = "kind";
    private String kind;
+   public static final String PROPERTY_handleObjectClass = "handleObjectClass";
+   private Class<?> handleObjectClass;
 
    public Pattern getPattern()
    {
@@ -344,24 +344,6 @@ public PatternObject withoutIncommingLinks(Collection<? extends PatternLink> val
       return this;
    }
 
-   public Class getHandleObjectClass()
-   {
-      return this.handleObjectClass;
-   }
-
-   public PatternObject setHandleObjectClass(Class value)
-   {
-      if (Objects.equals(value, this.handleObjectClass))
-      {
-         return this;
-      }
-
-      final Class oldValue = this.handleObjectClass;
-      this.handleObjectClass = value;
-      this.firePropertyChange(PROPERTY_handleObjectClass, oldValue, value);
-      return this;
-   }
-
    public Object getHandleObject()
    {
       return this.handleObject;
@@ -395,6 +377,24 @@ public PatternObject withoutIncommingLinks(Collection<? extends PatternLink> val
       final String oldValue = this.kind;
       this.kind = value;
       this.firePropertyChange(PROPERTY_kind, oldValue, value);
+      return this;
+   }
+
+   public Class<?> getHandleObjectClass()
+   {
+      return this.handleObjectClass;
+   }
+
+   public PatternObject setHandleObjectClass(Class<?> value)
+   {
+      if (Objects.equals(value, this.handleObjectClass))
+      {
+         return this;
+      }
+
+      final Class<?> oldValue = this.handleObjectClass;
+      this.handleObjectClass = value;
+      this.firePropertyChange(PROPERTY_handleObjectClass, oldValue, value);
       return this;
    }
 

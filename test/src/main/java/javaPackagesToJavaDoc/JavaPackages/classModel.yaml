@@ -972,8 +972,8 @@
   modified: 	false
   name: 	handleObjectClass
   propertyStyle: 	Bean
-  type: 	Class
-  typeSignature: 	Class
+  type: 	"Class<?>"
+  typeSignature: 	"Class<?>"
 
 - patternObject_handleObject: 	Attribute
   clazz: 	patternObject
