@@ -28,7 +28,7 @@ editorGetFrameBody() ::= <<
             return modelObject;
          }
 
-         modelObject = (Object) clazz.getConstructor().newInstance();
+         modelObject = clazz.getConstructor().newInstance();
          Method setIdMethod = clazz.getMethod("setId", String.class);
          setIdMethod.invoke(modelObject, id);
          mapOfFrames.put(id, modelObject);
@@ -133,7 +133,7 @@ editorParse() ::= <<
          }
       }
 
-      ArrayList\<ModelCommand> allCommandsFromParsing = new ArrayList\<>();
+      List\<ModelCommand> allCommandsFromParsing = new ArrayList\<>();
       for (Object currentObject : allObjects) {
          findCommands(allCommandsFromParsing, currentObject);
       }
@@ -504,7 +504,7 @@ removeCommandRun() ::= <<
 >>
 
 loadYaml(packageName) ::= <<
-      java.util.Map map = Yaml.forPackage("<packageName>").decode(yamlString);
+      Map\<String, Object> map = Yaml.forPackage("<packageName>").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);

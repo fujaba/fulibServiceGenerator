@@ -9,8 +9,8 @@
 
 - m2Editor: 	Clazz
   attributes: 	m2Editor_activeCommands 	m2Editor_commandListeners 	m2Editor_mapOfFrames 	m2Editor_mapOfModelObjects 	m2Editor_mapOfParsedObjects 	m2Editor_isoDateFormat 	m2Editor_lastTime 	m2Editor_timeDelta 	m2Editor_commandPrototypes
-  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
-  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  importList: 	java.lang.reflect.Method 	java.text.DateFormat 	java.text.SimpleDateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
+  imports: 	java.lang.reflect.Method 	java.text.DateFormat 	java.text.SimpleDateFormat 	java.util.Date 	java.util.List 	java.util.ArrayList 	org.fulib.yaml.Yaml 	"java.util.*" 	org.fulib.yaml.Reflector
   methods: 	getOrCreate 	getObjectFrame 	getModelObject 	removeModelObject 	getTime 	fireCommandExecuted 	addCommandListener 	loadYaml 	execute 	parse 	findCommands 	getFromAllCommands 	equalsButTime 	haveCommandPrototypes
   model: 	c
   modified: 	false
@@ -214,7 +214,7 @@
 - m2Editor_isoDateFormat: 	Attribute
   clazz: 	m2Editor
   id: 	M2Editor_isoDateFormat
-  initialization: 	"new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
+  initialization: 	"new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")"
   modified: 	false
   name: 	isoDateFormat
   propertyStyle: 	Bean
@@ -253,7 +253,7 @@
 - getOrCreate: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
-  declaration: 	"public Object getOrCreate(Class clazz, String id)"
+  declaration: 	"public Object getOrCreate(Class<?> clazz, String id)"
   methodBody: 	"      Object modelObject = mapOfParsedObjects.get(id);
       if (modelObject != null) {
          mapOfModelObjects.put(id, modelObject);
@@ -275,14 +275,14 @@
   modified: 	false
   modifiers: 	public
   name: 	getOrCreate
-  paramsString: 	"Class clazz, String id"
+  paramsString: 	"Class<?> clazz, String id"
   returnType: 	Object
-  signature: 	"class/M2Editor/method/getOrCreate(Class,String)"
+  signature: 	"class/M2Editor/method/getOrCreate(Class<?>,String)"
 
 - getObjectFrame: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
-  declaration: 	"public Object getObjectFrame(Class clazz, String id)"
+  declaration: 	"public Object getObjectFrame(Class<?> clazz, String id)"
   methodBody: 	"      try {
          Object modelObject = mapOfParsedObjects.get(id);
          if (modelObject != null) {
@@ -299,7 +299,7 @@
             return modelObject;
          }
 
-         modelObject = (Object) clazz.getConstructor().newInstance();
+         modelObject = clazz.getConstructor().newInstance();
          Method setIdMethod = clazz.getMethod(\"setId\", String.class);
          setIdMethod.invoke(modelObject, id);
          mapOfFrames.put(id, modelObject);
@@ -313,15 +313,15 @@
   modified: 	false
   modifiers: 	public
   name: 	getObjectFrame
-  paramsString: 	"Class clazz, String id"
+  paramsString: 	"Class<?> clazz, String id"
   returnType: 	Object
-  signature: 	"class/M2Editor/method/getObjectFrame(Class,String)"
+  signature: 	"class/M2Editor/method/getObjectFrame(Class<?>,String)"
 
 - getModelObject: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
   declaration: 	"public Object getModelObject(String id)"
-  methodBody: 	"   return mapOfModelObjects.get(id);
+  methodBody: 	"return mapOfModelObjects.get(id);
 "
   modified: 	false
   modifiers: 	public
@@ -412,7 +412,7 @@
   annotations: 	""
   clazz: 	m2Editor
   declaration: 	"public void loadYaml(String yamlString)"
-  methodBody: 	"      java.util.Map map = Yaml.forPackage(\"de.hub.mse.ttc2020.solution.M2\").decode(yamlString);
+  methodBody: 	"      Map<String, Object> map = Yaml.forPackage(\"de.hub.mse.ttc2020.solution.M2\").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -469,7 +469,7 @@
 - parse: 	FMethod
   annotations: 	""
   clazz: 	m2Editor
-  declaration: 	"public void parse(Collection allObjects)"
+  declaration: 	"public void parse(Collection<?> allObjects)"
   methodBody: 	"      // register parsed objects
       mapOfParsedObjects.clear();
       for (Object parsedObject : allObjects) {
@@ -480,7 +480,7 @@
          }
       }
 
-      ArrayList<ModelCommand> allCommandsFromParsing = new ArrayList<>();
+      List<ModelCommand> allCommandsFromParsing = new ArrayList<>();
       for (Object currentObject : allObjects) {
          findCommands(allCommandsFromParsing, currentObject);
       }
@@ -497,9 +497,9 @@
   modified: 	false
   modifiers: 	public
   name: 	parse
-  paramsString: 	"Collection allObjects"
+  paramsString: 	"Collection<?> allObjects"
   returnType: 	void
-  signature: 	"class/M2Editor/method/parse(Collection)"
+  signature: 	"class/M2Editor/method/parse(Collection<?>)"
 
 - findCommands: 	FMethod
   annotations: 	""

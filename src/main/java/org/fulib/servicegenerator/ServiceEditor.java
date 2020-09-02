@@ -141,7 +141,7 @@ public class ServiceEditor
       haveGetOrCreate();
 
       Attribute dateFormat = mm.haveAttribute(editor, "isoDateFormat", "DateFormat");
-      dateFormat.setInitialization("new java.text.SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
+      dateFormat.setInitialization("new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\")");
       Attribute lastTime = mm.haveAttribute(editor, "lastTime", STRING);
       lastTime.setInitialization("isoDateFormat.format(new Date())");
       Attribute timeDelta = mm.haveAttribute(editor, "timeDelta", LONG);
@@ -149,6 +149,7 @@ public class ServiceEditor
 
       mm.haveMethod(editor, "public String getTime()", group.getInstanceOf("getTime").render());
       editor.withImports("java.text.DateFormat");
+      editor.withImports("java.text.SimpleDateFormat");
       editor.withImports("java.util.Date");
 
       mm.haveMethod(editor, "public void fireCommandExecuted(ModelCommand command)",
@@ -174,7 +175,7 @@ public class ServiceEditor
    {
       mm.haveMethod(editor, "public void execute(ModelCommand command)", group.getInstanceOf("editorExecute").render());
 
-      mm.haveMethod(editor, "public void parse(Collection allObjects)", group.getInstanceOf("editorParse").render());
+      mm.haveMethod(editor, "public void parse(Collection<?> allObjects)", group.getInstanceOf("editorParse").render());
 
       mm.haveMethod(editor,
                     "private ModelCommand findCommands(List<ModelCommand> allCommands, Object currentObject)",
@@ -384,15 +385,15 @@ public class ServiceEditor
 
    private FMethod haveGetOrCreate()
    {
-      FMethod fMethod = mm.haveMethod(editor, "public Object getOrCreate(Class clazz, String id)",
+      FMethod fMethod = mm.haveMethod(editor, "public Object getOrCreate(Class<?> clazz, String id)",
                                       group.getInstanceOf("editorGetOrCreateBody").render());
 
-      mm.haveMethod(editor, "public Object getObjectFrame(Class clazz, String id)",
+      mm.haveMethod(editor, "public Object getObjectFrame(Class<?> clazz, String id)",
                     group.getInstanceOf("editorGetFrameBody").render());
 
       editor.withImports("java.lang.reflect.Method");
 
-      mm.haveMethod(editor, "public Object getModelObject(String id)", "   return mapOfModelObjects.get(id);\n");
+      mm.haveMethod(editor, "public Object getModelObject(String id)", "return mapOfModelObjects.get(id);\n");
 
       mm.haveMethod(editor, "public Object removeModelObject(String id)",
                     group.getInstanceOf("editorRemoveModelObject").render());

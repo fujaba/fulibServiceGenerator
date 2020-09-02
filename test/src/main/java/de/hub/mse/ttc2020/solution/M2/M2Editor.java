@@ -11,6 +11,7 @@ import org.fulib.yaml.Yaml;
 import java.util.*;
 import java.util.Objects;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 public class M2Editor
 {
@@ -21,7 +22,7 @@ public class M2Editor
 
    protected PropertyChangeSupport listeners;
    public static final String PROPERTY_isoDateFormat = "isoDateFormat";
-   private DateFormat isoDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+   private DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
    public static final String PROPERTY_lastTime = "lastTime";
    private String lastTime = isoDateFormat.format(new Date());
    public static final String PROPERTY_timeDelta = "timeDelta";
@@ -127,60 +128,9 @@ public class M2Editor
       return result.substring(1);
    }
 
-   public Object getOrCreate(Class clazz, String id)
-   {
-      Object modelObject = mapOfParsedObjects.get(id);
-      if (modelObject != null) {
-         mapOfModelObjects.put(id, modelObject);
-         return modelObject;
-      }
-
-      modelObject = mapOfModelObjects.get(id);
-      if (modelObject != null) {
-         return modelObject;
-      }
-
-      modelObject = getObjectFrame(clazz, id);
-
-      mapOfFrames.remove(id);
-      mapOfModelObjects.put(id, modelObject);
-
-      return modelObject;
-   }
-
-   public Object getObjectFrame(Class clazz, String id)
-   {
-      try {
-         Object modelObject = mapOfParsedObjects.get(id);
-         if (modelObject != null) {
-            return modelObject;
-         }
-
-         modelObject = mapOfModelObjects.get(id);
-         if (modelObject != null) {
-            return modelObject;
-         }
-
-         modelObject = mapOfFrames.get(id);
-         if (modelObject != null) {
-            return modelObject;
-         }
-
-         modelObject = (Object) clazz.getConstructor().newInstance();
-         Method setIdMethod = clazz.getMethod("setId", String.class);
-         setIdMethod.invoke(modelObject, id);
-         mapOfFrames.put(id, modelObject);
-
-         return modelObject;
-      }
-      catch (Exception e) {
-         throw new RuntimeException(e);
-      }
-   }
-
    public Object getModelObject(String id)
    {
-         return mapOfModelObjects.get(id);
+      return mapOfModelObjects.get(id);
    }
 
    public Object removeModelObject(String id)
@@ -231,7 +181,7 @@ public class M2Editor
 
    public void loadYaml(String yamlString)
    {
-      java.util.Map map = Yaml.forPackage("de.hub.mse.ttc2020.solution.M2").decode(yamlString);
+      Map<String, Object> map = Yaml.forPackage("de.hub.mse.ttc2020.solution.M2").decode(yamlString);
       for (Object value : map.values()) {
          ModelCommand cmd = (ModelCommand) value;
          execute(cmd);
@@ -269,33 +219,6 @@ public class M2Editor
       command.run(this);
 
       activeCommands.put(id, command);
-   }
-
-   public void parse(Collection allObjects)
-   {
-      // register parsed objects
-      mapOfParsedObjects.clear();
-      for (Object parsedObject : allObjects) {
-         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
-         String id = (String) reflector.getValue(parsedObject, "id");
-         if (id != null) {
-            mapOfParsedObjects.put(id, parsedObject);
-         }
-      }
-
-      ArrayList<ModelCommand> allCommandsFromParsing = new ArrayList<>();
-      for (Object currentObject : allObjects) {
-         findCommands(allCommandsFromParsing, currentObject);
-      }
-
-      // add parsed commands, if new
-      for (ModelCommand commandFromParsing : allCommandsFromParsing) {
-         String id = commandFromParsing.getId();
-         ModelCommand oldCommand = activeCommands.get(id);
-         if (oldCommand == null || ! equalsButTime(oldCommand, commandFromParsing)) {
-            execute(commandFromParsing);
-         }
-      }
    }
 
    public boolean equalsButTime(ModelCommand oldCommand, ModelCommand newCommand)
@@ -515,6 +438,84 @@ private List<ModelCommand> haveCommandPrototypes()
       this.mapOfParsedObjects = value;
       this.firePropertyChange(PROPERTY_mapOfParsedObjects, oldValue, value);
       return this;
+   }
+
+   public Object getOrCreate(Class<?> clazz, String id)
+   {
+      Object modelObject = mapOfParsedObjects.get(id);
+      if (modelObject != null) {
+         mapOfModelObjects.put(id, modelObject);
+         return modelObject;
+      }
+
+      modelObject = mapOfModelObjects.get(id);
+      if (modelObject != null) {
+         return modelObject;
+      }
+
+      modelObject = getObjectFrame(clazz, id);
+
+      mapOfFrames.remove(id);
+      mapOfModelObjects.put(id, modelObject);
+
+      return modelObject;
+   }
+
+   public Object getObjectFrame(Class<?> clazz, String id)
+   {
+      try {
+         Object modelObject = mapOfParsedObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = mapOfModelObjects.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = mapOfFrames.get(id);
+         if (modelObject != null) {
+            return modelObject;
+         }
+
+         modelObject = clazz.getConstructor().newInstance();
+         Method setIdMethod = clazz.getMethod("setId", String.class);
+         setIdMethod.invoke(modelObject, id);
+         mapOfFrames.put(id, modelObject);
+
+         return modelObject;
+      }
+      catch (Exception e) {
+         throw new RuntimeException(e);
+      }
+   }
+
+   public void parse(Collection<?> allObjects)
+   {
+      // register parsed objects
+      mapOfParsedObjects.clear();
+      for (Object parsedObject : allObjects) {
+         Reflector reflector = new Reflector().setClazz(parsedObject.getClass());
+         String id = (String) reflector.getValue(parsedObject, "id");
+         if (id != null) {
+            mapOfParsedObjects.put(id, parsedObject);
+         }
+      }
+
+      List<ModelCommand> allCommandsFromParsing = new ArrayList<>();
+      for (Object currentObject : allObjects) {
+         findCommands(allCommandsFromParsing, currentObject);
+      }
+
+      // add parsed commands, if new
+      for (ModelCommand commandFromParsing : allCommandsFromParsing) {
+         String id = commandFromParsing.getId();
+         ModelCommand oldCommand = activeCommands.get(id);
+         if (oldCommand == null || ! equalsButTime(oldCommand, commandFromParsing)) {
+            execute(commandFromParsing);
+         }
+      }
    }
 
 }
