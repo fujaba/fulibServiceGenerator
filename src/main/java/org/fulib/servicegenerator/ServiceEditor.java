@@ -243,7 +243,6 @@ public class ServiceEditor
 
       mm.haveMethod(service, "public String root(Request req, Response res)",
                     group.getInstanceOf("rootBody").add("serviceName", serviceName).render());
-      service.withImports("org.fulib.scenarios.MockupTools");
 
       mm.haveMethod(service, "public String cmd(Request req, Response res)",
                     group.getInstanceOf("cmdBody").add("serviceName", serviceName).render());
@@ -258,12 +257,6 @@ public class ServiceEditor
                     group.getInstanceOf("serviceGetStream").render());
 
       service.withImports("java.util.ArrayList");
-      service.withImports("java.net.URL");
-      service.withImports("java.net.HttpURLConnection");
-      service.withImports("java.io.DataOutputStream");
-      service.withImports("java.io.InputStream");
-      service.withImports("java.io.InputStreamReader");
-      service.withImports("java.io.BufferedReader");
    }
 
    private void haveAddStreamCommand()

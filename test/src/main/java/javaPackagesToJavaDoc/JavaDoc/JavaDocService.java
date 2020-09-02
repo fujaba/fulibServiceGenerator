@@ -12,17 +12,15 @@ import org.json.JSONObject;
 import org.fulib.yaml.Reflector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
 import java.util.List;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.logging.Logger;
+import java.io.StringWriter;
+import org.fulib.yaml.Yaml;
 
 public class JavaDocService
 {
@@ -165,11 +163,11 @@ public class JavaDocService
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
-      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      executor = Executors.newSingleThreadExecutor();
       setModelEditor(new JavaDocEditor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
-      try { spark.port(myPort);} catch (Exception e) {};
+      spark.port(myPort);
       spark.get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.get("/JavaDoc", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
@@ -177,11 +175,9 @@ public class JavaDocService
       spark.post("/connect", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // there are no streams
 
-      spark.notFound((req, resp) -> {
-         return "404 not found: " + req.requestMethod() + req.url() + req.body();
-      });
+      spark.notFound((req, resp) -> "404 not found: " + req.requestMethod() + req.url() + req.body());
 
-      java.util.logging.Logger.getGlobal().info("JavaDoc Service is listening on port " + myPort);
+      Logger.getGlobal().info("JavaDoc Service is listening on port " + myPort);
    }
 
    public String getFirstRoot(Request req, Response res)
@@ -200,8 +196,7 @@ public class JavaDocService
             sessionToAppMap.put(currentSession, myApp);
          }
 
-         java.util.Map<String,String> params = req.params();
-         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         StringWriter stringWriter = new StringWriter();
          stringWriter.write(
                "<html>\n" +
                      "<head>\n" +
@@ -220,8 +215,7 @@ public class JavaDocService
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf("'/cmd'");
          page.insert(cmdUrlPos + 2, "JavaDoc");
-         String sessionPage = page.toString();
-         return sessionPage;
+         return page.toString();
       }
       catch (Exception e)
       {
@@ -244,15 +238,14 @@ public class JavaDocService
       }
 
       String cmdClassName = jsonObject.getString("_cmd");
-      String[] split = new String[0];
       if (cmdClassName.indexOf('?') > 0) {
-         split = cmdClassName.split("\\?");
+         String[] split = cmdClassName.split("\\?");
          cmdClassName = split[0];
          jsonObject.put("_cmd", cmdClassName);
          String params = split[1];
-         String[] paramArray = params.split("\\&");
+         String[] paramArray = params.split("&");
          for (String oneParam : paramArray) {
-            String[] keyValue = oneParam.split("\\=");
+            String[] keyValue = oneParam.split("=");
             jsonObject.put(keyValue[0], keyValue[1]);
          }
       }
@@ -261,20 +254,19 @@ public class JavaDocService
          cmdClassName = jsonObject.getString("_cmd");
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
-         reflector.setValue(cmdObject, "_app", app, null);
+         reflector.setValue(cmdObject, "_app", app);
          for (String key : jsonObject.keySet()) {
             if (key.startsWith("_")) {
                continue;
             }
-            else {
-               // assign to command attribute
-               String attrName = key;
-               if (key.endsWith("In")) {
-                  attrName = key.substring(0, key.length() - 2);
-               }
-               String value = jsonObject.getString(key);
-               reflector.setValue(cmdObject, attrName, value, null);
+
+            // assign to command attribute
+            String attrName = key;
+            if (key.endsWith("In")) {
+               attrName = key.substring(0, key.length() - 2);
             }
+            String value = jsonObject.getString(key);
+            reflector.setValue(cmdObject, attrName, value);
          }
          // call command
          try {
@@ -291,7 +283,7 @@ public class JavaDocService
       // next page
       String newPage = jsonObject.getString("_newPage");
       try {
-         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         Method method = app.getClass().getMethod(newPage);
          method.invoke(app);
       }
       catch (Exception e) {
@@ -304,7 +296,7 @@ public class JavaDocService
    public String connect(Request req, Response res)
    {
       String body = req.body();
-      LinkedHashMap<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      Map<String, Object> cmdList = Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(modelEditor);

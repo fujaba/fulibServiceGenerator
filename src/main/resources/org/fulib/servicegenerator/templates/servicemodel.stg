@@ -520,22 +520,20 @@ serviceInit(serviceName, streamInit) ::= <<
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
-      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      executor = import(java.util.concurrent.Executors).newSingleThreadExecutor();
       setModelEditor(new <serviceName>Editor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
-      try { spark.port(myPort);} catch (Exception e) {};
+      spark.port(myPort);
       spark.get("/", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.get("/<serviceName>", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post("/cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post("/<serviceName>cmd", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
       spark.post("/connect", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       <streamInit>
-      spark.notFound((req, resp) -> {
-         return "404 not found: " + req.requestMethod() + req.url() + req.body();
-      });
+      spark.notFound((req, resp) -> "404 not found: " + req.requestMethod() + req.url() + req.body());
 
-      java.util.logging.Logger.getGlobal().info("<serviceName> Service is listening on port " + myPort);
+      import(java.util.logging.Logger).getGlobal().info("<serviceName> Service is listening on port " + myPort);
 
 >>
 
@@ -551,7 +549,7 @@ serviceAddStream() ::= <<
 
 serviceConnect() ::= <<
       String body = req.body();
-      LinkedHashMap\<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      Map\<String, Object> cmdList = import(org.fulib.yaml.Yaml).forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(modelEditor);
@@ -623,8 +621,7 @@ rootBody(serviceName) ::= <<
             sessionToAppMap.put(currentSession, myApp);
          }
 
-         java.util.Map\<String,String> params = req.params();
-         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         import(java.io.StringWriter) stringWriter = new StringWriter();
          stringWriter.write(
                "\<html>\n" +
                      "\<head>\n" +
@@ -635,7 +632,7 @@ rootBody(serviceName) ::= <<
                      "    \<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\">\</script>\n" +
                      "\</head>\n\n"
          );
-         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         import(org.fulib.scenarios.MockupTools).htmlTool().dumpScreen(stringWriter, myApp);
          stringWriter.write("\n\</html>\n");
          StringBuilder page = new StringBuilder(stringWriter.toString());
          int paramPos = page.indexOf("_cmd: words[0],");
@@ -643,8 +640,7 @@ rootBody(serviceName) ::= <<
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf("'/cmd'");
          page.insert(cmdUrlPos + 2, "<serviceName>");
-         String sessionPage = page.toString();
-         return sessionPage;
+         return page.toString();
       }
       catch (Exception e)
       {
@@ -667,15 +663,14 @@ cmdBody(serviceName) ::= <<
       }
 
       String cmdClassName = jsonObject.getString("_cmd");
-      String[] split = new String[0];
       if (cmdClassName.indexOf('?') > 0) {
-         split = cmdClassName.split("\\\\?");
+         String[] split = cmdClassName.split("\\\\?");
          cmdClassName = split[0];
          jsonObject.put("_cmd", cmdClassName);
          String params = split[1];
-         String[] paramArray = params.split("\\\\&");
+         String[] paramArray = params.split("&");
          for (String oneParam : paramArray) {
-            String[] keyValue = oneParam.split("\\\\=");
+            String[] keyValue = oneParam.split("=");
             jsonObject.put(keyValue[0], keyValue[1]);
          }
       }
@@ -684,20 +679,19 @@ cmdBody(serviceName) ::= <<
          cmdClassName = jsonObject.getString("_cmd");
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
-         reflector.setValue(cmdObject, "_app", app, null);
+         reflector.setValue(cmdObject, "_app", app);
          for (String key : jsonObject.keySet()) {
             if (key.startsWith("_")) {
                continue;
             }
-            else {
-               // assign to command attribute
-               String attrName = key;
-               if (key.endsWith("In")) {
-                  attrName = key.substring(0, key.length() - 2);
-               }
-               String value = jsonObject.getString(key);
-               reflector.setValue(cmdObject, attrName, value, null);
+
+            // assign to command attribute
+            String attrName = key;
+            if (key.endsWith("In")) {
+               attrName = key.substring(0, key.length() - 2);
             }
+            String value = jsonObject.getString(key);
+            reflector.setValue(cmdObject, attrName, value);
          }
          // call command
          try {
@@ -714,7 +708,7 @@ cmdBody(serviceName) ::= <<
       // next page
       String newPage = jsonObject.getString("_newPage");
       try {
-         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         Method method = app.getClass().getMethod(newPage);
          method.invoke(app);
       }
       catch (Exception e) {

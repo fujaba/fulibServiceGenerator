@@ -70,8 +70,8 @@
 
 - m1Service: 	Clazz
   attributes: 	m1Service_myPort 	m1Service_reflectorMap 	m1Service_currentSession 	m1Service_executor 	m1Service_spark 	m1Service_sessionToAppMap
-  importList: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
-  imports: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.fulib.scenarios.MockupTools 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList 	java.net.URL 	java.net.HttpURLConnection 	java.io.DataOutputStream 	java.io.InputStream 	java.io.InputStreamReader 	java.io.BufferedReader
+  importList: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList
+  imports: 	java.util.Map 	java.util.LinkedHashMap 	spark.Service 	org.fulib.yaml.ReflectorMap 	java.util.concurrent.ExecutorService 	spark.Request 	spark.Response 	org.json.JSONObject 	org.fulib.yaml.Reflector 	java.lang.reflect.Method 	java.util.ArrayList
   methods: 	start 	getFirstRoot 	root 	cmd 	connect 	getStream
   model: 	c
   modified: 	false
@@ -1172,11 +1172,11 @@
       if (envPort != null) {
          myPort = Integer.parseInt(envPort);
       }
-      executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+      executor = import(java.util.concurrent.Executors).newSingleThreadExecutor();
       setModelEditor(new M1Editor());
       reflectorMap = new ReflectorMap(this.getClass().getPackage().getName());
       spark = Service.ignite();
-      try { spark.port(myPort);} catch (Exception e) {};
+      spark.port(myPort);
       spark.get(\"/\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.get(\"/M1\", (req, res) -> executor.submit( () -> this.getFirstRoot(req, res)).get());
       spark.post(\"/cmd\", (req, res) -> executor.submit( () -> this.cmd(req, res)).get());
@@ -1184,11 +1184,9 @@
       spark.post(\"/connect\", (req, res) -> executor.submit( () -> this.connect(req, res)).get());
       // there are no streams
 
-      spark.notFound((req, resp) -> {
-         return \"404 not found: \" + req.requestMethod() + req.url() + req.body();
-      });
+      spark.notFound((req, resp) -> \"404 not found: \" + req.requestMethod() + req.url() + req.body());
 
-      java.util.logging.Logger.getGlobal().info(\"M1 Service is listening on port \" + myPort);
+      import(java.util.logging.Logger).getGlobal().info(\"M1 Service is listening on port \" + myPort);
 "
   modified: 	false
   modifiers: 	public
@@ -1223,8 +1221,7 @@
             sessionToAppMap.put(currentSession, myApp);
          }
 
-         java.util.Map<String,String> params = req.params();
-         java.io.StringWriter stringWriter = new java.io.StringWriter();
+         import(java.io.StringWriter) stringWriter = new StringWriter();
          stringWriter.write(
                \"<html>\n\" +
                      \"<head>\n\" +
@@ -1235,7 +1232,7 @@
                      \"    <script src=\\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\\"></script>\n\" +
                      \"</head>\n\n\"
          );
-         MockupTools.htmlTool().dumpScreen(stringWriter, myApp);
+         import(org.fulib.scenarios.MockupTools).htmlTool().dumpScreen(stringWriter, myApp);
          stringWriter.write(\"\n</html>\n\");
          StringBuilder page = new StringBuilder(stringWriter.toString());
          int paramPos = page.indexOf(\"_cmd: words[0],\");
@@ -1243,8 +1240,7 @@
          page.insert(paramPos, sessionParam);
          int cmdUrlPos = page.indexOf(\"'/cmd'\");
          page.insert(cmdUrlPos + 2, \"M1\");
-         String sessionPage = page.toString();
-         return sessionPage;
+         return page.toString();
       }
       catch (Exception e)
       {
@@ -1275,15 +1271,14 @@
       }
 
       String cmdClassName = jsonObject.getString(\"_cmd\");
-      String[] split = new String[0];
       if (cmdClassName.indexOf('?') > 0) {
-         split = cmdClassName.split(\"\\?\");
+         String[] split = cmdClassName.split(\"\\?\");
          cmdClassName = split[0];
          jsonObject.put(\"_cmd\", cmdClassName);
          String params = split[1];
-         String[] paramArray = params.split(\"\\&\");
+         String[] paramArray = params.split(\"&\");
          for (String oneParam : paramArray) {
-            String[] keyValue = oneParam.split(\"\\=\");
+            String[] keyValue = oneParam.split(\"=\");
             jsonObject.put(keyValue[0], keyValue[1]);
          }
       }
@@ -1292,20 +1287,19 @@
          cmdClassName = jsonObject.getString(\"_cmd\");
          Reflector reflector = reflectorMap.getReflector(cmdClassName);
          Object cmdObject = reflector.newInstance();
-         reflector.setValue(cmdObject, \"_app\", app, null);
+         reflector.setValue(cmdObject, \"_app\", app);
          for (String key : jsonObject.keySet()) {
             if (key.startsWith(\"_\")) {
                continue;
             }
-            else {
-               // assign to command attribute
-               String attrName = key;
-               if (key.endsWith(\"In\")) {
-                  attrName = key.substring(0, key.length() - 2);
-               }
-               String value = jsonObject.getString(key);
-               reflector.setValue(cmdObject, attrName, value, null);
+
+            // assign to command attribute
+            String attrName = key;
+            if (key.endsWith(\"In\")) {
+               attrName = key.substring(0, key.length() - 2);
             }
+            String value = jsonObject.getString(key);
+            reflector.setValue(cmdObject, attrName, value);
          }
          // call command
          try {
@@ -1322,7 +1316,7 @@
       // next page
       String newPage = jsonObject.getString(\"_newPage\");
       try {
-         Method method = app.getClass().getMethod(newPage, new Class[0]);
+         Method method = app.getClass().getMethod(newPage);
          method.invoke(app);
       }
       catch (Exception e) {
@@ -1343,7 +1337,7 @@
   clazz: 	m1Service
   declaration: 	"public String connect(Request req, Response res)"
   methodBody: 	"      String body = req.body();
-      LinkedHashMap<String,Object> cmdList = org.fulib.yaml.Yaml.forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
+      Map<String, Object> cmdList = import(org.fulib.yaml.Yaml).forPackage(AddStreamCommand.class.getPackage().getName()).decode(body);
       for (Object value : cmdList.values()) {
          ModelCommand cmd = (ModelCommand) value;
          cmd.run(modelEditor);
