@@ -45,14 +45,7 @@ public class HaveSubUnit extends ModelCommand
 
    public HaveSubUnit setParent(String value)
    {
-      if (Objects.equals(value, this.parent))
-      {
-         return this;
-      }
-
-      final String oldValue = this.parent;
       this.parent = value;
-      this.firePropertyChange(PROPERTY_parent, oldValue, value);
       return this;
    }
    public static final String PROPERTY_parent = "parent";

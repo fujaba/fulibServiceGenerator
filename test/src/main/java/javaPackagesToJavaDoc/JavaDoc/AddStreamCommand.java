@@ -33,14 +33,7 @@ public class AddStreamCommand extends ModelCommand
 
    public AddStreamCommand setIncommingRoute(String value)
    {
-      if (Objects.equals(value, this.incommingRoute))
-      {
-         return this;
-      }
-
-      final String oldValue = this.incommingRoute;
       this.incommingRoute = value;
-      this.firePropertyChange(PROPERTY_incommingRoute, oldValue, value);
       return this;
    }
 
@@ -51,14 +44,7 @@ public class AddStreamCommand extends ModelCommand
 
    public AddStreamCommand setOutgoingUrl(String value)
    {
-      if (Objects.equals(value, this.outgoingUrl))
-      {
-         return this;
-      }
-
-      final String oldValue = this.outgoingUrl;
       this.outgoingUrl = value;
-      this.firePropertyChange(PROPERTY_outgoingUrl, oldValue, value);
       return this;
    }
 

@@ -95,7 +95,7 @@ public class ServiceEditor
 
    private void haveModelCommand()
    {
-      modelCommand = mm.haveClass("ModelCommand");
+      modelCommand = mm.haveClass("ModelCommand").setPropertyStyle(POJO);
       mm.haveAttribute(modelCommand, "id", STRING);
       mm.haveAttribute(modelCommand, "time", STRING);
 
@@ -494,7 +494,7 @@ public class ServiceEditor
 
    public Clazz haveCommand(String className)
    {
-      Clazz commandClass = mm.haveClass(className);
+      Clazz commandClass = mm.haveClass(className).setPropertyStyle(POJO);
       commandClasses.put(className, commandClass);
       commandClass.setSuperClass(this.modelCommand);
 

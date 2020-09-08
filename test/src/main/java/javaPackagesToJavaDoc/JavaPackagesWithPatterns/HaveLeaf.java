@@ -49,14 +49,7 @@ public class HaveLeaf extends ModelCommand
 
    public HaveLeaf setParent(String value)
    {
-      if (Objects.equals(value, this.parent))
-      {
-         return this;
-      }
-
-      final String oldValue = this.parent;
       this.parent = value;
-      this.firePropertyChange(PROPERTY_parent, oldValue, value);
       return this;
    }
 
@@ -67,14 +60,7 @@ public class HaveLeaf extends ModelCommand
 
    public HaveLeaf setVTag(String value)
    {
-      if (Objects.equals(value, this.vTag))
-      {
-         return this;
-      }
-
-      final String oldValue = this.vTag;
       this.vTag = value;
-      this.firePropertyChange(PROPERTY_vTag, oldValue, value);
       return this;
    }
 

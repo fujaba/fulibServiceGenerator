@@ -26,7 +26,7 @@
   model: 	c
   modified: 	false
   name: 	ModelCommand
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   subClasses: 	removeCommand 	addStreamCommand 	haveRoot 	haveSubUnit 	haveLeaf
 
 - removeCommand: 	Clazz
@@ -34,7 +34,7 @@
   model: 	c
   modified: 	false
   name: 	RemoveCommand
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - pattern: 	Clazz
@@ -96,7 +96,7 @@
   model: 	c
   modified: 	false
   name: 	AddStreamCommand
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - javaPackagesApp: 	Clazz
@@ -144,7 +144,7 @@
   model: 	c
   modified: 	false
   name: 	HaveRoot
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - haveSubUnit: 	Clazz
@@ -152,7 +152,7 @@
   model: 	c
   modified: 	false
   name: 	HaveSubUnit
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - haveLeaf: 	Clazz
@@ -160,7 +160,7 @@
   model: 	c
   modified: 	false
   name: 	HaveLeaf
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   superClass: 	modelCommand
 
 - c1: 	CollectionType
@@ -617,7 +617,7 @@
   id: 	ModelCommand_id
   modified: 	false
   name: 	id
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 
@@ -626,7 +626,7 @@
   id: 	ModelCommand_time
   modified: 	false
   name: 	time
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 
@@ -1575,7 +1575,7 @@
   id: 	AddStreamCommand_incommingRoute
   modified: 	false
   name: 	incommingRoute
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 
@@ -1584,7 +1584,7 @@
   id: 	AddStreamCommand_outgoingUrl
   modified: 	false
   name: 	outgoingUrl
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 
@@ -1829,7 +1829,7 @@
   id: 	HaveSubUnit_parent
   modified: 	false
   name: 	parent
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 
@@ -1838,7 +1838,7 @@
   id: 	HaveLeaf_parent
   modified: 	false
   name: 	parent
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 
@@ -1847,7 +1847,7 @@
   id: 	HaveLeaf_vTag
   modified: 	false
   name: 	vTag
-  propertyStyle: 	Bean
+  propertyStyle: 	POJO
   type: 	String
   typeSignature: 	String
 

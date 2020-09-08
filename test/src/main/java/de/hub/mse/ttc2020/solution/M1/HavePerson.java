@@ -42,14 +42,7 @@ public class HavePerson extends ModelCommand
 
    public HavePerson setName(String value)
    {
-      if (Objects.equals(value, this.name))
-      {
-         return this;
-      }
-
-      final String oldValue = this.name;
       this.name = value;
-      this.firePropertyChange(PROPERTY_name, oldValue, value);
       return this;
    }
 
@@ -60,14 +53,7 @@ public class HavePerson extends ModelCommand
 
    public HavePerson setAge(int value)
    {
-      if (value == this.age)
-      {
-         return this;
-      }
-
-      final int oldValue = this.age;
       this.age = value;
-      this.firePropertyChange(PROPERTY_age, oldValue, value);
       return this;
    }
    public static final String PROPERTY_name = "name";
