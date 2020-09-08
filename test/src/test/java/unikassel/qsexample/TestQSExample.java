@@ -1,6 +1,6 @@
 package unikassel.qsexample;
 
-import org.fulib.servicegenerator.FulibScenarioDiagram;
+import org.fulib.services.FulibScenarioDiagram;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import unikassel.qsexample.Accounting.AccountingApp;

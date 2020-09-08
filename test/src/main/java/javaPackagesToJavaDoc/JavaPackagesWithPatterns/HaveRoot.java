@@ -1,7 +1,6 @@
 package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 
-import de.hub.mse.ttc2020.solution.M1.Dog;
-import org.fulib.servicegenerator.FulibPatternDiagram;
+import org.fulib.services.FulibPatternDiagram;
 
 public class HaveRoot extends ModelCommand
 {

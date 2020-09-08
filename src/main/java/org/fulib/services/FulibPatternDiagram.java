@@ -1,4 +1,4 @@
-package org.fulib.servicegenerator;
+package org.fulib.services;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;

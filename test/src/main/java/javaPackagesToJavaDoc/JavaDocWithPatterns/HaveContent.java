@@ -1,8 +1,6 @@
 package javaPackagesToJavaDoc.JavaDocWithPatterns;
 
-import org.fulib.servicegenerator.FulibPatternDiagram;
-
-import java.util.Objects;
+import org.fulib.services.FulibPatternDiagram;
 
 public class HaveContent extends ModelCommand
 {

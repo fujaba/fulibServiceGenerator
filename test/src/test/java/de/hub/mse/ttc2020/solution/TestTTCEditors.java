@@ -2,9 +2,8 @@ package de.hub.mse.ttc2020.solution;
 
 import de.hub.mse.ttc2020.solution.M1.*;
 import de.hub.mse.ttc2020.solution.M2.M2Editor;
-import org.antlr.v4.runtime.atn.StarLoopEntryState;
 import org.fulib.FulibTools;
-import org.fulib.servicegenerator.FulibPatternDiagram;
+import org.fulib.services.FulibPatternDiagram;
 import org.fulib.yaml.Yaml;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;

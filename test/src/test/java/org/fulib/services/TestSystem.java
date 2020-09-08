@@ -1,20 +1,13 @@
-package org.fulib.servicegenerator;
+package org.fulib.services;
 
-import com.codeborne.selenide.SelenideElement;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import unikassel.websystem.Shop.*;
-import unikassel.websystem.Store.HaveProductCommand;
 import unikassel.websystem.Store.StoreApp;
 import unikassel.websystem.Store.StoreService;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 
 import static com.codeborne.selenide.Selenide.*;
 

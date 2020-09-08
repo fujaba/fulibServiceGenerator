@@ -1,4 +1,4 @@
-package org.fulib.servicegenerator;
+package org.fulib.services;
 
 import org.fulib.FulibTools;
 import org.fulib.yaml.Yaml;

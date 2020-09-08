@@ -1,8 +1,7 @@
 package unikassel.bpmn2wf;
 
 import org.fulib.FulibTools;
-import org.fulib.servicegenerator.FulibScenarioDiagram;
-import org.fulib.yaml.Yaml;
+import org.fulib.services.FulibScenarioDiagram;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import unikassel.bpmn2wf.BPMN.*;

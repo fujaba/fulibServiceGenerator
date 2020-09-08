@@ -1,4 +1,4 @@
-package org.fulib.servicegenerator;
+package org.fulib.services;
 
 import org.fulib.Fulib;
 import org.fulib.FulibTools;

@@ -3,8 +3,8 @@ package unikassel.websystem;
 import org.fulib.FulibTools;
 import org.fulib.builder.ClassModelManager;
 import org.fulib.classmodel.Clazz;
-import org.fulib.servicegenerator.ServiceEditor;
-import org.fulib.servicegenerator.SystemEditor;
+import org.fulib.services.ServiceEditor;
+import org.fulib.services.SystemEditor;
 
 import static org.fulib.builder.Type.*;
 

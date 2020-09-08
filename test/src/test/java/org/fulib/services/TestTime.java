@@ -1,7 +1,6 @@
-package org.fulib.servicegenerator;
+package org.fulib.services;
 
 import org.junit.Test;
-import unikassel.websystem.Shop.ShopEditor;
 import unikassel.websystem.Store.StoreEditor;
 
 import java.text.ParseException;

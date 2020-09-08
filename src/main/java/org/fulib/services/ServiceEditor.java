@@ -1,4 +1,4 @@
-package org.fulib.servicegenerator;
+package org.fulib.services;
 
 import org.fulib.StrUtil;
 import org.fulib.builder.ClassModelManager;
