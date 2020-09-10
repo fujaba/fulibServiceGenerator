@@ -2,7 +2,7 @@ package org.fulib.services;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
-import org.fulib.tables.PathTable;
+import org.fulib.tables.ObjectTable;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
@@ -15,46 +15,44 @@ public class FulibPatternDiagram
    public void dump(String diagramFileName, Object pattern) {
       STGroupFile group = new STGroupFile(this.getClass().getResource("templates/patternDiagram.stg"));
 
-      PathTable pathTable = new PathTable("pattern", pattern)
-            .expand("pattern", "objects", "object")
-            .expand("object", "kind", "kind")
-            .filter("kind", k -> k.equals("core"));
+      final Set<?> coreObjects = new ObjectTable<>("pattern", pattern)
+         .expandLink("pattern", "object", "objects")
+         .expandLink("object", "kind", "kind")
+         .filter("kind", "core"::equals)
+         .toSet("object");
 
-      Set<?> coreObjects = pathTable.toSet("object");
+      final Set<?> contextObjects = new ObjectTable<>("pattern", pattern)
+         .expandLink("pattern", "objects", "object")
+         .expandLink("object", "kind", "kind")
+         .filter("kind", "context"::equals)
+         .toSet("object");
 
-      pathTable = new PathTable("pattern", pattern)
-            .expand("pattern", "objects", "object")
-            .expand("object", "kind", "kind")
-            .filter("kind", k -> k.equals("context"));
+      final Set<?> nacObjects = new ObjectTable<>("pattern", pattern)
+         .expandLink("pattern", "object", "objects")
+         .expandAttribute("object", "kind", "kind")
+         .filter("kind", "nac"::equals)
+         .toSet("object");
 
-      Set<?> contextObjects = pathTable.toSet("object");
+      final Set<?> coreLinks = new ObjectTable<>("pattern", pattern)
+         .expandLink("pattern", "object", "objects")
+         .expandLink("object", "link", "links")
+         .expandAttribute("link", "kind", "kind")
+         .filter("kind", "core"::equals)
+         .toSet("link");
 
-      pathTable = new PathTable("pattern", pattern)
-            .expand("pattern", "objects", "object")
-            .expand("object", "kind", "kind")
-            .filter("kind", k -> k.equals("nac"));
-      Set<?> nacObjects = pathTable.toSet("object");
+      final Set<?> contextLinks = new ObjectTable<>("pattern", pattern)
+         .expandLink("pattern", "object", "objects")
+         .expandLink("object", "link", "links")
+         .expandAttribute("link", "kind", "kind")
+         .filter("kind", "context"::equals)
+         .toSet("link");
 
-      pathTable = new PathTable("pattern", pattern);
-      pathTable.expand("pattern", "objects", "object");
-      pathTable.expand("object", "links", "link");
-      pathTable.expand("link", "kind", "kind");
-      pathTable.filter("kind", k -> k.equals("core"));
-      Set<?> coreLinks = pathTable.toSet("link");
-
-      pathTable = new PathTable("pattern", pattern)
-            .expand("pattern", "objects", "object")
-            .expand("object", "links", "link")
-            .expand("link", "kind", "kind")
-            .filter("kind", k -> k.equals("context"));
-      Set<?> contextLinks = pathTable.toSet("link");
-
-      pathTable = new PathTable("pattern", pattern)
-            .expand("pattern", "objects", "object")
-            .expand("object", "links", "link")
-            .expand("link", "kind", "kind")
-            .filter("kind", k -> k.equals("nac"));
-      Set<?> nacLinks = pathTable.toSet("link");
+      final Set<?> nacLinks = new ObjectTable<>("pattern", pattern)
+         .expandLink("pattern", "object", "objects")
+         .expandLink("object", "link", "links")
+         .expandAttribute("link", "kind", "kind")
+         .filter("kind", "nac"::equals)
+         .toSet("link");
 
       ST st = group.getInstanceOf("patternDiagram");
       st.add("coreObjects", coreObjects);
