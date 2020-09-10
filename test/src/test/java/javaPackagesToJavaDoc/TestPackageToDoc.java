@@ -6,9 +6,8 @@ import javaPackagesToJavaDoc.JavaDoc.HaveContent;
 import javaPackagesToJavaDoc.JavaDoc.JavaDocEditor;
 import javaPackagesToJavaDoc.JavaPackages.*;
 import org.fulib.FulibTools;
-import org.fulib.tables.PathTable;
+import org.fulib.tables.ObjectTable;
 import org.fulib.yaml.Yaml;
-import org.fulib.yaml.YamlIdMap;
 import org.junit.Test;
 
 import java.beans.PropertyChangeEvent;
@@ -175,10 +174,10 @@ public class TestPackageToDoc implements PropertyChangeListener
             root,
             javaPackagesEditor.getActiveCommands().values());
 
-      PathTable pathTable = new PathTable("root", root)
-            .expand("root", javaPackagesToJavaDoc.JavaPackagesWithPatterns.JavaPackage.PROPERTY_subPackages, "sub")
-            .expand("sub", javaPackagesToJavaDoc.JavaPackagesWithPatterns.JavaPackage.PROPERTY_subPackages, "leaf")
-            .expand("leaf", javaPackagesToJavaDoc.JavaPackagesWithPatterns.JavaPackage.PROPERTY_classes, "c");
+      ObjectTable<Object> pathTable = new ObjectTable<>("root", root)
+         .expandLink("root", "sub", javaPackagesToJavaDoc.JavaPackagesWithPatterns.JavaPackage.PROPERTY_subPackages)
+         .expandLink("sub", "leaf", javaPackagesToJavaDoc.JavaPackagesWithPatterns.JavaPackage.PROPERTY_subPackages)
+         .expandLink("leaf", "c", javaPackagesToJavaDoc.JavaPackagesWithPatterns.JavaPackage.PROPERTY_classes);
       assertThat(pathTable.rowCount(), is(1));
 
       // forward to doc model
@@ -199,11 +198,11 @@ public class TestPackageToDoc implements PropertyChangeListener
             javaDocEditor.getActiveCommands().values(),
             rootFolder);
 
-      PathTable docTable = new PathTable("root", rootFolder)
-            .expand("root", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_subFolders, "sub")
-            .expand("sub", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_files, "subDoc")
-            .expand("sub", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_subFolders, "leaf")
-            .expand("leaf", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_files,"leafDoc");
+      ObjectTable<Object> docTable = new ObjectTable<>("root", rootFolder)
+         .expandLink("root", "sub", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_subFolders)
+         .expandLink("sub", "subDoc", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_files)
+         .expandLink("sub", "leaf", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_subFolders)
+         .expandLink("leaf", "leafDoc", javaPackagesToJavaDoc.JavaDocWithPatterns.Folder.PROPERTY_files);
       assertThat(docTable.rowCount(), is(2));
       assertThat(javaDocEditor.getActiveCommands().size(), is(javaPackagesEditor.getActiveCommands().size() + 3));
 

@@ -6,7 +6,7 @@ import javaPackagesToJavaDoc.JavaDocWithPatterns.HaveContent;
 import javaPackagesToJavaDoc.JavaDocWithPatterns.JavaDocWithPatternsEditor;
 import javaPackagesToJavaDoc.JavaPackagesWithPatterns.*;
 import org.fulib.FulibTools;
-import org.fulib.tables.PathTable;
+import org.fulib.tables.ObjectTable;
 import org.fulib.yaml.Yaml;
 import org.junit.Test;
 
@@ -160,10 +160,10 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
             root,
             javaPackagesEditor.getActiveCommands().values());
 
-      PathTable pathTable = new PathTable("root", root)
-            .expand("root", JavaPackage.PROPERTY_subPackages, "sub")
-            .expand("sub", JavaPackage.PROPERTY_subPackages, "leaf")
-            .expand("leaf", JavaPackage.PROPERTY_classes, "c");
+      ObjectTable<Object> pathTable = new ObjectTable<>("root", root)
+         .expandLink("root", "sub", JavaPackage.PROPERTY_subPackages)
+         .expandLink("sub", "leaf", JavaPackage.PROPERTY_subPackages)
+         .expandLink("leaf", "c", JavaPackage.PROPERTY_classes);
       assertThat(pathTable.rowCount(), is(1));
 
       // forward to doc model
@@ -184,11 +184,11 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
             javaDocEditor.getActiveCommands().values(),
             rootFolder);
 
-      PathTable docTable = new PathTable("root", rootFolder)
-            .expand("root", Folder.PROPERTY_subFolders, "sub")
-            .expand("sub", Folder.PROPERTY_files, "subDoc")
-            .expand("sub", Folder.PROPERTY_subFolders, "leaf")
-            .expand("leaf", Folder.PROPERTY_files,"leafDoc");
+      ObjectTable<Object> docTable = new ObjectTable<>("root", rootFolder)
+         .expandLink("root", "sub", Folder.PROPERTY_subFolders)
+         .expandLink("sub", "subDoc", Folder.PROPERTY_files)
+         .expandLink("sub", "leaf", Folder.PROPERTY_subFolders)
+         .expandLink("leaf", "leafDoc", Folder.PROPERTY_files);
       assertThat(docTable.rowCount(), is(2));
       assertThat(javaDocEditor.getActiveCommands().size(), is(javaPackagesEditor.getActiveCommands().size() + 3));
 
