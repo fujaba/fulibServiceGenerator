@@ -404,7 +404,7 @@ modelCommandParse() ::= <<
          return null;
       }
 
-      PathTable pathTable = new PathTable(firstPatternObject.getPoId(), currentObject);
+      ObjectTable\<Object> pathTable = new ObjectTable\<>(firstPatternObject.getPoId(), currentObject);
 
       matchAttributesAndLinks(pattern, firstPatternObject, pathTable);
 
@@ -413,7 +413,12 @@ modelCommandParse() ::= <<
          return null;
       }
 
-      Map\<String,Object> firstRow = pathTable.convertRowToMap(pathTable.getTable().get(0));;
+      Map\<String, Object> firstRow = new LinkedHashMap\<>();
+      pathTable.filterRows(m -> {
+         firstRow.putAll(m);
+         return true;
+      });
+
       ModelCommand newCommand = null;
       try {
          newCommand = this.getClass().getConstructor().newInstance();
@@ -436,12 +441,12 @@ modelCommandParse() ::= <<
 >>
 
 modelCommandMatchAttributesAndLinks() ::= <<
-      // match attributes
       String poId = currentPatternObject.getPoId();
 
+      // match attributes
       for (PatternAttribute attribute : currentPatternObject.getAttributes()) {
          String attrName = attribute.getHandleAttrName();
-         pathTable.expand(poId, attrName, poId + "." +attrName);
+         pathTable.expandAttribute(poId, poId + "." + attrName, attrName);
       }
 
       // match links
@@ -449,22 +454,22 @@ modelCommandMatchAttributesAndLinks() ::= <<
          PatternObject source = link.getSource();
          PatternObject target = link.getTarget();
 
-         if (link.getKind().equals("core")) {
-            if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
-               pathTable.hasLink(source.getPoId(), link.getHandleLinkName(), target.getPoId());
+         if ("core".equals(link.getKind())) {
+            if (pathTable.getColumnMap().containsKey(target.getPoId())) {
+               pathTable.hasLink(source.getPoId(), target.getPoId(), link.getHandleLinkName());
             }
             else {
-               pathTable.expand(source.getPoId(), link.getHandleLinkName(), link.getTarget().getPoId());
+               pathTable.expandLink(source.getPoId(), link.getTarget().getPoId(), link.getHandleLinkName());
                matchAttributesAndLinks(pattern, target, pathTable);
             }
          }
-         else if (link.getKind().equals("nac")) {
-            if (pathTable.getColumnIndex(target.getPoId()) >= 0) {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map\<String,Object>) map, poId, link.getHandleLinkName())
-                     .contains(((Map\<String,Object>) map).get(source.getPoId())));
+         else if ("nac".equals(link.getKind())) {
+            if (pathTable.getColumnMap().containsKey(target.getPoId())) {
+               pathTable.filterRows(map -> getSetOfTargetHandles(map, poId, link.getHandleLinkName()).contains(
+                  map.get(source.getPoId())));
             }
             else {
-               pathTable.filterRows(map -> getSetOfTargetHandles((Map\<String,Object>) map, poId, link.getHandleLinkName()).isEmpty());
+               pathTable.filterRows(map -> getSetOfTargetHandles(map, poId, link.getHandleLinkName()).isEmpty());
             }
          }
       }
@@ -473,8 +478,8 @@ modelCommandMatchAttributesAndLinks() ::= <<
 
 modelCommandGetSetOfTargetHandles() ::= <<
       Object sourceHandleObject = map.get(poId);
-      PathTable pathTable = new PathTable(poId, sourceHandleObject);
-      pathTable.expand(poId, linkName, linkName);
+      ObjectTable\<Object> pathTable = new ObjectTable\<>(poId, sourceHandleObject);
+      pathTable.expandLink(poId, linkName, linkName);
 
       return pathTable.toSet(linkName);
 

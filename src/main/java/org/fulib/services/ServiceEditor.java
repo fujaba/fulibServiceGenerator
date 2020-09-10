@@ -109,7 +109,7 @@ public class ServiceEditor
                     group.getInstanceOf("modelCommandParse").render());
 
       mm.haveMethod(modelCommand,
-                    "public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, PathTable pathTable)",
+                    "public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, ObjectTable<Object> pathTable)",
                     group.getInstanceOf("modelCommandMatchAttributesAndLinks").render());
 
       mm.haveMethod(modelCommand, "public Set getSetOfTargetHandles(Map map, String poId, String linkName)",
@@ -124,7 +124,7 @@ public class ServiceEditor
       modelCommand.withImports("org.fulib.yaml.Reflector");
       modelCommand.withImports("org.fulib.yaml.StrUtil");
       modelCommand.withImports("java.lang.reflect.Method");
-      modelCommand.withImports("org.fulib.tables.PathTable");
+      modelCommand.withImports("org.fulib.tables.ObjectTable");
       modelCommand.withImports("java.util.*");
    }
 
