@@ -10,58 +10,15 @@ import java.util.Objects;
 public class Folder
 {
 
-   public static final String PROPERTY_subFolders = "subFolders";
-
-   private List<Folder> subFolders;
-
-   public static final String PROPERTY_up = "up";
-
-   private Folder up;
-
-   public static final String PROPERTY_files = "files";
-
-   private List<DocFile> files;
-
    protected PropertyChangeSupport listeners;
    public static final String PROPERTY_id = "id";
    private String id;
-
-   public List<Folder> getSubFolders()
-   {
-      return this.subFolders != null ? Collections.unmodifiableList(this.subFolders) : Collections.emptyList();
-   }
-
-   public Folder getUp()
-   {
-      return this.up;
-   }
-
-   public Folder setUp(Folder value)
-   {
-      if (this.up == value)
-      {
-         return this;
-      }
-
-      final Folder oldValue = this.up;
-      if (this.up != null)
-      {
-         this.up = null;
-         oldValue.withoutSubFolders(this);
-      }
-      this.up = value;
-      if (value != null)
-      {
-         value.withSubFolders(this);
-      }
-      this.firePropertyChange(PROPERTY_up, oldValue, value);
-      return this;
-   }
-
-   public List<DocFile> getFiles()
-   {
-      return this.files != null ? Collections.unmodifiableList(this.files) : Collections.emptyList();
-   }
+   public static final String PROPERTY_subFolders = "subFolders";
+   private List<Folder> subFolders;
+   public static final String PROPERTY_pFolder = "pFolder";
+   private Folder pFolder;
+   public static final String PROPERTY_files = "files";
+   private List<DocFile> files;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -122,130 +79,8 @@ public class Folder
    public void removeYou()
    {
       this.withoutSubFolders(new ArrayList<>(this.getSubFolders()));
-      this.setUp(null);
+      this.setPFolder(null);
       this.withoutFiles(new ArrayList<>(this.getFiles()));
-   }
-
-public Folder withSubFolders(Folder value)
-   {
-      if (this.subFolders == null)
-      {
-         this.subFolders = new ArrayList<>();
-      }
-      if (!this.subFolders.contains(value))
-      {
-         this.subFolders.add(value);
-         value.setUp(this);
-         this.firePropertyChange(PROPERTY_subFolders, null, value);
-      }
-      return this;
-   }
-
-public Folder withSubFolders(Folder... value)
-   {
-      for (final Folder item : value)
-      {
-         this.withSubFolders(item);
-      }
-      return this;
-   }
-
-public Folder withSubFolders(Collection<? extends Folder> value)
-   {
-      for (final Folder item : value)
-      {
-         this.withSubFolders(item);
-      }
-      return this;
-   }
-
-public Folder withoutSubFolders(Folder value)
-   {
-      if (this.subFolders != null && this.subFolders.remove(value))
-      {
-         value.setUp(null);
-         this.firePropertyChange(PROPERTY_subFolders, value, null);
-      }
-      return this;
-   }
-
-public Folder withoutSubFolders(Folder... value)
-   {
-      for (final Folder item : value)
-      {
-         this.withoutSubFolders(item);
-      }
-      return this;
-   }
-
-public Folder withoutSubFolders(Collection<? extends Folder> value)
-   {
-      for (final Folder item : value)
-      {
-         this.withoutSubFolders(item);
-      }
-      return this;
-   }
-
-public Folder withFiles(DocFile value)
-   {
-      if (this.files == null)
-      {
-         this.files = new ArrayList<>();
-      }
-      if (!this.files.contains(value))
-      {
-         this.files.add(value);
-         value.setUp(this);
-         this.firePropertyChange(PROPERTY_files, null, value);
-      }
-      return this;
-   }
-
-public Folder withFiles(DocFile... value)
-   {
-      for (final DocFile item : value)
-      {
-         this.withFiles(item);
-      }
-      return this;
-   }
-
-public Folder withFiles(Collection<? extends DocFile> value)
-   {
-      for (final DocFile item : value)
-      {
-         this.withFiles(item);
-      }
-      return this;
-   }
-
-public Folder withoutFiles(DocFile value)
-   {
-      if (this.files != null && this.files.remove(value))
-      {
-         value.setUp(null);
-         this.firePropertyChange(PROPERTY_files, value, null);
-      }
-      return this;
-   }
-
-public Folder withoutFiles(DocFile... value)
-   {
-      for (final DocFile item : value)
-      {
-         this.withoutFiles(item);
-      }
-      return this;
-   }
-
-public Folder withoutFiles(Collection<? extends DocFile> value)
-   {
-      for (final DocFile item : value)
-      {
-         this.withoutFiles(item);
-      }
-      return this;
    }
 
    public String getId()
@@ -263,6 +98,165 @@ public Folder withoutFiles(Collection<? extends DocFile> value)
       final String oldValue = this.id;
       this.id = value;
       this.firePropertyChange(PROPERTY_id, oldValue, value);
+      return this;
+   }
+
+   public List<Folder> getSubFolders()
+   {
+      return this.subFolders != null ? Collections.unmodifiableList(this.subFolders) : Collections.emptyList();
+   }
+
+   public Folder withSubFolders(Folder value)
+   {
+      if (this.subFolders == null)
+      {
+         this.subFolders = new ArrayList<>();
+      }
+      if (!this.subFolders.contains(value))
+      {
+         this.subFolders.add(value);
+         value.setPFolder(this);
+         this.firePropertyChange(PROPERTY_subFolders, null, value);
+      }
+      return this;
+   }
+
+   public Folder withSubFolders(Folder... value)
+   {
+      for (final Folder item : value)
+      {
+         this.withSubFolders(item);
+      }
+      return this;
+   }
+
+   public Folder withSubFolders(Collection<? extends Folder> value)
+   {
+      for (final Folder item : value)
+      {
+         this.withSubFolders(item);
+      }
+      return this;
+   }
+
+   public Folder withoutSubFolders(Folder value)
+   {
+      if (this.subFolders != null && this.subFolders.remove(value))
+      {
+         value.setPFolder(null);
+         this.firePropertyChange(PROPERTY_subFolders, value, null);
+      }
+      return this;
+   }
+
+   public Folder withoutSubFolders(Folder... value)
+   {
+      for (final Folder item : value)
+      {
+         this.withoutSubFolders(item);
+      }
+      return this;
+   }
+
+   public Folder withoutSubFolders(Collection<? extends Folder> value)
+   {
+      for (final Folder item : value)
+      {
+         this.withoutSubFolders(item);
+      }
+      return this;
+   }
+
+   public Folder getPFolder()
+   {
+      return this.pFolder;
+   }
+
+   public Folder setPFolder(Folder value)
+   {
+      if (this.pFolder == value)
+      {
+         return this;
+      }
+
+      final Folder oldValue = this.pFolder;
+      if (this.pFolder != null)
+      {
+         this.pFolder = null;
+         oldValue.withoutSubFolders(this);
+      }
+      this.pFolder = value;
+      if (value != null)
+      {
+         value.withSubFolders(this);
+      }
+      this.firePropertyChange(PROPERTY_pFolder, oldValue, value);
+      return this;
+   }
+
+   public List<DocFile> getFiles()
+   {
+      return this.files != null ? Collections.unmodifiableList(this.files) : Collections.emptyList();
+   }
+
+   public Folder withFiles(DocFile value)
+   {
+      if (this.files == null)
+      {
+         this.files = new ArrayList<>();
+      }
+      if (!this.files.contains(value))
+      {
+         this.files.add(value);
+         value.setFolder(this);
+         this.firePropertyChange(PROPERTY_files, null, value);
+      }
+      return this;
+   }
+
+   public Folder withFiles(DocFile... value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withFiles(item);
+      }
+      return this;
+   }
+
+   public Folder withFiles(Collection<? extends DocFile> value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withFiles(item);
+      }
+      return this;
+   }
+
+   public Folder withoutFiles(DocFile value)
+   {
+      if (this.files != null && this.files.remove(value))
+      {
+         value.setFolder(null);
+         this.firePropertyChange(PROPERTY_files, value, null);
+      }
+      return this;
+   }
+
+   public Folder withoutFiles(DocFile... value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withoutFiles(item);
+      }
+      return this;
+   }
+
+   public Folder withoutFiles(Collection<? extends DocFile> value)
+   {
+      for (final DocFile item : value)
+      {
+         this.withoutFiles(item);
+      }
       return this;
    }
 

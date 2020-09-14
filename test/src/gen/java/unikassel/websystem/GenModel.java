@@ -64,8 +64,8 @@ public class GenModel
       javaDocManager.haveAttribute(docFile, "version", STRING);
       javaDocManager.haveAttribute(docFile, "content", STRING);
 
-      javaDocManager.haveRole(folder, "subFolders", folder, MANY, "up", ONE);
-      javaDocManager.haveRole(folder, "files", docFile, MANY, "up", ONE);
+      javaDocManager.haveRole(folder, "subFolders", folder, MANY, "pFolder", ONE);
+      javaDocManager.haveRole(folder, "files", docFile, MANY, "folder", ONE);
 
       Clazz haveContent = javaDocEditor.haveCommand("HaveContent");
       javaDocManager.haveAttribute(haveContent, "owner", STRING);

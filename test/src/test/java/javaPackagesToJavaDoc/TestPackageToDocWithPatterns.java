@@ -27,16 +27,16 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
    {
       JavaPackagesWithPatternsEditor javaPackagesEditor = new JavaPackagesWithPatternsEditor();
 
-      ModelCommand cmd = new HaveRoot().setId("root");
+      ModelCommand cmd = new HaveRoot().setId("org");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveSubUnit().setParent("root").setId("sub");
+      cmd = new HaveSubUnit().setParent("org").setId("fulib");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveLeaf().setParent("sub").setVTag("1.0").setId("c");
+      cmd = new HaveLeaf().setParent("fulib").setVTag("1.0").setId("Editor");
       javaPackagesEditor.execute(cmd);
 
-      Object root = javaPackagesEditor.getModelObject("root");
+      Object root = javaPackagesEditor.getModelObject("org");
       assertThat(root, notNullValue());
 
       FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncStart.svg",
@@ -48,23 +48,23 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       JavaDocWithPatternsEditor javaDocEditor = new JavaDocWithPatternsEditor();
       javaDocEditor.loadYaml(yaml);
 
-      Folder rootFolder = (Folder) javaDocEditor.getModelObject("root");
+      Folder rootFolder = (Folder) javaDocEditor.getModelObject("org");
       assertThat(rootFolder, notNullValue());
 
       FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncFirstForward.svg",
             javaDocEditor.getActiveCommands().values(),
             rootFolder);
 
-      cmd = new HaveRoot().setId("nRoot");
+      cmd = new HaveRoot().setId("Editorom");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveSubUnit().setParent("nRoot").setId("root");
+      cmd = new HaveSubUnit().setParent("Editorom").setId("org");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveRoot().setId("sub");
+      cmd = new HaveRoot().setId("fulib");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveLeaf().setParent("sub").setVTag("1.1").setId("c2");
+      cmd = new HaveLeaf().setParent("fulib").setVTag("1.1").setId("Editorommand");
       javaPackagesEditor.execute(cmd);
 
       FulibTools.objectDiagrams().dumpSVG("tmp/OneWaySyncTwoRoots.svg",
@@ -115,32 +115,32 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
 
 
       // some manual changes:
-      JavaPackage nRoot = new JavaPackage().setId("nRoot");
-      changedObjects.add(nRoot);
-      JavaPackage root = (JavaPackage) javaPackagesEditor.getModelObject("root");
-      nRoot.withSubPackages(root);
-      JavaPackage sub = (JavaPackage) javaPackagesEditor.getModelObject("sub");
-      sub.setUp(null);
-      JavaClass c2 = new JavaClass().setUp(sub).setVTag("1.1").setId("c2");
-      changedObjects.add(c2);
-      JavaClass c = (JavaClass) javaPackagesEditor.getModelObject("c");
-      c.setVTag("1.1");
+      JavaPackage com = new JavaPackage().setId("com");
+      changedObjects.add(com);
+      JavaPackage org = (JavaPackage) javaPackagesEditor.getModelObject("org");
+      com.withSubPackages(org);
+      JavaPackage fulib = (JavaPackage) javaPackagesEditor.getModelObject("fulib");
+      fulib.setPPack(null);
+      JavaClass command = new JavaClass().setPack(fulib).setVTag("1.1").setId("Command");
+      changedObjects.add(command);
+      JavaClass editor = (JavaClass) javaPackagesEditor.getModelObject("Editor");
+      editor.setVTag("1.1");
 
       javaPackagesEditor.parse(changedObjects);
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsAfterParsing.svg",
-            nRoot,
+            com,
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
 
-      ModelCommand nRootCmd = javaPackagesEditor.getActiveCommands().get("nRoot");
-      assertThat(nRootCmd, instanceOf(HaveRoot.class));
+      ModelCommand comCmd = javaPackagesEditor.getActiveCommands().get("com");
+      assertThat(comCmd, instanceOf(HaveRoot.class));
 
-      ModelCommand rootCmd = javaPackagesEditor.getActiveCommands().get("root");
-      assertThat(rootCmd, instanceOf(HaveSubUnit.class));
+      ModelCommand orgCmd = javaPackagesEditor.getActiveCommands().get("org");
+      assertThat(orgCmd, instanceOf(HaveSubUnit.class));
 
-      ModelCommand c2Cmd = javaPackagesEditor.getActiveCommands().get("c2");
-      assertThat(c2Cmd, instanceOf(HaveLeaf.class));
+      ModelCommand commandCmd = javaPackagesEditor.getActiveCommands().get("Command");
+      assertThat(commandCmd, instanceOf(HaveLeaf.class));
    }
 
    @Test
@@ -151,19 +151,19 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       buildJavaPackagesStartSituation(javaPackagesEditor);
       ModelCommand cmd;
 
-      JavaPackage root = (JavaPackage) javaPackagesEditor.getModelObject("root");
-      assertThat(root, notNullValue());
-      JavaPackage sub = (JavaPackage) javaPackagesEditor.getModelObject("sub");
-      assertThat(sub, notNullValue());
+      JavaPackage org = (JavaPackage) javaPackagesEditor.getModelObject("org");
+      assertThat(org, notNullValue());
+      JavaPackage fulib = (JavaPackage) javaPackagesEditor.getModelObject("fulib");
+      assertThat(fulib, notNullValue());
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsScenarioStart.svg",
-            root,
+            org,
             javaPackagesEditor.getActiveCommands().values());
 
-      ObjectTable<Object> pathTable = new ObjectTable<>("root", root)
-         .expandLink("root", "sub", JavaPackage.PROPERTY_subPackages)
-         .expandLink("sub", "leaf", JavaPackage.PROPERTY_subPackages)
-         .expandLink("leaf", "c", JavaPackage.PROPERTY_classes);
+      ObjectTable<Object> pathTable = new ObjectTable<>("org", org)
+         .expandLink("org", "fulib", JavaPackage.PROPERTY_subPackages)
+         .expandLink("fulib", "serv", JavaPackage.PROPERTY_subPackages)
+         .expandLink("serv", "Editor", JavaPackage.PROPERTY_classes);
       assertThat(pathTable.rowCount(), is(1));
 
       // forward to doc model
@@ -175,62 +175,62 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       addJavaDocComments(javaDocEditor);
 
       javaPackagesToJavaDoc.JavaDocWithPatterns.ModelCommand docCmd;
-      DocFile leafDoc;
+      DocFile servDoc;
 
-      Folder rootFolder = (Folder) javaDocEditor.getModelObject("root");
+      Folder rootFolder = (Folder) javaDocEditor.getModelObject("org");
       assertThat(rootFolder, notNullValue());
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsScenarioFirstForward.svg",
             javaDocEditor.getActiveCommands().values(),
             rootFolder);
 
-      ObjectTable<Object> docTable = new ObjectTable<>("root", rootFolder)
-         .expandLink("root", "sub", Folder.PROPERTY_subFolders)
-         .expandLink("sub", "subDoc", Folder.PROPERTY_files)
-         .expandLink("sub", "leaf", Folder.PROPERTY_subFolders)
-         .expandLink("leaf", "leafDoc", Folder.PROPERTY_files);
+      ObjectTable<Object> docTable = new ObjectTable<>("org", rootFolder)
+         .expandLink("org", "fulib", Folder.PROPERTY_subFolders)
+         .expandLink("fulib", "fulibDoc", Folder.PROPERTY_files)
+         .expandLink("fulib", "serv", Folder.PROPERTY_subFolders)
+         .expandLink("serv", "servDoc", Folder.PROPERTY_files);
       assertThat(docTable.rowCount(), is(2));
       assertThat(javaDocEditor.getActiveCommands().size(), is(javaPackagesEditor.getActiveCommands().size() + 3));
 
       // some editing on packages
-      assertThat(sub.getUp(), notNullValue());
+      assertThat(fulib.getPPack(), notNullValue());
       ArrayList<ModelCommand> newCommands = new ArrayList<>();
 
-      cmd = new HaveRoot().setId("nRoot");
+      cmd = new HaveRoot().setId("com");
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
-      cmd = new HaveSubUnit().setParent("nRoot").setId("root");
+      cmd = new HaveSubUnit().setParent("com").setId("org");
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
-      cmd = new HaveRoot().setId("sub");
+      cmd = new HaveRoot().setId("fulib");
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
-      cmd = new HaveLeaf().setParent("sub").setVTag("1.1").setId("c2");
+      cmd = new HaveLeaf().setParent("fulib").setVTag("1.1").setId("Command");
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
-      cmd = new HaveLeaf().setParent("leaf").setVTag("1.1").setId("c");
+      cmd = new HaveLeaf().setParent("serv").setVTag("1.1").setId("Editor");
       javaPackagesEditor.execute(cmd);
       newCommands.add(cmd);
 
-      assertThat(sub.getUp(), nullValue());
-      JavaPackage nRoot = (JavaPackage) javaPackagesEditor.getModelObject("nRoot");
+      assertThat(fulib.getPPack(), nullValue());
+      JavaPackage com = (JavaPackage) javaPackagesEditor.getModelObject("com");
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsSecondRoot.svg",
-            nRoot,
+            com,
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
 
       // meanwhile at the JavaDocs
       ArrayList<javaPackagesToJavaDoc.JavaDocWithPatterns.ModelCommand> newDocCommands = new ArrayList<>();
-      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.HaveLeaf().setParent("leaf").setVTag("1.2").setId("c3");
+      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.HaveLeaf().setParent("serv").setVTag("1.2").setId("Util");
       javaDocEditor.execute(docCmd);
       newDocCommands.add(docCmd);
 
-      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.HaveLeaf().setParent("leaf").setVTag("1.2").setId("c");
+      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.HaveLeaf().setParent("serv").setVTag("1.2").setId("Editor");
       javaDocEditor.execute(docCmd);
       newDocCommands.add(docCmd);
 
@@ -241,19 +241,19 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       // sync forward
       yaml = Yaml.encode(newCommands);
       javaDocEditor.loadYaml(yaml);
-      leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
-      assertThat(leafDoc.getContent(), is("leaf docu"));
+      servDoc = (DocFile) javaDocEditor.getModelObject("servDoc");
+      assertThat(servDoc.getContent(), is("serv docu"));
 
-      Folder nRootFolder = (Folder) javaDocEditor.getModelObject("nRoot");
+      Folder comFolder = (Folder) javaDocEditor.getModelObject("com");
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesWithPatternsSecondRootForward.svg",
             javaDocEditor.getActiveCommands().values(),
-            nRootFolder,
+            comFolder,
             javaDocEditor.getMapOfModelObjects().values());
 
-      Folder docSub = (Folder) javaDocEditor.getModelObject("sub");
-      assertThat(docSub.getUp(), nullValue());
-      DocFile subDoc = (DocFile) javaDocEditor.getModelObject("subDoc");
+      Folder docSub = (Folder) javaDocEditor.getModelObject("fulib");
+      assertThat(docSub.getPFolder(), nullValue());
+      DocFile subDoc = (DocFile) javaDocEditor.getModelObject("fulibDoc");
       assertThat(subDoc, nullValue());
 
 
@@ -266,21 +266,21 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
 
-      // remove nRoot
+      // remove com
       newDocCommands.clear();
 
-      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.RemoveCommand().setId("nRoot");
+      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.RemoveCommand().setId("com");
       javaDocEditor.execute(docCmd);
       newDocCommands.add(docCmd);
 
-      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.RemoveCommand().setId("root");
+      docCmd = new javaPackagesToJavaDoc.JavaDocWithPatterns.RemoveCommand().setId("org");
       javaDocEditor.execute(docCmd);
       newDocCommands.add(docCmd);
 
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaDocRootRemoved.svg",
             javaDocEditor.getActiveCommands().values(),
             javaDocEditor.getMapOfModelObjects().values());
-      assertThat(nRootFolder.getSubFolders().isEmpty(), is(true));
+      assertThat(comFolder.getSubFolders().isEmpty(), is(true));
 
       // sync remove
       yaml = Yaml.encode(newDocCommands);
@@ -288,35 +288,35 @@ public class TestPackageToDocWithPatterns implements PropertyChangeListener
       FulibTools.objectDiagrams().dumpSVG("tmp/JavaPackagesRootRemoved.svg",
             javaPackagesEditor.getMapOfModelObjects().values(),
             javaPackagesEditor.getActiveCommands().values());
-      assertThat(root.getUp(), nullValue());
+      assertThat(org.getPPack(), nullValue());
    }
 
    private void addJavaDocComments(JavaDocWithPatternsEditor javaDocEditor)
    {
-      javaPackagesToJavaDoc.JavaDocWithPatterns.ModelCommand docCmd = new HaveContent().setContent("sub docu")
-            .setOwner("subDoc").setId("subDoc");
+      javaPackagesToJavaDoc.JavaDocWithPatterns.ModelCommand docCmd = new HaveContent().setContent("fulib docu")
+            .setOwner("fulibDoc").setId("fulibDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("leaf docu").setOwner("leafDoc").setId("leafDoc");
+      docCmd = new HaveContent().setContent("serv docu").setOwner("servDoc").setId("servDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("c docu").setOwner("c").setId("c.content"); // TODO: fix overwriting of haveLeaf
+      docCmd = new HaveContent().setContent("Editor docu").setOwner("Editor").setId("Editor.content"); // TODO: fix overwriting of haveLeaf
       javaDocEditor.execute(docCmd);
-      DocFile leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
-      assertThat(leafDoc.getContent(), is("leaf docu"));
+      DocFile leafDoc = (DocFile) javaDocEditor.getModelObject("servDoc");
+      assertThat(leafDoc.getContent(), is("serv docu"));
    }
 
    private void buildJavaPackagesStartSituation(JavaPackagesWithPatternsEditor javaPackagesEditor)
    {
       // create package model
-      ModelCommand cmd = new HaveRoot().setId("root");
+      ModelCommand cmd = new HaveRoot().setId("org");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveSubUnit().setParent("root").setId("sub");
+      cmd = new HaveSubUnit().setParent("org").setId("fulib");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveSubUnit().setParent("sub").setId("leaf");
+      cmd = new HaveSubUnit().setParent("fulib").setId("serv");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveLeaf().setParent("leaf").setVTag("1.0").setId("c");
+      cmd = new HaveLeaf().setParent("serv").setVTag("1.0").setId("Editor");
       javaPackagesEditor.execute(cmd);
    }
 

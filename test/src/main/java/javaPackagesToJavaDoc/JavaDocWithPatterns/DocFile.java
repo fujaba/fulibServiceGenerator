@@ -6,10 +6,6 @@ import java.util.Objects;
 public class DocFile
 {
 
-   public static final String PROPERTY_up = "up";
-
-   private Folder up;
-
    protected PropertyChangeSupport listeners;
    public static final String PROPERTY_id = "id";
    private String id;
@@ -17,33 +13,8 @@ public class DocFile
    private String version;
    public static final String PROPERTY_content = "content";
    private String content;
-
-   public Folder getUp()
-   {
-      return this.up;
-   }
-
-   public DocFile setUp(Folder value)
-   {
-      if (this.up == value)
-      {
-         return this;
-      }
-
-      final Folder oldValue = this.up;
-      if (this.up != null)
-      {
-         this.up = null;
-         oldValue.withoutFiles(this);
-      }
-      this.up = value;
-      if (value != null)
-      {
-         value.withFiles(this);
-      }
-      this.firePropertyChange(PROPERTY_up, oldValue, value);
-      return this;
-   }
+   public static final String PROPERTY_folder = "folder";
+   private Folder folder;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -105,7 +76,7 @@ public class DocFile
 
    public void removeYou()
    {
-      this.setUp(null);
+      this.setFolder(null);
    }
 
    public String getId()
@@ -159,6 +130,33 @@ public class DocFile
       final String oldValue = this.content;
       this.content = value;
       this.firePropertyChange(PROPERTY_content, oldValue, value);
+      return this;
+   }
+
+   public Folder getFolder()
+   {
+      return this.folder;
+   }
+
+   public DocFile setFolder(Folder value)
+   {
+      if (this.folder == value)
+      {
+         return this;
+      }
+
+      final Folder oldValue = this.folder;
+      if (this.folder != null)
+      {
+         this.folder = null;
+         oldValue.withoutFiles(this);
+      }
+      this.folder = value;
+      if (value != null)
+      {
+         value.withFiles(this);
+      }
+      this.firePropertyChange(PROPERTY_folder, oldValue, value);
       return this;
    }
 

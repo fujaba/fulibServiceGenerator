@@ -9,7 +9,7 @@ public class HaveSubUnit extends ModelCommand
    {
       JavaPackage obj = (JavaPackage) editor.getOrCreate(JavaPackage.class, getId());
       JavaPackage parent = (JavaPackage) editor.getObjectFrame(JavaPackage.class, this.parent);
-      obj.setUp(parent);
+      obj.setPPack(parent);
 
       return obj;
    }
@@ -18,7 +18,7 @@ public class HaveSubUnit extends ModelCommand
    public void undo(JavaPackagesEditor editor)
    {
       JavaPackage obj = (JavaPackage) editor.removeModelObject(getId());
-      obj.setUp(null);
+      obj.setPPack(null);
    }
 
    @Override
@@ -30,11 +30,11 @@ public class HaveSubUnit extends ModelCommand
 
       JavaPackage currentPackage = (JavaPackage) currentObject;
 
-      if (currentPackage.getUp() == null) {
+      if (currentPackage.getPPack() == null) {
          return null;
       }
 
-      ModelCommand modelCommand = new HaveSubUnit().setParent(currentPackage.getUp().getId()).setId(currentPackage.getId());
+      ModelCommand modelCommand = new HaveSubUnit().setParent(currentPackage.getPPack().getId()).setId(currentPackage.getId());
 
       return modelCommand;
    }

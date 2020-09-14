@@ -134,9 +134,9 @@ public class ModelCommand
                // remove link
                if (targetHandleObject != null) {
                   try {
-                     Method withoutMethod = sourceHandleObject.getClass().getMethod("without" + StrUtil.cap(linkName), new Object[0].getClass());
+                     Method withoutMethod = sourceHandleObject.getClass().getMethod("without" + StrUtil.cap(linkName), targetHandleObject.getClass());
                      if (withoutMethod != null) {
-                        withoutMethod.invoke(sourceHandleObject, new Object[] {new Object[] {targetHandleObject}});
+                        withoutMethod.invoke(sourceHandleObject, targetHandleObject);
                      }
                      else {
                         Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
@@ -184,9 +184,10 @@ public class ModelCommand
                         continue;
                      }
 
-                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     Object[] valueArray = ((Collection)value).toArray();
-                     withoutMethod.invoke(handleObject, new Object[] {valueArray});
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass()
+                        .getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), Collection.class);
+                     ArrayList newValue = new ArrayList((Collection)value);
+                     withoutMethod.invoke(handleObject, newValue);
                   }
                   catch (Exception e) {
                      e.printStackTrace();

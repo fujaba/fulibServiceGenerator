@@ -25,7 +25,7 @@ public class HaveSubUnit extends ModelCommand
          PatternObject sf = new PatternObject().setPattern(pattern).setPoId("sf").setHandleObjectClass(Folder.class).setKind("context");
          new PatternAttribute().setObject(sf).setHandleAttrName(Folder.PROPERTY_id).setCommandParamName(HaveSubUnit.PROPERTY_parent);
 
-         new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_up).setTarget(sf);
+         new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_pFolder).setTarget(sf);
 
          new FulibPatternDiagram().dump("tmp/HaveDocSubUnit.svg", pattern);
       }

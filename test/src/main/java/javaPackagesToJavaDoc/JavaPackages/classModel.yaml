@@ -130,7 +130,7 @@
   modified: 	false
   name: 	JavaPackage
   propertyStyle: 	Bean
-  roles: 	javaPackage_subPackages 	javaPackage_up 	javaPackage_classes
+  roles: 	javaPackage_subPackages 	javaPackage_pPack 	javaPackage_classes
 
 - javaClass: 	Clazz
   attributes: 	javaClass_id 	javaClass_vTag
@@ -138,7 +138,7 @@
   modified: 	false
   name: 	JavaClass
   propertyStyle: 	Bean
-  roles: 	javaClass_up
+  roles: 	javaClass_pack
 
 - haveRoot: 	Clazz
   model: 	c
@@ -692,9 +692,9 @@
                // remove link
                if (targetHandleObject != null) {
                   try {
-                     Method withoutMethod = sourceHandleObject.getClass().getMethod(\"without\" + StrUtil.cap(linkName), new Object[0].getClass());
+                     Method withoutMethod = sourceHandleObject.getClass().getMethod(\"without\" + StrUtil.cap(linkName), targetHandleObject.getClass());
                      if (withoutMethod != null) {
-                        withoutMethod.invoke(sourceHandleObject, new Object[] {new Object[] {targetHandleObject}});
+                        withoutMethod.invoke(sourceHandleObject, targetHandleObject);
                      }
                      else {
                         Method setMethod = sourceHandleObject.getClass().getMethod(\"set\" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
@@ -750,9 +750,10 @@
                         continue;
                      }
 
-                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod(\"without\" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     Object[] valueArray = ((Collection)value).toArray();
-                     withoutMethod.invoke(handleObject, new Object[] {valueArray});
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass()
+                        .getMethod(\"without\" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), Collection.class);
+                     ArrayList newValue = new ArrayList((Collection)value);
+                     withoutMethod.invoke(handleObject, newValue);
                   }
                   catch (Exception e) {
                      e.printStackTrace();
@@ -1771,18 +1772,18 @@
   id: 	JavaPackage_subPackages
   modified: 	false
   name: 	subPackages
-  other: 	javaPackage_up
+  other: 	javaPackage_pPack
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- javaPackage_up: 	AssocRole
+- javaPackage_pPack: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	javaPackage
   collectionType: 	c1
-  id: 	JavaPackage_up
+  id: 	JavaPackage_pPack
   modified: 	false
-  name: 	up
+  name: 	pPack
   other: 	javaPackage_subPackages
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
@@ -1795,7 +1796,7 @@
   id: 	JavaPackage_classes
   modified: 	false
   name: 	classes
-  other: 	javaClass_up
+  other: 	javaClass_pack
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1817,14 +1818,14 @@
   type: 	String
   typeSignature: 	String
 
-- javaClass_up: 	AssocRole
+- javaClass_pack: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	javaClass
   collectionType: 	c1
-  id: 	JavaClass_up
+  id: 	JavaClass_pack
   modified: 	false
-  name: 	up
+  name: 	pack
   other: 	javaPackage_classes
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"

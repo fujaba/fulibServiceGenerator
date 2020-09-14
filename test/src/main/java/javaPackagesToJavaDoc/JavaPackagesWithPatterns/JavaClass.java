@@ -6,42 +6,13 @@ import java.util.Objects;
 public class JavaClass
 {
 
-   public static final String PROPERTY_up = "up";
-
-   private JavaPackage up;
-
    protected PropertyChangeSupport listeners;
    public static final String PROPERTY_id = "id";
    private String id;
    public static final String PROPERTY_vTag = "vTag";
    private String vTag;
-
-   public JavaPackage getUp()
-   {
-      return this.up;
-   }
-
-   public JavaClass setUp(JavaPackage value)
-   {
-      if (this.up == value)
-      {
-         return this;
-      }
-
-      final JavaPackage oldValue = this.up;
-      if (this.up != null)
-      {
-         this.up = null;
-         oldValue.withoutClasses(this);
-      }
-      this.up = value;
-      if (value != null)
-      {
-         value.withClasses(this);
-      }
-      this.firePropertyChange(PROPERTY_up, oldValue, value);
-      return this;
-   }
+   public static final String PROPERTY_pack = "pack";
+   private JavaPackage pack;
 
    public boolean firePropertyChange(String propertyName, Object oldValue, Object newValue)
    {
@@ -102,7 +73,7 @@ public class JavaClass
 
    public void removeYou()
    {
-      this.setUp(null);
+      this.setPack(null);
    }
 
    public String getId()
@@ -138,6 +109,33 @@ public class JavaClass
       final String oldValue = this.vTag;
       this.vTag = value;
       this.firePropertyChange(PROPERTY_vTag, oldValue, value);
+      return this;
+   }
+
+   public JavaPackage getPack()
+   {
+      return this.pack;
+   }
+
+   public JavaClass setPack(JavaPackage value)
+   {
+      if (this.pack == value)
+      {
+         return this;
+      }
+
+      final JavaPackage oldValue = this.pack;
+      if (this.pack != null)
+      {
+         this.pack = null;
+         oldValue.withoutClasses(this);
+      }
+      this.pack = value;
+      if (value != null)
+      {
+         value.withClasses(this);
+      }
+      this.firePropertyChange(PROPERTY_pack, oldValue, value);
       return this;
    }
 

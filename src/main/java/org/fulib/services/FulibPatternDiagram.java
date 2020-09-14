@@ -22,7 +22,7 @@ public class FulibPatternDiagram
          .toSet("object");
 
       final Set<?> contextObjects = new ObjectTable<>("pattern", pattern)
-         .expandLink("pattern", "objects", "object")
+         .expandLink("pattern", "object", "object")
          .expandLink("object", "kind", "kind")
          .filter("kind", "context"::equals)
          .toSet("object");

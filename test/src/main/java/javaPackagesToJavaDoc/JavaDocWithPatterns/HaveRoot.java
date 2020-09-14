@@ -15,8 +15,8 @@ public class HaveRoot extends ModelCommand
          PatternObject f = new PatternObject().setPattern(pattern).setPoId("f").setHandleObjectClass(Folder.class).setKind("core");
          new PatternAttribute().setObject(f).setHandleAttrName(Folder.PROPERTY_id).setCommandParamName(ModelCommand.PROPERTY_id);
 
-         PatternObject sf = new PatternObject().setPattern(pattern).setPoId("sf").setHandleObjectClass(Folder.class).setKind("nac");
-         new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_up).setTarget(sf).setKind("nac");
+         PatternObject pf = new PatternObject().setPattern(pattern).setPoId("pf").setHandleObjectClass(Folder.class).setKind("nac");
+         new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_pFolder).setTarget(pf).setKind("nac");
 
          PatternObject d = new PatternObject().setPattern(pattern).setPoId("d").setHandleObjectClass(DocFile.class).setKind("nac");
          new PatternAttribute().setObject(d).setHandleAttrName(DocFile.PROPERTY_id).setCommandParamName("docId");

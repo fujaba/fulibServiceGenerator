@@ -9,7 +9,7 @@ public class HaveLeaf extends ModelCommand
    {
       JavaClass obj = (JavaClass) editor.getOrCreate(JavaClass.class, getId());
       JavaPackage parent = (JavaPackage) editor.getObjectFrame(JavaPackage.class, this.parent);
-      obj.setUp(parent);
+      obj.setPack(parent);
       obj.setVTag(vTag);
       return obj;
    }
@@ -18,7 +18,7 @@ public class HaveLeaf extends ModelCommand
    public void undo(JavaPackagesEditor editor)
    {
       JavaClass obj = (JavaClass) editor.removeModelObject(getId());
-      obj.setUp(null);
+      obj.setPack(null);
    }
 
    @Override
@@ -30,12 +30,12 @@ public class HaveLeaf extends ModelCommand
 
       JavaClass currentClass = (JavaClass) currentObject;
 
-      if (currentClass.getUp() == null) {
+      if (currentClass.getPack() == null) {
          ModelCommand modelCommand = new RemoveCommand().setId(currentClass.getId());
          return modelCommand;
       }
 
-      ModelCommand modelCommand = new HaveLeaf().setParent(currentClass.getUp().getId()).setId(currentClass.getId());
+      ModelCommand modelCommand = new HaveLeaf().setParent(currentClass.getPack().getId()).setId(currentClass.getId());
 
       return modelCommand;
    }

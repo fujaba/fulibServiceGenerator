@@ -9,7 +9,7 @@ public class HaveSubUnit extends ModelCommand
    {
       Folder p = (Folder) editor.getOrCreate(Folder.class, getId());
       Folder sp = (Folder) editor.getObjectFrame(Folder.class, parent);
-      p.setUp(sp);
+      p.setPFolder(sp);
 
       String docId = getId() + "Doc";
       DocFile d = (DocFile) editor.getOrCreate(DocFile.class, docId);
@@ -23,11 +23,11 @@ public class HaveSubUnit extends ModelCommand
    public void undo(JavaDocEditor editor)
    {
       Folder obj = (Folder) editor.removeModelObject(getId());
-      obj.setUp(null);
+      obj.setPFolder(null);
 
       String docId = getId() + "Doc";
       DocFile file = (DocFile) editor.removeModelObject(docId);
-      file.setUp(null);
+      file.setFolder(null);
    }
 
    @Override

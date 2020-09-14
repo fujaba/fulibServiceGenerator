@@ -20,7 +20,7 @@ public class HaveSubUnit extends ModelCommand
          PatternObject sp = new PatternObject().setPattern(pattern).setPoId("sp").setHandleObjectClass(JavaPackage.class).setKind("context");
          new PatternAttribute().setObject(sp).setHandleAttrName(JavaPackage.PROPERTY_id).setCommandParamName(HaveSubUnit.PROPERTY_parent);
 
-         new PatternLink().setSource(p).setHandleLinkName(JavaPackage.PROPERTY_up).setTarget(sp);
+         new PatternLink().setSource(p).setHandleLinkName(JavaPackage.PROPERTY_pPack).setTarget(sp);
 
          new FulibPatternDiagram().dump("tmp/HaveSubUnit.svg", pattern);
       }

@@ -23,7 +23,7 @@ public class HaveLeaf extends ModelCommand
          PatternObject f = new PatternObject().setPattern(pattern).setPoId("f").setHandleObjectClass(Folder.class).setKind("context");
          new PatternAttribute().setObject(f).setHandleAttrName(Folder.PROPERTY_id).setCommandParamName(HaveLeaf.PROPERTY_parent);
 
-         new PatternLink().setSource(d).setHandleLinkName(DocFile.PROPERTY_up).setTarget(f);
+         new PatternLink().setSource(d).setHandleLinkName(DocFile.PROPERTY_folder).setTarget(f);
 
          new FulibPatternDiagram().dump("tmp/HaveDocLeaf.svg", pattern);
       }

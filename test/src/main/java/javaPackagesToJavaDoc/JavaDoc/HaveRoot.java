@@ -6,7 +6,7 @@ public class HaveRoot extends ModelCommand
    public Object run(JavaDocEditor editor)
    {
       Folder f = (Folder) editor.getOrCreate(Folder.class, getId());
-      f.setUp(null);
+      f.setPFolder(null);
 
       String docId = getId() + "Doc";
       DocFile d = f.getFromFiles(docId);

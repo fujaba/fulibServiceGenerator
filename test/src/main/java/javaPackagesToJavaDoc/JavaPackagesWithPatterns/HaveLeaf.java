@@ -23,7 +23,7 @@ public class HaveLeaf extends ModelCommand
          PatternObject p = new PatternObject().setPattern(pattern).setPoId("p").setHandleObjectClass(JavaPackage.class).setKind("context");
          new PatternAttribute().setObject(p).setHandleAttrName(JavaPackage.PROPERTY_id).setCommandParamName(HaveLeaf.PROPERTY_parent);
 
-         new PatternLink().setSource(c).setHandleLinkName(JavaClass.PROPERTY_up).setTarget(p);
+         new PatternLink().setSource(c).setHandleLinkName(JavaClass.PROPERTY_pack).setTarget(p);
 
          new FulibPatternDiagram().dump("tmp/HaveLeaf.svg", pattern);
       }

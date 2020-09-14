@@ -186,9 +186,10 @@ public class ModelCommand
                         continue;
                      }
 
-                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     Object[] valueArray = ((Collection)value).toArray();
-                     withoutMethod.invoke(handleObject, new Object[] {valueArray});
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass()
+                        .getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), Collection.class);
+                     ArrayList newValue = new ArrayList((Collection)value);
+                     withoutMethod.invoke(handleObject, newValue);
                   }
                   catch (Exception e) {
                      e.printStackTrace();

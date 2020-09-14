@@ -6,7 +6,7 @@ public class HaveRoot extends ModelCommand
    public Object run(JavaPackagesEditor editor)
    {
       JavaPackage obj = (JavaPackage) editor.getOrCreate(JavaPackage.class, getId());
-      obj.setUp(null);
+      obj.setPPack(null);
 
       return obj;
    }
@@ -26,7 +26,7 @@ public class HaveRoot extends ModelCommand
 
       JavaPackage currentPackage = (JavaPackage) currentObject;
 
-      if (currentPackage.getUp() != null) {
+      if (currentPackage.getPPack() != null) {
          return null;
       }
 

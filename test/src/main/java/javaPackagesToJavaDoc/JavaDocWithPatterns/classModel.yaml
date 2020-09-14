@@ -130,7 +130,7 @@
   modified: 	false
   name: 	Folder
   propertyStyle: 	Bean
-  roles: 	folder_subFolders 	folder_up 	folder_files
+  roles: 	folder_subFolders 	folder_pFolder 	folder_files
 
 - docFile: 	Clazz
   attributes: 	docFile_id 	docFile_version 	docFile_content
@@ -138,7 +138,7 @@
   modified: 	false
   name: 	DocFile
   propertyStyle: 	Bean
-  roles: 	docFile_up
+  roles: 	docFile_folder
 
 - haveContent: 	Clazz
   attributes: 	haveContent_owner 	haveContent_content
@@ -701,9 +701,9 @@
                // remove link
                if (targetHandleObject != null) {
                   try {
-                     Method withoutMethod = sourceHandleObject.getClass().getMethod(\"without\" + StrUtil.cap(linkName), new Object[0].getClass());
+                     Method withoutMethod = sourceHandleObject.getClass().getMethod(\"without\" + StrUtil.cap(linkName), targetHandleObject.getClass());
                      if (withoutMethod != null) {
-                        withoutMethod.invoke(sourceHandleObject, new Object[] {new Object[] {targetHandleObject}});
+                        withoutMethod.invoke(sourceHandleObject, targetHandleObject);
                      }
                      else {
                         Method setMethod = sourceHandleObject.getClass().getMethod(\"set\" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
@@ -759,9 +759,10 @@
                         continue;
                      }
 
-                     java.lang.reflect.Method withoutMethod = handleObject.getClass().getMethod(\"without\" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), new Object[]{}.getClass());
-                     Object[] valueArray = ((Collection)value).toArray();
-                     withoutMethod.invoke(handleObject, new Object[] {valueArray});
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass()
+                        .getMethod(\"without\" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), Collection.class);
+                     ArrayList newValue = new ArrayList((Collection)value);
+                     withoutMethod.invoke(handleObject, newValue);
                   }
                   catch (Exception e) {
                      e.printStackTrace();
@@ -1780,18 +1781,18 @@
   id: 	Folder_subFolders
   modified: 	false
   name: 	subFolders
-  other: 	folder_up
+  other: 	folder_pFolder
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
-- folder_up: 	AssocRole
+- folder_pFolder: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	folder
   collectionType: 	c1
-  id: 	Folder_up
+  id: 	Folder_pFolder
   modified: 	false
-  name: 	up
+  name: 	pFolder
   other: 	folder_subFolders
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
@@ -1804,7 +1805,7 @@
   id: 	Folder_files
   modified: 	false
   name: 	files
-  other: 	docFile_up
+  other: 	docFile_folder
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"
 
@@ -1835,14 +1836,14 @@
   type: 	String
   typeSignature: 	String
 
-- docFile_up: 	AssocRole
+- docFile_folder: 	AssocRole
   aggregation: 	false
   cardinality: 	1
   clazz: 	docFile
   collectionType: 	c1
-  id: 	DocFile_up
+  id: 	DocFile_folder
   modified: 	false
-  name: 	up
+  name: 	folder
   other: 	folder_files
   propertyStyle: 	Bean
   roleType: 	"java.util.ArrayList<%s>"

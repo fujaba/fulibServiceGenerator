@@ -9,7 +9,7 @@ public class HaveLeaf extends ModelCommand
    {
       DocFile obj = (DocFile) editor.getOrCreate(DocFile.class, getId());
       Folder up = (Folder) editor.getObjectFrame(Folder.class, parent);
-      obj.setUp(up);
+      obj.setFolder(up);
       obj.setVersion(vTag);
 
       return obj;
@@ -19,7 +19,7 @@ public class HaveLeaf extends ModelCommand
    public void undo(JavaDocEditor editor)
    {
       DocFile obj = (DocFile) editor.removeModelObject(getId());
-      obj.setUp(null);
+      obj.setFolder(null);
    }
 
    @Override
