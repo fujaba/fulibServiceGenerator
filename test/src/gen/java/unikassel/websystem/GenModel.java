@@ -84,8 +84,8 @@ public class GenModel
       javaPackagesManager.haveAttribute(javaClass, "id", STRING);
       javaPackagesManager.haveAttribute(javaClass, "vTag", STRING);
 
-      javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "up", ONE);
-      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "up", ONE);
+      javaPackagesManager.haveRole(javaPackage, "subPackages", javaPackage, MANY, "pPack", ONE);
+      javaPackagesManager.haveRole(javaPackage, "classes", javaClass, MANY, "pack", ONE);
 
       FulibTools.classDiagrams().dumpSVG(javaPackagesManager.getClassModel(), "tmp/JavaPackagesClassModel");
    }

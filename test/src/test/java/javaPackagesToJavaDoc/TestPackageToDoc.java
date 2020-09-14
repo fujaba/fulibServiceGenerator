@@ -301,30 +301,30 @@ public class TestPackageToDoc implements PropertyChangeListener
 
    private void addJavaDocComments(JavaDocEditor javaDocEditor)
    {
-      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("sub docu")
-            .setOwner("subDoc").setId("subDoc");
+      javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("fulib docu")
+            .setOwner("fulibDoc").setId("fulibDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("leaf docu").setOwner("leafDoc").setId("leafDoc");
+      docCmd = new HaveContent().setContent("serv docu").setOwner("servDoc").setId("servDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("c docu").setOwner("c").setId("c.content"); // TODO: fix overwriting of haveLeaf
+      docCmd = new HaveContent().setContent("Editor docu").setOwner("Editor").setId("Editor.content"); // TODO: fix overwriting of haveLeaf
       javaDocEditor.execute(docCmd);
-      DocFile leafDoc = (DocFile) javaDocEditor.getModelObject("leafDoc");
-      assertThat(leafDoc.getContent(), is("leaf docu"));
+      DocFile servDoc = (DocFile) javaDocEditor.getModelObject("servDoc");
+      assertThat(servDoc.getContent(), is("serv docu"));
    }
 
    private void buildJavaPackagesStartSituation(JavaPackagesEditor javaPackagesEditor)
    {
       // create package model
-      ModelCommand cmd = new HaveRoot().setId("root");
+      ModelCommand cmd = new HaveRoot().setId("org");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveSubUnit().setParent("root").setId("sub");
+      cmd = new HaveSubUnit().setParent("org").setId("fulib");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveSubUnit().setParent("sub").setId("leaf");
+      cmd = new HaveSubUnit().setParent("fulib").setId("serv");
       javaPackagesEditor.execute(cmd);
 
-      cmd = new HaveLeaf().setParent("leaf").setVTag("1.0").setId("c");
+      cmd = new HaveLeaf().setParent("serv").setVTag("1.0").setId("Editor");
       javaPackagesEditor.execute(cmd);
    }
 
