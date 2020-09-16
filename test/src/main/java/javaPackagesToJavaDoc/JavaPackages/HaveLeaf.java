@@ -15,7 +15,7 @@ public class HaveLeaf extends ModelCommand
    }
 
    @Override
-   public void undo(JavaPackagesEditor editor)
+   public void remove(JavaPackagesEditor editor)
    {
       JavaClass obj = (JavaClass) editor.removeModelObject(getId());
       obj.setPack(null);

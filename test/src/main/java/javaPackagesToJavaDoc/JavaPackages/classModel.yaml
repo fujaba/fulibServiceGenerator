@@ -22,7 +22,7 @@
   attributes: 	modelCommand_id 	modelCommand_time
   importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
   imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
-  methods: 	run 	undo 	parse2 	overwrites 	matchAttributesAndLinks 	getSetOfTargetHandles 	havePattern 	getHandleObjectAttributeValue
+  methods: 	run 	remove 	parse2 	overwrites 	matchAttributesAndLinks 	getSetOfTargetHandles 	havePattern 	getHandleObjectAttributeValue
   model: 	c
   modified: 	false
   name: 	ModelCommand
@@ -718,10 +718,10 @@
   returnType: 	Object
   signature: 	"class/ModelCommand/method/run(JavaPackagesEditor)"
 
-- undo: 	FMethod
+- remove: 	FMethod
   annotations: 	""
   clazz: 	modelCommand
-  declaration: 	"public void undo(JavaPackagesEditor editor)"
+  declaration: 	"public void remove(JavaPackagesEditor editor)"
   methodBody: 	"      Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -767,10 +767,10 @@
 "
   modified: 	false
   modifiers: 	public
-  name: 	undo
+  name: 	remove
   paramsString: 	"JavaPackagesEditor editor"
   returnType: 	void
-  signature: 	"class/ModelCommand/method/undo(JavaPackagesEditor)"
+  signature: 	"class/ModelCommand/method/remove(JavaPackagesEditor)"
 
 - parse2: 	FMethod
   annotations: 	""
@@ -954,7 +954,7 @@
   methodBody: 	"      editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
       if (oldCommand != null) {
-         oldCommand.undo(editor);
+         oldCommand.remove(editor);
       }
       return null;
 "

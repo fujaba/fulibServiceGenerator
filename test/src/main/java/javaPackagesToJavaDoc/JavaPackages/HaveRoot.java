@@ -5,14 +5,14 @@ public class HaveRoot extends ModelCommand
    @Override
    public Object run(JavaPackagesEditor editor)
    {
-      JavaPackage obj = (JavaPackage) editor.getOrCreate(JavaPackage.class, getId());
+      JavaPackage obj = (JavaPackage) editor.getOrCreate(JavaPackage.class, this.getId());
       obj.setPPack(null);
 
       return obj;
    }
 
    @Override
-   public void undo(JavaPackagesEditor editor)
+   public void remove(JavaPackagesEditor editor)
    {
       editor.removeModelObject(getId());
    }

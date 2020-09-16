@@ -20,7 +20,7 @@ public class HaveSubUnit extends ModelCommand
    }
 
    @Override
-   public void undo(JavaDocEditor editor)
+   public void remove(JavaDocEditor editor)
    {
       Folder obj = (Folder) editor.removeModelObject(getId());
       obj.setPFolder(null);

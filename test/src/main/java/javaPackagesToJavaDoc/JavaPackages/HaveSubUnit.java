@@ -15,7 +15,7 @@ public class HaveSubUnit extends ModelCommand
    }
 
    @Override
-   public void undo(JavaPackagesEditor editor)
+   public void remove(JavaPackagesEditor editor)
    {
       JavaPackage obj = (JavaPackage) editor.removeModelObject(getId());
       obj.setPPack(null);

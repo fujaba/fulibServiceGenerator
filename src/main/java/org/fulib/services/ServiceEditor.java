@@ -102,8 +102,8 @@ public class ServiceEditor
       mm.haveMethod(modelCommand, "public Object run(" + this.editor.getName() + " editor)",
                     group.getInstanceOf("modelCommandRun").render());
 
-      mm.haveMethod(modelCommand, "public void undo(" + this.editor.getName() + " editor)",
-                    group.getInstanceOf("modelCommandUndo").render());
+      mm.haveMethod(modelCommand, "public void remove(" + this.editor.getName() + " editor)",
+                    group.getInstanceOf("modelCommandRemove").render());
 
       mm.haveMethod(modelCommand, "public ModelCommand parse(Object currentObject)",
                     group.getInstanceOf("modelCommandParse").render());

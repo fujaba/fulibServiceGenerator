@@ -338,7 +338,7 @@ modelCommandRun() ::= <<
 
 >>
 
-modelCommandUndo() ::= <<
+modelCommandRemove() ::= <<
       Pattern pattern = havePattern();
 
       if (pattern == null) {
@@ -511,7 +511,7 @@ removeCommandRun() ::= <<
       editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
       if (oldCommand != null) {
-         oldCommand.undo(editor);
+         oldCommand.remove(editor);
       }
       return null;
 

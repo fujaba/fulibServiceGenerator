@@ -165,52 +165,6 @@ public class ModelCommand
       return newCommand;
    }
 
-   public void undo(M2Editor editor)
-   {
-      Pattern pattern = havePattern();
-
-      if (pattern == null) {
-         return;
-      }
-
-      for (PatternObject patternObject : pattern.getObjects()) {
-         if (patternObject.getKind() == "core") {
-            String id = (String) getHandleObjectAttributeValue(patternObject, "id");
-            Object handleObject = editor.getObjectFrame(null, id);
-            for (PatternLink link : patternObject.getLinks()) {
-               String linkName = link.getHandleLinkName();
-               Reflector handleObjectReflector = new Reflector().setClassName(handleObject.getClass().getName());
-               Object value = handleObjectReflector.getValue(handleObject, linkName);
-               if (value != null && value instanceof java.util.Collection) {
-                  try {
-                     if (((Collection) value).isEmpty()) {
-                        continue;
-                     }
-
-                     java.lang.reflect.Method withoutMethod = handleObject.getClass()
-                        .getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), Collection.class);
-                     ArrayList newValue = new ArrayList((Collection)value);
-                     withoutMethod.invoke(handleObject, newValue);
-                  }
-                  catch (Exception e) {
-                     e.printStackTrace();
-                  }
-               }
-               else {
-                  try {
-                     java.lang.reflect.Method setMethod = handleObject.getClass().getMethod("set" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1),
-                           link.getTarget().getHandleObjectClass());
-                     setMethod.invoke(handleObject, new Object[]{null});
-                  }
-                  catch (Exception e) {
-                     e.printStackTrace();
-                  }
-               }
-            }
-         }
-      }
-   }
-
    public Set getSetOfTargetHandles(Map map, String poId, String linkName)
    {
       Object sourceHandleObject = map.get(poId);
@@ -308,6 +262,52 @@ public class ModelCommand
             }
          }
       return true;
+   }
+
+   public void remove(M2Editor editor)
+   {
+      Pattern pattern = havePattern();
+
+      if (pattern == null) {
+         return;
+      }
+
+      for (PatternObject patternObject : pattern.getObjects()) {
+         if (patternObject.getKind() == "core") {
+            String id = (String) getHandleObjectAttributeValue(patternObject, "id");
+            Object handleObject = editor.getObjectFrame(null, id);
+            for (PatternLink link : patternObject.getLinks()) {
+               String linkName = link.getHandleLinkName();
+               Reflector handleObjectReflector = new Reflector().setClassName(handleObject.getClass().getName());
+               Object value = handleObjectReflector.getValue(handleObject, linkName);
+               if (value != null && value instanceof java.util.Collection) {
+                  try {
+                     if (((Collection) value).isEmpty()) {
+                        continue;
+                     }
+
+                     java.lang.reflect.Method withoutMethod = handleObject.getClass()
+                        .getMethod("without" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1), Collection.class);
+                     ArrayList newValue = new ArrayList((Collection)value);
+                     withoutMethod.invoke(handleObject, newValue);
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+               else {
+                  try {
+                     java.lang.reflect.Method setMethod = handleObject.getClass().getMethod("set" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1),
+                           link.getTarget().getHandleObjectClass());
+                     setMethod.invoke(handleObject, new Object[]{null});
+                  }
+                  catch (Exception e) {
+                     e.printStackTrace();
+                  }
+               }
+            }
+         }
+      }
    }
 
 }

@@ -16,7 +16,7 @@ public class HaveLeaf extends ModelCommand
    }
 
    @Override
-   public void undo(JavaDocEditor editor)
+   public void remove(JavaDocEditor editor)
    {
       DocFile obj = (DocFile) editor.removeModelObject(getId());
       obj.setFolder(null);

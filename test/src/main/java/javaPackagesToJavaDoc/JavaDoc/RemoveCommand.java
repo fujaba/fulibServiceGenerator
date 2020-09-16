@@ -9,7 +9,7 @@ public class RemoveCommand extends ModelCommand
       editor.removeModelObject(getId());
       ModelCommand oldCommand = editor.getActiveCommands().get(getId());
       if (oldCommand != null) {
-         oldCommand.undo(editor);
+         oldCommand.remove(editor);
       }
       return null;
    }
