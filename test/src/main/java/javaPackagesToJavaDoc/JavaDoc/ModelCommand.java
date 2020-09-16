@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.*;
 import java.util.Objects;
 import org.fulib.tables.ObjectTable;
+import org.fulib.yaml.Yaml;
 
 public class ModelCommand
 {
@@ -291,6 +292,20 @@ public class ModelCommand
             }
          }
       }
+   }
+
+   public boolean overwrites(ModelCommand oldCommand)
+   {
+         if (oldCommand.getTime().compareTo(time) > 0) {
+            return false;
+         } else if (oldCommand.getTime().equals(time)) {
+            String oldYaml = Yaml.encode(oldCommand);
+            String newYaml = Yaml.encode(this);
+            if (oldYaml.compareTo(newYaml) >= 0) {
+               return false;
+            }
+         }
+      return true;
    }
 
 }

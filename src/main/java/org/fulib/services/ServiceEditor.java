@@ -108,6 +108,9 @@ public class ServiceEditor
       mm.haveMethod(modelCommand, "public ModelCommand parse(Object currentObject)",
                     group.getInstanceOf("modelCommandParse").render());
 
+      mm.haveMethod(modelCommand, "public boolean overwrites(ModelCommand oldCommand)",
+                    group.getInstanceOf("modelCommandOverwrites").render());
+
       mm.haveMethod(modelCommand,
                     "public void matchAttributesAndLinks(Pattern pattern, PatternObject currentPatternObject, ObjectTable<Object> pathTable)",
                     group.getInstanceOf("modelCommandMatchAttributesAndLinks").render());
@@ -123,6 +126,7 @@ public class ServiceEditor
 
       modelCommand.withImports("org.fulib.yaml.Reflector");
       modelCommand.withImports("org.fulib.yaml.StrUtil");
+      modelCommand.withImports("import org.fulib.yaml.Yaml;");
       modelCommand.withImports("java.lang.reflect.Method");
       modelCommand.withImports("org.fulib.tables.ObjectTable");
       modelCommand.withImports("java.util.*");

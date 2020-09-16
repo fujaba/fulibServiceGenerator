@@ -20,9 +20,9 @@
 
 - modelCommand: 	Clazz
   attributes: 	modelCommand_id 	modelCommand_time
-  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
-  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
-  methods: 	run 	undo 	parse2 	matchAttributesAndLinks 	getSetOfTargetHandles 	havePattern 	getHandleObjectAttributeValue
+  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
+  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
+  methods: 	run 	undo 	parse2 	overwrites 	matchAttributesAndLinks 	getSetOfTargetHandles 	havePattern 	getHandleObjectAttributeValue
   model: 	c
   modified: 	false
   name: 	ModelCommand
@@ -445,16 +445,8 @@
 
       ModelCommand oldCommand = activeCommands.get(id);
 
-      if (oldCommand != null) {
-         if (oldCommand.getTime().compareTo(time) > 0) {
-            return;
-         } else if (oldCommand.getTime().equals(time)) {
-            String oldYaml = Yaml.encode(oldCommand);
-            String newYaml = Yaml.encode(command);
-            if (oldYaml.compareTo(newYaml) >= 0) {
-               return;
-            }
-         }
+      if (oldCommand != null && ! command.overwrites(oldCommand)) {
+         return;
       }
 
       command.run(this);
@@ -828,6 +820,28 @@
   paramsString: 	"Object currentObject"
   returnType: 	ModelCommand
   signature: 	"class/ModelCommand/method/parse(Object)"
+
+- overwrites: 	FMethod
+  annotations: 	""
+  clazz: 	modelCommand
+  declaration: 	"public boolean overwrites(ModelCommand oldCommand)"
+  methodBody: 	"         if (oldCommand.getTime().compareTo(time) > 0) {
+            return false;
+         } else if (oldCommand.getTime().equals(time)) {
+            String oldYaml = Yaml.encode(oldCommand);
+            String newYaml = Yaml.encode(this);
+            if (oldYaml.compareTo(newYaml) >= 0) {
+               return false;
+            }
+         }
+      return true;
+"
+  modified: 	false
+  modifiers: 	public
+  name: 	overwrites
+  paramsString: 	"ModelCommand oldCommand"
+  returnType: 	boolean
+  signature: 	"class/ModelCommand/method/overwrites(ModelCommand)"
 
 - matchAttributesAndLinks: 	FMethod
   annotations: 	""

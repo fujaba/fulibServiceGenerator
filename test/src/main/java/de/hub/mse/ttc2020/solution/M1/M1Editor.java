@@ -202,16 +202,8 @@ public void removeYou()
 
       ModelCommand oldCommand = activeCommands.get(id);
 
-      if (oldCommand != null) {
-         if (oldCommand.getTime().compareTo(time) > 0) {
-            return;
-         } else if (oldCommand.getTime().equals(time)) {
-            String oldYaml = Yaml.encode(oldCommand);
-            String newYaml = Yaml.encode(command);
-            if (oldYaml.compareTo(newYaml) >= 0) {
-               return;
-            }
-         }
+      if (oldCommand != null && ! command.overwrites(oldCommand)) {
+         return;
       }
 
       command.run(this);

@@ -22,10 +22,10 @@ public class HaveSubUnit extends ModelCommand
 
          new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_files).setTarget(d);
 
-         PatternObject sf = new PatternObject().setPattern(pattern).setPoId("sf").setHandleObjectClass(Folder.class).setKind("context");
-         new PatternAttribute().setObject(sf).setHandleAttrName(Folder.PROPERTY_id).setCommandParamName(HaveSubUnit.PROPERTY_parent);
+         PatternObject pf = new PatternObject().setPattern(pattern).setPoId("pf").setHandleObjectClass(Folder.class).setKind("context");
+         new PatternAttribute().setObject(pf).setHandleAttrName(Folder.PROPERTY_id).setCommandParamName(HaveSubUnit.PROPERTY_parent);
 
-         new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_pFolder).setTarget(sf);
+         new PatternLink().setSource(f).setHandleLinkName(Folder.PROPERTY_pFolder).setTarget(pf);
 
          new FulibPatternDiagram().dump("tmp/HaveDocSubUnit.svg", pattern);
       }

@@ -1,15 +1,12 @@
 package de.hub.mse.ttc2020.solution.M1;
 
+import org.fulib.tables.ObjectTable;
 import org.fulib.yaml.Reflector;
+import org.fulib.yaml.StrUtil;
+import org.fulib.yaml.Yaml;
 
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
 import java.util.*;
-
-import org.fulib.yaml.StrUtil;
-import java.util.Objects;
-import org.fulib.tables.ObjectTable;
 
 public class ModelCommand
 {
@@ -293,6 +290,20 @@ public class ModelCommand
             }
          }
       }
+   }
+
+   public boolean overwrites(ModelCommand oldCommand)
+   {
+         if (oldCommand.getTime().compareTo(time) > 0) {
+            return false;
+         } else if (oldCommand.getTime().equals(time)) {
+            String oldYaml = Yaml.encode(oldCommand);
+            String newYaml = Yaml.encode(this);
+            if (oldYaml.compareTo(newYaml) >= 0) {
+               return false;
+            }
+         }
+      return true;
    }
 
 }
