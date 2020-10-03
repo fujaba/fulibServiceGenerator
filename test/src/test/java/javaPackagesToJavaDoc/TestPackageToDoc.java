@@ -255,7 +255,7 @@ public class TestPackageToDoc implements PropertyChangeListener
       // sync forward
       yaml = Yaml.encode(newCommands);
       javaDocEditor.loadYaml(yaml);
-      servDoc = (DocFile) javaDocEditor.getModelObject("servDoc");
+      servDoc = (DocFile) javaDocEditor.getModelObject("serv.Doc");
       assertThat(servDoc.getContent(), is("serv docu"));
 
       Folder comFolder = (Folder) javaDocEditor.getModelObject("com");
@@ -303,11 +303,11 @@ public class TestPackageToDoc implements PropertyChangeListener
       javaPackagesToJavaDoc.JavaDoc.ModelCommand docCmd = new HaveContent().setContent("fulib docu")
             .setOwner("fulibDoc").setId("fulibDoc");
       javaDocEditor.execute(docCmd);
-      docCmd = new HaveContent().setContent("serv docu").setOwner("servDoc").setId("servDoc");
+      docCmd = new HaveContent().setContent("serv docu").setOwner("serv.Doc").setId("serv.Doc");
       javaDocEditor.execute(docCmd);
       docCmd = new HaveContent().setContent("Editor docu").setOwner("Editor").setId("Editor.content"); // TODO: fix overwriting of haveLeaf
       javaDocEditor.execute(docCmd);
-      DocFile servDoc = (DocFile) javaDocEditor.getModelObject("servDoc");
+      DocFile servDoc = (DocFile) javaDocEditor.getModelObject("serv.Doc");
       assertThat(servDoc.getContent(), is("serv docu"));
    }
 

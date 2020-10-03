@@ -8,7 +8,7 @@ public class HaveRoot extends ModelCommand
       Folder f = (Folder) editor.getOrCreate(Folder.class, getId());
       f.setPFolder(null);
 
-      String docId = getId() + "Doc";
+      String docId = getId() + ".Doc";
       DocFile d = f.getFromFiles(docId);
       if (d != null) {
          editor.removeModelObject(d.getId());

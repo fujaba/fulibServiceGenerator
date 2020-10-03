@@ -11,7 +11,7 @@ public class HaveSubUnit extends ModelCommand
       Folder sp = (Folder) editor.getObjectFrame(Folder.class, parent);
       p.setPFolder(sp);
 
-      String docId = getId() + "Doc";
+      String docId = getId() + ".Doc";
       DocFile d = (DocFile) editor.getOrCreate(DocFile.class, docId);
       d.setContent(getId());
       p.withFiles(d);
@@ -25,7 +25,7 @@ public class HaveSubUnit extends ModelCommand
       Folder obj = (Folder) editor.removeModelObject(getId());
       obj.setPFolder(null);
 
-      String docId = getId() + "Doc";
+      String docId = getId() + ".Doc";
       DocFile file = (DocFile) editor.removeModelObject(docId);
       file.setFolder(null);
    }

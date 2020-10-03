@@ -28,7 +28,7 @@ public class HaveRoot extends ModelCommand
    }
 
    public String getDocId() {
-      return getId() + "Doc";
+      return getId() + ".Doc";
    }
 
    public void setDocId() {
