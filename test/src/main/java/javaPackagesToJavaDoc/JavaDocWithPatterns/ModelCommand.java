@@ -1,14 +1,13 @@
 package javaPackagesToJavaDoc.JavaDocWithPatterns;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 import org.fulib.yaml.Reflector;
 import org.fulib.yaml.StrUtil;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.*;
-import java.util.Objects;
+
 import org.fulib.tables.ObjectTable;
 import org.fulib.yaml.Yaml;
+import org.fulib.patterns.*;
 
 public class ModelCommand
 {
@@ -35,7 +34,7 @@ public class ModelCommand
       }
 
       PatternObject firstPatternObject = pattern.getObjects().get(0);
-      if ( ! firstPatternObject.getHandleObjectClass().equals(currentObject.getClass())) {
+      if ( ! firstPatternObject.readHandleObjectClass().equals(currentObject.getClass())) {
          // not my business
          return null;
       }
@@ -90,7 +89,7 @@ public class ModelCommand
             // do not handle
             continue;
          }
-         Class handleObjectClass = patternObject.getHandleObjectClass();
+         Class handleObjectClass = patternObject.readHandleObjectClass();
          Object handleObject = null;
          if (patternObject.getKind().equals("core") ) {
             handleObject = editor.getOrCreate(handleObjectClass, handleObjectId);
@@ -140,7 +139,7 @@ public class ModelCommand
                         withoutMethod.invoke(sourceHandleObject, targetHandleObject);
                      }
                      else {
-                        Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                        Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().readHandleObjectClass());
                         setMethod.invoke(sourceHandleObject, new Object[] {null});
                      }
                   }
@@ -150,7 +149,7 @@ public class ModelCommand
                }
                else {
                   try {
-                     Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().getHandleObjectClass());
+                     Method setMethod = sourceHandleObject.getClass().getMethod("set" + StrUtil.cap(linkName), patternLink.getTarget().readHandleObjectClass());
                      setMethod.invoke(sourceHandleObject, new Object[] {null});
                   }
                   catch (Exception e) {
@@ -296,7 +295,7 @@ public class ModelCommand
                else {
                   try {
                      java.lang.reflect.Method setMethod = handleObject.getClass().getMethod("set" + linkName.substring(0, 1).toUpperCase() + linkName.substring(1),
-                           link.getTarget().getHandleObjectClass());
+                           link.getTarget().readHandleObjectClass());
                      setMethod.invoke(handleObject, new Object[]{null});
                   }
                   catch (Exception e) {

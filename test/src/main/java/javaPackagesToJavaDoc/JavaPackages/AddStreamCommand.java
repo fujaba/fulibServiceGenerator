@@ -1,6 +1,7 @@
 package javaPackagesToJavaDoc.JavaPackages;
 
 import java.util.Objects;
+import org.fulib.patterns.*;
 
 public class AddStreamCommand extends ModelCommand
 {

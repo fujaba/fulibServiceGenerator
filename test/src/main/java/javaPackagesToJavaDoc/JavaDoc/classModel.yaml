@@ -1,5 +1,5 @@
 - c: 	ClassModel
-  classes: 	javaDocEditor 	modelCommand 	removeCommand 	pattern 	patternObject 	patternAttribute 	patternLink 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	folder 	docFile 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf
+  classes: 	javaDocEditor 	modelCommand 	removeCommand 	javaDocService 	commandStream 	addStreamCommand 	javaDocApp 	page 	line 	folder 	docFile 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf
   defaultCollectionType: 	c1
   defaultPropertyStyle: 	Bean
   defaultRoleType: 	"java.util.ArrayList<%s>"
@@ -20,8 +20,8 @@
 
 - modelCommand: 	Clazz
   attributes: 	modelCommand_id 	modelCommand_time
-  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
-  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*"
+  importList: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*" 	"import org.fulib.patterns.*;"
+  imports: 	org.fulib.yaml.Reflector 	org.fulib.yaml.StrUtil 	"import org.fulib.yaml.Yaml;" 	java.lang.reflect.Method 	org.fulib.tables.ObjectTable 	"java.util.*" 	"import org.fulib.patterns.*;"
   methods: 	run 	remove 	parse2 	overwrites 	matchAttributesAndLinks 	getSetOfTargetHandles 	havePattern 	getHandleObjectAttributeValue
   model: 	c
   modified: 	false
@@ -30,43 +30,14 @@
   subClasses: 	removeCommand 	addStreamCommand 	haveContent 	haveRoot 	haveSubUnit 	haveLeaf
 
 - removeCommand: 	Clazz
+  importList: 	"import org.fulib.patterns.*;"
+  imports: 	"import org.fulib.patterns.*;"
   methods: 	run3
   model: 	c
   modified: 	false
   name: 	RemoveCommand
   propertyStyle: 	POJO
   superClass: 	modelCommand
-
-- pattern: 	Clazz
-  model: 	c
-  modified: 	false
-  name: 	Pattern
-  propertyStyle: 	Bean
-  roles: 	pattern_objects
-
-- patternObject: 	Clazz
-  attributes: 	patternObject_poId 	patternObject_handleObjectClass 	patternObject_handleObject 	patternObject_kind
-  model: 	c
-  modified: 	false
-  name: 	PatternObject
-  propertyStyle: 	Bean
-  roles: 	patternObject_pattern 	patternObject_attributes 	patternObject_links 	patternObject_incommingLinks
-
-- patternAttribute: 	Clazz
-  attributes: 	patternAttribute_handleAttrName 	patternAttribute_commandParamName
-  model: 	c
-  modified: 	false
-  name: 	PatternAttribute
-  propertyStyle: 	Bean
-  roles: 	patternAttribute_object
-
-- patternLink: 	Clazz
-  attributes: 	patternLink_handleLinkName 	patternLink_kind
-  model: 	c
-  modified: 	false
-  name: 	PatternLink
-  propertyStyle: 	Bean
-  roles: 	patternLink_source 	patternLink_target
 
 - javaDocService: 	Clazz
   attributes: 	javaDocService_myPort 	javaDocService_reflectorMap 	javaDocService_currentSession 	javaDocService_executor 	javaDocService_spark 	javaDocService_sessionToAppMap
@@ -92,6 +63,8 @@
 
 - addStreamCommand: 	Clazz
   attributes: 	addStreamCommand_incommingRoute 	addStreamCommand_outgoingUrl
+  importList: 	"import org.fulib.patterns.*;"
+  imports: 	"import org.fulib.patterns.*;"
   methods: 	run5
   model: 	c
   modified: 	false
@@ -142,6 +115,8 @@
 
 - haveContent: 	Clazz
   attributes: 	haveContent_owner 	haveContent_content
+  importList: 	"import org.fulib.patterns.*;"
+  imports: 	"import org.fulib.patterns.*;"
   model: 	c
   modified: 	false
   name: 	HaveContent
@@ -149,6 +124,8 @@
   superClass: 	modelCommand
 
 - haveRoot: 	Clazz
+  importList: 	"import org.fulib.patterns.*;"
+  imports: 	"import org.fulib.patterns.*;"
   model: 	c
   modified: 	false
   name: 	HaveRoot
@@ -157,6 +134,8 @@
 
 - haveSubUnit: 	Clazz
   attributes: 	haveSubUnit_parent
+  importList: 	"import org.fulib.patterns.*;"
+  imports: 	"import org.fulib.patterns.*;"
   model: 	c
   modified: 	false
   name: 	HaveSubUnit
@@ -165,6 +144,8 @@
 
 - haveLeaf: 	Clazz
   attributes: 	haveLeaf_parent 	haveLeaf_vTag
+  importList: 	"import org.fulib.patterns.*;"
+  imports: 	"import org.fulib.patterns.*;"
   model: 	c
   modified: 	false
   name: 	HaveLeaf
@@ -973,175 +954,6 @@
   paramsString: 	"JavaDocEditor editor"
   returnType: 	Object
   signature: 	"class/RemoveCommand/method/run(JavaDocEditor)"
-
-- pattern_objects: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	pattern
-  collectionType: 	c1
-  id: 	Pattern_objects
-  modified: 	false
-  name: 	objects
-  other: 	patternObject_pattern
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternObject_poId: 	Attribute
-  clazz: 	patternObject
-  id: 	PatternObject_poId
-  modified: 	false
-  name: 	poId
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- patternObject_handleObjectClass: 	Attribute
-  clazz: 	patternObject
-  id: 	PatternObject_handleObjectClass
-  modified: 	false
-  name: 	handleObjectClass
-  propertyStyle: 	Bean
-  type: 	"Class<?>"
-  typeSignature: 	"Class<?>"
-
-- patternObject_handleObject: 	Attribute
-  clazz: 	patternObject
-  id: 	PatternObject_handleObject
-  modified: 	false
-  name: 	handleObject
-  propertyStyle: 	Bean
-  type: 	Object
-  typeSignature: 	Object
-
-- patternObject_kind: 	Attribute
-  clazz: 	patternObject
-  id: 	PatternObject_kind
-  modified: 	false
-  name: 	kind
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- patternObject_pattern: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	patternObject
-  collectionType: 	c1
-  id: 	PatternObject_pattern
-  modified: 	false
-  name: 	pattern
-  other: 	pattern_objects
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternObject_attributes: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	patternObject
-  collectionType: 	c1
-  id: 	PatternObject_attributes
-  modified: 	false
-  name: 	attributes
-  other: 	patternAttribute_object
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternObject_links: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	patternObject
-  collectionType: 	c1
-  id: 	PatternObject_links
-  modified: 	false
-  name: 	links
-  other: 	patternLink_source
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternObject_incommingLinks: 	AssocRole
-  aggregation: 	false
-  cardinality: 	42
-  clazz: 	patternObject
-  collectionType: 	c1
-  id: 	PatternObject_incommingLinks
-  modified: 	false
-  name: 	incommingLinks
-  other: 	patternLink_target
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternAttribute_handleAttrName: 	Attribute
-  clazz: 	patternAttribute
-  id: 	PatternAttribute_handleAttrName
-  modified: 	false
-  name: 	handleAttrName
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- patternAttribute_commandParamName: 	Attribute
-  clazz: 	patternAttribute
-  id: 	PatternAttribute_commandParamName
-  modified: 	false
-  name: 	commandParamName
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- patternAttribute_object: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	patternAttribute
-  collectionType: 	c1
-  id: 	PatternAttribute_object
-  modified: 	false
-  name: 	object
-  other: 	patternObject_attributes
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternLink_handleLinkName: 	Attribute
-  clazz: 	patternLink
-  id: 	PatternLink_handleLinkName
-  modified: 	false
-  name: 	handleLinkName
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- patternLink_kind: 	Attribute
-  clazz: 	patternLink
-  id: 	PatternLink_kind
-  initialization: 	"\"core\""
-  modified: 	false
-  name: 	kind
-  propertyStyle: 	Bean
-  type: 	String
-  typeSignature: 	String
-
-- patternLink_source: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	patternLink
-  collectionType: 	c1
-  id: 	PatternLink_source
-  modified: 	false
-  name: 	source
-  other: 	patternObject_links
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
-
-- patternLink_target: 	AssocRole
-  aggregation: 	false
-  cardinality: 	1
-  clazz: 	patternLink
-  collectionType: 	c1
-  id: 	PatternLink_target
-  modified: 	false
-  name: 	target
-  other: 	patternObject_incommingLinks
-  propertyStyle: 	Bean
-  roleType: 	"java.util.ArrayList<%s>"
 
 - javaDocService_myPort: 	Attribute
   clazz: 	javaDocService

@@ -3,11 +3,14 @@ package org.fulib.services;
 import org.fulib.Fulib;
 import org.fulib.FulibTools;
 import org.fulib.builder.ClassModelManager;
+import org.fulib.classmodel.Attribute;
 import org.fulib.classmodel.ClassModel;
 import org.fulib.classmodel.Clazz;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static org.fulib.builder.Type.*;
 
 public class SystemEditor
 {
@@ -56,6 +59,43 @@ public class SystemEditor
    }
 
    // =============== Methods ===============
+
+   public void havePatterns()
+   {
+      ClassModelManager mm = new ClassModelManager();
+      mm.setMainJavaDir(this.mainJavaDir);
+      mm.setPackageName("org.fulib.patterns");
+
+      Clazz rule = mm.haveClass("TGGRule");
+      mm.haveAttribute(rule, "name", STRING);
+      Clazz pattern = mm.haveClass("Pattern");
+
+      mm.associate(rule, "left", ONE, pattern, "lparent", ONE);
+      mm.associate(rule, "right", ONE, pattern, "rparent", ONE);
+
+      Clazz patternObject = mm.haveClass("PatternObject");
+      mm.haveAttribute(patternObject, "poId", STRING);
+      mm.haveAttribute(patternObject, "handleObjectClass", "Class<?>");
+      mm.haveAttribute(patternObject, "handleObject", "Object");
+      mm.haveAttribute(patternObject, "kind", STRING);
+
+      Clazz patternAttribute = mm.haveClass("PatternAttribute");
+      mm.haveAttribute(patternAttribute, "handleAttrName", STRING);
+      mm.haveAttribute(patternAttribute, "commandParamName", STRING);
+
+      Clazz patternLink = mm.haveClass("PatternLink");
+      mm.haveAttribute(patternLink, "handleLinkName", STRING);
+      Attribute kind = mm.haveAttribute(patternLink, "kind", STRING);
+      kind.setInitialization("\"core\"");
+
+      mm.associate(pattern, "objects", MANY, patternObject, "pattern", ONE);
+      mm.associate(patternObject, "attributes", MANY, patternAttribute, "object", ONE);
+      mm.associate(patternObject, "links", MANY, patternLink, "source", ONE);
+      mm.associate(patternLink, "target", ONE, patternObject, "incommingLinks", MANY);
+
+      Fulib.generator().generate(mm.getClassModel());
+      FulibTools.classDiagrams().dumpSVG(mm.getClassModel(), "tmp/PatternsClassDiagram.svg");
+   }
 
    public ServiceEditor haveService(String serviceName)
    {

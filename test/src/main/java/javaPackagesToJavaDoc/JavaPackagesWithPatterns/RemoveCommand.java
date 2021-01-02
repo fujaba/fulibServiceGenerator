@@ -1,4 +1,5 @@
 package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
+import org.fulib.patterns.*;
 
 public class RemoveCommand extends ModelCommand
 {

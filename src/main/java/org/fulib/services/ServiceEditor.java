@@ -2,6 +2,7 @@ package org.fulib.services;
 
 import org.fulib.StrUtil;
 import org.fulib.builder.ClassModelManager;
+import org.fulib.builder.Type;
 import org.fulib.classmodel.Attribute;
 import org.fulib.classmodel.Clazz;
 import org.fulib.classmodel.FMethod;
@@ -61,30 +62,6 @@ public class ServiceEditor
 
    // =============== Methods ===============
 
-   private void havePatterns()
-   {
-      Clazz pattern = mm.haveClass("Pattern");
-
-      Clazz patternObject = mm.haveClass("PatternObject");
-      mm.haveAttribute(patternObject, "poId", STRING);
-      mm.haveAttribute(patternObject, "handleObjectClass", "Class<?>");
-      mm.haveAttribute(patternObject, "handleObject", "Object");
-      mm.haveAttribute(patternObject, "kind", STRING);
-
-      Clazz patternAttribute = mm.haveClass("PatternAttribute");
-      mm.haveAttribute(patternAttribute, "handleAttrName", STRING);
-      mm.haveAttribute(patternAttribute, "commandParamName", STRING);
-
-      Clazz patternLink = mm.haveClass("PatternLink");
-      mm.haveAttribute(patternLink, "handleLinkName", STRING);
-      Attribute kind = mm.haveAttribute(patternLink, "kind", STRING);
-      kind.setInitialization("\"core\"");
-
-      mm.associate(pattern, "objects", MANY, patternObject, "pattern", ONE);
-      mm.associate(patternObject, "attributes", MANY, patternAttribute, "object", ONE);
-      mm.associate(patternObject, "links", MANY, patternLink, "source", ONE);
-      mm.associate(patternLink, "target", ONE, patternObject, "incommingLinks", MANY);
-   }
 
    private void haveRemoveCommand()
    {
@@ -130,6 +107,7 @@ public class ServiceEditor
       modelCommand.withImports("java.lang.reflect.Method");
       modelCommand.withImports("org.fulib.tables.ObjectTable");
       modelCommand.withImports("java.util.*");
+      modelCommand.withImports("import org.fulib.patterns.*;");
    }
 
    public Clazz haveEditor(String modelName)
@@ -167,7 +145,7 @@ public class ServiceEditor
 
       haveModelCommand();
       haveRemoveCommand();
-      havePatterns();
+
       this.haveLoadYaml(this.mm.getClassModel().getPackageName());
 
       haveExecuteAndParsingMethods();
@@ -501,6 +479,8 @@ public class ServiceEditor
       Clazz commandClass = mm.haveClass(className).setPropertyStyle(POJO);
       commandClasses.put(className, commandClass);
       commandClass.setSuperClass(this.modelCommand);
+
+      commandClass.withImports("import org.fulib.patterns.*;");
 
       haveCommandPrototypes(commandClass);
 

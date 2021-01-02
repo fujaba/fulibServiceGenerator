@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="381.77515"
+   height="337.17767"
+   viewBox="0 0 381.77515 337.17767"
+   version="1.1"
+   id="svg5447"
+   sodipodi:docname="PatternsClassDiag.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata5453">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs5451" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     id="namedview5449"
+     showgrid="false"
+     inkscape:zoom="1.1166943"
+     inkscape:cx="89.979558"
+     inkscape:cy="290.97124"
+     inkscape:window-x="3832"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5447" />
+  <g
+     id="g5740"
+     transform="translate(-660,-196.82231)">
+    <g
+       transform="translate(-198.38305,743.48904)"
+       id="node4"
+       class="node">
+      <title
+         id="title5122">TGGRule</title>
+      <polygon
+         points="890.5,-523 890.5,-544 966.5,-544 966.5,-523 "
+         id="polygon5124"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="900.5"
+         y="-529.79999"
+         font-size="14.00"
+         id="text5126"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">TGGRule</text>
+      <polygon
+         points="890.5,-502 890.5,-523 966.5,-523 966.5,-502 "
+         id="polygon5128"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="893.5"
+         y="-508.79999"
+         font-size="14.00"
+         id="text5130"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">name :String</text>
+    </g>
+    <g
+       transform="translate(4,602)"
+       id="node5"
+       class="node">
+      <title
+         id="title5133">Pattern</title>
+      <polygon
+         points="905.5,-390 951.5,-390 951.5,-369 905.5,-369 "
+         id="polygon5135"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="908.5"
+         y="-375.79999"
+         font-size="14.00"
+         id="text5137"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">Pattern</text>
+      <polygon
+         points="905.5,-369 951.5,-369 951.5,-363 905.5,-363 "
+         id="polygon5139"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.15202594"
+       inkscape:connector-curvature="0"
+       id="path5144"
+       d="m 906.11785,232.4599 c -34.0923,2.64165 -98.48611,2.76797 -137.27695,0.44969" />
+    <text
+       style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+       id="text5146"
+       font-size="14.00"
+       y="206.54301"
+       x="791.00543">lparent</text>
+    <text
+       style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+       id="text5148"
+       font-size="14.00"
+       y="208.489"
+       x="893.87097">left</text>
+    <text
+       style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+       id="text5155"
+       font-size="14.00"
+       y="247.73602"
+       x="792.91199">rparent</text>
+    <text
+       style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+       id="text5157"
+       font-size="14.00"
+       y="249.68201"
+       x="892.24298">right</text>
+    <g
+       transform="translate(4,552)"
+       id="node6"
+       class="node">
+      <title
+         id="title5160">PatternObject</title>
+      <polygon
+         points="1014.5,-236.5 1014.5,-215.5 843.5,-215.5 843.5,-236.5 "
+         id="polygon5162"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="890.5"
+         y="-222.3"
+         font-size="14.00"
+         id="text5164"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">PatternObject</text>
+      <polygon
+         points="1014.5,-215.5 1014.5,-149.5 843.5,-149.5 843.5,-215.5 "
+         id="polygon5166"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="846.5"
+         y="-201.3"
+         font-size="14.00"
+         id="text5168"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">poId :String</text>
+      <text
+         x="846.5"
+         y="-186.3"
+         font-size="14.00"
+         id="text5170"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">handleObjectClass :Class&lt;?&gt;</text>
+      <text
+         x="846.5"
+         y="-171.3"
+         font-size="14.00"
+         id="text5172"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">handleObject :Object</text>
+      <text
+         x="846.5"
+         y="-156.3"
+         font-size="14.00"
+         id="text5174"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">kind :String</text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.78189373"
+       inkscape:connector-curvature="0"
+       id="path5179"
+       d="m 932.5,310.759 c 0,-23.50182 0,-55.50273 0,-71.84249" />
+    <text
+       style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+       id="text5181"
+       font-size="14.00"
+       y="255.48953"
+       x="958.67053">pattern</text>
+    <text
+       style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle"
+       id="text5183"
+       font-size="14.00"
+       y="304.27249"
+       x="963.81201">objects *</text>
+    <g
+       transform="translate(4,552)"
+       id="node7"
+       class="node">
+      <title
+         id="title5186">PatternAttribute</title>
+      <polygon
+         points="825.5,-75.5 825.5,-54.5 656.5,-54.5 656.5,-75.5 "
+         id="polygon5188"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="697"
+         y="-61.299999"
+         font-size="14.00"
+         id="text5190"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">PatternAttribute</text>
+      <polygon
+         points="825.5,-54.5 825.5,-18.5 656.5,-18.5 656.5,-54.5 "
+         id="polygon5192"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="659.5"
+         y="-40.299999"
+         font-size="14.00"
+         id="text5194"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">handleAttrName :String</text>
+      <text
+         x="659.5"
+         y="-25.299999"
+         font-size="14.00"
+         id="text5196"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">commandParamName :String</text>
+    </g>
+    <g
+       transform="translate(4,552)"
+       id="edge3"
+       class="edge">
+      <title
+         id="title5199">PatternAttribute-&gt;PatternObject</title>
+      <path
+         d="m 781.757,-80.1014 c 25.185,-19.2902 57.837,-44.3006 85.945,-65.8296"
+         id="path5201"
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="850.20203"
+         y="-134.731"
+         font-size="14.00"
+         id="text5203"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">object</text>
+      <text
+         x="750.75702"
+         y="-83.901398"
+         font-size="14.00"
+         id="text5205"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">attributes *</text>
+    </g>
+    <g
+       transform="translate(4,552)"
+       id="node8"
+       class="node">
+      <title
+         id="title5208">PatternLink</title>
+      <polygon
+         points="998.5,-75.5 998.5,-54.5 859.5,-54.5 859.5,-75.5 "
+         id="polygon5210"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="897"
+         y="-61.299999"
+         font-size="14.00"
+         id="text5212"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">PatternLink</text>
+      <polygon
+         points="998.5,-54.5 998.5,-18.5 859.5,-18.5 859.5,-54.5 "
+         id="polygon5214"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="862.5"
+         y="-40.299999"
+         font-size="14.00"
+         id="text5216"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">handleLinkName :String</text>
+      <text
+         x="862.5"
+         y="-25.299999"
+         font-size="14.00"
+         id="text5218"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:start">kind :String</text>
+    </g>
+    <g
+       transform="translate(4,552)"
+       id="edge5"
+       class="edge">
+      <title
+         id="title5221">PatternLink-&gt;PatternObject</title>
+      <path
+         d="m 922.801,-80.1014 c -1.127,-19.2902 -1.348,-44.3006 -0.662,-65.8296"
+         id="path5223"
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="903.13898"
+         y="-134.731"
+         font-size="14.00"
+         id="text5225"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">source</text>
+      <text
+         x="904.30103"
+         y="-83.901398"
+         font-size="14.00"
+         id="text5227"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">links *</text>
+    </g>
+    <g
+       transform="translate(4,552)"
+       id="edge6"
+       class="edge">
+      <title
+         id="title5230">PatternLink-&gt;PatternObject</title>
+      <path
+         d="m 934.199,-80.1014 c 1.127,-19.2902 1.348,-44.3006 0.662,-65.8296"
+         id="path5232"
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
+      <text
+         x="950.36102"
+         y="-134.731"
+         font-size="14.00"
+         id="text5234"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">target</text>
+      <text
+         x="985.69897"
+         y="-83.901398"
+         font-size="14.00"
+         id="text5236"
+         style="font-size:14px;font-family:'Times New Roman', serif;text-anchor:middle">incommingLinks *</text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.15202594"
+       inkscape:connector-curvature="0"
+       id="path5144-2"
+       d="m 770.50609,218.23688 c 34.10287,-2.50157 98.49664,-2.36336 137.27763,0.11426" />
+  </g>
+</svg>

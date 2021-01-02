@@ -1,6 +1,7 @@
 package javaPackagesToJavaDoc.JavaDocWithPatterns;
 
 import org.fulib.services.FulibPatternDiagram;
+import org.fulib.patterns.*;
 
 public class HaveRoot extends ModelCommand
 {

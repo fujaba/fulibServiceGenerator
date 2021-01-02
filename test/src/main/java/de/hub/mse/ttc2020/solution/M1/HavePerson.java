@@ -1,6 +1,7 @@
 package de.hub.mse.ttc2020.solution.M1;
 
 import java.util.Objects;
+import org.fulib.patterns.*;
 
 public class HavePerson extends ModelCommand
 {

@@ -1,6 +1,7 @@
 package de.hub.mse.ttc2020.solution.M1;
 
 import org.fulib.services.FulibPatternDiagram;
+import org.fulib.patterns.*;
 
 public class HaveDog extends ModelCommand
 {

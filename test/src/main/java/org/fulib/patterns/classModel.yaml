@@ -1,0 +1,281 @@
+- c: 	ClassModel
+  classes: 	tGGRule 	pattern 	patternObject 	patternAttribute 	patternLink
+  defaultCollectionType: 	c1
+  defaultPropertyStyle: 	Bean
+  defaultRoleType: 	"java.util.ArrayList<%s>"
+  mainJavaDir: 	"src/main/java"
+  packageName: 	org.fulib.patterns
+  packageSrcFolder: 	"src/main/java/org/fulib/patterns"
+
+- tGGRule: 	Clazz
+  attributes: 	tGGRule_name
+  model: 	c
+  modified: 	false
+  name: 	TGGRule
+  propertyStyle: 	Bean
+  roles: 	tGGRule_left 	tGGRule_right
+
+- pattern: 	Clazz
+  model: 	c
+  modified: 	false
+  name: 	Pattern
+  propertyStyle: 	Bean
+  roles: 	pattern_lparent 	pattern_rparent 	pattern_objects
+
+- patternObject: 	Clazz
+  attributes: 	patternObject_poId 	patternObject_handleObjectClass 	patternObject_handleObject 	patternObject_kind
+  model: 	c
+  modified: 	false
+  name: 	PatternObject
+  propertyStyle: 	Bean
+  roles: 	patternObject_pattern 	patternObject_attributes 	patternObject_links 	patternObject_incommingLinks
+
+- patternAttribute: 	Clazz
+  attributes: 	patternAttribute_handleAttrName 	patternAttribute_commandParamName
+  model: 	c
+  modified: 	false
+  name: 	PatternAttribute
+  propertyStyle: 	Bean
+  roles: 	patternAttribute_object
+
+- patternLink: 	Clazz
+  attributes: 	patternLink_handleLinkName 	patternLink_kind
+  model: 	c
+  modified: 	false
+  name: 	PatternLink
+  propertyStyle: 	Bean
+  roles: 	patternLink_source 	patternLink_target
+
+- c1: 	CollectionType
+  implClass: 	class java.util.ArrayList
+  implTemplate: 	"java.util.ArrayList<%s>"
+  itf: 	org.fulib.classmodel.CollectionInterface.List
+  qualifiedImplName: 	java.util.ArrayList
+  simpleImplName: 	ArrayList
+
+- tGGRule_name: 	Attribute
+  clazz: 	tGGRule
+  id: 	TGGRule_name
+  modified: 	false
+  name: 	name
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- tGGRule_left: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	tGGRule
+  collectionType: 	c1
+  id: 	TGGRule_left
+  modified: 	false
+  name: 	left
+  other: 	pattern_lparent
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- tGGRule_right: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	tGGRule
+  collectionType: 	c1
+  id: 	TGGRule_right
+  modified: 	false
+  name: 	right
+  other: 	pattern_rparent
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- pattern_lparent: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_lparent
+  modified: 	false
+  name: 	lparent
+  other: 	tGGRule_left
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- pattern_rparent: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_rparent
+  modified: 	false
+  name: 	rparent
+  other: 	tGGRule_right
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- pattern_objects: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	pattern
+  collectionType: 	c1
+  id: 	Pattern_objects
+  modified: 	false
+  name: 	objects
+  other: 	patternObject_pattern
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternObject_poId: 	Attribute
+  clazz: 	patternObject
+  id: 	PatternObject_poId
+  modified: 	false
+  name: 	poId
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- patternObject_handleObjectClass: 	Attribute
+  clazz: 	patternObject
+  id: 	PatternObject_handleObjectClass
+  modified: 	false
+  name: 	handleObjectClass
+  propertyStyle: 	Bean
+  type: 	"Class<?>"
+  typeSignature: 	"Class<?>"
+
+- patternObject_handleObject: 	Attribute
+  clazz: 	patternObject
+  id: 	PatternObject_handleObject
+  modified: 	false
+  name: 	handleObject
+  propertyStyle: 	Bean
+  type: 	Object
+  typeSignature: 	Object
+
+- patternObject_kind: 	Attribute
+  clazz: 	patternObject
+  id: 	PatternObject_kind
+  modified: 	false
+  name: 	kind
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- patternObject_pattern: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_pattern
+  modified: 	false
+  name: 	pattern
+  other: 	pattern_objects
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternObject_attributes: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_attributes
+  modified: 	false
+  name: 	attributes
+  other: 	patternAttribute_object
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternObject_links: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_links
+  modified: 	false
+  name: 	links
+  other: 	patternLink_source
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternObject_incommingLinks: 	AssocRole
+  aggregation: 	false
+  cardinality: 	42
+  clazz: 	patternObject
+  collectionType: 	c1
+  id: 	PatternObject_incommingLinks
+  modified: 	false
+  name: 	incommingLinks
+  other: 	patternLink_target
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternAttribute_handleAttrName: 	Attribute
+  clazz: 	patternAttribute
+  id: 	PatternAttribute_handleAttrName
+  modified: 	false
+  name: 	handleAttrName
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- patternAttribute_commandParamName: 	Attribute
+  clazz: 	patternAttribute
+  id: 	PatternAttribute_commandParamName
+  modified: 	false
+  name: 	commandParamName
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- patternAttribute_object: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	patternAttribute
+  collectionType: 	c1
+  id: 	PatternAttribute_object
+  modified: 	false
+  name: 	object
+  other: 	patternObject_attributes
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternLink_handleLinkName: 	Attribute
+  clazz: 	patternLink
+  id: 	PatternLink_handleLinkName
+  modified: 	false
+  name: 	handleLinkName
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- patternLink_kind: 	Attribute
+  clazz: 	patternLink
+  id: 	PatternLink_kind
+  initialization: 	"\"core\""
+  modified: 	false
+  name: 	kind
+  propertyStyle: 	Bean
+  type: 	String
+  typeSignature: 	String
+
+- patternLink_source: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	patternLink
+  collectionType: 	c1
+  id: 	PatternLink_source
+  modified: 	false
+  name: 	source
+  other: 	patternObject_links
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+
+- patternLink_target: 	AssocRole
+  aggregation: 	false
+  cardinality: 	1
+  clazz: 	patternLink
+  collectionType: 	c1
+  id: 	PatternLink_target
+  modified: 	false
+  name: 	target
+  other: 	patternObject_incommingLinks
+  propertyStyle: 	Bean
+  roleType: 	"java.util.ArrayList<%s>"
+

@@ -1,4 +1,5 @@
 package de.hub.mse.ttc2020.solution.M2;
+import org.fulib.patterns.*;
 
 public class RemoveCommand extends ModelCommand
 {

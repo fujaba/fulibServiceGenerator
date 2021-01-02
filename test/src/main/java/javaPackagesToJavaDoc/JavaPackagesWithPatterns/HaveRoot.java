@@ -1,6 +1,11 @@
 package javaPackagesToJavaDoc.JavaPackagesWithPatterns;
 
+import org.fulib.patterns.Pattern;
+import org.fulib.patterns.PatternAttribute;
+import org.fulib.patterns.PatternLink;
+import org.fulib.patterns.PatternObject;
 import org.fulib.services.FulibPatternDiagram;
+import org.fulib.patterns.*;
 
 public class HaveRoot extends ModelCommand
 {

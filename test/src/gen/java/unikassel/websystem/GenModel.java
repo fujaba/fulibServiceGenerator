@@ -28,6 +28,8 @@ public class GenModel
       sysEdit.haveMainJavaDir("src/main/java");
       sysEdit.havePackageName("javaPackagesToJavaDoc");
 
+      sysEdit.havePatterns();
+
       ServiceEditor javaPackagesEditor = sysEdit.haveService("JavaPackages");
       haveJavaPackageService(javaPackagesEditor);
 

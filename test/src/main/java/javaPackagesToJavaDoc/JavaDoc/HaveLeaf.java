@@ -1,6 +1,7 @@
 package javaPackagesToJavaDoc.JavaDoc;
 
 import java.util.Objects;
+import org.fulib.patterns.*;
 
 public class HaveLeaf extends ModelCommand
 {
